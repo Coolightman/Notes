@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notes Room</string>
+    <string name="floating_button_description">Добавить заметку</string>
+    <string name="priority_1">1</string>
+    <string name="priority_2">2</string>
+    <string name="priority_3">3</string>
+    <string name="button_save_note_text">Сохранить</string>
+    <string name="edit_text_note_description_hint">Описание..</string>
+    <string name="edit_text_note_title_hint">Заголовок..</string>
+    <string name="fields_not_filled">Поля не заполнены!</string>
+    <string name="day_any">Любой день</string>
+    <string name="day_monday">Понедельник</string>
+    <string name="day_tuesday">Вторник</string>
+    <string name="day_wednesday">Среда</string>
+    <string name="day_thursday">Четверг</string>
+    <string name="day_friday">Пятница</string>
+    <string name="day_saturday">Суббота</string>
+    <string name="day_sunday">Воскресенье</string>
+    <string name="database_notes_name">notesRoom.db</string>
+    <string name="text_view_priority_text">Приоритет:</string>
+</resources>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D8D4C0"
     tools:context=".activities.CreateNoteActivity">
 
     <EditText
@@ -57,18 +58,30 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextNoteDescription"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <TextView
+        android:id="@+id/textViewPriority"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:text="@string/text_view_priority_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerDayOfWeek" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerDayOfWeek">
+        app:layout_constraintTop_toBottomOf="@+id/textViewPriority">
 
         <RadioButton
             android:id="@+id/radioPriority1"
@@ -76,11 +89,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/holo_red_light"
+            android:checked="true"
             android:includeFontPadding="false"
             android:padding="8dp"
             android:text="@string/priority_1"
-            android:textSize="20sp"
-            android:checked="true" />
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/radioPriority2"

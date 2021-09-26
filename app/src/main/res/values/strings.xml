@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notes Room</string>
+    <string name="app_name">Notes</string>
     <string name="floating_button_description">add note</string>
     <string name="priority_1">1</string>
     <string name="priority_2">2</string>
@@ -17,4 +17,5 @@
     <string name="day_friday">Friday</string>
     <string name="day_saturday">Saturday</string>
     <string name="day_sunday">Sunday</string>
+    <string name="text_view_priority_text">Priority:</string>
 </resources>
