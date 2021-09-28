@@ -1,4 +1,4 @@
-package com.example.noteskotlinroom.models
+package com.example.noteskotlinroom.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

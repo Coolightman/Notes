@@ -3,33 +3,34 @@ package com.example.noteskotlinroom.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
-import com.example.noteskotlinroom.R
 import com.example.noteskotlinroom.adapters.NotesAdapter
-import com.example.noteskotlinroom.databases.NotesDatabase
-import com.example.noteskotlinroom.models.Note
-import kotlinx.android.synthetic.main.activity_main.*
-import java.util.concurrent.Executors
+import com.example.noteskotlinroom.databinding.ActivityMainBinding
+import com.example.noteskotlinroom.entities.Note
+import com.example.noteskotlinroom.viewModels.NoteViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val notes = mutableListOf<Note>()
-    private lateinit var db: NotesDatabase
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var noteViewModel: NoteViewModel
     private lateinit var notesAdapter: NotesAdapter
+    private val notes = mutableListOf<Note>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        getDatabase()
 
         getNotesFromDb()
         createNotesAdapter()
@@ -38,22 +39,12 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun getNotesFromDb() {
-        Executors.newSingleThreadExecutor().execute {
-            val notesFromDb = db.noteDao().getAll()
-            Handler(Looper.getMainLooper()).post {
-                notes.clear()
-                notes.addAll(notesFromDb)
-                notesAdapter.notifyDataSetChanged()
-            }
-        }
-
-    }
-
-    private fun getDatabase() {
-        db = Room.databaseBuilder(
-            applicationContext,
-            NotesDatabase::class.java, getString(R.string.database_notes_name)
-        ).build()
+        val notesFromDb = noteViewModel.getAllNotes()
+        notesFromDb.observe(this, {
+            notes.clear()
+            notes.addAll(it)
+            notesAdapter.notifyDataSetChanged()
+        })
     }
 
     private fun swipeListener() {
@@ -67,26 +58,20 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                removeNote(viewHolder.adapterPosition)
+                removeNote(notes[viewHolder.adapterPosition])
             }
         }
         val itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper.attachToRecyclerView(recyclerViewNotes)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerViewNotes)
     }
 
-    private fun removeNote(position: Int) {
-        val note = notes[position]
-        Executors.newSingleThreadExecutor().execute {
-            db.noteDao().deleteAll(note)
-            Handler(Looper.getMainLooper()).post {
-                getNotesFromDb()
-            }
-        }
+    private fun removeNote(note: Note) {
+        noteViewModel.deleteNote(note)
     }
 
     private fun listeners() {
         swipeListener()
-        buttonAddNote.setOnClickListener {
+        binding.buttonAddNote.setOnClickListener {
             startActivity(Intent(applicationContext, CreateNoteActivity::class.java))
         }
     }
@@ -95,8 +80,8 @@ class MainActivity : AppCompatActivity() {
         notesAdapter = NotesAdapter(notes) {
             onItemClick(it)
         }
-        recyclerViewNotes.layoutManager = LinearLayoutManager(applicationContext)
-        recyclerViewNotes.adapter = notesAdapter
+        binding.recyclerViewNotes.layoutManager = LinearLayoutManager(applicationContext)
+        binding.recyclerViewNotes.adapter = notesAdapter
     }
 
     private fun onItemClick(note: Note) {

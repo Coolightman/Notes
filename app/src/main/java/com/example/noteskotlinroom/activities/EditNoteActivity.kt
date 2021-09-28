@@ -2,30 +2,32 @@ package com.example.noteskotlinroom.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
+import androidx.lifecycle.ViewModelProvider
 import com.example.noteskotlinroom.R
-import com.example.noteskotlinroom.databases.NotesDatabase
+import com.example.noteskotlinroom.databinding.ActivityCreateNoteBinding
+import com.example.noteskotlinroom.entities.Note
 import com.example.noteskotlinroom.enums.DayOfWeek
-import com.example.noteskotlinroom.models.Note
-import kotlinx.android.synthetic.main.activity_create_note.*
-import java.util.concurrent.Executors
+import com.example.noteskotlinroom.viewModels.NoteViewModel
 
 class EditNoteActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityCreateNoteBinding
     private lateinit var days: List<String>
-    private lateinit var db: NotesDatabase
+    private lateinit var noteViewModel: NoteViewModel
     private var noteId: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_note)
-        getDatabase()
+
+        binding = ActivityCreateNoteBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
         createView()
         listeners()
@@ -45,7 +47,7 @@ class EditNoteActivity : AppCompatActivity() {
     }
 
     private fun listeners() {
-        buttonSaveNote.setOnClickListener {
+        binding.buttonSaveNote.setOnClickListener {
             if (isFilled()) {
                 updateNote()
             } else {
@@ -56,27 +58,23 @@ class EditNoteActivity : AppCompatActivity() {
                 ).show()
             }
         }
-        radioGroup.setOnCheckedChangeListener { _, _ ->
+        binding.radioGroup.setOnCheckedChangeListener { _, _ ->
             setTitleColor()
         }
     }
 
     private fun updateNote() {
-        val title = editTextNoteTitle.text.toString().trim()
-        val description = editTextNoteDescription.text.toString().trim()
-        val dayOfWeek = spinnerDayOfWeek.selectedItemPosition
+        val title = binding.editTextNoteTitle.text.toString().trim()
+        val description = binding.editTextNoteDescription.text.toString().trim()
+        val dayOfWeek = binding.spinnerDayOfWeek.selectedItemPosition
         val priority = getPriority()
         val note = Note(noteId, title, description, dayOfWeek, priority)
         saveNote(note)
     }
 
     private fun saveNote(note: Note) {
-        Executors.newSingleThreadExecutor().execute {
-            db.noteDao().updateAll(note)
-            Handler(Looper.getMainLooper()).post {
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-            }
-        }
+        noteViewModel.updateNote(note)
+        startActivity(Intent(applicationContext, MainActivity::class.java))
     }
 
     private fun createView() {
@@ -89,42 +87,35 @@ class EditNoteActivity : AppCompatActivity() {
         val dayOfWeek = intent.getIntExtra("noteDayOfWeek", -1)
         val priority = intent.getIntExtra("notePriority", -1)
 
-        editTextNoteTitle.setText(title)
-        editTextNoteDescription.setText(description)
-        spinnerDayOfWeek.setSelection(dayOfWeek)
+        binding.editTextNoteTitle.setText(title)
+        binding.editTextNoteDescription.setText(description)
+        binding.spinnerDayOfWeek.setSelection(dayOfWeek)
         when (priority) {
-            1 -> radioPriority1.isChecked = true
-            2 -> radioPriority2.isChecked = true
-            3 -> radioPriority3.isChecked = true
+            1 -> binding.radioPriority1.isChecked = true
+            2 -> binding.radioPriority2.isChecked = true
+            3 -> binding.radioPriority3.isChecked = true
         }
         setTitleColor()
     }
 
-    private fun getDatabase() {
-        db = Room.databaseBuilder(
-            applicationContext,
-            NotesDatabase::class.java, getString(R.string.database_notes_name)
-        ).build()
-    }
-
     private fun createDaysSpinner() {
-        spinnerDayOfWeek.adapter =
+        binding.spinnerDayOfWeek.adapter =
             ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1, days)
     }
 
     private fun setTitleColor() {
         when (getPriority()) {
-            1 -> editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_red_light))
-            2 -> editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_orange_light))
-            3 -> editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
+            1 -> binding.editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_red_light))
+            2 -> binding.editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_orange_light))
+            3 -> binding.editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
         }
     }
 
     private fun getPriority(): Int {
-        val checkedRadioId = radioGroup.checkedRadioButtonId
+        val checkedRadioId = binding.radioGroup.checkedRadioButtonId
         return (findViewById<RadioButton>(checkedRadioId)).text.toString().toInt()
     }
 
     private fun isFilled() =
-        editTextNoteTitle.text.isNotEmpty() && editTextNoteDescription.text.isNotEmpty()
+        binding.editTextNoteTitle.text.isNotEmpty() && binding.editTextNoteDescription.text.isNotEmpty()
 }

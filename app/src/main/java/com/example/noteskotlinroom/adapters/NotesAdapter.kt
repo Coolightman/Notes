@@ -8,7 +8,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteskotlinroom.R
 import com.example.noteskotlinroom.enums.DayOfWeek
-import com.example.noteskotlinroom.models.Note
+import com.example.noteskotlinroom.entities.Note
 
 class NotesAdapter(
     private val notes: List<Note>,
