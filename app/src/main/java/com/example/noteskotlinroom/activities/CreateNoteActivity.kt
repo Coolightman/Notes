@@ -1,11 +1,13 @@
 package com.example.noteskotlinroom.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.noteskotlinroom.R
 import com.example.noteskotlinroom.databinding.ActivityCreateNoteBinding
@@ -16,7 +18,6 @@ import com.example.noteskotlinroom.viewModels.NoteViewModel
 class CreateNoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateNoteBinding
-    private lateinit var days: List<String>
     private lateinit var noteViewModel: NoteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,23 +33,9 @@ class CreateNoteActivity : AppCompatActivity() {
         listeners()
     }
 
-    private fun getDays() {
-        days = listOf(
-            getString(DayOfWeek.ANY_DAY.nameRes),
-            getString(DayOfWeek.MONDAY.nameRes),
-            getString(DayOfWeek.TUESDAY.nameRes),
-            getString(DayOfWeek.WEDNESDAY.nameRes),
-            getString(DayOfWeek.THURSDAY.nameRes),
-            getString(DayOfWeek.FRIDAY.nameRes),
-            getString(DayOfWeek.SATURDAY.nameRes),
-            getString(DayOfWeek.SUNDAY.nameRes)
-        )
-    }
-
     private fun createView() {
-        setTitleColor()
-        getDays()
         createDaysSpinner()
+        setTitleColor()
     }
 
     private fun listeners() {
@@ -68,14 +55,6 @@ class CreateNoteActivity : AppCompatActivity() {
         }
     }
 
-    private fun setTitleColor() {
-        when (getPriority()) {
-            1 -> binding.editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_red_light))
-            2 -> binding.editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_orange_light))
-            3 -> binding.editTextNoteTitle.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
-        }
-    }
-
     private fun createNote() {
         val title = binding.editTextNoteTitle.text.toString().trim()
         val description = binding.editTextNoteDescription.text.toString().trim()
@@ -85,20 +64,46 @@ class CreateNoteActivity : AppCompatActivity() {
         saveNote(note)
     }
 
-    private fun getPriority(): Int {
-        val checkedRadioId = binding.radioGroup.checkedRadioButtonId
-        return (findViewById<RadioButton>(checkedRadioId)).text.toString().toInt()
-    }
-
     private fun saveNote(note: Note) {
         noteViewModel.insertNote(note)
         startActivity(Intent(applicationContext, MainActivity::class.java))
     }
 
     private fun createDaysSpinner() {
+        val days = getDays()
         binding.spinnerDayOfWeek.adapter =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, days)
+            ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1, days)
     }
+
+    private fun getDays(): List<String> {
+        return listOf(
+            getString(DayOfWeek.ANY_DAY.nameRes),
+            getString(DayOfWeek.MONDAY.nameRes),
+            getString(DayOfWeek.TUESDAY.nameRes),
+            getString(DayOfWeek.WEDNESDAY.nameRes),
+            getString(DayOfWeek.THURSDAY.nameRes),
+            getString(DayOfWeek.FRIDAY.nameRes),
+            getString(DayOfWeek.SATURDAY.nameRes),
+            getString(DayOfWeek.SUNDAY.nameRes)
+        )
+    }
+
+    private fun setTitleColor() {
+        val priority1color = ContextCompat.getColor(this, android.R.color.holo_red_light)
+        val priority2color = ContextCompat.getColor(this, android.R.color.holo_orange_light)
+        val priority3color = ContextCompat.getColor(this, android.R.color.holo_green_light)
+        when (getPriority()) {
+            1 -> binding.editTextNoteTitle.setBackgroundColor(priority1color)
+            2 -> binding.editTextNoteTitle.setBackgroundColor(priority2color)
+            3 -> binding.editTextNoteTitle.setBackgroundColor(priority3color)
+        }
+    }
+
+    private fun getPriority(): Int {
+        val checkedRadioId = binding.radioGroup.checkedRadioButtonId
+        return (findViewById<RadioButton>(checkedRadioId)).text.toString().toInt()
+    }
+
 
     private fun isFilled() =
         binding.editTextNoteTitle.text.isNotEmpty() && binding.editTextNoteDescription.text.isNotEmpty()

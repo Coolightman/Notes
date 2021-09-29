@@ -8,10 +8,10 @@ import com.example.noteskotlinroom.entities.Note
 import java.util.concurrent.Executors
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
-    private val db: NotesDatabase = NotesDatabase.getDatabase(application.applicationContext)
+    private val db: NotesDatabase = NotesDatabase.getDatabase(application)
     private val notes: LiveData<List<Note>> = db.noteDao().getAll()
 
-    fun getAllNotes(): LiveData<List<Note>> {
+    fun getNotes(): LiveData<List<Note>> {
         return notes
     }
 

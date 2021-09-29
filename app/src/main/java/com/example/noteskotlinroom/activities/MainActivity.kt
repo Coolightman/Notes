@@ -1,6 +1,5 @@
 package com.example.noteskotlinroom.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +18,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var notesAdapter: NotesAdapter
-    private val notes = mutableListOf<Note>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +35,10 @@ class MainActivity : AppCompatActivity() {
         listeners()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun getNotesFromDb() {
-        val notesFromDb = noteViewModel.getAllNotes()
-        notesFromDb.observe(this, {
-            notes.clear()
-            notes.addAll(it)
-            notesAdapter.notifyDataSetChanged()
+        val notesLiveData = noteViewModel.getNotes()
+        notesLiveData.observe(this, {
+            notesAdapter.setNotes(it)
         })
     }
 
@@ -58,15 +53,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                removeNote(notes[viewHolder.adapterPosition])
+                removeNote(viewHolder.adapterPosition)
             }
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(binding.recyclerViewNotes)
     }
 
-    private fun removeNote(note: Note) {
-        noteViewModel.deleteNote(note)
+    private fun removeNote(position: Int) {
+        noteViewModel.deleteNote(notesAdapter.getNotes()[position])
     }
 
     private fun listeners() {
@@ -77,6 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotesAdapter() {
+        val notes = mutableListOf<Note>()
         notesAdapter = NotesAdapter(notes) {
             onItemClick(it)
         }

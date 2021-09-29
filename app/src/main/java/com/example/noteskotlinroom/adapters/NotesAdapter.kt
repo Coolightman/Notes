@@ -1,17 +1,19 @@
 package com.example.noteskotlinroom.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteskotlinroom.R
-import com.example.noteskotlinroom.enums.DayOfWeek
 import com.example.noteskotlinroom.entities.Note
+import com.example.noteskotlinroom.enums.DayOfWeek
 
 class NotesAdapter(
-    private val notes: List<Note>,
+    private var notes: List<Note>,
     private val clickListener: (Note) -> Unit
 ) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
@@ -41,10 +43,11 @@ class NotesAdapter(
             holder.dayOfWeek.isVisible = false
         }
 
+        val context = holder.itemView.context
         val color = when (note.priority) {
-            1 -> holder.itemView.resources.getColor(android.R.color.holo_red_light)
-            2 -> holder.itemView.resources.getColor(android.R.color.holo_orange_light)
-            else -> holder.itemView.resources.getColor(android.R.color.holo_green_light)
+            1 -> ContextCompat.getColor(context, android.R.color.holo_red_light)
+            2 -> ContextCompat.getColor(context, android.R.color.holo_orange_light)
+            else -> ContextCompat.getColor(context, android.R.color.holo_green_light)
         }
         holder.title.setBackgroundColor(color)
         holder.itemView.setOnClickListener { clickListener(note) }
@@ -59,4 +62,12 @@ class NotesAdapter(
         val description: TextView = itemView.findViewById(R.id.textViewDescription)
         val dayOfWeek: TextView = itemView.findViewById(R.id.textViewDayOfWeek)
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setNotes(notes: List<Note>) {
+        this.notes = notes
+        notifyDataSetChanged()
+    }
+
+    fun getNotes() = notes
 }
