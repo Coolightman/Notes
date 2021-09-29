@@ -16,6 +16,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,11 +45,11 @@
             android:gravity="end"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:textSize="14sp"
             android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/textViewDescription"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/textViewDescription"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
