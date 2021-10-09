@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D8D4C0"
     tools:context=".activities.CreateNoteActivity">
 
     <EditText
@@ -88,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/holo_red_light"
+            android:background="@android:color/holo_red_dark"
             android:checked="true"
             android:includeFontPadding="false"
             android:padding="8dp"
@@ -100,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/holo_orange_light"
+            android:background="@android:color/holo_orange_dark"
             android:padding="8dp"
             android:text="@string/priority_2"
             android:textSize="20sp" />
@@ -110,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/holo_green_light"
+            android:background="@android:color/holo_green_dark"
             android:padding="8dp"
             android:text="@string/priority_3"
             android:textSize="20sp" />
@@ -118,7 +117,7 @@
 
     <Button
         android:id="@+id/buttonSaveNote"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"

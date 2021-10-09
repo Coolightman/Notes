@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D8D4C0"
     tools:context=".activities.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -25,10 +24,10 @@
         android:clickable="true"
         android:scaleType="fitCenter"
         app:fabSize="normal"
-        app:maxImageSize="70dp"
+        app:maxImageSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground"
+        app:srcCompat="@drawable/ic_baseline_note_add_24"
         android:focusable="true"
         android:contentDescription="@string/floating_button_description" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         getNotesFromDb()
         createNotesAdapter()

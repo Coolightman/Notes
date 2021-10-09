@@ -45,9 +45,9 @@ class NotesAdapter(
 
         val context = holder.itemView.context
         val color = when (note.priority) {
-            1 -> ContextCompat.getColor(context, android.R.color.holo_red_light)
-            2 -> ContextCompat.getColor(context, android.R.color.holo_orange_light)
-            else -> ContextCompat.getColor(context, android.R.color.holo_green_light)
+            1 -> ContextCompat.getColor(context, android.R.color.holo_red_dark)
+            2 -> ContextCompat.getColor(context, android.R.color.holo_orange_dark)
+            else -> ContextCompat.getColor(context, android.R.color.holo_green_dark)
         }
         holder.title.setBackgroundColor(color)
         holder.itemView.setOnClickListener { clickListener(note) }
