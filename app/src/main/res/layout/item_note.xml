@@ -28,7 +28,7 @@
             android:id="@+id/textViewDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#33404040"
+            android:background="@color/item_background"
             android:minHeight="48dp"
             android:padding="8dp"
             android:textIsSelectable="true"

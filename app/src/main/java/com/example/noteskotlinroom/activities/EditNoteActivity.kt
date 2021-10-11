@@ -105,9 +105,9 @@ class EditNoteActivity : AppCompatActivity() {
     }
 
     private fun setTitleColor() {
-        val priority1color = ContextCompat.getColor(this, android.R.color.holo_red_dark)
-        val priority2color = ContextCompat.getColor(this, android.R.color.holo_orange_dark)
-        val priority3color = ContextCompat.getColor(this, android.R.color.holo_green_dark)
+        val priority1color = ContextCompat.getColor(this, R.color.priority1)
+        val priority2color = ContextCompat.getColor(this, R.color.priority2)
+        val priority3color = ContextCompat.getColor(this, R.color.priority3)
         when (getPriority()) {
             1 -> binding.editTextNoteTitle.setBackgroundColor(priority1color)
             2 -> binding.editTextNoteTitle.setBackgroundColor(priority2color)
