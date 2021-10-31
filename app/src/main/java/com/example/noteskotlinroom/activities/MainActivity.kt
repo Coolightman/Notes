@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -85,7 +85,6 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("noteId", note.id)
         intent.putExtra("noteTitle", note.title)
         intent.putExtra("noteDescription", note.description)
-        intent.putExtra("noteDayOfWeek", note.dayOfWeek)
         intent.putExtra("notePriority", note.priority)
         startActivity(intent)
     }

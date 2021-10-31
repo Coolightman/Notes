@@ -25,23 +25,8 @@ class NotesAdapter(
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val note = notes[position]
-        val resources = holder.itemView.context.resources
         holder.title.text = note.title
         holder.description.text = note.description
-        holder.dayOfWeek.text = when (note.dayOfWeek) {
-            0 -> resources.getString(DayOfWeek.ANY_DAY.nameRes)
-            1 -> resources.getString(DayOfWeek.MONDAY.nameRes)
-            2 -> resources.getString(DayOfWeek.TUESDAY.nameRes)
-            3 -> resources.getString(DayOfWeek.WEDNESDAY.nameRes)
-            4 -> resources.getString(DayOfWeek.THURSDAY.nameRes)
-            5 -> resources.getString(DayOfWeek.FRIDAY.nameRes)
-            6 -> resources.getString(DayOfWeek.SATURDAY.nameRes)
-            7 -> resources.getString(DayOfWeek.SUNDAY.nameRes)
-            else -> "Wrong day of week number"
-        }
-        if (note.dayOfWeek == 0) {
-            holder.dayOfWeek.isVisible = false
-        }
 
         val context = holder.itemView.context
         val color = when (note.priority) {
@@ -60,7 +45,6 @@ class NotesAdapter(
     class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.textViewTitle)
         val description: TextView = itemView.findViewById(R.id.textViewDescription)
-        val dayOfWeek: TextView = itemView.findViewById(R.id.textViewDayOfWeek)
     }
 
     @SuppressLint("NotifyDataSetChanged")

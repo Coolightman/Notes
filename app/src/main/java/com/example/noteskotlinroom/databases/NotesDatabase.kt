@@ -9,7 +9,7 @@ import com.example.noteskotlinroom.entities.Note
 import com.example.noteskotlinroom.interfaces.NoteDao
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [Note::class]
 )
 abstract class NotesDatabase : RoomDatabase() {
@@ -25,7 +25,9 @@ abstract class NotesDatabase : RoomDatabase() {
                     context.applicationContext,
                     NotesDatabase::class.java,
                     context.resources.getString(R.string.database_notes_name)
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 return instance
             }

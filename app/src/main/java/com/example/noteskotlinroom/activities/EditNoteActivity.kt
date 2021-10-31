@@ -2,7 +2,6 @@ package com.example.noteskotlinroom.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.noteskotlinroom.R
 import com.example.noteskotlinroom.databinding.ActivityCreateNoteBinding
 import com.example.noteskotlinroom.entities.Note
-import com.example.noteskotlinroom.enums.DayOfWeek
 import com.example.noteskotlinroom.viewModels.NoteViewModel
 
 class EditNoteActivity : AppCompatActivity() {
@@ -33,16 +31,12 @@ class EditNoteActivity : AppCompatActivity() {
     }
 
     private fun createView() {
-        createDaysSpinner()
-
         val title = intent.getStringExtra("noteTitle")
         val description = intent.getStringExtra("noteDescription")
-        val dayOfWeek = intent.getIntExtra("noteDayOfWeek", -1)
         val priority = intent.getIntExtra("notePriority", -1)
 
         binding.editTextNoteTitle.setText(title)
         binding.editTextNoteDescription.setText(description)
-        binding.spinnerDayOfWeek.setSelection(dayOfWeek)
         when (priority) {
             1 -> binding.radioPriority1.isChecked = true
             2 -> binding.radioPriority2.isChecked = true
@@ -72,36 +66,15 @@ class EditNoteActivity : AppCompatActivity() {
     private fun updateNote() {
         val title = binding.editTextNoteTitle.text.toString().trim()
         val description = binding.editTextNoteDescription.text.toString().trim()
-        val dayOfWeek = binding.spinnerDayOfWeek.selectedItemPosition
         val priority = getPriority()
         val noteId = intent.getLongExtra("noteId", -1)
-        val note = Note(noteId, title, description, dayOfWeek, priority)
+        val note = Note(noteId, title, description, priority)
         saveNote(note)
     }
 
     private fun saveNote(note: Note) {
         noteViewModel.updateNote(note)
         startActivity(Intent(applicationContext, MainActivity::class.java))
-    }
-
-
-    private fun createDaysSpinner() {
-        val days = getDays()
-        binding.spinnerDayOfWeek.adapter =
-            ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1, days)
-    }
-
-    private fun getDays(): List<String> {
-        return listOf(
-            getString(DayOfWeek.ANY_DAY.nameRes),
-            getString(DayOfWeek.MONDAY.nameRes),
-            getString(DayOfWeek.TUESDAY.nameRes),
-            getString(DayOfWeek.WEDNESDAY.nameRes),
-            getString(DayOfWeek.THURSDAY.nameRes),
-            getString(DayOfWeek.FRIDAY.nameRes),
-            getString(DayOfWeek.SATURDAY.nameRes),
-            getString(DayOfWeek.SUNDAY.nameRes)
-        )
     }
 
     private fun setTitleColor() {
@@ -121,6 +94,5 @@ class EditNoteActivity : AppCompatActivity() {
     }
 
     private fun isFilled() =
-        binding.editTextNoteTitle.text.isNotEmpty() &&
-                binding.editTextNoteDescription.text.isNotEmpty()
+        binding.editTextNoteDescription.text.isNotEmpty()
 }

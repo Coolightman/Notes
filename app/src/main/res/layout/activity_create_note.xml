@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/item_background"
     tools:context=".activities.CreateNoteActivity">
 
     <EditText
@@ -21,11 +20,9 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textSize="20sp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextNoteDescription"
@@ -43,20 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextNoteTitle"
-        tools:ignore="TextContrastCheck"/>
-
-    <Spinner
-        android:id="@+id/spinnerDayOfWeek"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNoteDescription"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/textViewPriority"
@@ -68,7 +52,7 @@
         android:text="@string/text_view_priority_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerDayOfWeek" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNoteDescription" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
