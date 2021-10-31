@@ -6,8 +6,8 @@
     <string name="priority_3">3</string>
     <string name="button_save_note_text">Save</string>
     <string name="edit_text_note_description_hint">Type description..</string>
-    <string name="edit_text_note_title_hint">Type title..</string>
-    <string name="fields_not_filled">Fields is not filled!</string>
+    <string name="edit_text_note_title_hint">Title..</string>
+    <string name="fields_not_filled">Note is not filled!</string>
     <string name="database_notes_name">notesRoom.db</string>
     <string name="text_view_priority_text">Priority:</string>
 </resources>

@@ -8,7 +8,7 @@
     <string name="button_save_note_text">Сохранить</string>
     <string name="edit_text_note_description_hint">Описание..</string>
     <string name="edit_text_note_title_hint">Заголовок..</string>
-    <string name="fields_not_filled">Поля не заполнены!</string>
+    <string name="fields_not_filled">Запись не заполнен!</string>
     <string name="database_notes_name">notesRoom.db</string>
     <string name="text_view_priority_text">Приоритет:</string>
 </resources>

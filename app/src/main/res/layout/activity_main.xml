@@ -21,12 +21,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:contentDescription="@string/floating_button_description"
+        android:focusable="true"
         android:scaleType="fitCenter"
+        android:backgroundTint="#B0BFB8"
         app:fabSize="normal"
-        app:maxImageSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_note_add_24"
-        android:focusable="true"
-        android:contentDescription="@string/floating_button_description" />
+        app:maxImageSize="40dp"
+        app:srcCompat="@drawable/ic_baseline_note_add_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
