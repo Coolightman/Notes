@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">Note</string>
     <string name="floating_button_description">add note</string>
     <string name="priority_1">1</string>
     <string name="priority_2">2</string>
