@@ -1,11 +1,11 @@
 package by.coolightman.notes.util
 
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 import java.util.*
 
-fun Long.toDateString(): String {
+fun Long.toFormattedDate(): String {
     if (this == 0L) return ""
-    val defPattern = "HH:mm | dd.MM.yy"
-    val format = SimpleDateFormat(defPattern, Locale.getDefault())
+    val format =
+        DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault())
     return format.format(Date(this))
 }
