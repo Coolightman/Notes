@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.CalculaTor" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Notes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimaryDark">@color/dayBackground</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/dayBackground</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
 </resources>
