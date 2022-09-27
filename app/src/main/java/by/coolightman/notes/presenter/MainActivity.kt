@@ -11,8 +11,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import by.coolightman.notes.presenter.screen.EditNoteScreen
 import by.coolightman.notes.presenter.screen.NotesScreen
-import by.coolightman.notes.presenter.viewmodel.EditNoteViewModel
-import by.coolightman.notes.presenter.viewmodel.NotesViewModel
 import by.coolightman.notes.ui.compose.PrepareUI
 import by.coolightman.notes.ui.model.Screen
 import by.coolightman.notes.util.ARG_NOTE_ID
@@ -30,12 +28,9 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = Screen.Notes.route
                     ) {
-                        val viewModel = hiltViewModel<NotesViewModel>()
-                        val state = viewModel.state
                         NotesScreen(
                             navController = navController,
-                            viewModel = viewModel,
-                            state = state
+                            viewModel = hiltViewModel()
                         )
                     }
 
@@ -47,12 +42,9 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     ) {
-                        val viewModel = hiltViewModel<EditNoteViewModel>()
-                        val state = viewModel.state
                         EditNoteScreen(
                             navController = navController,
-                            viewModel = viewModel,
-                            state = state
+                            viewModel = hiltViewModel()
                         )
                     }
                 }

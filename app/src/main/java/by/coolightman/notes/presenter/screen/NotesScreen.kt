@@ -15,9 +15,10 @@ import by.coolightman.notes.ui.model.Screen
 @Composable
 fun NotesScreen(
     navController: NavController,
-    viewModel: NotesViewModel,
-    state: NotesScreenState
+    viewModel: NotesViewModel
 ) {
+    val state = viewModel.state
+
     Box(
         modifier = Modifier
             .fillMaxSize()
