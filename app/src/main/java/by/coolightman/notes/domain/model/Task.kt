@@ -1,7 +1,7 @@
 package by.coolightman.notes.domain.model
 
 data class Task(
-    val id: Long,
+    val id: Long = 0,
     val text: String,
     val color: Long,
     val isImportant: Boolean,
