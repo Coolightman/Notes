@@ -17,7 +17,6 @@ class NotesViewModel @Inject constructor(
     var state by mutableStateOf(NotesScreenState())
         private set
 
-
     fun onAction() {
         Log.d("NotesViewModel", "onAction")
     }
