@@ -9,7 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import by.coolightman.notes.presenter.screen.EditNoteScreen
 import by.coolightman.notes.presenter.screen.NotesScreen
-import by.coolightman.notes.ui.model.Screen
+import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.util.ARG_NOTE_ID
 
 
@@ -21,7 +21,7 @@ fun AppNavigation(
     NavHost(navController = navController, startDestination = startDestination) {
 
         composable(
-            route = Screen.Notes.route
+            route = NavRoutes.Notes.route
         ) {
             NotesScreen(
                 navController = navController,
@@ -30,7 +30,7 @@ fun AppNavigation(
         }
 
         composable(
-            route = Screen.EditNote.route + "/{$ARG_NOTE_ID}",
+            route = NavRoutes.EditNote.route + "/{$ARG_NOTE_ID}",
             arguments = listOf(
                 navArgument(ARG_NOTE_ID) {
                     type = NavType.LongType
