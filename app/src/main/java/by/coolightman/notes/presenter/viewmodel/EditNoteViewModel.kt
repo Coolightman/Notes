@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Note
+import by.coolightman.notes.domain.usecase.notes.CreateNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
 import by.coolightman.notes.presenter.state.EditNoteScreenState
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class EditNoteViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getNoteUseCase: GetNoteUseCase,
-    private val updateNoteUseCase: UpdateNoteUseCase
+    private val updateNoteUseCase: UpdateNoteUseCase,
+    private val createNoteUseCase: CreateNoteUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(EditNoteScreenState())
@@ -31,11 +33,11 @@ class EditNoteViewModel @Inject constructor(
     init {
         val noteId = savedStateHandle.get<Long>(ARG_NOTE_ID) ?: 0L
         if (noteId != 0L) {
-            getNoteData(noteId)
+            getNote(noteId)
         }
     }
 
-    private fun getNoteData(noteId: Long) {
+    private fun getNote(noteId: Long) {
         viewModelScope.launch {
             note = getNoteUseCase(noteId)
             note?.let {
@@ -77,6 +79,7 @@ class EditNoteViewModel @Inject constructor(
                 isInTrash = false,
                 isShowDate = false
             )
+            createNoteUseCase(createdNote)
         }
     }
 }

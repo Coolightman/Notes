@@ -7,10 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import by.coolightman.notes.presenter.screen.EditNoteScreen
-import by.coolightman.notes.presenter.screen.NotesScreen
+import by.coolightman.notes.presenter.screen.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.util.ARG_NOTE_ID
+import by.coolightman.notes.util.ARG_TASK_ID
 
 
 @Composable
@@ -38,6 +38,38 @@ fun AppNavigation(
             )
         ) {
             EditNoteScreen(
+                navController = navController,
+                viewModel = hiltViewModel()
+            )
+        }
+
+        composable(
+            route = NavRoutes.NotesTrash.route
+        ) {
+            NotesTrashScreen(
+                navController = navController,
+                viewModel = hiltViewModel()
+            )
+        }
+
+        composable(
+            route = NavRoutes.Tasks.route
+        ) {
+            TasksScreen(
+                navController = navController,
+                viewModel = hiltViewModel()
+            )
+        }
+
+        composable(
+            route = NavRoutes.EditTask.route + "/{$ARG_TASK_ID}",
+            arguments = listOf(
+                navArgument(ARG_TASK_ID) {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            EditTaskScreen(
                 navController = navController,
                 viewModel = hiltViewModel()
             )
