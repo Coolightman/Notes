@@ -27,7 +27,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = Screen.Notes.route) {
 
-                    composable(route = Screen.Notes.route) {
+                    composable(
+                        route = Screen.Notes.route
+                    ) {
                         val viewModel = hiltViewModel<NotesViewModel>()
                         val state = viewModel.state
                         NotesScreen(
