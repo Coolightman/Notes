@@ -22,32 +22,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PrepareUI {
-                val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = Screen.Notes.route) {
-
-                    composable(
-                        route = Screen.Notes.route
-                    ) {
-                        NotesScreen(
-                            navController = navController,
-                            viewModel = hiltViewModel()
-                        )
-                    }
-
-                    composable(
-                        route = Screen.EditNote.route + "/{$ARG_NOTE_ID}",
-                        arguments = listOf(
-                            navArgument(ARG_NOTE_ID) {
-                                type = NavType.LongType
-                            }
-                        )
-                    ) {
-                        EditNoteScreen(
-                            navController = navController,
-                            viewModel = hiltViewModel()
-                        )
-                    }
-                }
+                val startDestination = Screen.Notes.route
+                AppNavigation(startDestination = startDestination)
             }
         }
     }

@@ -4,5 +4,6 @@ data class EditNoteScreenState(
     val title: String = "",
     val text: String = "",
     val date: String = "",
-    val color: Long = 0L
+    val color: Long = 0L,
+    val trashCount: Int = 0
 )
