@@ -24,6 +24,14 @@ class DatabaseModule {
         ).fallbackToDestructiveMigration().build()
     }
 
+    @Singleton
+    @Provides
+    fun provideNoteDao(appDatabase: AppDatabase) = appDatabase.noteDao()
+
+    @Singleton
+    @Provides
+    fun provideTaskDao(appDatabase: AppDatabase) = appDatabase.taskDao()
+
     companion object {
         private const val DB_NAME = "app_database.db"
     }

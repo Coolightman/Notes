@@ -9,7 +9,7 @@ interface NoteRepository {
 
     suspend fun getNote(noteId: Long): Note
 
-    fun getAll(): Flow<List<Note>>
+    fun getAllActive(): Flow<List<Note>>
 
     fun getTrash(): Flow<List<Note>>
 
@@ -17,17 +17,7 @@ interface NoteRepository {
 
     suspend fun update(note: Note)
 
-    suspend fun putInTrash(noteId: Long)
-
-    suspend fun restoreFromTrash(noteId: Long)
-
     suspend fun delete(noteId: Long)
 
     suspend fun deleteAllTrash()
-
-    suspend fun restoreAllTrash()
-
-    suspend fun exportNotes()
-
-    suspend fun importNotes()
 }
