@@ -9,7 +9,7 @@ interface TaskRepository {
 
     suspend fun getTask(taskId: Long): Task
 
-    fun getAllActive(): Flow<List<Task>>
+    fun getAll(): Flow<List<Task>>
 
     suspend fun update(task: Task)
 

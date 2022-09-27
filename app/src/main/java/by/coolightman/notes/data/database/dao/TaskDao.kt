@@ -13,8 +13,8 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getTask(taskId: Long): TaskDb
 
-    @Query("SELECT * FROM tasks WHERE is_hidden = 0")
-    fun getAllActive(): Flow<List<TaskDb>>
+    @Query("SELECT * FROM tasks WHERE is_hidden = 0 ORDER BY is_active DESC, is_important DESC, created_at")
+    fun getAll(): Flow<List<TaskDb>>
 
     @Update
     suspend fun update(task: TaskDb)

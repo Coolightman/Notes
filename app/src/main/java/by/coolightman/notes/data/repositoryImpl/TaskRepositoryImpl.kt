@@ -27,8 +27,8 @@ class TaskRepositoryImpl @Inject constructor(
             taskDao.getTask(taskId).toTask()
         }
 
-    override fun getAllActive(): Flow<List<Task>> =
-        taskDao.getAllActive()
+    override fun getAll(): Flow<List<Task>> =
+        taskDao.getAll()
             .map { list -> list.map { it.toTask() } }
             .flowOn(Dispatchers.IO)
 

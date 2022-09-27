@@ -46,6 +46,12 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateList(list: List<Note>) {
+        withContext(Dispatchers.IO) {
+            noteDao.updateList(list.map { it.toNoteDb() })
+        }
+    }
+
     override suspend fun delete(noteId: Long) {
         withContext(Dispatchers.IO) {
             noteDao.delete(noteId)
@@ -53,7 +59,7 @@ class NoteRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteAllTrash() {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             noteDao.deleteAllTrash()
         }
     }
