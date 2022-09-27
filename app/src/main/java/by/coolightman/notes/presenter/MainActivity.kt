@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         val state = viewModel.state
                         NotesScreen(
                             navController = navController,
-                            viewModel = hiltViewModel(),
+                            viewModel = viewModel,
                             state = state
                         )
                     }
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                         val state = viewModel.state
                         EditNoteScreen(
                             navController = navController,
-                            viewModel = hiltViewModel(),
+                            viewModel = viewModel,
                             state = state
                         )
                     }
