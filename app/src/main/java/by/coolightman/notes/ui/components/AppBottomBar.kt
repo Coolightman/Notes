@@ -1,6 +1,7 @@
 package by.coolightman.notes.ui.components
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,9 +31,12 @@ fun AppBottomBar(
     }
 
     if (currentRoute == BottomTab.Notes.route || currentRoute == BottomTab.Tasks.route) {
-        BottomNavigation {
+        BottomNavigation(
+            modifier = Modifier.clip(RoundedCornerShape(16.dp, 16.dp, 0.dp, 0.dp))
+        ) {
             bottomNavList.forEach { navTab ->
-                BottomNavigationItem(alwaysShowLabel = false,
+                BottomNavigationItem(
+                    alwaysShowLabel = false,
                     selected = currentRoute == navTab.route,
                     onClick = {
                         navController.navigate(navTab.route) {
@@ -60,8 +65,10 @@ fun AppBottomBar(
                     },
                     label = {
                         Text(text = stringResource(navTab.title))
-                    })
+                    }
+                )
             }
+
         }
     }
 }

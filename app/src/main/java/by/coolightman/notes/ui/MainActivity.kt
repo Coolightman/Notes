@@ -7,10 +7,12 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
 import by.coolightman.notes.ui.components.AppBottomBar
+import by.coolightman.notes.ui.components.AppFloatingActionButton
 import by.coolightman.notes.ui.components.PrepareUI
 import by.coolightman.notes.ui.model.StartDestination
 import by.coolightman.notes.ui.navigation.AppNavigationHost
@@ -31,6 +33,10 @@ class MainActivity : ComponentActivity() {
                     scaffoldState = rememberScaffoldState(),
                     bottomBar = {
                         AppBottomBar(navController = navController)
+                    },
+                    floatingActionButtonPosition = FabPosition.End,
+                    floatingActionButton = {
+                        AppFloatingActionButton(navController = navController)
                     }
                 ) { contentPadding ->
                     Box(
