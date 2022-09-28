@@ -1,8 +1,0 @@
-package by.coolightman.notes.ui.state
-
-import by.coolightman.notes.domain.model.Note
-
-data class NotesScreenState(
-    val list: List<Note> = emptyList(),
-    val trashCount: Int = 0
-)

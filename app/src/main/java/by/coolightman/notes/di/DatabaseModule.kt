@@ -2,7 +2,7 @@ package by.coolightman.notes.di
 
 import android.content.Context
 import androidx.room.Room
-import by.coolightman.notes.data.database.AppDatabase
+import by.coolightman.notes.data.local.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

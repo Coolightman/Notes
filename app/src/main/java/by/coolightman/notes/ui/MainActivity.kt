@@ -10,9 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
-import by.coolightman.notes.ui.compose.AppBottomBar
-import by.coolightman.notes.ui.compose.PrepareUI
+import by.coolightman.notes.ui.components.AppBottomBar
+import by.coolightman.notes.ui.components.PrepareUI
 import by.coolightman.notes.ui.model.StartDestination
+import by.coolightman.notes.ui.navigation.AppNavigationHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 

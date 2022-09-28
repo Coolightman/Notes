@@ -1,7 +1,7 @@
 package by.coolightman.notes.di
 
-import by.coolightman.notes.data.repositoryImpl.NoteRepositoryImpl
-import by.coolightman.notes.data.repositoryImpl.TaskRepositoryImpl
+import by.coolightman.notes.data.repository.NoteRepositoryImpl
+import by.coolightman.notes.data.repository.TaskRepositoryImpl
 import by.coolightman.notes.domain.repository.NoteRepository
 import by.coolightman.notes.domain.repository.TaskRepository
 import dagger.Binds
