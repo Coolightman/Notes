@@ -1,4 +1,4 @@
-package by.coolightman.notes.presenter.viewmodel
+package by.coolightman.notes.ui.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,7 +10,7 @@ import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.domain.usecase.notes.CreateNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
-import by.coolightman.notes.presenter.state.EditNoteScreenState
+import by.coolightman.notes.ui.state.EditNoteScreenState
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.toFormattedDate
 import dagger.hilt.android.lifecycle.HiltViewModel

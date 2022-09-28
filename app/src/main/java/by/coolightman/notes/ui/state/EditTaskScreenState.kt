@@ -1,4 +1,4 @@
-package by.coolightman.notes.presenter.state
+package by.coolightman.notes.ui.state
 
 data class EditTaskScreenState(
     val text: String = "",

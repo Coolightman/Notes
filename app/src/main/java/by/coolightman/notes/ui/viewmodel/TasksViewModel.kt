@@ -1,4 +1,4 @@
-package by.coolightman.notes.presenter.viewmodel
+package by.coolightman.notes.ui.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +9,7 @@ import by.coolightman.notes.domain.usecase.tasks.DeleteInactiveTasksUseCase
 import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.GetAllTasksUseCase
 import by.coolightman.notes.domain.usecase.tasks.SwitchTaskActivityUseCase
-import by.coolightman.notes.presenter.state.TasksScreenState
+import by.coolightman.notes.ui.state.TasksScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package by.coolightman.notes.presenter
+package by.coolightman.notes.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

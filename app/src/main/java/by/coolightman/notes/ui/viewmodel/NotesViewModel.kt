@@ -1,4 +1,4 @@
-package by.coolightman.notes.presenter.viewmodel
+package by.coolightman.notes.ui.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +9,7 @@ import by.coolightman.notes.domain.model.SortNoteBy
 import by.coolightman.notes.domain.usecase.notes.GetAllNotesSortByUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNotesTrashCountUseCase
 import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
-import by.coolightman.notes.presenter.state.NotesScreenState
+import by.coolightman.notes.ui.state.NotesScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

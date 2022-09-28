@@ -1,4 +1,4 @@
-package by.coolightman.notes.presenter
+package by.coolightman.notes.ui
 
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -10,8 +10,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import by.coolightman.notes.presenter.screen.*
 import by.coolightman.notes.ui.model.NavRoute
+import by.coolightman.notes.ui.screen.*
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.ARG_TASK_ID
 import com.google.accompanist.navigation.animation.AnimatedNavHost

@@ -1,8 +1,8 @@
-package by.coolightman.notes.presenter.screen
+package by.coolightman.notes.ui.screen
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import by.coolightman.notes.presenter.viewmodel.EditTaskViewModel
+import by.coolightman.notes.ui.viewmodel.EditTaskViewModel
 
 @Composable
 fun EditTaskScreen(
