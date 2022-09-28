@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import by.coolightman.notes.ui.compose.MainBottomBar
@@ -23,6 +24,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val startDestination = StartDestination.NOTES.route
                 Scaffold(
+                    scaffoldState = rememberScaffoldState(),
                     bottomBar = {
                         MainBottomBar(navController = navController)
                     }

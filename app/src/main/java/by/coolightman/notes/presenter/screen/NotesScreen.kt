@@ -2,8 +2,9 @@ package by.coolightman.notes.presenter.screen
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import by.coolightman.notes.R
 import by.coolightman.notes.presenter.viewmodel.NotesViewModel
-import by.coolightman.notes.ui.compose.NotesScreenSplash
+import by.coolightman.notes.ui.compose.EmptyContentSplash
 
 @Composable
 fun NotesScreen(
@@ -13,7 +14,10 @@ fun NotesScreen(
     val state = viewModel.state
 
     if (state.list.isEmpty()) {
-        NotesScreenSplash()
+        EmptyContentSplash(
+            iconId = R.drawable.ic_outline_note_64,
+            textId = R.string.notes_title
+        )
     } else {
 
     }
