@@ -7,6 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,15 +23,15 @@ fun AppBottomBar(
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val bottomNavList = listOf(BottomTab.Notes, BottomTab.Tasks)
 
-    if (currentRoute == BottomTab.Notes.route
-        || currentRoute == BottomTab.Tasks.route
-    ) {
+    val bottomNavList = remember {
+        listOf(BottomTab.Notes, BottomTab.Tasks)
+    }
+
+    if (currentRoute == BottomTab.Notes.route || currentRoute == BottomTab.Tasks.route) {
         BottomNavigation {
             bottomNavList.forEach { navTab ->
-                BottomNavigationItem(
-                    alwaysShowLabel = false,
+                BottomNavigationItem(alwaysShowLabel = false,
                     selected = currentRoute == navTab.route,
                     onClick = {
                         navController.navigate(navTab.route) {
