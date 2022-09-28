@@ -38,7 +38,7 @@ fun EmptyContentSplash(
             if (textId != 0) {
                 Text(
                     text = stringResource(textId),
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.h6,
                     color = color
                 )
             }

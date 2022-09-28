@@ -4,12 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import by.coolightman.notes.ui.compose.MainBottomBar
+import by.coolightman.notes.ui.compose.AppBottomBar
 import by.coolightman.notes.ui.compose.PrepareUI
 import by.coolightman.notes.ui.model.StartDestination
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,10 +27,14 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     scaffoldState = rememberScaffoldState(),
                     bottomBar = {
-                        MainBottomBar(navController = navController)
+                        AppBottomBar(navController = navController)
                     }
                 ) { contentPadding ->
-                    Box(modifier = Modifier.padding(contentPadding)) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(contentPadding)
+                    ) {
                         AppNavigationHost(
                             navController = navController,
                             startDestination = startDestination

@@ -18,9 +18,8 @@ import by.coolightman.notes.ui.model.BottomTab
 import by.coolightman.notes.ui.model.NavRoute
 
 @Composable
-fun MainBottomBar(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+fun AppBottomBar(
+    navController: NavHostController
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -29,7 +28,7 @@ fun MainBottomBar(
     if (currentRoute == NavRoute.Notes.route
         || currentRoute == NavRoute.Tasks.route
     ) {
-        BottomNavigation(modifier = modifier) {
+        BottomNavigation {
             bottomNavList.forEach { navTab ->
                 BottomNavigationItem(
                     alwaysShowLabel = false,
@@ -47,7 +46,7 @@ fun MainBottomBar(
                         Icon(
                             painter = painterResource(navTab.icon),
                             contentDescription = stringResource(navTab.title),
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(STANDARD_ICON_SIZE.dp)
                         )
                     },
                     label = {
@@ -57,3 +56,5 @@ fun MainBottomBar(
         }
     }
 }
+
+private const val STANDARD_ICON_SIZE = 24
