@@ -9,13 +9,13 @@ sealed class BottomTab(
     @DrawableRes val icon: Int,
     val route: String
 ) {
-    object NotesTab : BottomTab(
+    object Notes : BottomTab(
         R.string.notes_title,
         R.drawable.ic_outline_note_64,
         NavRoute.Notes.route
     )
 
-    object TasksTab : BottomTab(
+    object Tasks : BottomTab(
         R.string.tasks_title,
         R.drawable.ic_baseline_task_alt_64,
         NavRoute.Tasks.route

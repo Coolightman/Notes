@@ -23,7 +23,7 @@ fun AppBottomBar(
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val bottomNavList = listOf(BottomTab.NotesTab, BottomTab.TasksTab)
+    val bottomNavList = listOf(BottomTab.Notes, BottomTab.Tasks)
 
     if (currentRoute == NavRoute.Notes.route
         || currentRoute == NavRoute.Tasks.route
