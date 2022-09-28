@@ -3,7 +3,10 @@ package by.coolightman.notes.presenter
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import by.coolightman.notes.ui.compose.MainBottomBar
 import by.coolightman.notes.ui.compose.PrepareUI
@@ -24,11 +27,12 @@ class MainActivity : ComponentActivity() {
                         MainBottomBar(navController = navController)
                     }
                 ) { contentPadding ->
-                    AppNavigationHost(
-                        navController = navController,
-                        startDestination = startDestination,
-                        contentPadding = contentPadding
-                    )
+                    Box(modifier = Modifier.padding(contentPadding)) {
+                        AppNavigationHost(
+                            navController = navController,
+                            startDestination = startDestination
+                        )
+                    }
                 }
             }
         }

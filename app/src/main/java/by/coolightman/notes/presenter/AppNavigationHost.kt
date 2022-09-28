@@ -1,9 +1,6 @@
 package by.coolightman.notes.presenter
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -19,8 +16,7 @@ import by.coolightman.notes.util.ARG_TASK_ID
 @Composable
 fun AppNavigationHost(
     navController: NavHostController,
-    startDestination: String,
-    contentPadding: PaddingValues
+    startDestination: String
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
 
@@ -29,8 +25,7 @@ fun AppNavigationHost(
         ) {
             NotesScreen(
                 navController = navController,
-                viewModel = hiltViewModel(),
-                modifier = Modifier.padding(contentPadding)
+                viewModel = hiltViewModel()
             )
         }
 
@@ -62,8 +57,7 @@ fun AppNavigationHost(
         ) {
             TasksScreen(
                 navController = navController,
-                viewModel = hiltViewModel(),
-                modifier = Modifier.padding(contentPadding)
+                viewModel = hiltViewModel()
             )
         }
 

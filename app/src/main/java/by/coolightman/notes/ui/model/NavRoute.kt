@@ -6,7 +6,7 @@ sealed class NavRoute(val route: String) {
     object NotesTrash : NavRoute("notes_trash")
     object Tasks : NavRoute("tasks")
     object EditTask : NavRoute("edit_task")
-    object Settings: NavRoute("settings")
+    object Settings : NavRoute("settings")
 
     fun withArgs(vararg args: String): String {
         return buildString {

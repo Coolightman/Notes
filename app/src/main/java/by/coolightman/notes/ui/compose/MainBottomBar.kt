@@ -1,7 +1,10 @@
 package by.coolightman.notes.ui.compose
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -11,9 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import by.coolightman.notes.ui.model.BottomTab
 import by.coolightman.notes.ui.model.NavRoute
-import by.coolightman.notes.ui.model.NotesTab
-import by.coolightman.notes.ui.model.TasksTab
 
 @Composable
 fun MainBottomBar(
@@ -22,7 +24,7 @@ fun MainBottomBar(
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val bottomNavList = listOf(NotesTab, TasksTab)
+    val bottomNavList = listOf(BottomTab.NotesTab, BottomTab.TasksTab)
 
     if (currentRoute == NavRoute.Notes.route
         || currentRoute == NavRoute.Tasks.route
@@ -30,6 +32,7 @@ fun MainBottomBar(
         BottomNavigation(modifier = modifier) {
             bottomNavList.forEach { navTab ->
                 BottomNavigationItem(
+                    alwaysShowLabel = false,
                     selected = currentRoute == navTab.route,
                     onClick = {
                         navController.navigate(navTab.route) {
