@@ -15,7 +15,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import by.coolightman.notes.ui.model.BottomTab
-import by.coolightman.notes.ui.model.NavRoute
 
 @Composable
 fun AppBottomBar(
@@ -25,8 +24,8 @@ fun AppBottomBar(
     val currentRoute = navBackStackEntry?.destination?.route
     val bottomNavList = listOf(BottomTab.Notes, BottomTab.Tasks)
 
-    if (currentRoute == NavRoute.Notes.route
-        || currentRoute == NavRoute.Tasks.route
+    if (currentRoute == BottomTab.Notes.route
+        || currentRoute == BottomTab.Tasks.route
     ) {
         BottomNavigation {
             bottomNavList.forEach { navTab ->
