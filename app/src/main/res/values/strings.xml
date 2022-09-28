@@ -2,4 +2,6 @@
     <string name="app_name">Notes</string>
     <string name="notes_title">Notes</string>
     <string name="tasks_title">Tasks</string>
+    <string name="no_notes">No notes</string>
+    <string name="no_tasks">No tasks</string>
 </resources>

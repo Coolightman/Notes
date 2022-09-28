@@ -16,7 +16,7 @@ fun TasksScreen(
     if (state.list.isEmpty()) {
         EmptyContentSplash(
             iconId = R.drawable.ic_baseline_task_alt_64,
-            textId = R.string.tasks_title
+            textId = R.string.no_tasks
         )
     } else {
 
