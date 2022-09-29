@@ -2,7 +2,6 @@ package by.coolightman.notes.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -13,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -42,9 +40,7 @@ fun AppBottomBar(
     }
 
     if (isBottomed) {
-        BottomNavigation(
-            modifier = Modifier.clip(RoundedCornerShape(16.dp, 16.dp, 0.dp, 0.dp))
-        ) {
+        BottomNavigation {
             bottomTabs.forEachIndexed { index, tab ->
                 BottomNavigationItem(
                     modifier = Modifier.navigationBarsPadding(),

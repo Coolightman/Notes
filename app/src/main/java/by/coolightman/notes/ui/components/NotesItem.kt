@@ -29,7 +29,6 @@ fun NotesItem(item: Note) {
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp, 8.dp, 8.dp, 0.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
