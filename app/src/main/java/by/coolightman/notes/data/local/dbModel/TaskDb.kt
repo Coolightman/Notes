@@ -9,7 +9,7 @@ data class TaskDb(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val text: String,
-    val color: Long,
+    @ColumnInfo(name = "color_index") val colorIndex: Int,
     @ColumnInfo(name = "is_important") val isImportant: Boolean,
     @ColumnInfo(name = "created_at") val createdAt: Long,
     @ColumnInfo(name = "edited_at") val editedAt: Long,

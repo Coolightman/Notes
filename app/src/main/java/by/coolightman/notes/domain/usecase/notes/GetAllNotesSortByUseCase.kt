@@ -13,10 +13,10 @@ class GetAllNotesSortByUseCase @Inject constructor(
     operator fun invoke(sortBy: SortNoteBy): Flow<List<Note>> {
         return when (sortBy) {
             SortNoteBy.COLOR -> {
-                repository.getAllActive().map { list -> list.sortedBy { it.color } }
+                repository.getAllActive().map { list -> list.sortedBy { it.colorIndex } }
             }
             SortNoteBy.COLOR_DESC -> {
-                repository.getAllActive().map { list -> list.sortedByDescending { it.color } }
+                repository.getAllActive().map { list -> list.sortedByDescending { it.colorIndex } }
             }
             SortNoteBy.EDIT_DATE -> {
                 repository.getAllActive().map { list -> list.sortedBy { it.editedAt } }

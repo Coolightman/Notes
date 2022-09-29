@@ -1,6 +1,7 @@
 package by.coolightman.notes.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -18,12 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Note
+import by.coolightman.notes.ui.model.ItemColors
 import by.coolightman.notes.util.toFormattedDate
 
 @Composable
 fun NotesItem(item: Note) {
+
     Card(
-        backgroundColor = Color(item.color),
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -33,6 +35,7 @@ fun NotesItem(item: Note) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
+                .background(Color(ItemColors.values()[item.colorIndex].color))
         ) {
             if (item.title.isNotEmpty()) {
                 Box(
@@ -102,7 +105,7 @@ private fun NotesItemPreview() {
     val note = Note(
         title = "Title",
         text = "Text text text Text text text \nText text text",
-        color = 0xFFA5D6A7,
+        colorIndex = 1,
         createdAt = 19871988977L,
         editedAt = 198719889775L,
         isShowDate = true,

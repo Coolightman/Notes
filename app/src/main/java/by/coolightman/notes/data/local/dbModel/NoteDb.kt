@@ -10,7 +10,7 @@ data class NoteDb(
     val id: Long = 0,
     val title: String,
     val text: String,
-    val color: Long,
+    @ColumnInfo(name = "color_index") val colorIndex: Int,
     @ColumnInfo(name = "created_at") val createdAt: Long,
     @ColumnInfo(name = "edited_at") val editedAt: Long,
     @ColumnInfo(name = "is_show_date") val isShowDate: Boolean,

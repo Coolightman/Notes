@@ -39,7 +39,7 @@ fun CustomTextField(
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         focusRequester.requestFocus()
         keyboardController?.show()
     }

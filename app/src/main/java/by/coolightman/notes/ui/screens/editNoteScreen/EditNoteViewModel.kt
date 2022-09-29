@@ -44,21 +44,21 @@ class EditNoteViewModel @Inject constructor(
                     title = it.title,
                     text = it.text,
                     date = it.createdAt.toFormattedDate(),
-                    color = it.color
+                    colorIndex = it.colorIndex
                 )
             }
         }
     }
 
     fun saveNote(
-        title: String, text: String, color: Long
+        title: String, text: String, colorIndex: Int
     ) {
         viewModelScope.launch {
             note?.let {
                 val updatedNote = it.copy(
                     title = title,
                     text = text,
-                    color = color,
+                    colorIndex = colorIndex,
                     isEdited = true,
                     editedAt = System.currentTimeMillis()
                 )
@@ -69,7 +69,7 @@ class EditNoteViewModel @Inject constructor(
             val createdNote = Note(
                 title = title,
                 text = text,
-                color = color,
+                colorIndex = colorIndex,
                 createdAt = System.currentTimeMillis(),
                 editedAt = 0L,
                 isEdited = false,

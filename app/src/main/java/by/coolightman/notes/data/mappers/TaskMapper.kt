@@ -6,7 +6,7 @@ import by.coolightman.notes.domain.model.Task
 fun TaskDb.toTask(): Task = Task(
     id = id,
     text = text,
-    color = color,
+    colorIndex = colorIndex,
     isImportant = isImportant,
     createdAt = createdAt,
     editedAt = editedAt,
@@ -18,7 +18,7 @@ fun TaskDb.toTask(): Task = Task(
 fun Task.toTaskDb(): TaskDb = TaskDb(
     id = id,
     text = text,
-    color = color,
+    colorIndex = colorIndex,
     isImportant = isImportant,
     createdAt = createdAt,
     editedAt = editedAt,

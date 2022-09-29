@@ -8,3 +8,10 @@ val Blue700 = Color(0xFF1976D2)
 val Green200 = Color(0xFFA5D6A7)
 
 val GrayContent = Color(0xFF777777)
+
+val RedItem = Color(0x99F44336)
+val YellowItem = Color(0x99FFEB3B)
+val GreenItem = Color(0x994CAF50)
+val NavyItem = Color(0x9903A9F4)
+val BlueItem = Color(0x993F51B5)
+val GrayItem = Color(0x99696969)

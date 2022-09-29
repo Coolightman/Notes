@@ -4,7 +4,7 @@ data class Note(
     val id: Long = 0,
     val title: String,
     val text: String,
-    val color: Long,
+    val colorIndex: Int,
     val createdAt: Long,
     val editedAt: Long,
     val isShowDate: Boolean,

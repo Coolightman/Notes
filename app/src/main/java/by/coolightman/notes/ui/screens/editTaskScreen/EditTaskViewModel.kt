@@ -42,7 +42,7 @@ class EditTaskViewModel @Inject constructor(
             task?.let {
                 uiState = uiState.copy(
                     text = it.text,
-                    color = it.color,
+                    colorIndex = it.colorIndex,
                     isImportant = it.isImportant,
                     date = it.createdAt.toFormattedDate()
                 )
@@ -52,14 +52,14 @@ class EditTaskViewModel @Inject constructor(
 
     fun saveTask(
         text: String,
-        color: Long,
+        colorIndex: Int,
         isImportant: Boolean
     ) {
         viewModelScope.launch {
             task?.let {
                 val updatedTask = it.copy(
                     text = text,
-                    color = color,
+                    colorIndex = colorIndex,
                     isImportant = isImportant,
                     isEdited = true,
                     editedAt = System.currentTimeMillis()
@@ -70,7 +70,7 @@ class EditTaskViewModel @Inject constructor(
 
             val createdTask = Task(
                 text = text,
-                color = color,
+                colorIndex = colorIndex,
                 isImportant = isImportant,
                 createdAt = System.currentTimeMillis(),
                 editedAt = 0L,

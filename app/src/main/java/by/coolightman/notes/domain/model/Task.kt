@@ -3,7 +3,7 @@ package by.coolightman.notes.domain.model
 data class Task(
     val id: Long = 0,
     val text: String,
-    val color: Long,
+    val colorIndex: Int,
     val isImportant: Boolean,
     val createdAt: Long,
     val editedAt: Long,
