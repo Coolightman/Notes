@@ -5,4 +5,6 @@
     <string name="no_notes">No notes</string>
     <string name="no_tasks">No tasks</string>
     <string name="edited">edit. </string>
+    <string name="title_placeholder">Title..</string>
+    <string name="text_placeholder">Text..</string>
 </resources>
