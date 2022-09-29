@@ -4,7 +4,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -17,7 +19,11 @@ fun AppFloatingActionButton(
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    when (navBackStackEntry?.destination?.route) {
+    val currentRoute by remember {
+        derivedStateOf { navBackStackEntry?.destination?.route ?: "" }
+    }
+
+    when (currentRoute) {
         NavRoute.Notes.route -> {
             NotesFAB(navController)
         }
