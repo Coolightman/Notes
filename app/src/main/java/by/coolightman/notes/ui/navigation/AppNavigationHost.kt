@@ -49,7 +49,7 @@ fun AppNavigationHost(
                         towards = AnimatedContentScope.SlideDirection.Left,
                         animationSpec = tween(SLIDE_TRANSITION_TIME)
                     )
-                    else -> fadeOut(animationSpec = tween(TRANSITION_TIME))
+                    else -> fadeOut(animationSpec = tween(0))
                 }
             }
         ) {
@@ -100,7 +100,7 @@ fun AppNavigationHost(
                         towards = AnimatedContentScope.SlideDirection.Right,
                         animationSpec = tween(SLIDE_TRANSITION_TIME)
                     )
-                    else -> fadeOut(animationSpec = tween(TRANSITION_TIME))
+                    else -> fadeOut(animationSpec = tween(0))
                 }
             }
         ) {
