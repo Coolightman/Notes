@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.EmptyContentSplash
+import by.coolightman.notes.ui.components.NotesItem
 
 @Composable
 fun NotesScreen(
@@ -26,13 +27,10 @@ fun NotesScreen(
             textId = R.string.no_notes
         )
     } else {
-        LazyColumn{
-            items(state.list){
-                
+        LazyColumn {
+            items(state.list) {
+                NotesItem(item = it)
             }
         }
-
     }
-
-
 }
