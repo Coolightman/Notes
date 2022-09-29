@@ -11,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.model.NavRoute
+import by.coolightman.notes.ui.model.NavRoutes
 
 @Composable
 fun AppFloatingActionButton(
@@ -24,10 +24,10 @@ fun AppFloatingActionButton(
     }
 
     when (currentRoute) {
-        NavRoute.Notes.route -> {
+        NavRoutes.Notes.route -> {
             NotesFAB(navController)
         }
-        NavRoute.Tasks.route -> {
+        NavRoutes.Tasks.route -> {
             TasksFAB(navController)
         }
     }
@@ -40,7 +40,7 @@ fun NotesFAB(
     FloatingActionButton(
         shape = CircleShape,
         onClick = {
-            navController.navigate(NavRoute.EditNote.withArgs("0")) {
+            navController.navigate(NavRoutes.EditNote.withArgs("0")) {
                 launchSingleTop = true
             }
         }
@@ -59,7 +59,7 @@ fun TasksFAB(
     FloatingActionButton(
         shape = CircleShape,
         onClick = {
-            navController.navigate(NavRoute.EditTask.withArgs("0")) {
+            navController.navigate(NavRoutes.EditTask.withArgs("0")) {
                 launchSingleTop = true
             }
         }

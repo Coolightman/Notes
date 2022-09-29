@@ -1,10 +1,7 @@
 package by.coolightman.notes.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -23,16 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import by.coolightman.notes.ui.model.BottomTab
+import by.coolightman.notes.ui.model.BottomTabs
 import by.coolightman.notes.ui.theme.GrayContent
 
 @Composable
 fun AppBottomBar(
     navController: NavHostController
 ) {
-    val bottomNavList = remember {
-        listOf(BottomTab.Notes, BottomTab.Tasks)
-    }
+    val bottomTabs = remember { BottomTabs.values() }
+
+    val bottomRoutes = remember { BottomTabs.values().map { it.route } }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -41,26 +38,18 @@ fun AppBottomBar(
     }
 
     val isBottomed by remember {
-        derivedStateOf { currentRoute == BottomTab.Notes.route || currentRoute == BottomTab.Tasks.route }
+        derivedStateOf { currentRoute in bottomRoutes }
     }
 
     if (isBottomed) {
         BottomNavigation(
             modifier = Modifier.clip(RoundedCornerShape(16.dp, 16.dp, 0.dp, 0.dp))
         ) {
-            bottomNavList.forEachIndexed { index, tab ->
+            bottomTabs.forEachIndexed { index, tab ->
                 BottomNavigationItem(
+                    modifier = Modifier.navigationBarsPadding(),
                     alwaysShowLabel = false,
                     selected = currentRoute == tab.route,
-                    onClick = {
-                        navController.navigate(tab.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
                     icon = {
                         Icon(
                             painter = painterResource(tab.icon),
@@ -70,9 +59,19 @@ fun AppBottomBar(
                     },
                     label = {
                         Text(text = stringResource(tab.title))
+                    },
+                    onClick = {
+                        navController.navigate(tab.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 )
-                if (index < bottomNavList.size - 1) {
+
+                if (index < bottomTabs.size - 1) {
                     Spacer(
                         modifier = Modifier
                             .fillMaxHeight(0.8f)

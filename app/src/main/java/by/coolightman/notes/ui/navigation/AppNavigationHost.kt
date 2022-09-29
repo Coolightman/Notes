@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import by.coolightman.notes.ui.model.NavRoute
+import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.screens.editNoteScreen.EditNoteScreen
 import by.coolightman.notes.ui.screens.editTaskScreen.EditTaskScreen
 import by.coolightman.notes.ui.screens.notesScreen.NotesScreen
@@ -33,10 +33,10 @@ fun AppNavigationHost(
     AnimatedNavHost(navController = navController, startDestination = startDestination) {
 
         composable(
-            route = NavRoute.Notes.route,
+            route = NavRoutes.Notes.route,
             enterTransition = {
                 when (initialState.destination.route) {
-                    NavRoute.Tasks.route -> slideIntoContainer(
+                    NavRoutes.Tasks.route -> slideIntoContainer(
                         towards = AnimatedContentScope.SlideDirection.Right,
                         animationSpec = tween(SLIDE_TRANSITION_TIME)
                     )
@@ -45,7 +45,7 @@ fun AppNavigationHost(
             },
             exitTransition = {
                 when (targetState.destination.route) {
-                    NavRoute.Tasks.route -> slideOutOfContainer(
+                    NavRoutes.Tasks.route -> slideOutOfContainer(
                         towards = AnimatedContentScope.SlideDirection.Left,
                         animationSpec = tween(SLIDE_TRANSITION_TIME)
                     )
@@ -59,7 +59,7 @@ fun AppNavigationHost(
         }
 
         composable(
-            route = NavRoute.EditNote.route + "/{$ARG_NOTE_ID}",
+            route = NavRoutes.EditNote.route + "/{$ARG_NOTE_ID}",
             enterTransition = { fadeIn(animationSpec = tween(TRANSITION_TIME)) },
             exitTransition = { fadeOut(animationSpec = tween(TRANSITION_TIME)) },
             arguments = listOf(
@@ -74,7 +74,7 @@ fun AppNavigationHost(
         }
 
         composable(
-            route = NavRoute.NotesTrash.route,
+            route = NavRoutes.NotesTrash.route,
             enterTransition = { fadeIn(animationSpec = tween(TRANSITION_TIME)) },
             exitTransition = { fadeOut(animationSpec = tween(TRANSITION_TIME)) }
         ) {
@@ -84,10 +84,10 @@ fun AppNavigationHost(
         }
 
         composable(
-            route = NavRoute.Tasks.route,
+            route = NavRoutes.Tasks.route,
             enterTransition = {
                 when (initialState.destination.route) {
-                    NavRoute.Notes.route -> slideIntoContainer(
+                    NavRoutes.Notes.route -> slideIntoContainer(
                         towards = AnimatedContentScope.SlideDirection.Left,
                         animationSpec = tween(SLIDE_TRANSITION_TIME)
                     )
@@ -96,7 +96,7 @@ fun AppNavigationHost(
             },
             exitTransition = {
                 when (targetState.destination.route) {
-                    NavRoute.Notes.route -> slideOutOfContainer(
+                    NavRoutes.Notes.route -> slideOutOfContainer(
                         towards = AnimatedContentScope.SlideDirection.Right,
                         animationSpec = tween(SLIDE_TRANSITION_TIME)
                     )
@@ -110,7 +110,7 @@ fun AppNavigationHost(
         }
 
         composable(
-            route = NavRoute.EditTask.route + "/{$ARG_TASK_ID}",
+            route = NavRoutes.EditTask.route + "/{$ARG_TASK_ID}",
             enterTransition = { fadeIn(animationSpec = tween(TRANSITION_TIME)) },
             exitTransition = { fadeOut(animationSpec = tween(TRANSITION_TIME)) },
             arguments = listOf(

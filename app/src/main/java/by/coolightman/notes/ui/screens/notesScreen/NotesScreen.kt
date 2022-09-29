@@ -1,5 +1,7 @@
 package by.coolightman.notes.ui.screens.notesScreen
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +26,11 @@ fun NotesScreen(
             textId = R.string.no_notes
         )
     } else {
+        LazyColumn{
+            items(state.list){
+                
+            }
+        }
 
     }
 
