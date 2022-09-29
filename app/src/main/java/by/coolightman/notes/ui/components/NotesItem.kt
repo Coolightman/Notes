@@ -22,7 +22,6 @@ import by.coolightman.notes.util.toFormattedDate
 fun NotesItem(item: Note) {
     Card(
         backgroundColor = Color(item.color),
-        elevation = 1.dp,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -39,7 +38,7 @@ fun NotesItem(item: Note) {
                     style = MaterialTheme.typography.body1,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 4.dp)
                 )
             } else {
                 Spacer(
@@ -49,7 +48,6 @@ fun NotesItem(item: Note) {
                 )
             }
             Card(
-                elevation = 2.dp,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

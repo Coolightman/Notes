@@ -28,8 +28,11 @@ fun NotesScreen(
         )
     } else {
         LazyColumn {
-            items(state.list) {
-                NotesItem(item = it)
+            items(
+                items = state.list,
+                key = { note -> note.id }
+            ) { note ->
+                NotesItem(item = note)
             }
         }
     }
