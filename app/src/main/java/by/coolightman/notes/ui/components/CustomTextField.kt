@@ -39,6 +39,11 @@ fun CustomTextField(
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
 
+    LaunchedEffect(Unit){
+        focusRequester.requestFocus()
+        keyboardController?.show()
+    }
+
     BasicTextField(
         value = text,
         onValueChange = { onValueChange(it) },
@@ -72,8 +77,4 @@ fun CustomTextField(
             .fillMaxWidth()
             .padding(12.dp, 8.dp, 12.dp, 0.dp)
     )
-    LaunchedEffect(Unit){
-        focusRequester.requestFocus()
-        keyboardController?.show()
-    }
 }
