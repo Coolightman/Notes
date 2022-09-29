@@ -13,9 +13,11 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -25,7 +27,10 @@ import by.coolightman.notes.ui.components.NoteTitleField
 import by.coolightman.notes.ui.components.SelectColorBar
 import by.coolightman.notes.ui.model.ItemColors
 import by.coolightman.notes.util.toFormattedDate
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EditNoteScreen(
     navController: NavController,
@@ -54,6 +59,8 @@ fun EditNoteScreen(
     val itemColors = remember { ItemColors.values() }
 
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -96,10 +103,7 @@ fun EditNoteScreen(
                                 onValueChange = {
                                     text = it
                                 },
-                                focusManager = focusManager,
-                                onDoneKeyboardAction = {
-                                    saveNote(text, viewModel, title, selectedColor, navController)
-                                }
+                                keyboardController = keyboardController
                             )
                         }
                         DateText(text = dateText)
@@ -119,7 +123,14 @@ fun EditNoteScreen(
         ) {
             TextButton(
                 onClick = {
-                    saveNote(text, viewModel, title, selectedColor, navController)
+                    if (text.isNotEmpty()) {
+                        keyboardController?.hide()
+                        viewModel.saveNote(title, text, selectedColor)
+                        scope.launch {
+                            delay(100)
+                            navController.popBackStack()
+                        }
+                    }
                 },
                 modifier = Modifier
                     .padding(8.dp)
@@ -132,18 +143,5 @@ fun EditNoteScreen(
             }
         }
 
-    }
-}
-
-private fun saveNote(
-    text: String,
-    viewModel: EditNoteViewModel,
-    title: String,
-    selectedColor: Int,
-    navController: NavController
-) {
-    if (text.isNotEmpty()) {
-        viewModel.saveNote(title, text, selectedColor)
-        navController.popBackStack()
     }
 }
