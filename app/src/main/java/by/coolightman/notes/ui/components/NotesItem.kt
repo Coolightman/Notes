@@ -29,7 +29,7 @@ fun NotesItem(item: Note) {
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp, 8.dp, 8.dp, 0.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -41,7 +41,6 @@ fun NotesItem(item: Note) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .defaultMinSize(minHeight = 48.dp)
                 ) {
                     Text(
                         textAlign = TextAlign.Center,
@@ -52,6 +51,7 @@ fun NotesItem(item: Note) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(2.dp)
                             .align(Alignment.Center)
                     )
                 }
@@ -63,6 +63,7 @@ fun NotesItem(item: Note) {
                 )
             }
             Card(
+                shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

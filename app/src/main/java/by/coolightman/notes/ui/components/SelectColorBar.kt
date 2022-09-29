@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -33,7 +34,7 @@ fun SelectColorBar(
         colors.forEachIndexed { index, itemColor ->
             Box(
                 modifier = Modifier
-                    .size(48.dp, 60.dp)
+                    .size(48.dp)
                     .clip(CircleShape)
                     .background(Color(itemColor.color))
                     .clickable { onSelect(index) }
@@ -42,7 +43,7 @@ fun SelectColorBar(
                     Icon(
                         imageVector = Icons.Default.Done,
                         contentDescription = null,
-                        tint = MaterialTheme.colors.onSurface,
+                        tint = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
