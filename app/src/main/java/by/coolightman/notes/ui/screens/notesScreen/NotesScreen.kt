@@ -4,15 +4,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.*
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
+import by.coolightman.notes.ui.components.DeleteSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.NotesItem
-import kotlinx.coroutines.delay
+import by.coolightman.notes.ui.model.NavRoutes
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NotesScreen(
     navController: NavController,
@@ -20,21 +23,11 @@ fun NotesScreen(
 ) {
     val state = viewModel.uiState
 
-    var isSplashVisible by remember {
-        mutableStateOf(false)
-    }
-
     if (state.list.isEmpty()) {
-        LaunchedEffect(Unit){
-            delay(200)
-            isSplashVisible = true
-        }
-        if (isSplashVisible) {
-            EmptyContentSplash(
-                iconId = R.drawable.ic_outline_note_64,
-                textId = R.string.no_notes
-            )
-        }
+        EmptyContentSplash(
+            iconId = R.drawable.ic_outline_note_64,
+            textId = R.string.no_notes
+        )
     } else {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -42,9 +35,27 @@ fun NotesScreen(
         ) {
             items(
                 items = state.list,
-                key = { note -> note.id }
+                key = { it.id }
             ) { note ->
-                NotesItem(item = note)
+                val dismissState = rememberDismissState()
+
+                if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
+                    viewModel.putInNoteTrash(note.id)
+                }
+
+                SwipeToDismiss(
+                    state = dismissState,
+                    directions = setOf(DismissDirection.StartToEnd),
+                    dismissThresholds = { FractionalThreshold(0.25f) },
+                    background = { DeleteSwipeSub(dismissState) }
+                ) {
+                    NotesItem(
+                        item = note,
+                        onClick = {
+                            navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString()))
+                        }
+                    )
+                }
             }
         }
     }

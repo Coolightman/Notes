@@ -2,6 +2,7 @@ package by.coolightman.notes.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -23,12 +24,17 @@ import by.coolightman.notes.ui.model.ItemColors
 import by.coolightman.notes.util.toFormattedDate
 
 @Composable
-fun NotesItem(item: Note) {
+fun NotesItem(
+    item: Note,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
 
     Card(
         shape = RoundedCornerShape(12.dp),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
+            .clickable { onClick() }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -87,7 +93,7 @@ fun NotesItem(item: Note) {
 
                     val dateText = if (item.isEdited) {
                         val edited = stringResource(R.string.edited)
-                        edited + item.editedAt.toFormattedDate()
+                        "$edited " + item.editedAt.toFormattedDate()
                     } else item.createdAt.toFormattedDate()
                     DateText(text = dateText)
                 }
@@ -112,5 +118,5 @@ private fun NotesItemPreview() {
         isEdited = false,
         isInTrash = false
     )
-    NotesItem(item = note)
+    NotesItem(item = note, onClick = {})
 }

@@ -11,7 +11,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -38,20 +37,20 @@ fun EditNoteScreen(
 ) {
     val state = viewModel.uiState
 
-    var title by rememberSaveable {
+    var title by remember {
         mutableStateOf(state.title)
     }
 
-    var text by rememberSaveable {
+    var text by remember {
         mutableStateOf(state.text)
     }
 
-    val dateText by rememberSaveable {
+    val dateText by remember {
         mutableStateOf(System.currentTimeMillis().toFormattedDate())
     }
 
-    var selectedColor by rememberSaveable {
-        mutableStateOf(0)
+    var selectedColor by remember {
+        mutableStateOf(state.colorIndex)
     }
 
     val scrollState = rememberScrollState()
@@ -142,6 +141,5 @@ fun EditNoteScreen(
                 )
             }
         }
-
     }
 }
