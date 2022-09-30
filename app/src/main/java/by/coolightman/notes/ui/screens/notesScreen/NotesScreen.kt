@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -31,43 +32,47 @@ fun NotesScreen(
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val state = viewModel.uiState
+    val listState = rememberLazyListState()
 
-    if (state.list.isEmpty()) {
-        EmptyContentSplash(
-            iconId = R.drawable.ic_outline_note_64,
-            textId = R.string.no_notes
-        )
-    } else {
-        Column(modifier = Modifier.fillMaxSize()) {
-            TopAppBar(
-                title = { Text(text = stringResource(id = R.string.notes_title)) },
-                actions = {
-                    IconButton(
-                        onClick = { }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_sort_24),
-                            contentDescription = "sort"
-                        )
-                    }
-
-                    BadgedIcon(
-                        icon = painterResource(id = R.drawable.ic_delete_full_24),
-                        iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
-                        badgeValue = state.trashCount,
-                        onClick = {
-                            navController.navigate(NavRoutes.NotesTrash.route) {
-                                launchSingleTop = true
-                            }
-                        })
-                    IconButton(
-                        onClick = { }
-                    ) {
-                        Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
-                    }
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopAppBar(
+            title = { Text(text = stringResource(id = R.string.notes_title)) },
+            actions = {
+                IconButton(
+                    onClick = { }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_sort_24),
+                        contentDescription = "sort"
+                    )
                 }
+
+                BadgedIcon(
+                    icon = painterResource(id = R.drawable.ic_delete_full_24),
+                    iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
+                    badgeValue = state.trashCount,
+                    onClick = {
+                        navController.navigate(NavRoutes.NotesTrash.route) {
+                            launchSingleTop = true
+                        }
+                    })
+                IconButton(
+                    onClick = { }
+                ) {
+                    Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+                }
+            }
+        )
+
+        if (state.list.isEmpty()) {
+            EmptyContentSplash(
+                iconId = R.drawable.ic_outline_note_64,
+                textId = R.string.no_notes
             )
+        } else {
+
             LazyColumn(
+                state = listState,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(8.dp)
             ) {
@@ -91,7 +96,9 @@ fun NotesScreen(
                         NotesItem(
                             item = note,
                             onClick = {
-                                navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString()))
+                                navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
+                                    launchSingleTop = true
+                                }
                             }
                         )
                     }
@@ -99,4 +106,6 @@ fun NotesScreen(
             }
         }
     }
+
+
 }
