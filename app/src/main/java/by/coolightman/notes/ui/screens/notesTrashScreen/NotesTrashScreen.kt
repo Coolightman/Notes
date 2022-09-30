@@ -80,16 +80,21 @@ fun NotesTrashScreen(
                     items = state.list,
                     key = { it.id }
                 ) { note ->
-                    val dismissState = rememberDismissState()
-
-                    when {
-                        dismissState.isDismissed(DismissDirection.StartToEnd) -> {
-                            viewModel.deleteNote(note.id)
+                    val dismissState = rememberDismissState(
+                        confirmStateChange = {
+                            when(it) {
+                                DismissValue.DismissedToEnd -> {
+                                    viewModel.deleteNote(note.id)
+                                    true
+                                }
+                                DismissValue.DismissedToStart -> {
+                                    viewModel.restoreNote(note.id)
+                                    true
+                                }
+                                else -> true
+                            }
                         }
-                        dismissState.isDismissed(DismissDirection.EndToStart) -> {
-                            viewModel.restoreNote(note.id)
-                        }
-                    }
+                    )
 
                     SwipeToDismiss(
                         state = dismissState,

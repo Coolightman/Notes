@@ -80,13 +80,14 @@ fun NotesScreen(
                     items = state.list,
                     key = { it.id }
                 ) { note ->
-                    val dismissState = rememberDismissState()
-
-                    if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
-                        viewModel.putInNoteTrash(note.id)
-                    }
-
-
+                    val dismissState = rememberDismissState(
+                        confirmStateChange = {
+                            if (it == DismissValue.DismissedToEnd) {
+                                viewModel.putInNoteTrash(note.id)
+                            }
+                            true
+                        }
+                    )
 
                     SwipeToDismiss(
                         state = dismissState,
