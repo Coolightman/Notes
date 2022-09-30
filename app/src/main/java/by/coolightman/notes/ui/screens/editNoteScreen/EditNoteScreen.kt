@@ -38,11 +38,11 @@ fun EditNoteScreen(
     val state = viewModel.uiState
 
     var title by remember {
-        mutableStateOf(state.title)
+        mutableStateOf("")
     }
 
     var text by remember {
-        mutableStateOf(state.text)
+        mutableStateOf("")
     }
 
     val dateText by remember {
@@ -50,7 +50,13 @@ fun EditNoteScreen(
     }
 
     var selectedColor by remember {
-        mutableStateOf(state.colorIndex)
+        mutableStateOf(0)
+    }
+
+    LaunchedEffect(key1 = state){
+        title = state.title
+        text = state.text
+        selectedColor = state.colorIndex
     }
 
     val scrollState = rememberScrollState()
