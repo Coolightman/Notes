@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
 
 private const val ANIMATE_DURATION = 400
+private const val GRADIENT_START = 20f
+private const val GRADIENT_END = 700f
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -34,11 +36,11 @@ fun DeleteRestoreSwipeSub(
     }
 
     var brushStartOffset by remember {
-        mutableStateOf(Offset(50f, 0f))
+        mutableStateOf(Offset(GRADIENT_START, 0f))
     }
 
     var brushEndOffset by remember {
-        mutableStateOf(Offset(400f, 0f))
+        mutableStateOf(Offset(GRADIENT_END, 0f))
     }
 
     var rowXSize by remember {
@@ -56,15 +58,15 @@ fun DeleteRestoreSwipeSub(
     when (dismissState.targetValue) {
         DismissValue.DismissedToStart -> {
             backgroundColor = Color.Green.copy(0.2f)
-            brushStartOffset = Offset(rowXSize - 50f, 0f)
-            brushEndOffset = Offset(rowXSize - 400f, 0f)
+            brushStartOffset = Offset(rowXSize - GRADIENT_START, 0f)
+            brushEndOffset = Offset(rowXSize - GRADIENT_END, 0f)
             deleteIconTint = Color.Transparent
             restoreIconTint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
         }
         DismissValue.DismissedToEnd -> {
             backgroundColor = Color.Red.copy(0.2f)
-            brushStartOffset = Offset(50f, 0f)
-            brushEndOffset = Offset(400f, 0f)
+            brushStartOffset = Offset(GRADIENT_START, 0f)
+            brushEndOffset = Offset(GRADIENT_END, 0f)
             deleteIconTint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
             restoreIconTint = Color.Transparent
         }
@@ -159,8 +161,8 @@ fun DeleteSwipeSub(
                         Color.Transparent,
                         background
                     ),
-                    startX = 50f,
-                    endX = 400f
+                    startX = GRADIENT_START,
+                    endX = GRADIENT_END
                 )
             )
     ) {

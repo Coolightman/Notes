@@ -37,7 +37,7 @@ fun BadgedIcon(
             )
             Box(
                 modifier = Modifier
-                    .offset(x = 13.dp, y = (-13).dp)
+                    .offset(x = 16.dp, y = (-16).dp)
                     .defaultMinSize(16.dp, 16.dp)
                     .background(
                         color = badgeColor,

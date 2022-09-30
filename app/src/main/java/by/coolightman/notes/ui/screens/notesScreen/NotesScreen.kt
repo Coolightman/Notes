@@ -86,6 +86,8 @@ fun NotesScreen(
                         viewModel.putInNoteTrash(note.id)
                     }
 
+
+
                     SwipeToDismiss(
                         state = dismissState,
                         directions = setOf(DismissDirection.StartToEnd),
