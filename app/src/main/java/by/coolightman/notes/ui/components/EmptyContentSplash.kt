@@ -2,6 +2,7 @@ package by.coolightman.notes.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +33,8 @@ fun EmptyContentSplash(
         isSplashVisible = true
     }
 
+    val animatedColor by animateColorAsState(targetValue = color)
+
     if (isSplashVisible) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -49,7 +52,7 @@ fun EmptyContentSplash(
                     Icon(
                         painter = painterResource(iconId),
                         contentDescription = "splash",
-                        tint = color
+                        tint = animatedColor
                     )
                 }
 
@@ -57,7 +60,7 @@ fun EmptyContentSplash(
                     Text(
                         text = stringResource(textId),
                         style = MaterialTheme.typography.subtitle2,
-                        color = color
+                        color = animatedColor
                     )
                 }
             }

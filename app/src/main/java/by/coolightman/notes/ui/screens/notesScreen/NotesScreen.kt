@@ -1,15 +1,23 @@
 package by.coolightman.notes.ui.screens.notesScreen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
+import by.coolightman.notes.ui.components.BadgedIcon
 import by.coolightman.notes.ui.components.DeleteSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.NotesItem
@@ -29,32 +37,58 @@ fun NotesScreen(
             textId = R.string.no_notes
         )
     } else {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp)
-        ) {
-            items(
-                items = state.list,
-                key = { it.id }
-            ) { note ->
-                val dismissState = rememberDismissState()
+        Column(modifier = Modifier.fillMaxSize()) {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.notes_title)) },
+                actions = {
+                    IconButton(
+                        onClick = {  }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_sort_24),
+                            contentDescription = "sort"
+                        )
+                    }
 
-                if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
-                    viewModel.putInNoteTrash(note.id)
+                    BadgedIcon(
+                        icon = painterResource(id = R.drawable.ic_delete_full_24),
+                        iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
+                        badgeValue = state.trashCount,
+                        onClick = { navController.navigate(NavRoutes.NotesTrash.route) })
+                    IconButton(
+                        onClick = {  }
+                    ) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+                    }
                 }
+            )
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp)
+            ) {
+                items(
+                    items = state.list,
+                    key = { it.id }
+                ) { note ->
+                    val dismissState = rememberDismissState()
 
-                SwipeToDismiss(
-                    state = dismissState,
-                    directions = setOf(DismissDirection.StartToEnd),
-                    dismissThresholds = { FractionalThreshold(0.15f) },
-                    background = { DeleteSwipeSub(dismissState) }
-                ) {
-                    NotesItem(
-                        item = note,
-                        onClick = {
-                            navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString()))
-                        }
-                    )
+                    if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
+                        viewModel.putInNoteTrash(note.id)
+                    }
+
+                    SwipeToDismiss(
+                        state = dismissState,
+                        directions = setOf(DismissDirection.StartToEnd),
+                        dismissThresholds = { FractionalThreshold(0.2f) },
+                        background = { DeleteSwipeSub(dismissState) }
+                    ) {
+                        NotesItem(
+                            item = note,
+                            onClick = {
+                                navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString()))
+                            }
+                        )
+                    }
                 }
             }
         }
