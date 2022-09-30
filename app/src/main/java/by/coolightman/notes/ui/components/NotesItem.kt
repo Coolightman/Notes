@@ -34,12 +34,12 @@ fun NotesItem(
         shape = RoundedCornerShape(12.dp),
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick() }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { onClick() }
                 .background(Color(ItemColors.values()[item.colorIndex].color))
         ) {
             if (item.title.isNotEmpty()) {
