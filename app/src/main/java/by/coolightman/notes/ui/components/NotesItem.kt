@@ -64,7 +64,7 @@ fun NotesItem(
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(12.dp)
+                        .height(8.dp)
                 )
             }
             Card(

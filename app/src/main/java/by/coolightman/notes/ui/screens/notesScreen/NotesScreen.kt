@@ -46,7 +46,7 @@ fun NotesScreen(
                 SwipeToDismiss(
                     state = dismissState,
                     directions = setOf(DismissDirection.StartToEnd),
-                    dismissThresholds = { FractionalThreshold(0.25f) },
+                    dismissThresholds = { FractionalThreshold(0.15f) },
                     background = { DeleteSwipeSub(dismissState) }
                 ) {
                     NotesItem(
