@@ -1,5 +1,6 @@
 package by.coolightman.notes.ui.screens.notesScreen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,7 +24,7 @@ import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.NotesItem
 import by.coolightman.notes.ui.model.NavRoutes
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
     navController: NavController,
@@ -42,7 +43,7 @@ fun NotesScreen(
                 title = { Text(text = stringResource(id = R.string.notes_title)) },
                 actions = {
                     IconButton(
-                        onClick = {  }
+                        onClick = { }
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_sort_24),
@@ -54,9 +55,13 @@ fun NotesScreen(
                         icon = painterResource(id = R.drawable.ic_delete_full_24),
                         iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
                         badgeValue = state.trashCount,
-                        onClick = { navController.navigate(NavRoutes.NotesTrash.route) })
+                        onClick = {
+                            navController.navigate(NavRoutes.NotesTrash.route) {
+                                launchSingleTop = true
+                            }
+                        })
                     IconButton(
-                        onClick = {  }
+                        onClick = { }
                     ) {
                         Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
                     }
@@ -64,7 +69,7 @@ fun NotesScreen(
             )
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp)
+                contentPadding = PaddingValues(8.dp)
             ) {
                 items(
                     items = state.list,
@@ -80,7 +85,8 @@ fun NotesScreen(
                         state = dismissState,
                         directions = setOf(DismissDirection.StartToEnd),
                         dismissThresholds = { FractionalThreshold(0.2f) },
-                        background = { DeleteSwipeSub(dismissState) }
+                        background = { DeleteSwipeSub(dismissState) },
+                        modifier = Modifier.animateItemPlacement()
                     ) {
                         NotesItem(
                             item = note,
