@@ -11,13 +11,13 @@ enum class BottomTabs(
 ) {
     NOTES(
         R.string.notes_title,
-        R.drawable.ic_outline_note_64,
+        R.drawable.ic_note_24,
         NavRoutes.Notes.route
     ),
 
     TASKS(
         R.string.tasks_title,
-        R.drawable.ic_baseline_task_alt_64,
+        R.drawable.ic_task_24,
         NavRoutes.Tasks.route
     )
 }

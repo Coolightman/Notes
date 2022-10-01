@@ -68,7 +68,7 @@ fun NotesScreen(
 
         if (state.list.isEmpty()) {
             EmptyContentSplash(
-                iconId = R.drawable.ic_outline_note_64,
+                iconId = R.drawable.ic_note_24,
                 textId = R.string.no_notes
             )
         } else {

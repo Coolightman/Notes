@@ -52,7 +52,7 @@ fun NotesTrashScreen(
                     onClick = { viewModel.restoreAllTrash() }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_restore_from_trash_24),
+                        painter = painterResource(id = R.drawable.ic_restore_trash_24),
                         contentDescription = "restore all"
                     )
                 }
@@ -69,7 +69,7 @@ fun NotesTrashScreen(
 
         if (state.list.isEmpty()) {
             EmptyContentSplash(
-                iconId = R.drawable.ic_baseline_delete_outline_24,
+                iconId = R.drawable.ic_delete_empty_24,
                 textId = R.string.no_trash
             )
         } else {

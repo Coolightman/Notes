@@ -46,7 +46,7 @@ fun NotesFAB(
         }
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_outline_note_add_24),
+            painter = painterResource(id = R.drawable.ic_add_note_24),
             contentDescription = "add note"
         )
     }
@@ -65,7 +65,7 @@ fun TasksFAB(
         }
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_add_task_24),
+            painter = painterResource(id = R.drawable.ic_add_task_24),
             contentDescription = "add note"
         )
     }

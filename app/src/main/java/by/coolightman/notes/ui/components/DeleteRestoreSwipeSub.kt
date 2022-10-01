@@ -46,7 +46,7 @@ fun DeleteRestoreSwipeSub(
 
     val icon = when (direction) {
         DismissDirection.StartToEnd -> painterResource(R.drawable.ic_delete_forever_24)
-        else -> painterResource(R.drawable.ic_restore_from_trash_24)
+        else -> painterResource(R.drawable.ic_restore_trash_24)
     }
 
     val alignment = when (direction) {
