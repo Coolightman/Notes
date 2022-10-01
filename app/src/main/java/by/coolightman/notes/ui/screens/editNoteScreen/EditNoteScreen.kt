@@ -76,7 +76,7 @@ fun EditNoteScreen(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(12.dp)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

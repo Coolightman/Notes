@@ -37,7 +37,7 @@ fun NoteTitleField(
     Box(
         Modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 48.dp)
+            .padding(2.dp)
     ) {
         BasicTextField(
             value = title,

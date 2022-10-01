@@ -75,8 +75,8 @@ fun NotesScreen(
 
             LazyColumn(
                 state = listState,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                contentPadding = PaddingValues(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(
