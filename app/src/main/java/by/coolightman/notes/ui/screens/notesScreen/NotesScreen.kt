@@ -21,7 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.*
+import by.coolightman.notes.ui.components.BadgedIcon
+import by.coolightman.notes.ui.components.DeleteSwipeSub
+import by.coolightman.notes.ui.components.EmptyContentSplash
+import by.coolightman.notes.ui.components.NotesItem
 import by.coolightman.notes.ui.model.NavRoutes
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)

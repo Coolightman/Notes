@@ -68,42 +68,14 @@ fun DeleteRestoreSwipeSub(
         mutableStateOf(0)
     }
 
-//    val backgroundModifier = when (direction) {
-//        DismissDirection.EndToStart -> Modifier
-//            .clip(RoundedCornerShape(12.dp))
-//            .background(
-//                brush = Brush.linearGradient(
-//                    colors = listOf(
-//                        Color.Transparent,
-//                        color
-//                    ),
-//                    start = Offset(rowXSize - GRADIENT_START, 0f),
-//                    end = Offset(rowXSize - GRADIENT_END, 0f)
-//                )
-//            )
-//        DismissDirection.StartToEnd -> Modifier
-//            .clip(RoundedCornerShape(12.dp))
-//            .background(
-//                brush = Brush.linearGradient(
-//                    colors = listOf(
-//                        Color.Transparent,
-//                        color
-//                    ),
-//                    start = Offset(GRADIENT_START, 0f),
-//                    end = Offset(GRADIENT_END, 0f)
-//                )
-//            )
-//        else -> Modifier.background(color)
-//    }
-
     val brushOffsetStart = when (direction) {
-        DismissDirection.EndToStart ->Offset(rowXSize - GRADIENT_START, 0f)
-        else ->Offset(GRADIENT_START, 0f)
+        DismissDirection.EndToStart -> Offset(rowXSize - GRADIENT_START, 0f)
+        else -> Offset(GRADIENT_START, 0f)
     }
 
     val brushOffsetEnd = when (direction) {
-        DismissDirection.EndToStart ->Offset(rowXSize - GRADIENT_END, 0f)
-        else ->Offset(GRADIENT_END, 0f)
+        DismissDirection.EndToStart -> Offset(rowXSize - GRADIENT_END, 0f)
+        else -> Offset(GRADIENT_END, 0f)
     }
 
     Box(
