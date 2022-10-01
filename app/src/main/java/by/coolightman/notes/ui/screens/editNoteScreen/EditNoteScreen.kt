@@ -82,7 +82,7 @@ fun EditNoteScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(itemColors[selectedColor].color))
+                    .background(Color(itemColors[selectedColor].color).copy(0.8f))
             ) {
                 NoteTitleField(
                     title = title,
@@ -97,6 +97,7 @@ fun EditNoteScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .background(Color(itemColors[selectedColor].color).copy(0.05f))
                     ) {
                         Box(
                             modifier = Modifier

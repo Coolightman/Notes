@@ -43,7 +43,7 @@ fun NotesItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick() }
-                .background(Color(ItemColors.values()[item.colorIndex].color))
+                .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.8f))
         ) {
             if (item.title.isNotEmpty()) {
                 Box(
@@ -67,7 +67,7 @@ fun NotesItem(
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(8.dp)
+                        .height(4.dp)
                 )
             }
             Card(
@@ -78,6 +78,7 @@ fun NotesItem(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.05f))
                 ) {
                     Box(
                         modifier = Modifier

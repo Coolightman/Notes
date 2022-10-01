@@ -36,7 +36,7 @@ fun SelectColorBar(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(Color(itemColor.color))
+                    .background(Color(itemColor.color).copy(0.8f))
                     .clickable { onSelect(index) }
             ){
                 if (index == selected){
