@@ -1,5 +1,7 @@
 package by.coolightman.notes.ui.screens.notesScreen
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,10 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.BadgedIcon
-import by.coolightman.notes.ui.components.DeleteSwipeSub
-import by.coolightman.notes.ui.components.EmptyContentSplash
-import by.coolightman.notes.ui.components.NotesItem
+import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
@@ -74,7 +73,8 @@ fun NotesScreen(
             LazyColumn(
                 state = listState,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(8.dp)
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.fillMaxSize()
             ) {
                 items(
                     items = state.list,
@@ -96,8 +96,14 @@ fun NotesScreen(
                         background = { DeleteSwipeSub(dismissState) },
                         modifier = Modifier.animateItemPlacement()
                     ) {
+                        val elevation = animateDpAsState(
+                            targetValue = if (dismissState.dismissDirection != null) 10.dp else 2.dp,
+                            animationSpec = tween(100)
+                        )
+
                         NotesItem(
                             item = note,
+                            elevation = elevation.value,
                             onClick = {
                                 navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
                                     launchSingleTop = true

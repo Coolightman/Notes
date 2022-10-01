@@ -1,5 +1,7 @@
 package by.coolightman.notes.ui.screens.notesTrashScreen
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -74,7 +76,8 @@ fun NotesTrashScreen(
             LazyColumn(
                 state = listState,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(8.dp)
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.fillMaxSize()
             ) {
                 items(
                     items = state.list,
@@ -82,7 +85,7 @@ fun NotesTrashScreen(
                 ) { note ->
                     val dismissState = rememberDismissState(
                         confirmStateChange = {
-                            when(it) {
+                            when (it) {
                                 DismissValue.DismissedToEnd -> {
                                     viewModel.deleteNote(note.id)
                                     true
@@ -106,8 +109,14 @@ fun NotesTrashScreen(
                         background = { DeleteRestoreSwipeSub(dismissState) },
                         modifier = Modifier.animateItemPlacement()
                     ) {
+                        val elevation = animateDpAsState(
+                            targetValue = if (dismissState.dismissDirection != null) 10.dp else 2.dp,
+                            animationSpec = tween(100)
+                        )
+
                         NotesItem(
                             item = note,
+                            elevation = elevation.value,
                             onClick = {}
                         )
                     }

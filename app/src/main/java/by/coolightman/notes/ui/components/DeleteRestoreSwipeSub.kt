@@ -4,14 +4,15 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -22,8 +23,9 @@ import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
 
 private const val ANIMATE_DURATION = 400
-private const val GRADIENT_START = 20f
-private const val GRADIENT_END = 700f
+private const val GRADIENT_START = 10f
+private const val GRADIENT_END = 200f
+private const val COLOR_ALFA = 0.2f
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -31,99 +33,102 @@ fun DeleteRestoreSwipeSub(
     dismissState: DismissState
 ) {
 
-    var backgroundColor by remember {
-        mutableStateOf(Color.Transparent)
+    val direction = dismissState.dismissDirection
+
+    val color by animateColorAsState(
+        targetValue = when (dismissState.targetValue) {
+            DismissValue.DismissedToEnd -> Color.Red.copy(COLOR_ALFA)
+            DismissValue.DismissedToStart -> Color.Green.copy(COLOR_ALFA)
+            DismissValue.Default -> Color.Transparent
+        },
+        animationSpec = tween(ANIMATE_DURATION)
+    )
+
+    val icon = when (direction) {
+        DismissDirection.StartToEnd -> painterResource(R.drawable.ic_delete_forever_24)
+        else -> painterResource(R.drawable.ic_restore_from_trash_24)
     }
 
-    var brushStartOffset by remember {
-        mutableStateOf(Offset(GRADIENT_START, 0f))
+    val alignment = when (direction) {
+        DismissDirection.EndToStart -> Alignment.CenterEnd
+        else -> Alignment.CenterStart
     }
 
-    var brushEndOffset by remember {
-        mutableStateOf(Offset(GRADIENT_END, 0f))
-    }
+    val iconScale by animateFloatAsState(
+        targetValue = if (dismissState.targetValue == DismissValue.Default) 1.2f else 1.4f,
+        animationSpec = tween(ANIMATE_DURATION)
+    )
+
+    val iconTintAlfa by animateFloatAsState(
+        targetValue = if (dismissState.targetValue == DismissValue.Default) 0.5f else 1.0f,
+        animationSpec = tween(ANIMATE_DURATION)
+    )
 
     var rowXSize by remember {
         mutableStateOf(0)
     }
 
-    var deleteIconTint by remember {
-        mutableStateOf(Color.Transparent)
+//    val backgroundModifier = when (direction) {
+//        DismissDirection.EndToStart -> Modifier
+//            .clip(RoundedCornerShape(12.dp))
+//            .background(
+//                brush = Brush.linearGradient(
+//                    colors = listOf(
+//                        Color.Transparent,
+//                        color
+//                    ),
+//                    start = Offset(rowXSize - GRADIENT_START, 0f),
+//                    end = Offset(rowXSize - GRADIENT_END, 0f)
+//                )
+//            )
+//        DismissDirection.StartToEnd -> Modifier
+//            .clip(RoundedCornerShape(12.dp))
+//            .background(
+//                brush = Brush.linearGradient(
+//                    colors = listOf(
+//                        Color.Transparent,
+//                        color
+//                    ),
+//                    start = Offset(GRADIENT_START, 0f),
+//                    end = Offset(GRADIENT_END, 0f)
+//                )
+//            )
+//        else -> Modifier.background(color)
+//    }
+
+    val brushOffsetStart = when (direction) {
+        DismissDirection.EndToStart ->Offset(rowXSize - GRADIENT_START, 0f)
+        else ->Offset(GRADIENT_START, 0f)
     }
 
-    var restoreIconTint by remember {
-        mutableStateOf(Color.Transparent)
+    val brushOffsetEnd = when (direction) {
+        DismissDirection.EndToStart ->Offset(rowXSize - GRADIENT_END, 0f)
+        else ->Offset(GRADIENT_END, 0f)
     }
 
-    when (dismissState.targetValue) {
-        DismissValue.DismissedToStart -> {
-            backgroundColor = Color.Green.copy(0.2f)
-            brushStartOffset = Offset(rowXSize - GRADIENT_START, 0f)
-            brushEndOffset = Offset(rowXSize - GRADIENT_END, 0f)
-            deleteIconTint = Color.Transparent
-            restoreIconTint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-        }
-        DismissValue.DismissedToEnd -> {
-            backgroundColor = Color.Red.copy(0.2f)
-            brushStartOffset = Offset(GRADIENT_START, 0f)
-            brushEndOffset = Offset(GRADIENT_END, 0f)
-            deleteIconTint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-            restoreIconTint = Color.Transparent
-        }
-        DismissValue.Default ->{
-            backgroundColor = Color.Transparent
-            restoreIconTint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-            deleteIconTint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
-        }
-    }
-
-    val background by animateColorAsState(
-        targetValue = backgroundColor,
-        animationSpec = tween(ANIMATE_DURATION)
-    )
-
-    val scale by animateFloatAsState(
-        targetValue = when (dismissState.targetValue) {
-            DismissValue.Default -> 1.2f
-            else -> 1.4f
-        },
-        animationSpec = tween(ANIMATE_DURATION)
-    )
-
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
+        contentAlignment = alignment,
         modifier = Modifier
             .fillMaxSize()
-            .onGloballyPositioned { coordinates -> rowXSize = coordinates.size.width }
+            .clip(RoundedCornerShape(12.dp))
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
                         Color.Transparent,
-                        background
+                        color
                     ),
-                    start = brushStartOffset,
-                    end = brushEndOffset
+                    start = brushOffsetStart,
+                    end = brushOffsetEnd
                 )
             )
-    ) {
+            .onGloballyPositioned { coordinates -> rowXSize = coordinates.size.width }
+            .padding(horizontal = 24.dp))
+    {
         Icon(
-            painter = painterResource(R.drawable.ic_delete_forever_24),
-            contentDescription = "delete action",
-            tint = deleteIconTint,
-            modifier = Modifier
-                .padding(horizontal = 24.dp, vertical = 8.dp)
-                .scale(scaleX = -1f, scaleY = 1f)
-                .scale(scale)
-        )
-
-        Icon(
-            painter = painterResource(R.drawable.ic_restore_from_trash_24),
-            contentDescription = "restore action",
-            tint = restoreIconTint,
-            modifier = Modifier
-                .padding(horizontal = 24.dp, vertical = 8.dp)
-                .scale(scale)
+            painter = icon,
+            contentDescription = "icon",
+            tint = LocalContentColor.current.copy(iconTintAlfa),
+            modifier = Modifier.scale(iconScale)
         )
     }
 
@@ -134,15 +139,15 @@ fun DeleteRestoreSwipeSub(
 fun DeleteSwipeSub(
     dismissState: DismissState
 ) {
-    val background by animateColorAsState(
+    val color by animateColorAsState(
         targetValue = when (dismissState.targetValue) {
             DismissValue.Default -> Color.Transparent
-            else -> Color.Red.copy(0.2f)
+            else -> Color.Red.copy(COLOR_ALFA)
         },
         animationSpec = tween(ANIMATE_DURATION)
     )
 
-    val scale by animateFloatAsState(
+    val iconScale by animateFloatAsState(
         targetValue = when (dismissState.targetValue) {
             DismissValue.Default -> 1.2f
             else -> 1.4f
@@ -150,29 +155,39 @@ fun DeleteSwipeSub(
         animationSpec = tween(ANIMATE_DURATION)
     )
 
-    Row(
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
+    val iconTintAlfa by animateFloatAsState(
+        targetValue = when (dismissState.targetValue) {
+            DismissValue.Default -> 0.5f
+            else -> 1.0f
+        },
+        animationSpec = tween(ANIMATE_DURATION)
+    )
+
+    Box(
+        contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxSize()
+            .clip(RoundedCornerShape(12.dp))
             .background(
-                brush = Brush.horizontalGradient(
+                brush = Brush.linearGradient(
                     colors = listOf(
                         Color.Transparent,
-                        background
+                        color
                     ),
-                    startX = GRADIENT_START,
-                    endX = GRADIENT_END
+                    start = Offset(GRADIENT_START, 0f),
+                    end = Offset(GRADIENT_END, 0f)
                 )
             )
-    ) {
+    )
+    {
         Icon(
             painter = painterResource(R.drawable.ic_delete_sweep_24),
             contentDescription = "delete action",
+            tint = LocalContentColor.current.copy(iconTintAlfa),
             modifier = Modifier
-                .padding(horizontal = 24.dp, vertical = 8.dp)
+                .padding(horizontal = 24.dp)
                 .scale(scaleX = -1f, scaleY = 1f)
-                .scale(scale)
+                .scale(iconScale)
         )
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
@@ -27,11 +28,13 @@ import by.coolightman.notes.util.toFormattedDate
 fun NotesItem(
     item: Note,
     modifier: Modifier = Modifier,
+    elevation: Dp = 2.dp,
     onClick: () -> Unit
 ) {
 
     Card(
         shape = RoundedCornerShape(12.dp),
+        elevation = elevation,
         modifier = modifier
             .fillMaxWidth()
     ) {
