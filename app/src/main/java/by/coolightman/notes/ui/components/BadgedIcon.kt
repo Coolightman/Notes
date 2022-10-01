@@ -24,7 +24,7 @@ fun BadgedIcon(
     icon: Painter,
     iconEmptyBadge: Painter? = null,
     badgeValue: Int,
-    badgeColor: Color = MaterialTheme.colors.primaryVariant.copy(0.7f),
+    badgeColor: Color = MaterialTheme.colors.secondary.copy(0.7f),
     onClick: () -> Unit
 ) {
     IconButton(
