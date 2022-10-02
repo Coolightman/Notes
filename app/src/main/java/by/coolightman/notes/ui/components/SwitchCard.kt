@@ -20,10 +20,11 @@ fun SwitchCard(
     onCheckedChange: () -> Unit
 ) {
     Card(
+        elevation = 2.dp,
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 48.dp)
-            .padding(12.dp)
+            .padding(12.dp, 12.dp, 12.dp, 0.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

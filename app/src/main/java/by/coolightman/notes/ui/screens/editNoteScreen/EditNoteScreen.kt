@@ -17,9 +17,11 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.CustomTextField
 import by.coolightman.notes.ui.components.DateText
 import by.coolightman.notes.ui.components.NoteTitleField
@@ -119,6 +121,7 @@ fun EditNoteScreen(
                     ) {
                         CustomTextField(
                             text = text,
+                            placeholder = stringResource(R.string.text_placeholder),
                             onValueChange = {
                                 text = it
                             },

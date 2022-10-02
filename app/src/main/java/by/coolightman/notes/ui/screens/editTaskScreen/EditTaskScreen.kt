@@ -110,6 +110,7 @@ fun EditTaskScreen(
                 }
                 CustomTextField(
                     text = text,
+                    placeholder = stringResource(R.string.text_placeholder),
                     onValueChange = { text = it },
                     keyboardController = keyboardController,
                     modifier = Modifier

@@ -15,17 +15,16 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.SoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import by.coolightman.notes.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CustomTextField(
-    text: String,
-    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    text: String,
+    placeholder: String = "",
+    onValueChange: (String) -> Unit,
     fontSize: TextUnit = 18.sp,
     keyboardController: SoftwareKeyboardController?
 ) {
@@ -46,13 +45,13 @@ fun CustomTextField(
         cursorBrush = SolidColor(MaterialTheme.colors.primary.copy(alpha = ContentAlpha.high)),
         decorationBox = { innerTextField ->
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 if (text.isEmpty()) {
                     Text(
-                        text = stringResource(R.string.title_placeholder),
+                        text = placeholder,
                         style = MaterialTheme.typography.body1.copy(fontSize = fontSize),
                         color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium)
                     )
