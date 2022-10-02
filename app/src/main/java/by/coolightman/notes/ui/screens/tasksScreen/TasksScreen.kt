@@ -1,5 +1,6 @@
 package by.coolightman.notes.ui.screens.tasksScreen
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
+import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.ui.components.DeleteSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.TasksItem
@@ -42,26 +44,18 @@ fun TasksScreen(
     val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = { },
-            actions = {
-                IconButton(
-                    onClick = { }
-                ) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
-                }
-                IconButton(
-                    onClick = { }
-                ) {
-                    Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
-                }
+        TopAppBar(title = { }, actions = {
+            IconButton(onClick = { }) {
+                Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
             }
-        )
+            IconButton(onClick = { }) {
+                Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+            }
+        })
 
         if (state.list.isEmpty()) {
             EmptyContentSplash(
-                iconId = R.drawable.ic_task_24,
-                textId = R.string.no_tasks
+                iconId = R.drawable.ic_task_24, textId = R.string.no_tasks
             )
         } else {
 
@@ -71,31 +65,17 @@ fun TasksScreen(
                 contentPadding = PaddingValues(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = state.list,
-                    key = { it.id }
-                ) { task ->
-                    val dismissState = rememberDismissState(
-                        confirmStateChange = {
-                            if (it == DismissValue.DismissedToEnd) {
-                                scope.launch {
-                                    delay(DISMISS_DELAY)
-                                    viewModel.deleteTask(task.id)
-                                    val action = scaffoldState.snackbarHostState.showSnackbar(
-                                        message = context.getString(R.string.task_deleted),
-                                        actionLabel = context.getString(R.string.cancel)
-                                    )
-                                    when (action) {
-                                        SnackbarResult.ActionPerformed -> viewModel.cancelDeletion(
-                                            task.id
-                                        )
-                                        SnackbarResult.Dismissed -> {}
-                                    }
-                                }
+                items(items = state.list, key = { it.id }) { task ->
+                    val dismissState = rememberDismissState(confirmStateChange = {
+                        if (it == DismissValue.DismissedToEnd) {
+                            scope.launch {
+                                delay(DISMISS_DELAY)
+                                viewModel.deleteTask(task.id)
+                                showSnackbar(scaffoldState, context, viewModel, task)
                             }
-                            true
                         }
-                    )
+                        true
+                    })
 
                     SwipeToDismiss(
                         state = dismissState,
@@ -109,19 +89,28 @@ fun TasksScreen(
                         },
                         modifier = Modifier.animateItemPlacement()
                     ) {
-                        TasksItem(
-                            item = task,
-                            onClick = {
-                                navController.navigate(NavRoutes.EditTask.withArgs(task.id.toString())) {
-                                    launchSingleTop = true
-                                }
-                            },
-                            onSwitchActive = { viewModel.switchTaskActivity(task.id) }
-                        )
+                        TasksItem(item = task, onClick = {
+                            navController.navigate(NavRoutes.EditTask.withArgs(task.id.toString())) {
+                                launchSingleTop = true
+                            }
+                        }, onSwitchActive = { viewModel.switchTaskActivity(task.id) })
                     }
                 }
             }
 
         }
+    }
+}
+
+private suspend fun showSnackbar(
+    scaffoldState: ScaffoldState, context: Context, viewModel: TasksViewModel, task: Task
+) {
+    val action = scaffoldState.snackbarHostState.showSnackbar(
+        message = context.getString(R.string.task_deleted),
+        actionLabel = context.getString(R.string.cancel)
+    )
+    when (action) {
+        SnackbarResult.ActionPerformed -> viewModel.cancelDeletion(task.id)
+        SnackbarResult.Dismissed -> {}
     }
 }
