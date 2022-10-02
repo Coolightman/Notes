@@ -37,10 +37,10 @@ fun DeleteRestoreSwipeSub(
     val direction = dismissState.dismissDirection
 
     val color by animateColorAsState(
-        targetValue = when (dismissState.targetValue) {
-            DismissValue.DismissedToEnd -> Color.Red.copy(COLOR_ALFA)
-            DismissValue.DismissedToStart -> Color.Green.copy(COLOR_ALFA)
-            DismissValue.Default -> Color.Transparent
+        targetValue = when (direction) {
+            DismissDirection.StartToEnd -> Color.Red.copy(COLOR_ALFA)
+            DismissDirection.EndToStart -> Color.Green.copy(COLOR_ALFA)
+            else -> Color.Transparent
         },
         animationSpec = tween(ANIMATE_DURATION)
     )
@@ -120,9 +120,9 @@ fun DeleteSwipeSub(
     icon: Painter
 ) {
     val color by animateColorAsState(
-        targetValue = when (dismissState.targetValue) {
-            DismissValue.Default -> Color.Transparent
-            else -> Color.Red.copy(COLOR_ALFA)
+        targetValue = when (dismissState.dismissDirection) {
+            DismissDirection.StartToEnd -> Color.Red.copy(COLOR_ALFA)
+            else -> Color.Transparent
         },
         animationSpec = tween(ANIMATE_DURATION)
     )

@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,9 @@ import by.coolightman.notes.ui.components.DeleteSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.TasksItem
 import by.coolightman.notes.ui.model.NavRoutes
+import by.coolightman.notes.util.DISMISS_DELAY
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -31,6 +35,7 @@ fun TasksScreen(
 ) {
     val state = viewModel.uiState
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
@@ -64,7 +69,10 @@ fun TasksScreen(
                     val dismissState = rememberDismissState(
                         confirmStateChange = {
                             if (it == DismissValue.DismissedToEnd) {
-                                viewModel.deleteTask(task.id)
+                                scope.launch{
+                                    delay(DISMISS_DELAY)
+                                    viewModel.deleteTask(task.id)
+                                }
                             }
                             true
                         }

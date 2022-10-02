@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,9 @@ import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.DeleteRestoreSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.NotesItem
+import by.coolightman.notes.util.DISMISS_DELAY
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -30,6 +34,7 @@ fun NotesTrashScreen(
 ) {
     val state = viewModel.uiState
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
@@ -84,11 +89,17 @@ fun NotesTrashScreen(
                         confirmStateChange = {
                             when (it) {
                                 DismissValue.DismissedToEnd -> {
-                                    viewModel.deleteNote(note.id)
+                                    scope.launch {
+                                        delay(DISMISS_DELAY)
+                                        viewModel.deleteNote(note.id)
+                                    }
                                     true
                                 }
                                 DismissValue.DismissedToStart -> {
-                                    viewModel.restoreNote(note.id)
+                                    scope.launch {
+                                        delay(DISMISS_DELAY)
+                                        viewModel.restoreNote(note.id)
+                                    }
                                     true
                                 }
                                 else -> true
