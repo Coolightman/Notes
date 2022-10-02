@@ -9,4 +9,5 @@
     <string name="edited">edit.</string>
     <string name="title_placeholder">Title..</string>
     <string name="text_placeholder">Text..</string>
+    <string name="important_task">Important task</string>
 </resources>

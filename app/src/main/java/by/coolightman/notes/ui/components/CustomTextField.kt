@@ -3,7 +3,6 @@ package by.coolightman.notes.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -18,7 +17,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 
@@ -64,7 +62,5 @@ fun CustomTextField(
         },
         modifier = modifier
             .focusRequester(focusRequester)
-            .fillMaxWidth()
-            .padding(12.dp, 8.dp, 12.dp, 0.dp)
     )
 }

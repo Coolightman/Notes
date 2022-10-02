@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -24,8 +25,8 @@ import by.coolightman.notes.R
 
 private const val ANIMATE_DURATION = 400
 private const val GRADIENT_START = 10f
-private const val GRADIENT_END = 200f
-private const val COLOR_ALFA = 0.2f
+private const val GRADIENT_END = 600f
+private const val COLOR_ALFA = 0.5f
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -55,12 +56,18 @@ fun DeleteRestoreSwipeSub(
     }
 
     val iconScale by animateFloatAsState(
-        targetValue = if (dismissState.targetValue == DismissValue.Default) 1.2f else 1.4f,
+        targetValue = when (dismissState.targetValue) {
+            DismissValue.Default -> 1.2f
+            else -> 1.4f
+        },
         animationSpec = tween(ANIMATE_DURATION)
     )
 
     val iconTintAlfa by animateFloatAsState(
-        targetValue = if (dismissState.targetValue == DismissValue.Default) 0.5f else 1.0f,
+        targetValue = when (dismissState.targetValue) {
+            DismissValue.Default -> 0.2f
+            else -> 0.6f
+        },
         animationSpec = tween(ANIMATE_DURATION)
     )
 
@@ -109,7 +116,8 @@ fun DeleteRestoreSwipeSub(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DeleteSwipeSub(
-    dismissState: DismissState
+    dismissState: DismissState,
+    icon: Painter
 ) {
     val color by animateColorAsState(
         targetValue = when (dismissState.targetValue) {
@@ -129,8 +137,8 @@ fun DeleteSwipeSub(
 
     val iconTintAlfa by animateFloatAsState(
         targetValue = when (dismissState.targetValue) {
-            DismissValue.Default -> 0.5f
-            else -> 1.0f
+            DismissValue.Default -> 0.2f
+            else -> 0.6f
         },
         animationSpec = tween(ANIMATE_DURATION)
     )
@@ -153,7 +161,7 @@ fun DeleteSwipeSub(
     )
     {
         Icon(
-            painter = painterResource(R.drawable.ic_delete_sweep_24),
+            painter = icon,
             contentDescription = "delete action",
             tint = LocalContentColor.current.copy(iconTintAlfa),
             modifier = Modifier

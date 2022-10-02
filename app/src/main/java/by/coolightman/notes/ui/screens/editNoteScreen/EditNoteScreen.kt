@@ -117,19 +117,17 @@ fun EditNoteScreen(
                             .fillMaxWidth()
                             .background(Color(itemColors[selectedColor].color).copy(0.05f))
                     ) {
-                        Box(
+                        CustomTextField(
+                            text = text,
+                            onValueChange = {
+                                text = it
+                            },
+                            keyboardController = keyboardController,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .defaultMinSize(minHeight = 48.dp)
-                        ) {
-                            CustomTextField(
-                                text = text,
-                                onValueChange = {
-                                    text = it
-                                },
-                                keyboardController = keyboardController
-                            )
-                        }
+                                .padding(12.dp, 8.dp, 12.dp, 0.dp)
+                        )
                         DateText(text = dateText)
                     }
                 }

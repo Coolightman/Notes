@@ -1,7 +1,5 @@
 package by.coolightman.notes.ui.screens.notesScreen
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -94,18 +92,17 @@ fun NotesScreen(
                     SwipeToDismiss(
                         state = dismissState,
                         directions = setOf(DismissDirection.StartToEnd),
-                        dismissThresholds = { FractionalThreshold(0.2f) },
-                        background = { DeleteSwipeSub(dismissState) },
+                        dismissThresholds = { FractionalThreshold(0.25f) },
+                        background = {
+                            DeleteSwipeSub(
+                                dismissState = dismissState,
+                                icon = painterResource(R.drawable.ic_delete_sweep_24)
+                            )
+                        },
                         modifier = Modifier.animateItemPlacement()
                     ) {
-                        val elevation = animateDpAsState(
-                            targetValue = if (dismissState.dismissDirection != null) 10.dp else 2.dp,
-                            animationSpec = tween(100)
-                        )
-
                         NotesItem(
                             item = note,
-                            elevation = elevation.value,
                             onClick = {
                                 navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
                                     launchSingleTop = true

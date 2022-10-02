@@ -75,7 +75,7 @@ class EditTaskViewModel @Inject constructor(
                 createdAt = System.currentTimeMillis(),
                 editedAt = 0L,
                 isEdited = false,
-                isActive = false,
+                isActive = true,
                 isHidden = false
             )
             createTaskUseCase(createdTask)

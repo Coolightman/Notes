@@ -1,7 +1,5 @@
 package by.coolightman.notes.ui.screens.notesTrashScreen
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -104,18 +102,12 @@ fun NotesTrashScreen(
                             DismissDirection.StartToEnd,
                             DismissDirection.EndToStart
                         ),
-                        dismissThresholds = { FractionalThreshold(0.2f) },
+                        dismissThresholds = { FractionalThreshold(0.25f) },
                         background = { DeleteRestoreSwipeSub(dismissState) },
                         modifier = Modifier.animateItemPlacement()
                     ) {
-                        val elevation = animateDpAsState(
-                            targetValue = if (dismissState.dismissDirection != null) 10.dp else 2.dp,
-                            animationSpec = tween(100)
-                        )
-
                         NotesItem(
                             item = note,
-                            elevation = elevation.value,
                             onClick = {}
                         )
                     }
