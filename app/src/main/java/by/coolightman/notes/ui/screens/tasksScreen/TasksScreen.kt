@@ -10,10 +10,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,11 +39,17 @@ fun TasksScreen(
     val state = viewModel.uiState
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { },
             actions = {
+                IconButton(
+                    onClick = { }
+                ) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
+                }
                 IconButton(
                     onClick = { }
                 ) {
@@ -70,9 +78,19 @@ fun TasksScreen(
                     val dismissState = rememberDismissState(
                         confirmStateChange = {
                             if (it == DismissValue.DismissedToEnd) {
-                                scope.launch{
+                                scope.launch {
                                     delay(DISMISS_DELAY)
                                     viewModel.deleteTask(task.id)
+                                    val action = scaffoldState.snackbarHostState.showSnackbar(
+                                        message = context.getString(R.string.task_deleted),
+                                        actionLabel = context.getString(R.string.cancel)
+                                    )
+                                    when (action) {
+                                        SnackbarResult.ActionPerformed -> viewModel.cancelDeletion(
+                                            task.id
+                                        )
+                                        SnackbarResult.Dismissed -> {}
+                                    }
                                 }
                             }
                             true

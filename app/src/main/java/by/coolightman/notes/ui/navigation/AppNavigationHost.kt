@@ -49,8 +49,7 @@ fun AppNavigationHost(
             route = NavRoutes.NotesTrash.route,
         ) {
             NotesTrashScreen(
-                navController = navController,
-                scaffoldState = scaffoldState
+                navController = navController
             )
         }
 

@@ -5,10 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.coolightman.notes.domain.usecase.tasks.DeleteInactiveTasksUseCase
-import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
-import by.coolightman.notes.domain.usecase.tasks.GetAllTasksUseCase
-import by.coolightman.notes.domain.usecase.tasks.SwitchTaskActivityUseCase
+import by.coolightman.notes.domain.usecase.tasks.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -19,13 +16,14 @@ class TasksViewModel @Inject constructor(
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val deleteInactiveTasksUseCase: DeleteInactiveTasksUseCase,
     private val switchTaskActivityUseCase: SwitchTaskActivityUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase
+    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val showTaskUseCase: ShowTaskUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(TasksUiState())
         private set
 
-    private lateinit var deleteTaskJob: Job
+    private lateinit var canceledJob: Job
 
     init {
         getTasks()
@@ -40,19 +38,22 @@ class TasksViewModel @Inject constructor(
     }
 
     fun deleteInactiveTasks() {
-        viewModelScope.launch {
+        canceledJob = viewModelScope.launch {
             deleteInactiveTasksUseCase()
         }
     }
 
     fun deleteTask(taskId: Long) {
-        deleteTaskJob = viewModelScope.launch {
+        canceledJob = viewModelScope.launch {
             deleteTaskUseCase(taskId)
         }
     }
 
-    fun cancelTaskDeletion() {
-        deleteTaskJob.cancel()
+    fun cancelDeletion(taskId: Long) {
+        canceledJob.cancel()
+        viewModelScope.launch {
+            showTaskUseCase(taskId)
+        }
     }
 
     fun switchTaskActivity(taskId: Long) {
@@ -60,5 +61,4 @@ class TasksViewModel @Inject constructor(
             switchTaskActivityUseCase(taskId)
         }
     }
-
 }

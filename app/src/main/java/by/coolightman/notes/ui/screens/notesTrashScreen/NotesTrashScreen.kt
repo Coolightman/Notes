@@ -30,8 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun NotesTrashScreen(
     navController: NavController,
-    viewModel: NotesTrashViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState
+    viewModel: NotesTrashViewModel = hiltViewModel()
 ) {
     val state = viewModel.uiState
     val listState = rememberLazyListState()
