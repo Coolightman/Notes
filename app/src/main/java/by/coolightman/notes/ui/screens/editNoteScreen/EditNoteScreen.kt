@@ -5,15 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -26,6 +26,7 @@ import by.coolightman.notes.ui.components.NoteTitleField
 import by.coolightman.notes.ui.components.SelectColorBar
 import by.coolightman.notes.ui.model.ItemColors
 import by.coolightman.notes.util.toFormattedDate
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -53,7 +54,7 @@ fun EditNoteScreen(
         mutableStateOf(0)
     }
 
-    LaunchedEffect(key1 = state){
+    LaunchedEffect(state) {
         title = state.title
         text = state.text
         selectedColor = state.colorIndex
@@ -72,6 +73,23 @@ fun EditNoteScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
+        TopAppBar(
+            navigationIcon = {
+                IconButton(
+                    onClick = {
+                        goBack(scope, focusManager, navController)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "back"
+                    )
+                }
+            },
+            title = { },
+            actions = { }
+        )
+
         Card(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
@@ -130,12 +148,8 @@ fun EditNoteScreen(
             TextButton(
                 onClick = {
                     if (text.isNotEmpty()) {
-                        keyboardController?.hide()
                         viewModel.saveNote(title, text, selectedColor)
-                        scope.launch {
-                            delay(100)
-                            navController.popBackStack()
-                        }
+                        goBack(scope, focusManager, navController)
                     }
                 },
                 modifier = Modifier
@@ -148,5 +162,17 @@ fun EditNoteScreen(
                 )
             }
         }
+    }
+}
+
+private fun goBack(
+    scope: CoroutineScope,
+    focusManager: FocusManager,
+    navController: NavController
+) {
+    scope.launch {
+        focusManager.clearFocus()
+        delay(100)
+        navController.popBackStack()
     }
 }
