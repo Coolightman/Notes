@@ -31,7 +31,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun TasksScreen(
     navController: NavController,
-    viewModel: TasksViewModel = hiltViewModel()
+    viewModel: TasksViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState
 ) {
     val state = viewModel.uiState
     val listState = rememberLazyListState()

@@ -7,9 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.FabPosition
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import by.coolightman.notes.ui.components.AppBottomBar
@@ -27,10 +25,11 @@ class MainActivity : ComponentActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         setContent {
             PrepareUI {
+                val scaffoldState = rememberScaffoldState()
                 val navController = rememberNavController()
                 val startDestination = StartDestination.NOTES.route
                 Scaffold(
-                    scaffoldState = rememberScaffoldState(),
+                    scaffoldState = scaffoldState,
                     bottomBar = {
                         AppBottomBar(navController = navController)
                     },
@@ -46,7 +45,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AppNavigationHost(
                             navController = navController,
-                            startDestination = startDestination
+                            startDestination = startDestination,
+                            scaffoldState = scaffoldState
                         )
                     }
                 }

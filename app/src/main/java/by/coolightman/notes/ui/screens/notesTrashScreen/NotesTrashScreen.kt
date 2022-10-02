@@ -30,7 +30,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun NotesTrashScreen(
     navController: NavController,
-    viewModel: NotesTrashViewModel = hiltViewModel()
+    viewModel: NotesTrashViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState
 ) {
     val state = viewModel.uiState
     val listState = rememberLazyListState()
@@ -51,7 +52,11 @@ fun NotesTrashScreen(
             title = { },
             actions = {
                 IconButton(
-                    onClick = { viewModel.restoreAllTrash() }
+                    onClick = {
+                        if (state.list.isNotEmpty()) {
+                            viewModel.restoreAllTrash()
+                        }
+                    }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_restore_trash_24),
@@ -59,7 +64,11 @@ fun NotesTrashScreen(
                     )
                 }
                 IconButton(
-                    onClick = { viewModel.deleteAllTrash() }
+                    onClick = {
+                        if (state.list.isNotEmpty()) {
+                            viewModel.deleteAllTrash()
+                        }
+                    }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete_forever_24),

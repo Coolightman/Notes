@@ -1,5 +1,6 @@
 package by.coolightman.notes.ui.navigation
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -18,7 +19,8 @@ import by.coolightman.notes.util.ARG_TASK_ID
 @Composable
 fun AppNavigationHost(
     navController: NavHostController,
-    startDestination: String
+    startDestination: String,
+    scaffoldState: ScaffoldState
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
 
@@ -47,7 +49,8 @@ fun AppNavigationHost(
             route = NavRoutes.NotesTrash.route,
         ) {
             NotesTrashScreen(
-                navController = navController
+                navController = navController,
+                scaffoldState = scaffoldState
             )
         }
 
@@ -55,7 +58,8 @@ fun AppNavigationHost(
             route = NavRoutes.Tasks.route,
         ) {
             TasksScreen(
-                navController = navController
+                navController = navController,
+                scaffoldState = scaffoldState
             )
         }
 
