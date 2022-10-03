@@ -11,14 +11,15 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
+import by.coolightman.notes.ui.components.AppAlertDialog
 import by.coolightman.notes.ui.components.DeleteRestoreSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.NotesItem
@@ -35,6 +36,38 @@ fun NotesTrashScreen(
     val state = viewModel.uiState
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+
+    var openDeleteAllDialog by remember {
+        mutableStateOf(false)
+    }
+    var openRestoreAllDialog by remember {
+        mutableStateOf(false)
+    }
+
+    when {
+        openDeleteAllDialog -> {
+            AppAlertDialog(
+                text = stringResource(R.string.delete_all_notes_dialog),
+                confirmButtonText = stringResource(R.string.delete),
+                onConfirm = {
+                    viewModel.deleteAllTrash()
+                    openDeleteAllDialog = false
+                },
+                onCancel = { openDeleteAllDialog = false }
+            )
+        }
+        openRestoreAllDialog -> {
+            AppAlertDialog(
+                text = stringResource(R.string.restore_all_notes_dialog),
+                confirmButtonText = stringResource(R.string.restore),
+                onConfirm = {
+                    viewModel.restoreAllTrash()
+                    openRestoreAllDialog = false
+                },
+                onCancel = { openRestoreAllDialog = false }
+            )
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
@@ -53,7 +86,7 @@ fun NotesTrashScreen(
                 IconButton(
                     onClick = {
                         if (state.list.isNotEmpty()) {
-                            viewModel.restoreAllTrash()
+                            openRestoreAllDialog = true
                         }
                     }
                 ) {
@@ -65,7 +98,7 @@ fun NotesTrashScreen(
                 IconButton(
                     onClick = {
                         if (state.list.isNotEmpty()) {
-                            viewModel.deleteAllTrash()
+                            openDeleteAllDialog = true
                         }
                     }
                 ) {

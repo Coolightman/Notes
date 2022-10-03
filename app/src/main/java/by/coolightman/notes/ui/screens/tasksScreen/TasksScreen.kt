@@ -13,16 +13,17 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Task
+import by.coolightman.notes.ui.components.AppAlertDialog
 import by.coolightman.notes.ui.components.DeleteSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.TasksItem
@@ -43,9 +44,25 @@ fun TasksScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
+    var openDeleteInactiveTasksDialog by remember {
+        mutableStateOf(false)
+    }
+
+    if (openDeleteInactiveTasksDialog){
+        AppAlertDialog(
+            text = stringResource(R.string.delete_inactive_tasks_dialog),
+            confirmButtonText = stringResource(R.string.delete),
+            onConfirm = {
+                viewModel.deleteInactiveTasks()
+                openDeleteInactiveTasksDialog = false
+            },
+            onCancel = { openDeleteInactiveTasksDialog = false }
+        )
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(title = { }, actions = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = { openDeleteInactiveTasksDialog = true }) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
             }
             IconButton(onClick = { }) {
