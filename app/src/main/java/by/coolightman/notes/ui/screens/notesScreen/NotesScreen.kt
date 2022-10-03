@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,7 +59,12 @@ fun NotesScreen(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_sort_24),
-                        contentDescription = "sort"
+                        contentDescription = "sort",
+                        tint = if (isShowSortPanel) {
+                            Color.White
+                        } else {
+                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                        }
                     )
                 }
 
