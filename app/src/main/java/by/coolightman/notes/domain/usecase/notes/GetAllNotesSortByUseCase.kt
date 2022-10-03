@@ -30,12 +30,6 @@ class GetAllNotesSortByUseCase @Inject constructor(
             SortNotesBy.CREATE_DATE_DESC -> {
                 repository.getAllActive().map { list -> list.sortedByDescending { it.createdAt } }
             }
-            SortNotesBy.TITLE -> {
-                repository.getAllActive().map { list -> list.sortedBy { it.title } }
-            }
-            SortNotesBy.TITLE_DESC -> {
-                repository.getAllActive().map { list -> list.sortedByDescending { it.title } }
-            }
         }
     }
 }

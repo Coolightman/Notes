@@ -12,16 +12,14 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.BadgedIcon
-import by.coolightman.notes.ui.components.DeleteSwipeSub
-import by.coolightman.notes.ui.components.EmptyContentSplash
-import by.coolightman.notes.ui.components.NotesItem
+import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.util.DISMISS_DELAY
 import kotlinx.coroutines.delay
@@ -36,13 +34,16 @@ fun NotesScreen(
     val state = viewModel.uiState
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    var isShowSortPanel by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { },
             actions = {
                 IconButton(
-                    onClick = { }
+                    onClick = { isShowSortPanel = !isShowSortPanel }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_sort_24),
@@ -65,6 +66,14 @@ fun NotesScreen(
                     Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
                 }
             }
+        )
+
+        SortPanel(
+            isVisible = isShowSortPanel,
+            onSort = {
+                viewModel.setSortBy(it)
+            },
+            currentSortIndex = state.sortByIndex
         )
 
         if (state.list.isEmpty()) {
@@ -121,6 +130,4 @@ fun NotesScreen(
             }
         }
     }
-
-
 }

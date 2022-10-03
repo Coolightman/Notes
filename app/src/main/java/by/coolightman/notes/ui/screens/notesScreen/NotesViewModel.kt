@@ -38,7 +38,10 @@ class NotesViewModel @Inject constructor(
             _sortNotesBy.flatMapLatest { sortNotesBy ->
                 getAllNotesSortByUseCase(sortNotesBy)
             }.collectLatest {
-                uiState = uiState.copy(list = it)
+                uiState = uiState.copy(
+                    list = it,
+                    sortByIndex = _sortNotesBy.value.ordinal
+                )
             }
         }
     }

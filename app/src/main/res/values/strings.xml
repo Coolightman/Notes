@@ -19,4 +19,7 @@
     <string name="delete">Delete</string>
     <string name="created">created:</string>
     <string name="edited">edited:</string>
+    <string name="color">Color</string>
+    <string name="created_sort">Created</string>
+    <string name="edited_sort">Edited</string>
 </resources>
