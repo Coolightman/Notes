@@ -22,7 +22,10 @@ fun AppNavigationHost(
     startDestination: String,
     scaffoldState: ScaffoldState
 ) {
-    NavHost(navController = navController, startDestination = startDestination) {
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+    ) {
 
         composable(
             route = NavRoutes.Notes.route,

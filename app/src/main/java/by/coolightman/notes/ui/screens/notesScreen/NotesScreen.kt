@@ -37,7 +37,6 @@ fun NotesScreen(
     var isShowSortPanel by rememberSaveable {
         mutableStateOf(false)
     }
-
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { },
