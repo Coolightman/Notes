@@ -37,9 +37,17 @@ fun NotesScreen(
     var isShowSortPanel by rememberSaveable {
         mutableStateOf(false)
     }
-    LaunchedEffect(state.sortByIndex){
-        delay(500)
-        listState.animateScrollToItem(0)
+    var sortByCash by rememberSaveable {
+        mutableStateOf(-1)
+    }
+
+//  scroll list to top only when another sortBy
+    LaunchedEffect(state.sortByIndex) {
+        if (sortByCash != state.sortByIndex) {
+            sortByCash = state.sortByIndex
+            delay(500)
+            listState.animateScrollToItem(0)
+        }
     }
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
