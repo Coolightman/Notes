@@ -117,6 +117,7 @@ fun DeleteRestoreSwipeSub(
 @Composable
 fun DeleteSwipeSub(
     dismissState: DismissState,
+    isNote: Boolean = true,
     icon: Painter
 ) {
     val color by animateColorAsState(
@@ -142,12 +143,16 @@ fun DeleteSwipeSub(
         },
         animationSpec = tween(ANIMATE_DURATION)
     )
+    val clip = when(isNote){
+        true -> RoundedCornerShape(12.dp)
+        false -> RoundedCornerShape(24.dp)
+    }
 
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxSize()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(clip)
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(

@@ -99,6 +99,7 @@ fun TasksScreen(
                         background = {
                             DeleteSwipeSub(
                                 dismissState = dismissState,
+                                isNote = false,
                                 icon = painterResource(R.drawable.ic_delete_forever_24)
                             )
                         },
@@ -112,7 +113,6 @@ fun TasksScreen(
                     }
                 }
             }
-
         }
     }
 }
