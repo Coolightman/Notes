@@ -5,11 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.coolightman.notes.domain.model.SortNoteBy
+import by.coolightman.notes.domain.model.SortNotesBy
 import by.coolightman.notes.domain.usecase.notes.GetAllNotesSortByUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNotesTrashCountUseCase
 import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,17 +25,26 @@ class NotesViewModel @Inject constructor(
     var uiState by mutableStateOf(NotesUiState())
         private set
 
+    private val _sortNotesBy = MutableStateFlow(SortNotesBy.values()[0])
+
     init {
         getNotes()
         getTrashCount()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun getNotes() {
         viewModelScope.launch {
-            getAllNotesSortByUseCase(SortNoteBy.CREATE_DATE_DESC).collect {
+            _sortNotesBy.flatMapLatest { sortNotesBy ->
+                getAllNotesSortByUseCase(sortNotesBy)
+            }.collectLatest {
                 uiState = uiState.copy(list = it)
             }
         }
+    }
+
+    fun setSortBy(sortBy: SortNotesBy) {
+        _sortNotesBy.update { sortBy }
     }
 
     private fun getTrashCount() {

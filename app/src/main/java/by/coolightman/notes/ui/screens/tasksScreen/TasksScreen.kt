@@ -43,11 +43,9 @@ fun TasksScreen(
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-
     var openDeleteInactiveTasksDialog by remember {
         mutableStateOf(false)
     }
-
     if (openDeleteInactiveTasksDialog){
         AppAlertDialog(
             text = stringResource(R.string.delete_inactive_tasks_dialog),

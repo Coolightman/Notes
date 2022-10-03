@@ -11,13 +11,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DateText(text: String) {
+fun DateText(
+    modifier: Modifier = Modifier,
+    text: String
+) {
     Text(
         textAlign = TextAlign.End,
         text = text,
         style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
         color = MaterialTheme.colors.onSurface.copy(0.25f),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp, 2.dp)
     )

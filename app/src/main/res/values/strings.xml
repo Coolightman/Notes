@@ -6,7 +6,7 @@
     <string name="no_notes">No notes</string>
     <string name="no_tasks">No tasks</string>
     <string name="no_trash">No trash</string>
-    <string name="edited">edit.</string>
+    <string name="edit">edit.</string>
     <string name="title_placeholder">Title..</string>
     <string name="text_placeholder">Text..</string>
     <string name="important_task">Important task</string>
@@ -17,4 +17,6 @@
     <string name="delete_all_notes_dialog">Do you want to empty the cart?</string>
     <string name="delete_inactive_tasks_dialog">Do you want to delete all inactive tasks?</string>
     <string name="delete">Delete</string>
+    <string name="created">created:</string>
+    <string name="edited">edited:</string>
 </resources>

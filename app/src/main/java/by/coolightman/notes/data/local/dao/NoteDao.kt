@@ -17,7 +17,7 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE id = :noteId")
     suspend fun getNote(noteId: Long): NoteDb
 
-    @Query("SELECT * FROM notes WHERE is_in_trash = 0")
+    @Query("SELECT * FROM notes WHERE is_in_trash = 0 order by created_at desc")
     fun getAllActive(): Flow<List<NoteDb>>
 
     @Query("SELECT * FROM notes WHERE is_in_trash = 1")

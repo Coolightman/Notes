@@ -1,6 +1,6 @@
 package by.coolightman.notes.domain.model
 
-enum class SortNoteBy {
+enum class SortNotesBy {
     COLOR,
     COLOR_DESC,
     EDIT_DATE,

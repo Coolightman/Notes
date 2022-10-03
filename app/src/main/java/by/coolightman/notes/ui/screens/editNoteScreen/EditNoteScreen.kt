@@ -39,33 +39,29 @@ fun EditNoteScreen(
     viewModel: EditNoteViewModel = hiltViewModel()
 ) {
     val state = viewModel.uiState
-
     var title by remember {
         mutableStateOf("")
     }
-
     var text by remember {
         mutableStateOf("")
     }
-
     val dateText by remember {
         mutableStateOf(System.currentTimeMillis().toFormattedDate())
     }
-
+    var createdAt by remember {
+        mutableStateOf("")
+    }
     var selectedColor by remember {
         mutableStateOf(0)
     }
-
     LaunchedEffect(state) {
         title = state.title
         text = state.text
         selectedColor = state.colorIndex
+        createdAt = state.createdAt
     }
-
     val scrollState = rememberScrollState()
-
     val itemColors = remember { ItemColors.values() }
-
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
@@ -96,7 +92,7 @@ fun EditNoteScreen(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .padding(12.dp, 12.dp, 12.dp, 0.dp)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -135,6 +131,12 @@ fun EditNoteScreen(
                     }
                 }
             }
+        }
+        if (createdAt.isNotEmpty()) {
+            DateText(
+                text = stringResource(R.string.created) + " " + createdAt,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
         }
         SelectColorBar(
             selected = selectedColor,

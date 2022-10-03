@@ -97,7 +97,7 @@ fun NotesItem(
                     }
 
                     val dateText = if (item.isEdited) {
-                        val edited = stringResource(R.string.edited)
+                        val edited = stringResource(R.string.edit)
                         "$edited " + item.editedAt.toFormattedDate()
                     } else item.createdAt.toFormattedDate()
                     DateText(text = dateText)

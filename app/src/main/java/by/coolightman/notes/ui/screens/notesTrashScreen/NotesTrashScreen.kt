@@ -36,14 +36,12 @@ fun NotesTrashScreen(
     val state = viewModel.uiState
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
-
     var openDeleteAllDialog by remember {
         mutableStateOf(false)
     }
     var openRestoreAllDialog by remember {
         mutableStateOf(false)
     }
-
     when {
         openDeleteAllDialog -> {
             AppAlertDialog(

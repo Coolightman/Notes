@@ -44,7 +44,8 @@ class EditTaskViewModel @Inject constructor(
                     text = it.text,
                     colorIndex = it.colorIndex,
                     isImportant = it.isImportant,
-                    date = it.createdAt.toFormattedDate()
+                    createdAt = it.createdAt.toFormattedDate(),
+                    editedAt = it.editedAt.toFormattedDate()
                 )
             }
         }

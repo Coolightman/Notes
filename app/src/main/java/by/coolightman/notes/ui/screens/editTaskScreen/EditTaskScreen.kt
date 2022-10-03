@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.CustomTextField
+import by.coolightman.notes.ui.components.DateText
 import by.coolightman.notes.ui.components.SelectColorBar
 import by.coolightman.notes.ui.components.SwitchCard
 import by.coolightman.notes.ui.model.ItemColors
@@ -41,23 +42,27 @@ fun EditTaskScreen(
     var text by remember {
         mutableStateOf("")
     }
+    var createdAt by remember {
+        mutableStateOf("")
+    }
+    var editedAt by remember {
+        mutableStateOf("")
+    }
     var selectedColor by remember {
         mutableStateOf(0)
     }
     var isImportant by remember {
         mutableStateOf(false)
     }
-
     LaunchedEffect(state) {
         text = state.text
         selectedColor = state.colorIndex
         isImportant = state.isImportant
+        createdAt = state.createdAt
+        editedAt = state.editedAt
     }
-
     val scrollState = rememberScrollState()
-
     val itemColors = remember { ItemColors.values() }
-
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
@@ -85,12 +90,12 @@ fun EditTaskScreen(
         )
 
         Card(
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(24.dp),
             elevation = 2.dp,
             modifier = Modifier
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 48.dp)
-                .padding(12.dp)
+                .padding(12.dp, 12.dp, 12.dp, 0.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -118,6 +123,18 @@ fun EditTaskScreen(
                         .padding(0.dp, 4.dp, 8.dp, 4.dp)
                 )
             }
+        }
+        if (createdAt.isNotEmpty()) {
+            DateText(
+                text = stringResource(R.string.created) + " " + createdAt,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+        }
+        if (editedAt.isNotEmpty()) {
+            DateText(
+                text = stringResource(R.string.edited) + " " + editedAt,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
         }
         SelectColorBar(
             selected = selectedColor,

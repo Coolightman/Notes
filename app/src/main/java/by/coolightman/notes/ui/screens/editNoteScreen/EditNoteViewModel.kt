@@ -43,7 +43,7 @@ class EditNoteViewModel @Inject constructor(
                 uiState = uiState.copy(
                     title = it.title,
                     text = it.text,
-                    date = it.createdAt.toFormattedDate(),
+                    createdAt = it.createdAt.toFormattedDate(),
                     colorIndex = it.colorIndex
                 )
             }
