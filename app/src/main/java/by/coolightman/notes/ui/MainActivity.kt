@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import by.coolightman.notes.ui.components.AppBottomBar
 import by.coolightman.notes.ui.components.AppFloatingActionButton
+import by.coolightman.notes.ui.components.AppSnackbarHost
 import by.coolightman.notes.ui.components.PrepareUI
 import by.coolightman.notes.ui.model.StartDestination
 import by.coolightman.notes.ui.navigation.AppNavigationHost
@@ -38,7 +39,8 @@ class MainActivity : ComponentActivity() {
                     floatingActionButtonPosition = FabPosition.End,
                     floatingActionButton = {
                         AppFloatingActionButton(navController = navController)
-                    }
+                    },
+                    snackbarHost = { AppSnackbarHost(hostState = it) }
                 ) { contentPadding ->
                     Box(
                         modifier = Modifier
