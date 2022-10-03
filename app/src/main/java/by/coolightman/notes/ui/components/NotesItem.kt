@@ -43,12 +43,12 @@ fun NotesItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick() }
-                .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.8f))
         ) {
             if (item.title.isNotEmpty()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.8f))
                 ) {
                     Text(
                         textAlign = TextAlign.Center,
@@ -67,11 +67,12 @@ fun NotesItem(
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.8f))
                         .height(4.dp)
                 )
             }
             Card(
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(0.dp),
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

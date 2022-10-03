@@ -32,7 +32,7 @@ fun TasksItem(
     onSwitchActive: () -> Unit
 ) {
     Card(
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(24.dp),
         elevation = elevation,
         modifier = modifier
             .fillMaxWidth()
