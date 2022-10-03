@@ -37,6 +37,10 @@ fun NotesScreen(
     var isShowSortPanel by rememberSaveable {
         mutableStateOf(false)
     }
+    LaunchedEffect(state.sortByIndex){
+        delay(500)
+        listState.animateScrollToItem(0)
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { },
