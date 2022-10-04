@@ -50,7 +50,8 @@ fun BadgedIcon(
         } else {
             Icon(
                 painter = iconEmptyBadge ?: icon,
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.align(Alignment.CenterStart)
             )
         }
     }
