@@ -43,7 +43,7 @@ fun DeleteRestoreSwipeSub(
         if (dismissState.dismissDirection == DismissDirection.StartToEnd ||
             dismissState.dismissDirection == DismissDirection.EndToStart
         ) {
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
         }
     }
 
@@ -125,7 +125,7 @@ fun DeleteSwipeSub(
 
     LaunchedEffect(dismissState.targetValue == DismissValue.DismissedToEnd) {
         if (dismissState.dismissDirection == DismissDirection.StartToEnd) {
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
         }
     }
 
