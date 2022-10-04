@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.util.DISMISS_DELAY
+import by.coolightman.notes.util.FRACTIONAL_THRESHOLD
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -148,7 +149,7 @@ fun NotesTrashScreen(
                             DismissDirection.StartToEnd,
                             DismissDirection.EndToStart
                         ),
-                        dismissThresholds = { FractionalThreshold(0.25f) },
+                        dismissThresholds = { FractionalThreshold(FRACTIONAL_THRESHOLD) },
                         background = { DeleteRestoreSwipeSub(dismissState) },
                         modifier = Modifier.animateItemPlacement()
                     ) {

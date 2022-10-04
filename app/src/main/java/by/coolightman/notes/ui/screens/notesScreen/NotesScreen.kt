@@ -23,6 +23,7 @@ import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.util.DISMISS_DELAY
+import by.coolightman.notes.util.FRACTIONAL_THRESHOLD
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -109,7 +110,7 @@ fun NotesScreen(
                     SwipeToDismiss(
                         state = dismissState,
                         directions = setOf(DismissDirection.StartToEnd),
-                        dismissThresholds = { FractionalThreshold(0.25f) },
+                        dismissThresholds = { FractionalThreshold(FRACTIONAL_THRESHOLD) },
                         background = {
                             DeleteSwipeSub(
                                 dismissState = dismissState,
