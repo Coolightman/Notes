@@ -37,7 +37,7 @@ fun EditTaskScreen(
     viewModel: EditTaskViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState
 ) {
-    val state = viewModel.uiState
+    val uiState = viewModel.uiState
     var text by remember {
         mutableStateOf("")
     }
@@ -53,12 +53,12 @@ fun EditTaskScreen(
     var isImportant by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(state) {
-        text = state.text
-        selectedColor = state.colorIndex
-        isImportant = state.isImportant
-        createdAt = state.createdAt
-        editedAt = state.editedAt
+    LaunchedEffect(uiState) {
+        text = uiState.text
+        selectedColor = uiState.colorIndex
+        isImportant = uiState.isImportant
+        createdAt = uiState.createdAt
+        editedAt = uiState.editedAt
     }
     val scrollState = rememberScrollState()
     val itemColors = remember { ItemColors.values() }

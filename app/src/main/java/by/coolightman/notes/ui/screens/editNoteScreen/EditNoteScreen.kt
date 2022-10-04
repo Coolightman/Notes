@@ -37,7 +37,7 @@ fun EditNoteScreen(
     viewModel: EditNoteViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState
 ) {
-    val state = viewModel.uiState
+    val uiState = viewModel.uiState
     var title by remember {
         mutableStateOf("")
     }
@@ -53,11 +53,11 @@ fun EditNoteScreen(
     var selectedColor by remember {
         mutableStateOf(0)
     }
-    LaunchedEffect(state) {
-        title = state.title
-        text = state.text
-        selectedColor = state.colorIndex
-        createdAt = state.createdAt
+    LaunchedEffect(uiState) {
+        title = uiState.title
+        text = uiState.text
+        selectedColor = uiState.colorIndex
+        createdAt = uiState.createdAt
     }
     val scrollState = rememberScrollState()
     val itemColors = remember { ItemColors.values() }

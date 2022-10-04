@@ -15,7 +15,7 @@ fun AppTopAppBar(
 
     TopAppBar(
         title = { title?.let { title() } },
-        navigationIcon = { navigationIcon?.let { navigationIcon() } },
+        navigationIcon = navigationIcon?.let { { navigationIcon() } },
         actions = { actions?.let { actions() } },
         modifier = modifier
     )

@@ -31,7 +31,7 @@ fun NotesTrashScreen(
     navController: NavController,
     viewModel: NotesTrashViewModel = hiltViewModel()
 ) {
-    val state = viewModel.uiState
+    val uiState = viewModel.uiState
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     var openDeleteAllDialog by remember {
@@ -67,6 +67,9 @@ fun NotesTrashScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
+            title = {
+                Text(text = stringResource(id = R.string.trash))
+            },
             navigationIcon = {
                 IconButton(
                     onClick = { navController.popBackStack() }
@@ -80,7 +83,7 @@ fun NotesTrashScreen(
             actions = {
                 IconButton(
                     onClick = {
-                        if (state.list.isNotEmpty()) {
+                        if (uiState.list.isNotEmpty()) {
                             openRestoreAllDialog = true
                         }
                     }
@@ -92,7 +95,7 @@ fun NotesTrashScreen(
                 }
                 IconButton(
                     onClick = {
-                        if (state.list.isNotEmpty()) {
+                        if (uiState.list.isNotEmpty()) {
                             openDeleteAllDialog = true
                         }
                     }
@@ -105,7 +108,7 @@ fun NotesTrashScreen(
             }
         )
 
-        if (state.list.isEmpty()) {
+        if (uiState.list.isEmpty()) {
             EmptyContentSplash(
                 iconId = R.drawable.ic_delete_empty_24,
                 textId = R.string.no_trash
@@ -118,7 +121,7 @@ fun NotesTrashScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(
-                    items = state.list,
+                    items = uiState.list,
                     key = { it.id }
                 ) { note ->
                     val dismissState = rememberDismissState(

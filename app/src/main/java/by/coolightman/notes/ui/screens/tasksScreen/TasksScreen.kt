@@ -36,7 +36,7 @@ fun TasksScreen(
     viewModel: TasksViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState
 ) {
-    val state = viewModel.uiState
+    val uiState = viewModel.uiState
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -60,6 +60,9 @@ fun TasksScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
+            title = {
+                Text(text = stringResource(id = R.string.tasks_title))
+            },
             actions = {
                 IconButton(onClick = { isDropMenuExpanded = true }) {
                     Icon(
@@ -87,7 +90,9 @@ fun TasksScreen(
                         Text(text = stringResource(R.string.delete_inactive))
                     }
                     DropdownMenuItem(onClick = {
-//                        TODO settings
+                        navController.navigate(NavRoutes.Settings.route){
+                            launchSingleTop = true
+                        }
                         isDropMenuExpanded = false
                     }) {
                         Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
@@ -98,7 +103,7 @@ fun TasksScreen(
             }
         )
 
-        if (state.list.isEmpty()) {
+        if (uiState.list.isEmpty()) {
             EmptyContentSplash(
                 iconId = R.drawable.ic_task_24, textId = R.string.no_tasks
             )
@@ -110,7 +115,7 @@ fun TasksScreen(
                 contentPadding = PaddingValues(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(items = state.list, key = { it.id }) { task ->
+                items(items = uiState.list, key = { it.id }) { task ->
                     val dismissState = rememberDismissState(confirmStateChange = {
                         if (it == DismissValue.DismissedToEnd) {
                             scope.launch {
