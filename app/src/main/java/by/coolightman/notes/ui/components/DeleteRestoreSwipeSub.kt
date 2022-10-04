@@ -1,5 +1,6 @@
 package by.coolightman.notes.ui.components
 
+import android.view.HapticFeedbackConstants
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
@@ -35,14 +37,22 @@ fun DeleteRestoreSwipeSub(
 ) {
 
     val direction = dismissState.dismissDirection
+    val view = LocalView.current
+
+    LaunchedEffect(dismissState.targetValue != DismissValue.Default) {
+        if (dismissState.dismissDirection == DismissDirection.StartToEnd ||
+            dismissState.dismissDirection == DismissDirection.EndToStart
+        ) {
+            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+        }
+    }
 
     val color by animateColorAsState(
         targetValue = when (direction) {
             DismissDirection.StartToEnd -> Color.Red.copy(COLOR_ALFA)
             DismissDirection.EndToStart -> Color.Green.copy(COLOR_ALFA)
             else -> Color.Transparent
-        },
-        animationSpec = tween(ANIMATE_DURATION)
+        }, animationSpec = tween(ANIMATE_DURATION)
     )
 
     val icon = when (direction) {
@@ -59,16 +69,14 @@ fun DeleteRestoreSwipeSub(
         targetValue = when (dismissState.targetValue) {
             DismissValue.Default -> 1.2f
             else -> 1.4f
-        },
-        animationSpec = tween(ANIMATE_DURATION)
+        }, animationSpec = tween(ANIMATE_DURATION)
     )
 
     val iconTintAlfa by animateFloatAsState(
         targetValue = when (dismissState.targetValue) {
             DismissValue.Default -> 0.2f
             else -> 0.6f
-        },
-        animationSpec = tween(ANIMATE_DURATION)
+        }, animationSpec = tween(ANIMATE_DURATION)
     )
 
     var rowXSize by remember {
@@ -85,24 +93,19 @@ fun DeleteRestoreSwipeSub(
         else -> Offset(GRADIENT_END, 0f)
     }
 
-    Box(
-        contentAlignment = alignment,
+    Box(contentAlignment = alignment,
         modifier = Modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(12.dp))
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color.Transparent,
-                        color
-                    ),
-                    start = brushOffsetStart,
-                    end = brushOffsetEnd
+                        Color.Transparent, color
+                    ), start = brushOffsetStart, end = brushOffsetEnd
                 )
             )
             .onGloballyPositioned { coordinates -> rowXSize = coordinates.size.width }
-            .padding(horizontal = 24.dp))
-    {
+            .padding(horizontal = 24.dp)) {
         Icon(
             painter = icon,
             contentDescription = "icon",
@@ -116,34 +119,37 @@ fun DeleteRestoreSwipeSub(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DeleteSwipeSub(
-    dismissState: DismissState,
-    isNote: Boolean = true,
-    icon: Painter
+    dismissState: DismissState, isNote: Boolean = true, icon: Painter
 ) {
+    val view = LocalView.current
+
+    LaunchedEffect(dismissState.targetValue == DismissValue.DismissedToEnd) {
+        if (dismissState.dismissDirection == DismissDirection.StartToEnd) {
+            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+        }
+    }
+
     val color by animateColorAsState(
         targetValue = when (dismissState.dismissDirection) {
             DismissDirection.StartToEnd -> Color.Red.copy(COLOR_ALFA)
             else -> Color.Transparent
-        },
-        animationSpec = tween(ANIMATE_DURATION)
+        }, animationSpec = tween(ANIMATE_DURATION)
     )
 
     val iconScale by animateFloatAsState(
         targetValue = when (dismissState.targetValue) {
             DismissValue.Default -> 1.2f
             else -> 1.4f
-        },
-        animationSpec = tween(ANIMATE_DURATION)
+        }, animationSpec = tween(ANIMATE_DURATION)
     )
 
     val iconTintAlfa by animateFloatAsState(
         targetValue = when (dismissState.targetValue) {
             DismissValue.Default -> 0.2f
             else -> 0.6f
-        },
-        animationSpec = tween(ANIMATE_DURATION)
+        }, animationSpec = tween(ANIMATE_DURATION)
     )
-    val clip = when(isNote){
+    val clip = when (isNote) {
         true -> RoundedCornerShape(12.dp)
         false -> RoundedCornerShape(24.dp)
     }
@@ -156,15 +162,11 @@ fun DeleteSwipeSub(
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color.Transparent,
-                        color
-                    ),
-                    start = Offset(GRADIENT_START, 0f),
-                    end = Offset(GRADIENT_END, 0f)
+                        Color.Transparent, color
+                    ), start = Offset(GRADIENT_START, 0f), end = Offset(GRADIENT_END, 0f)
                 )
             )
-    )
-    {
+    ) {
         Icon(
             painter = icon,
             contentDescription = "delete action",
