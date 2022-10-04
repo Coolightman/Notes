@@ -8,11 +8,9 @@ class RestoreNoteUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(noteId: Long) {
         val note = repository.getNote(noteId)
-        val editedNote = note.copy(
-            isInTrash = false,
-            isEdited = true,
-            editedAt = System.currentTimeMillis()
+        val restoredNote = note.copy(
+            isInTrash = false
         )
-        repository.update(editedNote)
+        repository.update(restoredNote)
     }
 }

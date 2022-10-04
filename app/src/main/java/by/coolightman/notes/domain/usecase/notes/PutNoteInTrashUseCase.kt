@@ -8,11 +8,9 @@ class PutNoteInTrashUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(noteId: Long) {
         val note = repository.getNote(noteId)
-        val editedNote = note.copy(
-            isInTrash = true,
-            isEdited = true,
-            editedAt = System.currentTimeMillis()
+        val trashedNote = note.copy(
+            isInTrash = true
         )
-        repository.update(editedNote)
+        repository.update(trashedNote)
     }
 }

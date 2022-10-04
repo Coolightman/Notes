@@ -19,10 +19,28 @@ class GetAllNotesSortByUseCase @Inject constructor(
                 repository.getAllActive().map { list -> list.sortedByDescending { it.colorIndex } }
             }
             SortNotesBy.EDIT_DATE -> {
-                repository.getAllActive().map { list -> list.sortedBy { it.editedAt } }
+                repository.getAllActive().map { list ->
+                    list
+                        .sortedBy {
+                            if (it.isEdited) {
+                                it.editedAt
+                            } else {
+                                it.createdAt
+                            }
+                        }
+                }
             }
             SortNotesBy.EDIT_DATE_DESC -> {
-                repository.getAllActive().map { list -> list.sortedByDescending { it.editedAt } }
+                repository.getAllActive().map { list ->
+                    list
+                        .sortedByDescending {
+                            if (it.isEdited) {
+                                it.editedAt
+                            } else {
+                                it.createdAt
+                            }
+                        }
+                }
             }
             SortNotesBy.CREATE_DATE -> {
                 repository.getAllActive().map { list -> list.sortedBy { it.createdAt } }

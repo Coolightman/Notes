@@ -11,9 +11,7 @@ class RestoreAllNotesTrashUseCase @Inject constructor(
         val trashList = repository.getTrash().first()
         val restoredList = trashList.map {
             it.copy(
-                isInTrash = false,
-                isEdited = true,
-                editedAt = System.currentTimeMillis()
+                isInTrash = false
             )
         }
         repository.updateList(restoredList)
