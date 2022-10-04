@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
@@ -18,6 +15,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -36,7 +34,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun EditNoteScreen(
     navController: NavController,
-    viewModel: EditNoteViewModel = hiltViewModel()
+    viewModel: EditNoteViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState
 ) {
     val state = viewModel.uiState
     var title by remember {
@@ -65,6 +64,7 @@ fun EditNoteScreen(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -148,9 +148,11 @@ fun EditNoteScreen(
         ) {
             TextButton(
                 onClick = {
-                    if (text.isNotEmpty()) {
-                        viewModel.saveNote(title, text, selectedColor)
+                    if (text.trim().isNotEmpty()) {
+                        viewModel.saveNote(title.trim(), text.trim(), selectedColor)
                         goBack(scope, focusManager, navController)
+                    } else {
+                        showSnack(scope, scaffoldState, context.getString(R.string.empty_note))
                     }
                 },
                 modifier = Modifier
@@ -163,6 +165,23 @@ fun EditNoteScreen(
                 )
             }
         }
+    }
+}
+
+private fun showSnack(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    text: String
+) {
+    scope.launch {
+        val job = launch {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = text,
+                duration = SnackbarDuration.Indefinite
+            )
+        }
+        delay(2000L)
+        job.cancel()
     }
 }
 

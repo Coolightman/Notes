@@ -22,4 +22,6 @@
     <string name="color">Color</string>
     <string name="created_sort">Created</string>
     <string name="edited_sort">Edited</string>
+    <string name="empty_note">Note is empty</string>
+    <string name="empty_task">Task is empty</string>
 </resources>

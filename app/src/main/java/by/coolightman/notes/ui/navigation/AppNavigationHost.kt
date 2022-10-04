@@ -44,7 +44,8 @@ fun AppNavigationHost(
             )
         ) {
             EditNoteScreen(
-                navController = navController
+                navController = navController,
+                scaffoldState = scaffoldState
             )
         }
 
@@ -74,7 +75,8 @@ fun AppNavigationHost(
             )
         ) {
             EditTaskScreen(
-                navController = navController
+                navController = navController,
+                scaffoldState = scaffoldState
             )
         }
     }

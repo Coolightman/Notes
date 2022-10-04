@@ -15,6 +15,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -33,7 +34,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun EditTaskScreen(
     navController: NavController,
-    viewModel: EditTaskViewModel = hiltViewModel()
+    viewModel: EditTaskViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState
 ) {
     val state = viewModel.uiState
     var text by remember {
@@ -63,6 +65,7 @@ fun EditTaskScreen(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -148,9 +151,11 @@ fun EditTaskScreen(
         ) {
             TextButton(
                 onClick = {
-                    if (text.isNotEmpty()) {
-                        viewModel.saveTask(text, selectedColor, isImportant)
+                    if (text.trim().isNotEmpty()) {
+                        viewModel.saveTask(text.trim(), selectedColor, isImportant)
                         goBack(scope, focusManager, navController)
+                    } else {
+                        showSnack(scope, scaffoldState, context.getString(R.string.empty_task))
                     }
                 },
                 modifier = Modifier
@@ -163,6 +168,23 @@ fun EditTaskScreen(
                 )
             }
         }
+    }
+}
+
+private fun showSnack(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    text: String
+) {
+    scope.launch {
+        val job = launch {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = text,
+                duration = SnackbarDuration.Indefinite
+            )
+        }
+        delay(2000L)
+        job.cancel()
     }
 }
 
