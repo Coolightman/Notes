@@ -103,7 +103,7 @@ fun NotesScreen(
                         Text(text = stringResource(R.string.trash))
                     }
                     DropdownMenuItem(onClick = {
-                        navController.navigate(NavRoutes.Settings.route){
+                        navController.navigate(NavRoutes.Settings.route) {
                             launchSingleTop = true
                         }
                         isDropMenuExpanded = false
@@ -116,9 +116,11 @@ fun NotesScreen(
             })
 
         SortPanel(
-            isVisible = isShowSortPanel, onSort = {
+            isVisible = isShowSortPanel,
+            onSort = {
                 viewModel.setSortBy(it)
-            }, currentSortIndex = uiState.sortByIndex
+            },
+            currentSortIndex = uiState.sortByIndex
         )
 
         if (uiState.list.isEmpty()) {

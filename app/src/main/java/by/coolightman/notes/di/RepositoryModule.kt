@@ -1,8 +1,10 @@
 package by.coolightman.notes.di
 
 import by.coolightman.notes.data.repository.NoteRepositoryImpl
+import by.coolightman.notes.data.repository.PreferencesRepositoryImpl
 import by.coolightman.notes.data.repository.TaskRepositoryImpl
 import by.coolightman.notes.domain.repository.NoteRepository
+import by.coolightman.notes.domain.repository.PreferencesRepository
 import by.coolightman.notes.domain.repository.TaskRepository
 import dagger.Binds
 import dagger.Module
@@ -22,4 +24,7 @@ interface RepositoryModule {
     @Singleton
     fun provideTaskRepository(impl: TaskRepositoryImpl): TaskRepository
 
+    @Binds
+    @Singleton
+    fun providePreferencesRepository(impl: PreferencesRepositoryImpl): PreferencesRepository
 }

@@ -6,26 +6,36 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortNotesBy
+import by.coolightman.notes.domain.repository.PreferencesRepository
 import by.coolightman.notes.domain.usecase.notes.GetAllNotesSortByUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNotesTrashCountUseCase
 import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
     private val getAllNotesSortByUseCase: GetAllNotesSortByUseCase,
-    private val putNoteInTrashUseCase: PutNoteInTrashUseCase
+    private val putNoteInTrashUseCase: PutNoteInTrashUseCase,
+    private val prefRepo: PreferencesRepository
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesUiState())
         private set
 
-    private val _sortNotesBy = MutableStateFlow(SortNotesBy.values()[0])
+    private val _sortNotesBy: StateFlow<SortNotesBy> = prefRepo.getInt(SORT_NOTES_BY_KEY)
+        .map { value -> SortNotesBy.values()[value] }
+        .stateIn(
+            scope = viewModelScope + Dispatchers.IO,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = SortNotesBy.COLOR
+        )
 
     init {
         getNotes()
@@ -47,7 +57,7 @@ class NotesViewModel @Inject constructor(
     }
 
     fun setSortBy(sortBy: SortNotesBy) {
-        _sortNotesBy.update { sortBy }
+        viewModelScope.launch { prefRepo.putInt(SORT_NOTES_BY_KEY, sortBy.ordinal) }
     }
 
     private fun getTrashCount() {
@@ -62,5 +72,9 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             putNoteInTrashUseCase(noteId)
         }
+    }
+
+    companion object {
+        private const val SORT_NOTES_BY_KEY = "SortNotesByKey"
     }
 }
