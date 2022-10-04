@@ -23,10 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.CustomTextField
-import by.coolightman.notes.ui.components.DateText
-import by.coolightman.notes.ui.components.SelectColorBar
-import by.coolightman.notes.ui.components.SwitchCard
+import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -72,7 +69,7 @@ fun EditTaskScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        TopAppBar(
+        AppTopAppBar(
             navigationIcon = {
                 IconButton(
                     onClick = {
@@ -84,9 +81,7 @@ fun EditTaskScreen(
                         contentDescription = "back"
                     )
                 }
-            },
-            title = { },
-            actions = { }
+            }
         )
 
         Card(

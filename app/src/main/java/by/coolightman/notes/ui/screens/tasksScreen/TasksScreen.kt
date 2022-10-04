@@ -23,10 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Task
-import by.coolightman.notes.ui.components.AppAlertDialog
-import by.coolightman.notes.ui.components.DeleteSwipeSub
-import by.coolightman.notes.ui.components.EmptyContentSplash
-import by.coolightman.notes.ui.components.TasksItem
+import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.util.DISMISS_DELAY
 import kotlinx.coroutines.delay
@@ -46,7 +43,7 @@ fun TasksScreen(
     var openDeleteInactiveTasksDialog by remember {
         mutableStateOf(false)
     }
-    if (openDeleteInactiveTasksDialog){
+    if (openDeleteInactiveTasksDialog) {
         AppAlertDialog(
             text = stringResource(R.string.delete_inactive_tasks_dialog),
             confirmButtonText = stringResource(R.string.delete),
@@ -59,14 +56,16 @@ fun TasksScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(title = { }, actions = {
-            IconButton(onClick = { openDeleteInactiveTasksDialog = true }) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
+        AppTopAppBar(
+            actions = {
+                IconButton(onClick = { openDeleteInactiveTasksDialog = true }) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
+                }
+                IconButton(onClick = { }) {
+                    Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+                }
             }
-            IconButton(onClick = { }) {
-                Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
-            }
-        })
+        )
 
         if (state.list.isEmpty()) {
             EmptyContentSplash(

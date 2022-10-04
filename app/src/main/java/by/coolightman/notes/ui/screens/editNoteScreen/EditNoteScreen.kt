@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
@@ -22,10 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.CustomTextField
-import by.coolightman.notes.ui.components.DateText
-import by.coolightman.notes.ui.components.NoteTitleField
-import by.coolightman.notes.ui.components.SelectColorBar
+import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColors
 import by.coolightman.notes.util.toFormattedDate
 import kotlinx.coroutines.CoroutineScope
@@ -71,7 +71,7 @@ fun EditNoteScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        TopAppBar(
+        AppTopAppBar(
             navigationIcon = {
                 IconButton(
                     onClick = {
@@ -83,9 +83,7 @@ fun EditNoteScreen(
                         contentDescription = "back"
                     )
                 }
-            },
-            title = { },
-            actions = { }
+            }
         )
 
         Card(

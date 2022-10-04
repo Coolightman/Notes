@@ -14,7 +14,7 @@
     <string name="cancel">Cancel</string>
     <string name="restore_all_notes_dialog">Do you want to restore all notes?</string>
     <string name="restore">Restore</string>
-    <string name="delete_all_notes_dialog">Do you want to empty the cart?</string>
+    <string name="delete_all_notes_dialog">Do you want to empty the trash?</string>
     <string name="delete_inactive_tasks_dialog">Do you want to delete all inactive tasks?</string>
     <string name="delete">Delete</string>
     <string name="created">created:</string>

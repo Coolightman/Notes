@@ -29,8 +29,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
-    navController: NavController,
-    viewModel: NotesViewModel = hiltViewModel()
+    navController: NavController, viewModel: NotesViewModel = hiltViewModel()
 ) {
     val state = viewModel.uiState
     val listState = rememberLazyListState()
@@ -51,12 +50,9 @@ fun NotesScreen(
         }
     }
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = { },
+        AppTopAppBar(
             actions = {
-                IconButton(
-                    onClick = { isShowSortPanel = !isShowSortPanel }
-                ) {
+                IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_sort_24),
                         contentDescription = "sort",
@@ -68,8 +64,7 @@ fun NotesScreen(
                     )
                 }
 
-                BadgedIcon(
-                    icon = painterResource(id = R.drawable.ic_delete_full_24),
+                BadgedIcon(icon = painterResource(id = R.drawable.ic_delete_full_24),
                     iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
                     badgeValue = state.trashCount,
                     onClick = {
@@ -77,26 +72,20 @@ fun NotesScreen(
                             launchSingleTop = true
                         }
                     })
-                IconButton(
-                    onClick = { }
-                ) {
+                IconButton(onClick = { }) {
                     Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
                 }
-            }
-        )
+            })
 
         SortPanel(
-            isVisible = isShowSortPanel,
-            onSort = {
+            isVisible = isShowSortPanel, onSort = {
                 viewModel.setSortBy(it)
-            },
-            currentSortIndex = state.sortByIndex
+            }, currentSortIndex = state.sortByIndex
         )
 
         if (state.list.isEmpty()) {
             EmptyContentSplash(
-                iconId = R.drawable.ic_note_24,
-                textId = R.string.no_notes
+                iconId = R.drawable.ic_note_24, textId = R.string.no_notes
             )
         } else {
 
@@ -106,21 +95,16 @@ fun NotesScreen(
                 contentPadding = PaddingValues(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = state.list,
-                    key = { it.id }
-                ) { note ->
-                    val dismissState = rememberDismissState(
-                        confirmStateChange = {
-                            if (it == DismissValue.DismissedToEnd) {
-                                scope.launch {
-                                    delay(DISMISS_DELAY)
-                                    viewModel.putInNoteTrash(note.id)
-                                }
+                items(items = state.list, key = { it.id }) { note ->
+                    val dismissState = rememberDismissState(confirmStateChange = {
+                        if (it == DismissValue.DismissedToEnd) {
+                            scope.launch {
+                                delay(DISMISS_DELAY)
+                                viewModel.putInNoteTrash(note.id)
                             }
-                            true
                         }
-                    )
+                        true
+                    })
 
                     SwipeToDismiss(
                         state = dismissState,
@@ -134,14 +118,11 @@ fun NotesScreen(
                         },
                         modifier = Modifier.animateItemPlacement()
                     ) {
-                        NotesItem(
-                            item = note,
-                            onClick = {
-                                navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
-                                    launchSingleTop = true
-                                }
+                        NotesItem(item = note, onClick = {
+                            navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
+                                launchSingleTop = true
                             }
-                        )
+                        })
                     }
                 }
             }

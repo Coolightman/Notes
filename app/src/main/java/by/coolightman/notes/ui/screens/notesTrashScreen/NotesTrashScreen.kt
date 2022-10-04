@@ -19,10 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.AppAlertDialog
-import by.coolightman.notes.ui.components.DeleteRestoreSwipeSub
-import by.coolightman.notes.ui.components.EmptyContentSplash
-import by.coolightman.notes.ui.components.NotesItem
+import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.util.DISMISS_DELAY
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -68,7 +65,7 @@ fun NotesTrashScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
+        AppTopAppBar(
             navigationIcon = {
                 IconButton(
                     onClick = { navController.popBackStack() }
@@ -79,7 +76,6 @@ fun NotesTrashScreen(
                     )
                 }
             },
-            title = { },
             actions = {
                 IconButton(
                     onClick = {
