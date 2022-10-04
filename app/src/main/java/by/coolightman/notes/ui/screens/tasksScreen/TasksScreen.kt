@@ -2,19 +2,18 @@ package by.coolightman.notes.ui.screens.tasksScreen
 
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -55,15 +54,46 @@ fun TasksScreen(
             onCancel = { openDeleteInactiveTasksDialog = false }
         )
     }
+    var isDropMenuExpanded by remember {
+        mutableStateOf(false)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
             actions = {
-                IconButton(onClick = { openDeleteInactiveTasksDialog = true }) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
+                IconButton(onClick = { isDropMenuExpanded = true }) {
+                    Icon(
+                        Icons.Default.MoreVert,
+                        contentDescription = "more",
+                        tint = if (isDropMenuExpanded) {
+                            Color.White
+                        } else {
+                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                        }
+                    )
                 }
-                IconButton(onClick = { }) {
-                    Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+                DropdownMenu(
+                    expanded = isDropMenuExpanded,
+                    onDismissRequest = { isDropMenuExpanded = false }
+                ) {
+                    DropdownMenuItem(
+                        onClick = {
+                            openDeleteInactiveTasksDialog = true
+                            isDropMenuExpanded = false
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(text = stringResource(R.string.delete_inactive))
+                    }
+                    DropdownMenuItem(onClick = {
+//                        TODO settings
+                        isDropMenuExpanded = false
+                    }) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(text = stringResource(R.string.settings))
+                    }
                 }
             }
         )

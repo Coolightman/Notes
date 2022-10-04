@@ -24,4 +24,7 @@
     <string name="edited_sort">Edited</string>
     <string name="empty_note">Note is empty</string>
     <string name="empty_task">Task is empty</string>
+    <string name="delete_inactive">Delete inactive</string>
+    <string name="settings">Settings</string>
+    <string name="trash">Trash</string>
 </resources>

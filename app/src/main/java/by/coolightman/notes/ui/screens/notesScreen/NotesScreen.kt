@@ -1,21 +1,20 @@
 package by.coolightman.notes.ui.screens.notesScreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -50,6 +49,10 @@ fun NotesScreen(
             listState.animateScrollToItem(0)
         }
     }
+    var isDropMenuExpanded by remember {
+        mutableStateOf(false)
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
             actions = {
@@ -65,16 +68,45 @@ fun NotesScreen(
                     )
                 }
 
-                BadgedIcon(icon = painterResource(id = R.drawable.ic_delete_full_24),
-                    iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
-                    badgeValue = state.trashCount,
-                    onClick = {
-                        navController.navigate(NavRoutes.NotesTrash.route) {
-                            launchSingleTop = true
+                IconButton(onClick = { isDropMenuExpanded = true }) {
+                    Icon(
+                        Icons.Default.MoreVert,
+                        contentDescription = "more",
+                        tint = if (isDropMenuExpanded) {
+                            Color.White
+                        } else {
+                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
                         }
-                    })
-                IconButton(onClick = { }) {
-                    Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+                    )
+                }
+                DropdownMenu(
+                    expanded = isDropMenuExpanded,
+                    onDismissRequest = { isDropMenuExpanded = false }
+                ) {
+                    DropdownMenuItem(
+                        onClick = {
+                            navController.navigate(NavRoutes.NotesTrash.route) {
+                                launchSingleTop = true
+                            }
+                            isDropMenuExpanded = false
+                        }
+                    ) {
+                        BadgedIcon(
+                            icon = painterResource(id = R.drawable.ic_delete_full_24),
+                            iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
+                            badgeValue = state.trashCount
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = stringResource(R.string.trash))
+                    }
+                    DropdownMenuItem(onClick = {
+//                        TODO settings
+                        isDropMenuExpanded = false
+                    }) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(text = stringResource(R.string.settings))
+                    }
                 }
             })
 

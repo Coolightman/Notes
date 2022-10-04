@@ -10,13 +10,12 @@ fun AppTopAppBar(
     modifier: Modifier = Modifier,
     title: @Composable (() -> Unit)? = null,
     navigationIcon: @Composable (() -> Unit)? = null,
-    actions: @Composable (RowScope.() -> Unit)? = null,
+    actions: @Composable (RowScope.() -> Unit)? = null
 ) {
+
     TopAppBar(
         title = { title?.let { title() } },
-        navigationIcon = {
-            navigationIcon?.let { navigationIcon() }
-        },
+        navigationIcon = { navigationIcon?.let { navigationIcon() } },
         actions = { actions?.let { actions() } },
         modifier = modifier
     )
