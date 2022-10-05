@@ -11,6 +11,7 @@ import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import by.coolightman.notes.ui.components.AppBottomBar
 import by.coolightman.notes.ui.components.AppFloatingActionButton
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         setContent {
             PrepareUI {
+                val viewModel = hiltViewModel<MainViewModel>()
                 val scaffoldState = rememberScaffoldState()
                 val navController = rememberNavController()
                 val startDestination = StartDestination.NOTES.route

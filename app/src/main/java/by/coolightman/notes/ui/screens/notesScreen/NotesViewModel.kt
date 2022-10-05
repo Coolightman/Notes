@@ -6,10 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortNotesBy
-import by.coolightman.notes.domain.repository.PreferencesRepository
 import by.coolightman.notes.domain.usecase.notes.GetAllNotesSortByUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNotesTrashCountUseCase
 import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
+import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
+import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -21,14 +22,15 @@ class NotesViewModel @Inject constructor(
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
     private val getAllNotesSortByUseCase: GetAllNotesSortByUseCase,
     private val putNoteInTrashUseCase: PutNoteInTrashUseCase,
-    private val preferencesRepository: PreferencesRepository
+    private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
+    private val getIntPreferenceUseCase: GetIntPreferenceUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesUiState())
         private set
 
     private val sortNotesBy: Flow<SortNotesBy> =
-        preferencesRepository.getInt(SORT_NOTES_BY_KEY)
+        getIntPreferenceUseCase(SORT_NOTES_BY_KEY)
             .map { value -> SortNotesBy.values()[value] }
 
     init {
@@ -52,7 +54,7 @@ class NotesViewModel @Inject constructor(
     }
 
     fun setSortBy(sortBy: SortNotesBy) {
-        viewModelScope.launch { preferencesRepository.putInt(SORT_NOTES_BY_KEY, sortBy.ordinal) }
+        viewModelScope.launch { putIntPreferenceUseCase(SORT_NOTES_BY_KEY, sortBy.ordinal) }
     }
 
     private fun getTrashCount() {
