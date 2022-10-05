@@ -147,7 +147,8 @@ fun TasksScreen(
                             DeleteSwipeSub(
                                 dismissState = dismissState,
                                 isNote = false,
-                                icon = painterResource(R.drawable.ic_delete_forever_24)
+                                icon = painterResource(R.drawable.ic_delete_forever_24),
+                                subColor = Color.Red
                             )
                         },
                         modifier = Modifier.animateItemPlacement()

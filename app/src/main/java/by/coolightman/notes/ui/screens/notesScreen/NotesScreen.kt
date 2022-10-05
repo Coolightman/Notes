@@ -157,7 +157,8 @@ fun NotesScreen(
                         background = {
                             DeleteSwipeSub(
                                 dismissState = dismissState,
-                                icon = painterResource(R.drawable.ic_delete_sweep_24)
+                                icon = painterResource(R.drawable.ic_delete_sweep_24),
+                                subColor = Color.Yellow
                             )
                         },
                         modifier = Modifier.animateItemPlacement()

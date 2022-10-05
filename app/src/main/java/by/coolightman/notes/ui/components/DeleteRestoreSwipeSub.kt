@@ -119,7 +119,10 @@ fun DeleteRestoreSwipeSub(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DeleteSwipeSub(
-    dismissState: DismissState, isNote: Boolean = true, icon: Painter
+    dismissState: DismissState,
+    isNote: Boolean = true,
+    icon: Painter,
+    subColor: Color
 ) {
     val view = LocalView.current
 
@@ -131,7 +134,7 @@ fun DeleteSwipeSub(
 
     val color by animateColorAsState(
         targetValue = when (dismissState.dismissDirection) {
-            DismissDirection.StartToEnd -> Color.Red.copy(COLOR_ALFA)
+            DismissDirection.StartToEnd -> subColor.copy(COLOR_ALFA)
             else -> Color.Transparent
         }, animationSpec = tween(ANIMATE_DURATION)
     )
