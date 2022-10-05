@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.ui.model.ItemColors
+import by.coolightman.notes.ui.theme.Gold
 
 @Composable
 fun TasksItem(
@@ -45,8 +46,7 @@ fun TasksItem(
         )
     } else {
         MaterialTheme.typography.body1.copy(
-            fontSize = 18.1.sp,
-            textDecoration = TextDecoration.LineThrough
+            fontSize = 18.1.sp, textDecoration = TextDecoration.LineThrough
         )
     }
 
@@ -57,13 +57,12 @@ fun TasksItem(
             .fillMaxWidth()
             .defaultMinSize(minHeight = 48.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick() }
-                .background(Color(ItemColors.values()[item.colorIndex].color).copy(backgroundAlfa))
-        ) {
+                .background(Color(ItemColors.values()[item.colorIndex].color).copy(backgroundAlfa)))
+        {
             IconButton(onClick = { onSwitchActive() }) {
                 Icon(
                     painter = painterResource(
@@ -71,7 +70,7 @@ fun TasksItem(
                         else R.drawable.ic_task_24
                     ),
                     contentDescription = "active task",
-                    tint = if (item.isImportant) Color.Red.copy(contentAlfa)
+                    tint = if (item.isImportant) Gold.copy(contentAlfa)
                     else LocalContentColor.current.copy(contentAlfa)
                 )
             }
@@ -88,8 +87,7 @@ fun TasksItem(
 }
 
 @Preview(
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_YES
+    showBackground = true, uiMode = UI_MODE_NIGHT_YES
 )
 @Composable
 private fun NotesItemPreview() {

@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColors
+import by.coolightman.notes.ui.theme.Gold
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -107,7 +108,7 @@ fun EditTaskScreen(
                             id = R.drawable.ic_outline_circle_24
                         ),
                         contentDescription = "active task",
-                        tint = if (isImportant) Color.Red
+                        tint = if (isImportant) Gold
                         else LocalContentColor.current
                     )
                 }
