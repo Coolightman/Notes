@@ -3,6 +3,7 @@ package by.coolightman.notes.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -44,7 +45,7 @@ fun BadgedIcon(
                 Text(
                     text = badgeValue.toString(),
                     style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center).offset(y = (-0.5).dp)
                 )
             }
         } else {
