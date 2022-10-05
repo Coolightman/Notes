@@ -90,7 +90,8 @@ fun EditNoteScreen(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp, 12.dp, 12.dp, 0.dp)
+                .padding(12.dp, 12.dp, 12.dp, 0.dp),
+            elevation = 2.dp
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,9 +105,8 @@ fun EditNoteScreen(
                     focusManager = focusManager
                 )
                 Card(
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(0.dp)
                 ) {
                     Column(
                         modifier = Modifier

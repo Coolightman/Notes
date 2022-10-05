@@ -71,37 +71,31 @@ fun NotesItem(
                         .height(4.dp)
                 )
             }
-            Card(
-                shape = RoundedCornerShape(0.dp),
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.05f))
             ) {
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.05f))
+                        .defaultMinSize(minHeight = 48.dp)
                 ) {
-                    Box(
+                    Text(
+                        text = item.text,
+                        style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .defaultMinSize(minHeight = 48.dp)
-                    ) {
-                        Text(
-                            text = item.text,
-                            style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.TopStart)
-                                .padding(12.dp, 8.dp, 12.dp, 0.dp)
-                        )
-                    }
-
-                    val dateText = if (item.isEdited) {
-                        val edited = stringResource(R.string.edit)
-                        "$edited " + item.editedAt.toFormattedDate()
-                    } else item.createdAt.toFormattedDate()
-                    DateText(text = dateText)
+                            .align(Alignment.TopStart)
+                            .padding(12.dp, 8.dp, 12.dp, 0.dp)
+                    )
                 }
+
+                val dateText = if (item.isEdited) {
+                    val edited = stringResource(R.string.edit)
+                    "$edited " + item.editedAt.toFormattedDate()
+                } else item.createdAt.toFormattedDate()
+                DateText(text = dateText)
             }
         }
     }
