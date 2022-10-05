@@ -11,11 +11,9 @@ import by.coolightman.notes.domain.usecase.notes.GetAllNotesSortByUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNotesTrashCountUseCase
 import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,13 +27,9 @@ class NotesViewModel @Inject constructor(
     var uiState by mutableStateOf(NotesUiState())
         private set
 
-    private val _sortNotesBy: StateFlow<SortNotesBy> = prefRepo.getInt(SORT_NOTES_BY_KEY)
-        .map { value -> SortNotesBy.values()[value] }
-        .stateIn(
-            scope = viewModelScope + Dispatchers.IO,
-            started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = SortNotesBy.COLOR
-        )
+    private val sortNotesBy: Flow<SortNotesBy> =
+        prefRepo.getInt(SORT_NOTES_BY_KEY)
+            .map { value -> SortNotesBy.values()[value] }
 
     init {
         getNotes()
@@ -45,12 +39,12 @@ class NotesViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun getNotes() {
         viewModelScope.launch {
-            _sortNotesBy.flatMapLatest { sortNotesBy ->
-                getAllNotesSortByUseCase(sortNotesBy)
+            sortNotesBy.flatMapLatest { sortBy ->
+                getAllNotesSortByUseCase(sortBy)
             }.collectLatest {
                 uiState = uiState.copy(
                     list = it,
-                    sortByIndex = _sortNotesBy.value.ordinal
+                    sortByIndex = sortNotesBy.first().ordinal
                 )
             }
         }
