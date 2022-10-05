@@ -1,7 +1,6 @@
 package by.coolightman.notes.ui.components
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,7 +14,12 @@ fun CountRow(
     value: Int
 ) {
     if (value != 0) {
-        Row(modifier = modifier) {
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp, 8.dp, 16.dp)
+        ) {
             Text(text = label)
             Text(
                 text = value.toString(),

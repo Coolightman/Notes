@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -65,17 +64,6 @@ fun TasksScreen(
                 Text(text = stringResource(id = R.string.tasks_title))
             },
             actions = {
-                Column(horizontalAlignment = Alignment.End) {
-                    CountRow(
-                        label = stringResource(R.string.active_count),
-                        value = uiState.activeTasksCount
-                    )
-                    CountRow(
-                        label = stringResource(R.string.inactive_count),
-                        value = uiState.inactiveTasksCount
-                    )
-                }
-                Spacer(modifier = Modifier.width(6.dp))
                 IconButton(onClick = { isDropMenuExpanded = true }) {
                     Icon(
                         Icons.Default.MoreVert,
@@ -111,6 +99,15 @@ fun TasksScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = stringResource(R.string.settings))
                     }
+                    Divider()
+                    CountRow(
+                        label = stringResource(R.string.active_count),
+                        value = uiState.activeTasksCount
+                    )
+                    CountRow(
+                        label = stringResource(R.string.inactive_count),
+                        value = uiState.inactiveTasksCount
+                    )
                 }
             }
         )

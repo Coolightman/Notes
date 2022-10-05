@@ -59,11 +59,6 @@ fun NotesScreen(
                 Text(text = stringResource(id = R.string.notes_title))
             },
             actions = {
-                CountRow(
-                    label = stringResource(R.string.total_count),
-                    value = uiState.notesCount
-                )
-                Spacer(modifier = Modifier.width(16.dp))
                 IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_sort_24),
@@ -116,6 +111,11 @@ fun NotesScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = stringResource(R.string.settings))
                     }
+                    Divider()
+                    CountRow(
+                        label = stringResource(R.string.total_count),
+                        value = uiState.notesCount
+                    )
                 }
             })
 

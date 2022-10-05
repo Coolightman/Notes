@@ -78,10 +78,6 @@ fun NotesTrashScreen(
                 }
             },
             actions = {
-                CountRow(
-                    label = stringResource(R.string.total_count),
-                    value = uiState.trashCount
-                )
                 Spacer(modifier = Modifier.width(16.dp))
                 IconButton(
                     onClick = {
