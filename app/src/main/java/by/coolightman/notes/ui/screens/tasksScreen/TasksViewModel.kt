@@ -32,7 +32,11 @@ class TasksViewModel @Inject constructor(
     private fun getTasks() {
         viewModelScope.launch {
             getAllTasksUseCase().collect {
-                uiState = uiState.copy(list = it)
+                uiState = uiState.copy(
+                    list = it,
+                    activeTasksCount = it.filter { task -> task.isActive }.size,
+                    inactiveTasksCount = it.filter { task -> !task.isActive }.size,
+                )
             }
         }
     }

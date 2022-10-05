@@ -44,7 +44,8 @@ class NotesViewModel @Inject constructor(
             }.collectLatest {
                 uiState = uiState.copy(
                     list = it,
-                    sortByIndex = sortNotesBy.first().ordinal
+                    sortByIndex = sortNotesBy.first().ordinal,
+                    notesCount = it.size
                 )
             }
         }

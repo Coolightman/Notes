@@ -29,7 +29,10 @@ class NotesTrashViewModel @Inject constructor(
     private fun getTrash() {
         viewModelScope.launch {
             getNotesTrashUseCase().collect {
-                uiState = uiState.copy(list = it)
+                uiState = uiState.copy(
+                    list = it,
+                    trashCount = it.size
+                )
             }
         }
     }

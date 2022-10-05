@@ -1,10 +1,7 @@
 package by.coolightman.notes.ui.screens.notesTrashScreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -81,6 +78,11 @@ fun NotesTrashScreen(
                 }
             },
             actions = {
+                CountRow(
+                    label = stringResource(R.string.total_count),
+                    value = uiState.trashCount
+                )
+                Spacer(modifier = Modifier.width(16.dp))
                 IconButton(
                     onClick = {
                         if (uiState.list.isNotEmpty()) {
