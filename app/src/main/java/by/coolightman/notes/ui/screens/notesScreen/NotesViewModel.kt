@@ -21,14 +21,14 @@ class NotesViewModel @Inject constructor(
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
     private val getAllNotesSortByUseCase: GetAllNotesSortByUseCase,
     private val putNoteInTrashUseCase: PutNoteInTrashUseCase,
-    private val prefRepo: PreferencesRepository
+    private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesUiState())
         private set
 
     private val sortNotesBy: Flow<SortNotesBy> =
-        prefRepo.getInt(SORT_NOTES_BY_KEY)
+        preferencesRepository.getInt(SORT_NOTES_BY_KEY)
             .map { value -> SortNotesBy.values()[value] }
 
     init {
@@ -51,7 +51,7 @@ class NotesViewModel @Inject constructor(
     }
 
     fun setSortBy(sortBy: SortNotesBy) {
-        viewModelScope.launch { prefRepo.putInt(SORT_NOTES_BY_KEY, sortBy.ordinal) }
+        viewModelScope.launch { preferencesRepository.putInt(SORT_NOTES_BY_KEY, sortBy.ordinal) }
     }
 
     private fun getTrashCount() {
