@@ -11,6 +11,7 @@ import by.coolightman.notes.domain.usecase.notes.GetNotesTrashCountUseCase
 import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
+import by.coolightman.notes.util.SORT_NOTES_BY_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -69,9 +70,5 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             putNoteInTrashUseCase(noteId)
         }
-    }
-
-    companion object {
-        private const val SORT_NOTES_BY_KEY = "SortNotesByKey"
     }
 }

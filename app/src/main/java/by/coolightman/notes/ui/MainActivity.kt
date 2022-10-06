@@ -16,7 +16,6 @@ import by.coolightman.notes.ui.components.AppBottomBar
 import by.coolightman.notes.ui.components.AppFloatingActionButton
 import by.coolightman.notes.ui.components.AppSnackbarHost
 import by.coolightman.notes.ui.components.PrepareUI
-import by.coolightman.notes.ui.model.StartDestination
 import by.coolightman.notes.ui.navigation.AppNavigationHost
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 val viewModel = hiltViewModel<MainViewModel>()
                 val scaffoldState = rememberScaffoldState()
                 val navController = rememberNavController()
-                val startDestination = StartDestination.NOTES.route
+                val startDestination = viewModel.uiState.startDestination
                 Scaffold(
                     scaffoldState = scaffoldState,
                     bottomBar = {
