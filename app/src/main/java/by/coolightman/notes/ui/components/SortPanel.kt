@@ -1,9 +1,7 @@
 package by.coolightman.notes.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.horizontalScroll
@@ -28,13 +26,11 @@ fun SortPanel(
         visible = isVisible,
         enter = expandVertically(
             animationSpec = tween(
-                durationMillis = 250,
                 easing = LinearOutSlowInEasing
             )
         ),
         exit = shrinkVertically(
             animationSpec = tween(
-                durationMillis = 150,
                 easing = FastOutLinearInEasing
             )
         )
