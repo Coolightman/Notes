@@ -1,21 +1,28 @@
 package by.coolightman.notes.ui.screens.settingsScreen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.AppTopAppBar
+import by.coolightman.notes.ui.components.SettingsRow
+import by.coolightman.notes.ui.components.StartDestinationChip
+import by.coolightman.notes.ui.components.ThemeModeChip
 import by.coolightman.notes.ui.model.NavRoutes
+import by.coolightman.notes.ui.model.ThemeMode
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -49,49 +56,47 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
-            Card(
-                elevation = 2.dp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp)
-            ) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "Start screen by default:")
-                    Row(Modifier.fillMaxWidth()) {
-                        FilterChip(
-                            selected  = uiState.appStartDestination == NavRoutes.Notes.route,
-                            leadingIcon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_note_24),
-                                    contentDescription = ""
-                                )
-                            },
-                            onClick = {
-                                if (uiState.appStartDestination != NavRoutes.Notes.route) {
-                                    viewModel.setStartDestination(NavRoutes.Notes.route)
-                                }
-                            },
-                            content = { Text(text = stringResource(id = R.string.notes_title)) }
-                        )
-                        FilterChip(
-                            selected = uiState.appStartDestination == NavRoutes.Tasks.route,
-                            leadingIcon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_task_24),
-                                    contentDescription = ""
-                                )
-                            },
-                            onClick = {
-                                if (uiState.appStartDestination != NavRoutes.Tasks.route) {
-                                    viewModel.setStartDestination(NavRoutes.Tasks.route)
-                                }
-                            },
-                            content = { Text(text = stringResource(id = R.string.tasks_title)) }
-                        )
-                    }
-                }
+
+            SettingsRow(title = stringResource(R.string.start_screen)) {
+                StartDestinationChip(
+                    icon = painterResource(id = R.drawable.ic_note_24),
+                    appStartDestination = uiState.appStartDestination,
+                    chipDestination = NavRoutes.Notes.route,
+                    title = stringResource(id = R.string.notes_title),
+                    onClick = { viewModel.setStartDestination(it) }
+                )
+                StartDestinationChip(
+                    icon = painterResource(id = R.drawable.ic_task_24),
+                    appStartDestination = uiState.appStartDestination,
+                    chipDestination = NavRoutes.Tasks.route,
+                    title = stringResource(id = R.string.tasks_title),
+                    onClick = { viewModel.setStartDestination(it) }
+                )
+            }
+
+            SettingsRow(title = stringResource(R.string.theme)) {
+                ThemeModeChip(
+                    icon = painterResource(id = R.drawable.ic_theme_system_24),
+                    appThemeMode = uiState.themeMode,
+                    chipThemeMode = ThemeMode.SYSTEM_MODE,
+                    title = stringResource(R.string.system_theme),
+                    onClick = { viewModel.setThemeMode(it) }
+                )
+                ThemeModeChip(
+                    icon = painterResource(id = R.drawable.ic_theme_night_24),
+                    appThemeMode = uiState.themeMode,
+                    chipThemeMode = ThemeMode.DARK_MODE,
+                    title = stringResource(R.string.dark_theme),
+                    onClick = { viewModel.setThemeMode(it) }
+                )
+                ThemeModeChip(
+                    icon = painterResource(id = R.drawable.ic_theme_day_24),
+                    appThemeMode = uiState.themeMode,
+                    chipThemeMode = ThemeMode.LIGHT_MODE,
+                    title = stringResource(R.string.light_theme),
+                    onClick = { viewModel.setThemeMode(it) }
+                )
             }
         }
-
     }
 }

@@ -30,4 +30,9 @@
     <string name="active_count">active:</string>
     <string name="inactive_count">inactive:</string>
     <string name="total_count">total:</string>
+    <string name="start_screen">Start screen</string>
+    <string name="theme">Theme</string>
+    <string name="system_theme">System</string>
+    <string name="dark_theme">Dark</string>
+    <string name="light_theme">Light</string>
 </resources>

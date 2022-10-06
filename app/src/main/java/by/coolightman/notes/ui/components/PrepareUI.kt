@@ -1,6 +1,5 @@
 package by.coolightman.notes.ui.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -11,22 +10,25 @@ import by.coolightman.notes.ui.theme.NotesTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun PrepareUI(content: @Composable () -> Unit) {
-    NotesTheme {
+fun PrepareUI(
+    darkMode: Boolean,
+    content: @Composable () -> Unit
+) {
+    NotesTheme(darkTheme = darkMode) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            DefineSystemBarsColor()
+            DefineSystemBarsColor(darkMode = darkMode)
             content()
         }
     }
 }
 
 @Composable
-private fun DefineSystemBarsColor() {
+private fun DefineSystemBarsColor(darkMode: Boolean) {
     val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !isSystemInDarkTheme()
+    val useDarkIcons = !darkMode
     val statusBarColor = MaterialTheme.colors.background
 
     SideEffect {
