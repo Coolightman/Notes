@@ -3,6 +3,7 @@ package by.coolightman.notes.ui.components
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -43,11 +44,13 @@ fun NotesFAB(
             navController.navigate(NavRoutes.EditNote.withArgs("0")) {
                 launchSingleTop = true
             }
-        }
+        },
+        backgroundColor = MaterialTheme.colors.secondary
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_add_note_24),
-            contentDescription = "add note"
+            contentDescription = "add note",
+            tint = MaterialTheme.colors.onSurface
         )
     }
 }
@@ -62,11 +65,13 @@ fun TasksFAB(
             navController.navigate(NavRoutes.EditTask.withArgs("0")) {
                 launchSingleTop = true
             }
-        }
+        },
+        backgroundColor = MaterialTheme.colors.secondary
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_add_task_24),
-            contentDescription = "add note"
+            contentDescription = "add note",
+            tint = MaterialTheme.colors.onSurface
         )
     }
 }

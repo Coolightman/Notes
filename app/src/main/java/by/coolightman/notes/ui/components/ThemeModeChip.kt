@@ -2,10 +2,7 @@ package by.coolightman.notes.ui.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FilterChip
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -35,6 +32,11 @@ fun ThemeModeChip(
             }
         },
         content = { Text(text = title) },
+        colors = ChipDefaults.filterChipColors(
+            selectedBackgroundColor = MaterialTheme.colors.secondary.copy(0.8f),
+            selectedLeadingIconColor = MaterialTheme.colors.onSurface,
+            selectedContentColor = MaterialTheme.colors.onSurface
+        ),
         modifier = Modifier
             .height(30.dp)
             .width(100.dp)

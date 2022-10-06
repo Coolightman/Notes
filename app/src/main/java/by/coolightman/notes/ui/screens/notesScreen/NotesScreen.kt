@@ -56,7 +56,7 @@ fun NotesScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
             title = {
-                Text(text = stringResource(id = R.string.notes_title))
+                AppTitleText(text = stringResource(id = R.string.notes_title))
             },
             actions = {
                 IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
@@ -64,7 +64,7 @@ fun NotesScreen(
                         painter = painterResource(id = R.drawable.ic_baseline_sort_24),
                         contentDescription = "sort",
                         tint = if (isShowSortPanel) {
-                            Color.White
+                            MaterialTheme.colors.primaryVariant
                         } else {
                             LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
                         }
@@ -75,7 +75,7 @@ fun NotesScreen(
                         Icons.Default.MoreVert,
                         contentDescription = "more",
                         tint = if (isDropMenuExpanded) {
-                            Color.White
+                            MaterialTheme.colors.primaryVariant
                         } else {
                             LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
                         }

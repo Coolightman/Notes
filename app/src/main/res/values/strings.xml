@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Notes</string>
-    <string name="notes_title">Notes</string>
-    <string name="tasks_title">Tasks</string>
-    <string name="notes_trash_title">Notes trash</string>
+    <string name="notes_title">NOTES</string>
+    <string name="tasks_title">TASKS</string>
+    <string name="settings_title">SETTINGS</string>
+    <string name="trash_title">TRASH</string>
     <string name="no_notes">No notes</string>
     <string name="no_tasks">No tasks</string>
     <string name="no_trash">No trash</string>

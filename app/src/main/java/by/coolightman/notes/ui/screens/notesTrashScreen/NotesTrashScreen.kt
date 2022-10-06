@@ -65,7 +65,7 @@ fun NotesTrashScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
             title = {
-                Text(text = stringResource(id = R.string.trash))
+                AppTitleText(text = stringResource(id = R.string.trash_title))
             },
             navigationIcon = {
                 IconButton(

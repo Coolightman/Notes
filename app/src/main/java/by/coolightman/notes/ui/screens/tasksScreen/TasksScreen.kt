@@ -61,7 +61,7 @@ fun TasksScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
             title = {
-                Text(text = stringResource(id = R.string.tasks_title))
+                AppTitleText(text = stringResource(id = R.string.tasks_title))
             },
             actions = {
                 IconButton(onClick = { isDropMenuExpanded = true }) {
@@ -69,7 +69,7 @@ fun TasksScreen(
                         Icons.Default.MoreVert,
                         contentDescription = "more",
                         tint = if (isDropMenuExpanded) {
-                            Color.White
+                            MaterialTheme.colors.primaryVariant
                         } else {
                             LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
                         }

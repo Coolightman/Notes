@@ -2,10 +2,7 @@ package by.coolightman.notes.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FilterChip
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -38,6 +35,11 @@ fun SortByChipDouble(
                 modifier = Modifier.size(16.dp)
             )
         },
+        colors = ChipDefaults.filterChipColors(
+            selectedBackgroundColor = MaterialTheme.colors.secondary.copy(0.8f),
+            selectedLeadingIconColor = MaterialTheme.colors.onSurface,
+            selectedContentColor = MaterialTheme.colors.onSurface
+        ),
         modifier = Modifier.padding(horizontal = 4.dp)
     )
 }

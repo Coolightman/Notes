@@ -1,9 +1,11 @@
 package by.coolightman.notes.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -36,7 +38,9 @@ fun AppBottomBar(
         BottomNavigation {
             bottomTabs.forEach { tab ->
                 BottomNavigationItem(
-                    modifier = Modifier.navigationBarsPadding(),
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .background(MaterialTheme.colors.background),
                     selected = currentRoute == tab.route,
                     icon = {
                         Icon(
@@ -52,7 +56,9 @@ fun AppBottomBar(
                             launchSingleTop = true
                             restoreState = true
                         }
-                    }
+                    },
+                    selectedContentColor = MaterialTheme.colors.primaryVariant,
+                    unselectedContentColor = MaterialTheme.colors.onSurface.copy(0.8f),
                 )
             }
         }

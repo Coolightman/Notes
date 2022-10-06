@@ -4,10 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -17,14 +15,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.AppTopAppBar
-import by.coolightman.notes.ui.components.SettingsRow
-import by.coolightman.notes.ui.components.StartDestinationChip
-import by.coolightman.notes.ui.components.ThemeModeChip
+import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.ThemeMode
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
@@ -36,7 +30,7 @@ fun SettingsScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
             title = {
-                Text(text = stringResource(id = R.string.settings))
+                AppTitleText(text = stringResource(id = R.string.settings_title))
             },
             navigationIcon = {
                 IconButton(
