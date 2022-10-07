@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 val Blue200 = Color(0xFF64B5F6)
 val Blue500 = Color(0xFF2196F3)
 
-val NightAccent = Color(0xFF263238)
+val NightAccent = Color(0xFF172024)
 val DayAccent = Color(0xFFCFE5F0)
 
 val InactiveBackground = Color(0xFF777777)

@@ -41,7 +41,9 @@ fun NotesTrashScreen(
         openDeleteAllDialog -> {
             AppAlertDialog(
                 text = stringResource(R.string.delete_all_notes_dialog),
+                secondaryText = stringResource(id = R.string.can_not_restore_it),
                 confirmButtonText = stringResource(R.string.delete),
+                confirmButtonColor = MaterialTheme.colors.error,
                 onConfirm = {
                     viewModel.deleteAllTrash()
                     openDeleteAllDialog = false

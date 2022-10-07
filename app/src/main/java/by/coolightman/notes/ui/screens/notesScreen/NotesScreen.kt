@@ -59,16 +59,18 @@ fun NotesScreen(
                 AppTitleText(text = stringResource(id = R.string.notes_title))
             },
             actions = {
-                IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_sort_24),
-                        contentDescription = "sort",
-                        tint = if (isShowSortPanel) {
-                            MaterialTheme.colors.primary
-                        } else {
-                            MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
-                        }
-                    )
+                if (uiState.list.isNotEmpty()) {
+                    IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_sort_24),
+                            contentDescription = "sort",
+                            tint = if (isShowSortPanel) {
+                                MaterialTheme.colors.primary
+                            } else {
+                                MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            }
+                        )
+                    }
                 }
                 IconButton(onClick = { isDropMenuExpanded = true }) {
                     Icon(

@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,7 +19,10 @@ fun DateText(
     Text(
         textAlign = TextAlign.End,
         text = text,
-        style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
+        style = MaterialTheme.typography.caption.copy(
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Light
+        ),
         color = MaterialTheme.colors.onSurface.copy(0.25f),
         modifier = modifier
             .fillMaxWidth()

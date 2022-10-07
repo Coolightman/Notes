@@ -46,7 +46,9 @@ fun TasksScreen(
     if (openDeleteInactiveTasksDialog) {
         AppAlertDialog(
             text = stringResource(R.string.delete_inactive_tasks_dialog),
+            secondaryText = stringResource(R.string.can_not_restore_it),
             confirmButtonText = stringResource(R.string.delete),
+            confirmButtonColor = MaterialTheme.colors.error,
             onConfirm = {
                 viewModel.deleteInactiveTasks()
                 openDeleteInactiveTasksDialog = false
@@ -167,10 +169,9 @@ private suspend fun showSnackbar(
 ) {
     val action = scaffoldState.snackbarHostState.showSnackbar(
         message = context.getString(R.string.task_deleted),
-        actionLabel = context.getString(R.string.cancel)
+        actionLabel = context.getString(R.string.undo)
     )
-    when (action) {
-        SnackbarResult.ActionPerformed -> viewModel.cancelDeletion(task.id)
-        SnackbarResult.Dismissed -> {}
+    if (action == SnackbarResult.ActionPerformed) {
+        viewModel.cancelDeletion(task.id)
     }
 }

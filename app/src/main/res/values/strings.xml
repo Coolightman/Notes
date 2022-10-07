@@ -12,12 +12,13 @@
     <string name="text_placeholder">Text..</string>
     <string name="important_task">Important task</string>
     <string name="task_deleted">Task deleted</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">@android:string/cancel</string>
+    <string name="undo">UNDO</string>
     <string name="restore_all_notes_dialog">Do you want to restore all notes?</string>
-    <string name="restore">Restore</string>
+    <string name="restore">RESTORE</string>
     <string name="delete_all_notes_dialog">Do you want to empty the trash?</string>
     <string name="delete_inactive_tasks_dialog">Do you want to delete all inactive tasks?</string>
-    <string name="delete">Delete</string>
+    <string name="delete">DELETE</string>
     <string name="created">created:</string>
     <string name="edited">edited:</string>
     <string name="color">Color</string>
@@ -38,4 +39,5 @@
     <string name="light_theme">Light</string>
     <string name="new_note_color">New note color</string>
     <string name="new_task_color">New task color</string>
+    <string name="can_not_restore_it">You can\'t restore it</string>
 </resources>
