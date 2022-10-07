@@ -6,6 +6,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -40,7 +42,8 @@ fun SettingsScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back"
+                        contentDescription = "back",
+                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                     )
                 }
             }

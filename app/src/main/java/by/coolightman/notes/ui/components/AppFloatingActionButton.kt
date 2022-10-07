@@ -3,6 +3,7 @@ package by.coolightman.notes.ui.components
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -45,11 +46,11 @@ fun NotesFAB(
                 launchSingleTop = true
             }
         },
-        backgroundColor = MaterialTheme.colors.secondary
+        backgroundColor = MaterialTheme.colors.primary
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_add_note_24),
-            contentDescription = "add note",
+            painter = painterResource(id = R.drawable.ic_add_24),
+            contentDescription = "add",
             tint = MaterialTheme.colors.onSurface
         )
     }
@@ -66,12 +67,12 @@ fun TasksFAB(
                 launchSingleTop = true
             }
         },
-        backgroundColor = MaterialTheme.colors.secondary
+        backgroundColor = MaterialTheme.colors.primary
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_add_task_24),
-            contentDescription = "add note",
-            tint = MaterialTheme.colors.onSurface
+            painter = painterResource(id = R.drawable.ic_add_24),
+            contentDescription = "add",
+            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
         )
     }
 }

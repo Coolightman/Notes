@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.ui.model.ThemeMode
+import by.coolightman.notes.ui.theme.InactiveBackground
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -33,9 +34,10 @@ fun ThemeModeChip(
         },
         content = { Text(text = title) },
         colors = ChipDefaults.filterChipColors(
-            selectedBackgroundColor = MaterialTheme.colors.secondary.copy(0.8f),
+            selectedBackgroundColor = MaterialTheme.colors.primary.copy(0.5f),
             selectedLeadingIconColor = MaterialTheme.colors.onSurface,
-            selectedContentColor = MaterialTheme.colors.onSurface
+            selectedContentColor = MaterialTheme.colors.onSurface,
+            backgroundColor = InactiveBackground.copy(0.3f)
         ),
         modifier = Modifier
             .height(30.dp)

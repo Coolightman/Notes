@@ -21,6 +21,6 @@ fun AppTopAppBar(
         actions = { actions?.let { actions() } },
         modifier = modifier,
         elevation = 0.dp,
-        backgroundColor = MaterialTheme.colors.background
+        backgroundColor = MaterialTheme.colors.secondary
     )
 }

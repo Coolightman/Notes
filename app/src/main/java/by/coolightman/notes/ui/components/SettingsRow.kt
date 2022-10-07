@@ -19,14 +19,14 @@ fun SettingsRow(
         elevation = 2.dp,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 4.dp)
+            .padding(4.dp,4.dp,4.dp,0.dp)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.body1.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colors.primary
+                    color = MaterialTheme.colors.primaryVariant
                 ),
                 modifier = Modifier.padding(8.dp, 4.dp, 8.dp, 0.dp)
             )

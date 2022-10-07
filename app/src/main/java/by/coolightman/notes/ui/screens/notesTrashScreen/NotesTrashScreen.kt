@@ -73,7 +73,8 @@ fun NotesTrashScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back"
+                        contentDescription = "back",
+                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                     )
                 }
             },
@@ -88,7 +89,8 @@ fun NotesTrashScreen(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_restore_trash_24),
-                        contentDescription = "restore all"
+                        contentDescription = "restore all",
+                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                     )
                 }
                 IconButton(
@@ -100,7 +102,8 @@ fun NotesTrashScreen(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete_forever_24),
-                        contentDescription = "delete all forever"
+                        contentDescription = "delete all forever",
+                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                     )
                 }
             }

@@ -17,14 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import by.coolightman.notes.ui.theme.GrayContent
 import kotlinx.coroutines.delay
 
 @Composable
 fun EmptyContentSplash(
     @DrawableRes iconId: Int = 0,
     @StringRes textId: Int = 0,
-    color: Color = GrayContent
+    color: Color = MaterialTheme.colors.onSurface.copy(0.5f)
 ) {
     var isSplashVisible by remember {
         mutableStateOf(false)

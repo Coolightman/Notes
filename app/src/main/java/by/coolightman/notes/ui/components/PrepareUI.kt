@@ -19,21 +19,29 @@ fun PrepareUI(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            DefineSystemBarsColor(darkMode = darkMode)
+            DefineSystemBarsColors(darkMode = darkMode)
             content()
         }
     }
 }
 
 @Composable
-private fun DefineSystemBarsColor(darkMode: Boolean) {
+private fun DefineSystemBarsColors(darkMode: Boolean) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !darkMode
-    val statusBarColor = MaterialTheme.colors.background
+    val statusBarColor = MaterialTheme.colors.secondary
+    val navigationBarColor = MaterialTheme.colors.background
 
     SideEffect {
-        systemUiController.setSystemBarsColor(
+        systemUiController.setStatusBarColor(
             color = statusBarColor,
+            darkIcons = useDarkIcons
+        )
+    }
+
+    SideEffect {
+        systemUiController.setNavigationBarColor(
+            color = navigationBarColor,
             darkIcons = useDarkIcons
         )
     }

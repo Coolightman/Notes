@@ -80,7 +80,8 @@ fun EditNoteScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back"
+                        contentDescription = "back",
+                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                     )
                 }
             }

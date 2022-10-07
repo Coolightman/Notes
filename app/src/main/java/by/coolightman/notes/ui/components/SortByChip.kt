@@ -9,6 +9,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.SortNotesBy
+import by.coolightman.notes.ui.theme.InactiveBackground
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -36,9 +37,10 @@ fun SortByChipDouble(
             )
         },
         colors = ChipDefaults.filterChipColors(
-            selectedBackgroundColor = MaterialTheme.colors.secondary.copy(0.8f),
+            selectedBackgroundColor = MaterialTheme.colors.primary.copy(0.5f),
             selectedLeadingIconColor = MaterialTheme.colors.onSurface,
-            selectedContentColor = MaterialTheme.colors.onSurface
+            selectedContentColor = MaterialTheme.colors.onSurface,
+            backgroundColor = InactiveBackground.copy(0.3f)
         ),
         modifier = Modifier.padding(horizontal = 4.dp)
     )

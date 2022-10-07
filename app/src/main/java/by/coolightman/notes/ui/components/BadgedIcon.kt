@@ -23,7 +23,7 @@ fun BadgedIcon(
     icon: Painter,
     iconEmptyBadge: Painter? = null,
     badgeValue: Int,
-    badgeColor: Color = MaterialTheme.colors.secondary.copy(0.7f)
+    badgeColor: Color = MaterialTheme.colors.primary.copy(0.7f)
 ) {
     Box(modifier = Modifier.size(height = 48.dp, width = 36.dp)) {
         if (badgeValue > 0) {

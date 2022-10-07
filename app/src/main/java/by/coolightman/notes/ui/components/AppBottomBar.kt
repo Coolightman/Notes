@@ -40,7 +40,7 @@ fun AppBottomBar(
                 BottomNavigationItem(
                     modifier = Modifier
                         .navigationBarsPadding()
-                        .background(MaterialTheme.colors.background),
+                        .background(MaterialTheme.colors.secondary),
                     selected = currentRoute == tab.route,
                     icon = {
                         Icon(
@@ -57,7 +57,7 @@ fun AppBottomBar(
                             restoreState = true
                         }
                     },
-                    selectedContentColor = MaterialTheme.colors.primaryVariant,
+                    selectedContentColor = MaterialTheme.colors.primary,
                     unselectedContentColor = MaterialTheme.colors.onSurface.copy(0.8f),
                 )
             }

@@ -64,9 +64,9 @@ fun NotesScreen(
                         painter = painterResource(id = R.drawable.ic_baseline_sort_24),
                         contentDescription = "sort",
                         tint = if (isShowSortPanel) {
-                            MaterialTheme.colors.primaryVariant
+                            MaterialTheme.colors.primary
                         } else {
-                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                            MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                         }
                     )
                 }
@@ -75,9 +75,9 @@ fun NotesScreen(
                         Icons.Default.MoreVert,
                         contentDescription = "more",
                         tint = if (isDropMenuExpanded) {
-                            MaterialTheme.colors.primaryVariant
+                            MaterialTheme.colors.primary
                         } else {
-                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                            MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                         }
                     )
                 }

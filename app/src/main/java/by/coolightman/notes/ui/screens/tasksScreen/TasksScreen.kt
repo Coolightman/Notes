@@ -69,9 +69,9 @@ fun TasksScreen(
                         Icons.Default.MoreVert,
                         contentDescription = "more",
                         tint = if (isDropMenuExpanded) {
-                            MaterialTheme.colors.primaryVariant
+                            MaterialTheme.colors.primary
                         } else {
-                            LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                            MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                         }
                     )
                 }

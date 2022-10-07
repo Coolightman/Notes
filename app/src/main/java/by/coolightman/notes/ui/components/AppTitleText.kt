@@ -15,6 +15,7 @@ fun AppTitleText(
         style = MaterialTheme.typography.h5.copy(
             fontWeight = FontWeight.Light,
             letterSpacing = 1.0.sp
-        )
+        ),
+        color = MaterialTheme.colors.onSurface
     )
 }
