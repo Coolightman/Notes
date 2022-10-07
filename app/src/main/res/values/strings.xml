@@ -36,4 +36,6 @@
     <string name="system_theme">System</string>
     <string name="dark_theme">Dark</string>
     <string name="light_theme">Light</string>
+    <string name="new_note_color">New note color</string>
+    <string name="new_task_color">New task color</string>
 </resources>

@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
-import by.coolightman.notes.ui.model.ItemColors
+import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.toFormattedDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -58,9 +58,12 @@ fun EditNoteScreen(
         text = uiState.text
         selectedColor = uiState.colorIndex
         createdAt = uiState.createdAt
+        if (createdAt.isEmpty()) {
+            selectedColor = uiState.newNoteColorPrefIndex
+        }
     }
     val scrollState = rememberScrollState()
-    val itemColors = remember { ItemColors.values() }
+    val itemColors = remember { ItemColor.values() }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()

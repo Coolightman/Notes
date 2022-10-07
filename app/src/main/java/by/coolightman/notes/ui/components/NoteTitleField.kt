@@ -23,7 +23,7 @@ import by.coolightman.notes.R
 @Composable
 fun NoteTitleField(
     title: String,
-    maxLength: Int = 18,
+    maxLength: Int = 20,
     fontSize: TextUnit = 18.sp,
     onValueChange: (String) -> Unit,
     focusManager: FocusManager

@@ -5,5 +5,6 @@ data class EditTaskUiState(
     val createdAt: String = "",
     val editedAt: String = "",
     val colorIndex: Int = 0,
-    val isImportant: Boolean = false
+    val isImportant: Boolean = false,
+    val newTaskColorPrefIndex: Int = 0
 )

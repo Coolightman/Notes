@@ -26,24 +26,24 @@ class MainViewModel @Inject constructor(
         private set
 
     init {
-        getStartDestination()
-        getThemeMode()
+        getStartDestinationPreference()
+        getThemeModePreference()
     }
 
-    private fun getStartDestination() {
+    private fun getStartDestinationPreference() {
         viewModelScope.launch {
             val destination = getStringPreferenceUseCase(START_DESTINATION_KEY).first()
             uiState = uiState.copy(
-                startDestination = destination
+                startDestinationPreference = destination
             )
         }
     }
 
-    private fun getThemeMode() {
+    private fun getThemeModePreference() {
         viewModelScope.launch {
             getIntPreferenceUseCase(THEME_MODE_KEY).collectLatest {
                 uiState = uiState.copy(
-                    themeMode = ThemeMode.values()[it]
+                    themeModePreference = ThemeMode.values()[it]
                 )
             }
         }

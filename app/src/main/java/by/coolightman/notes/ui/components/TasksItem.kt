@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Task
-import by.coolightman.notes.ui.model.ItemColors
+import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.Gold
 
 @Composable
@@ -61,7 +61,7 @@ fun TasksItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick() }
-                .background(Color(ItemColors.values()[item.colorIndex].color).copy(backgroundAlfa)))
+                .background(Color(ItemColor.values()[item.colorIndex].color).copy(backgroundAlfa)))
         {
             IconButton(onClick = { onSwitchActive() }) {
                 Icon(

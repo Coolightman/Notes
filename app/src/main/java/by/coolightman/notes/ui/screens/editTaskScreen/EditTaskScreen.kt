@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
-import by.coolightman.notes.ui.model.ItemColors
+import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.Gold
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -60,9 +60,12 @@ fun EditTaskScreen(
         isImportant = uiState.isImportant
         createdAt = uiState.createdAt
         editedAt = uiState.editedAt
+        if (createdAt.isEmpty()) {
+            selectedColor = uiState.newTaskColorPrefIndex
+        }
     }
     val scrollState = rememberScrollState()
-    val itemColors = remember { ItemColors.values() }
+    val itemColors = remember { ItemColor.values() }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()

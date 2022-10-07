@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Note
-import by.coolightman.notes.ui.model.ItemColors
+import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.toFormattedDate
 
 @Composable
@@ -48,7 +48,7 @@ fun NotesItem(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.8f))
+                        .background(Color(ItemColor.values()[item.colorIndex].color).copy(0.8f))
                 ) {
                     Text(
                         textAlign = TextAlign.Center,
@@ -67,14 +67,14 @@ fun NotesItem(
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.8f))
+                        .background(Color(ItemColor.values()[item.colorIndex].color).copy(0.8f))
                         .height(4.dp)
                 )
             }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(ItemColors.values()[item.colorIndex].color).copy(0.05f))
+                    .background(Color(ItemColor.values()[item.colorIndex].color).copy(0.05f))
             ) {
                 Box(
                     modifier = Modifier

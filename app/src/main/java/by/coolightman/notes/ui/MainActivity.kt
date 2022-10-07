@@ -30,21 +30,21 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel = hiltViewModel<MainViewModel>()
             val systemMode = isSystemInDarkTheme()
-            var darkMode by remember {
+            var themeMode by remember {
                 mutableStateOf(systemMode)
             }
-            LaunchedEffect(viewModel.uiState.themeMode) {
-                darkMode = when (viewModel.uiState.themeMode) {
+            LaunchedEffect(viewModel.uiState.themeModePreference) {
+                themeMode = when (viewModel.uiState.themeModePreference) {
                     ThemeMode.SYSTEM_MODE -> systemMode
                     ThemeMode.DARK_MODE -> true
                     ThemeMode.LIGHT_MODE -> false
                 }
             }
 
-            PrepareUI(darkMode = darkMode) {
+            PrepareUI(darkMode = themeMode) {
                 val scaffoldState = rememberScaffoldState()
                 val navController = rememberNavController()
-                val startDestination = viewModel.uiState.startDestination
+                val startDestination = viewModel.uiState.startDestinationPreference
                 Scaffold(
                     scaffoldState = scaffoldState,
                     bottomBar = {

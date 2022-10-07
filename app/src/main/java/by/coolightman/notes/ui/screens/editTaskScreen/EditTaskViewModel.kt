@@ -7,12 +7,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Task
+import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.tasks.CreateTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.UpdateTaskUseCase
 import by.coolightman.notes.util.ARG_TASK_ID
+import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
 import by.coolightman.notes.util.toFormattedDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +24,8 @@ class EditTaskViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getTaskUseCase: GetTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val createTaskUseCase: CreateTaskUseCase
+    private val createTaskUseCase: CreateTaskUseCase,
+    private val getIntPreferenceUseCase: GetIntPreferenceUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(EditTaskUiState())
@@ -33,6 +37,18 @@ class EditTaskViewModel @Inject constructor(
         val taskId = savedStateHandle.get<Long>(ARG_TASK_ID) ?: 0L
         if (taskId != 0L) {
             getTask(taskId)
+        } else {
+            getNewTaskColorPreference()
+        }
+    }
+
+    private fun getNewTaskColorPreference() {
+        viewModelScope.launch {
+            getIntPreferenceUseCase(NEW_TASK_COLOR_KEY).collectLatest {
+                uiState = uiState.copy(
+                    newTaskColorPrefIndex = it
+                )
+            }
         }
     }
 

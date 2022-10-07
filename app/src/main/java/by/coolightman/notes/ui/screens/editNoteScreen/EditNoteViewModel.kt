@@ -10,9 +10,12 @@ import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.domain.usecase.notes.CreateNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
+import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.util.ARG_NOTE_ID
+import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
 import by.coolightman.notes.util.toFormattedDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +24,8 @@ class EditNoteViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getNoteUseCase: GetNoteUseCase,
     private val updateNoteUseCase: UpdateNoteUseCase,
-    private val createNoteUseCase: CreateNoteUseCase
+    private val createNoteUseCase: CreateNoteUseCase,
+    private val getIntPreferenceUseCase: GetIntPreferenceUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(EditNoteUiState())
@@ -33,6 +37,18 @@ class EditNoteViewModel @Inject constructor(
         val noteId = savedStateHandle.get<Long>(ARG_NOTE_ID) ?: 0L
         if (noteId != 0L) {
             getNote(noteId)
+        } else{
+            getNewNoteColorPreference()
+        }
+    }
+
+    private fun getNewNoteColorPreference() {
+        viewModelScope.launch {
+            getIntPreferenceUseCase(NEW_NOTE_COLOR_KEY).collectLatest {
+                uiState = uiState.copy(
+                    newNoteColorPrefIndex = it
+                )
+            }
         }
     }
 

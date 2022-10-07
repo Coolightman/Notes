@@ -94,6 +94,20 @@ fun SettingsScreen(
                     onClick = { viewModel.setThemeMode(it) }
                 )
             }
+
+            SettingsRow(title = stringResource(R.string.new_note_color)) {
+                SelectColorBar(
+                    selected = uiState.newNoteColorIndex,
+                    onSelect = {viewModel.setNewNoteColor(it)}
+                )
+            }
+
+            SettingsRow(title = stringResource(R.string.new_task_color)) {
+                SelectColorBar(
+                    selected = uiState.newTaskColorIndex,
+                    onSelect = {viewModel.setNewTaskColor(it)}
+                )
+            }
         }
     }
 }

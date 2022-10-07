@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import by.coolightman.notes.ui.model.ItemColors
+import by.coolightman.notes.ui.model.ItemColor
 
 @Composable
 fun SelectColorBar(
@@ -24,7 +24,7 @@ fun SelectColorBar(
     selected: Int,
     onSelect: (Int) -> Unit
 ) {
-    val colors = remember { ItemColors.values() }
+    val colors = remember { ItemColor.values() }
 
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,

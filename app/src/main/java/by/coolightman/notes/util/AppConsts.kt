@@ -9,3 +9,5 @@ const val FRACTIONAL_THRESHOLD = 0.5f
 const val SORT_NOTES_BY_KEY = "SortNotesByKey"
 const val START_DESTINATION_KEY = "StartDestinationKey"
 const val THEME_MODE_KEY = "ThemeModeKey"
+const val NEW_NOTE_COLOR_KEY = "NewNoteColorKey"
+const val NEW_TASK_COLOR_KEY = "NewTaskColorKey"

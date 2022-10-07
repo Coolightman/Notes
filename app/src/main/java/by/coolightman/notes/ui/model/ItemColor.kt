@@ -2,7 +2,7 @@ package by.coolightman.notes.ui.model
 
 import by.coolightman.notes.ui.theme.*
 
-enum class ItemColors(val color: ULong) {
+enum class ItemColor(val color: ULong) {
     RED(RedItem.value),
     YELLOW(YellowItem.value),
     GREEN(GreenItem.value),
