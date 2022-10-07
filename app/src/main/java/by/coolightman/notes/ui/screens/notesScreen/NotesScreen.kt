@@ -29,7 +29,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
-    navController: NavController, viewModel: NotesViewModel = hiltViewModel()
+    navController: NavController, viewModel: NotesViewModel = hiltViewModel(),
+    isVisibleFAB: (Boolean) -> Unit
 ) {
     val uiState = viewModel.uiState
     val listState = rememberLazyListState()
@@ -51,6 +52,12 @@ fun NotesScreen(
     }
     var isDropMenuExpanded by remember {
         mutableStateOf(false)
+    }
+    val fabVisibility by remember {
+        derivedStateOf { listState.firstVisibleItemIndex == 0 }
+    }
+    LaunchedEffect(fabVisibility){
+        isVisibleFAB(fabVisibility)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -113,11 +120,13 @@ fun NotesScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = stringResource(R.string.settings))
                     }
-                    Divider()
-                    CountRow(
-                        label = stringResource(R.string.total_count),
-                        value = uiState.notesCount
-                    )
+                    if (uiState.notesCount != 0) {
+                        Divider()
+                        CountRow(
+                            label = stringResource(R.string.total_count),
+                            value = uiState.notesCount
+                        )
+                    }
                 }
             })
 

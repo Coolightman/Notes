@@ -1,6 +1,7 @@
 package by.coolightman.notes.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -40,6 +41,9 @@ class MainActivity : ComponentActivity() {
                     ThemeMode.LIGHT_MODE -> false
                 }
             }
+            var isVisibleFAB by remember {
+                mutableStateOf(true)
+            }
 
             PrepareUI(darkMode = themeMode) {
                 val scaffoldState = rememberScaffoldState()
@@ -52,7 +56,7 @@ class MainActivity : ComponentActivity() {
                     },
                     floatingActionButtonPosition = FabPosition.End,
                     floatingActionButton = {
-                        AppFloatingActionButton(navController = navController)
+                        AppFloatingActionButton(navController = navController, isVisible = isVisibleFAB)
                     },
                     snackbarHost = { AppSnackbarHost(hostState = it) }
                 ) { contentPadding ->
@@ -64,7 +68,11 @@ class MainActivity : ComponentActivity() {
                         AppNavigationHost(
                             navController = navController,
                             startDestination = startDestination,
-                            scaffoldState = scaffoldState
+                            scaffoldState = scaffoldState,
+                            isVisibleFAB = {
+                                isVisibleFAB = it
+                                Log.d("MainActivity", "isVisibleFAB: $it ")
+                            }
                         )
                     }
                 }

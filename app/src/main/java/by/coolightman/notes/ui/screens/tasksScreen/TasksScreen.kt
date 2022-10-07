@@ -34,7 +34,8 @@ import kotlinx.coroutines.launch
 fun TasksScreen(
     navController: NavController,
     viewModel: TasksViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    isVisibleFAB: (Boolean) -> Unit
 ) {
     val uiState = viewModel.uiState
     val listState = rememberLazyListState()
@@ -58,6 +59,12 @@ fun TasksScreen(
     }
     var isDropMenuExpanded by remember {
         mutableStateOf(false)
+    }
+    val fabVisibility by remember {
+        derivedStateOf { listState.firstVisibleItemIndex == 0 }
+    }
+    LaunchedEffect(fabVisibility){
+        isVisibleFAB(fabVisibility)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -101,15 +108,17 @@ fun TasksScreen(
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = stringResource(R.string.settings))
                     }
-                    Divider()
-                    CountRow(
-                        label = stringResource(R.string.active_count),
-                        value = uiState.activeTasksCount
-                    )
-                    CountRow(
-                        label = stringResource(R.string.inactive_count),
-                        value = uiState.inactiveTasksCount
-                    )
+                    if (uiState.activeTasksCount != 0 || uiState.inactiveTasksCount != 0) {
+                        Divider()
+                        CountRow(
+                            label = stringResource(R.string.active_count),
+                            value = uiState.activeTasksCount
+                        )
+                        CountRow(
+                            label = stringResource(R.string.inactive_count),
+                            value = uiState.inactiveTasksCount
+                        )
+                    }
                 }
             }
         )

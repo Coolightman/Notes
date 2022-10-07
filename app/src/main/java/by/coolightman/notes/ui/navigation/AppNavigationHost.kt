@@ -21,7 +21,8 @@ import by.coolightman.notes.util.ARG_TASK_ID
 fun AppNavigationHost(
     navController: NavHostController,
     startDestination: String,
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    isVisibleFAB: (Boolean) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -32,7 +33,8 @@ fun AppNavigationHost(
             route = NavRoutes.Notes.route,
         ) {
             NotesScreen(
-                navController = navController
+                navController = navController,
+                isVisibleFAB = { isVisibleFAB(it) }
             )
         }
 
@@ -63,7 +65,8 @@ fun AppNavigationHost(
         ) {
             TasksScreen(
                 navController = navController,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
+                isVisibleFAB = { isVisibleFAB(it) }
             )
         }
 

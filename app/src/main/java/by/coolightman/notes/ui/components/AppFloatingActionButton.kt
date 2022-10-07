@@ -1,9 +1,11 @@
 package by.coolightman.notes.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -17,7 +19,8 @@ import by.coolightman.notes.ui.model.NavRoutes
 
 @Composable
 fun AppFloatingActionButton(
-    navController: NavHostController
+    navController: NavHostController,
+    isVisible: Boolean = true
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -27,52 +30,48 @@ fun AppFloatingActionButton(
 
     when (currentRoute) {
         NavRoutes.Notes.route -> {
-            NotesFAB(navController)
+            FAB(
+                isVisible = isVisible,
+                onClick = {
+                    navController.navigate(NavRoutes.EditNote.withArgs("0")) {
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
         NavRoutes.Tasks.route -> {
-            TasksFAB(navController)
+            FAB(
+                isVisible = isVisible,
+                onClick = {
+                    navController.navigate(NavRoutes.EditTask.withArgs("0")) {
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
     }
 }
 
 @Composable
-fun NotesFAB(
-    navController: NavHostController
+fun FAB(
+    isVisible: Boolean,
+    onClick: () -> Unit
 ) {
-    FloatingActionButton(
-        shape = CircleShape,
-        onClick = {
-            navController.navigate(NavRoutes.EditNote.withArgs("0")) {
-                launchSingleTop = true
-            }
-        },
-        backgroundColor = MaterialTheme.colors.primary
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = slideInHorizontally { it * 2 },
+        exit = slideOutHorizontally { it * 2 }
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_add_24),
-            contentDescription = "add",
-            tint = MaterialTheme.colors.onSurface
-        )
-    }
-}
-
-@Composable
-fun TasksFAB(
-    navController: NavHostController
-) {
-    FloatingActionButton(
-        shape = CircleShape,
-        onClick = {
-            navController.navigate(NavRoutes.EditTask.withArgs("0")) {
-                launchSingleTop = true
-            }
-        },
-        backgroundColor = MaterialTheme.colors.primary
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_add_24),
-            contentDescription = "add",
-            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
-        )
+        FloatingActionButton(
+            shape = CircleShape,
+            onClick = { onClick() },
+            backgroundColor = MaterialTheme.colors.primary
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_add_24),
+                contentDescription = "add",
+                tint = MaterialTheme.colors.onSurface
+            )
+        }
     }
 }
