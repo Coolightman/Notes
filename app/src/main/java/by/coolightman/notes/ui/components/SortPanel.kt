@@ -1,19 +1,21 @@
 package by.coolightman.notes.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.SortNotesBy
 
@@ -37,34 +39,41 @@ fun SortPanel(
             )
         )
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(scrollState)
-                .background(MaterialTheme.colors.secondary)
-        ) {
-            SortByChipDouble(
-                onSort = { onSort(it) },
-                currentSortIndex = currentSortIndex,
-                text = stringResource(R.string.color),
-                chipIndex1 = SortNotesBy.COLOR.ordinal,
-                chipIndex2 = SortNotesBy.COLOR_DESC.ordinal
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
             )
-            SortByChipDouble(
-                onSort = { onSort(it) },
-                currentSortIndex = currentSortIndex,
-                text = stringResource(R.string.created_sort),
-                chipIndex1 = SortNotesBy.CREATE_DATE.ordinal,
-                chipIndex2 = SortNotesBy.CREATE_DATE_DESC.ordinal
-            )
-            SortByChipDouble(
-                onSort = { onSort(it) },
-                currentSortIndex = currentSortIndex,
-                text = stringResource(R.string.edited_sort),
-                chipIndex1 = SortNotesBy.EDIT_DATE.ordinal,
-                chipIndex2 = SortNotesBy.EDIT_DATE_DESC.ordinal
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(scrollState)
+                    .background(MaterialTheme.colors.secondary)
+            ) {
+                SortByChipDouble(
+                    onSort = { onSort(it) },
+                    currentSortIndex = currentSortIndex,
+                    text = stringResource(R.string.color),
+                    chipIndex1 = SortNotesBy.COLOR.ordinal,
+                    chipIndex2 = SortNotesBy.COLOR_DESC.ordinal
+                )
+                SortByChipDouble(
+                    onSort = { onSort(it) },
+                    currentSortIndex = currentSortIndex,
+                    text = stringResource(R.string.created_sort),
+                    chipIndex1 = SortNotesBy.CREATE_DATE.ordinal,
+                    chipIndex2 = SortNotesBy.CREATE_DATE_DESC.ordinal
+                )
+                SortByChipDouble(
+                    onSort = { onSort(it) },
+                    currentSortIndex = currentSortIndex,
+                    text = stringResource(R.string.edited_sort),
+                    chipIndex1 = SortNotesBy.EDIT_DATE.ordinal,
+                    chipIndex2 = SortNotesBy.EDIT_DATE_DESC.ordinal
+                )
+            }
         }
     }
 }

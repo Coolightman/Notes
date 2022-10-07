@@ -53,9 +53,7 @@ fun NotesScreen(
     var isDropMenuExpanded by remember {
         mutableStateOf(false)
     }
-    val fabVisibility by remember {
-        derivedStateOf { listState.firstVisibleItemIndex == 0 }
-    }
+    val fabVisibility = listState.isScrollingUp()
     LaunchedEffect(fabVisibility){
         isVisibleFAB(fabVisibility)
     }

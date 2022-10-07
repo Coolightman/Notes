@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
                             scaffoldState = scaffoldState,
                             isVisibleFAB = {
                                 isVisibleFAB = it
-                                Log.d("MainActivity", "isVisibleFAB: $it ")
+                                Log.d("MainActivity", "isVisibleFAB: $it")
                             }
                         )
                     }
