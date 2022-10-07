@@ -27,6 +27,7 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {

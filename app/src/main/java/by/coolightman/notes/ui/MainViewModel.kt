@@ -33,9 +33,11 @@ class MainViewModel @Inject constructor(
     private fun getStartDestinationPreference() {
         viewModelScope.launch {
             val destination = getStringPreferenceUseCase(START_DESTINATION_KEY).first()
-            uiState = uiState.copy(
-                startDestinationPreference = destination
-            )
+            if (destination.isNotEmpty()){
+                uiState = uiState.copy(
+                    startDestinationPreference = destination
+                )
+            }
         }
     }
 

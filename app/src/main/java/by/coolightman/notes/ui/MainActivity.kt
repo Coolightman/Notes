@@ -44,11 +44,9 @@ class MainActivity : ComponentActivity() {
             var isVisibleFAB by remember {
                 mutableStateOf(true)
             }
-
             PrepareUI(darkMode = themeMode) {
                 val scaffoldState = rememberScaffoldState()
                 val navController = rememberNavController()
-                val startDestination = viewModel.uiState.startDestinationPreference
                 Scaffold(
                     scaffoldState = scaffoldState,
                     bottomBar = {
@@ -56,7 +54,10 @@ class MainActivity : ComponentActivity() {
                     },
                     floatingActionButtonPosition = FabPosition.End,
                     floatingActionButton = {
-                        AppFloatingActionButton(navController = navController, isVisible = isVisibleFAB)
+                        AppFloatingActionButton(
+                            navController = navController,
+                            isVisible = isVisibleFAB
+                        )
                     },
                     snackbarHost = { AppSnackbarHost(hostState = it) }
                 ) { contentPadding ->
@@ -67,7 +68,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AppNavigationHost(
                             navController = navController,
-                            startDestination = startDestination,
+                            startDestination = viewModel.uiState.startDestinationPreference,
                             scaffoldState = scaffoldState,
                             isVisibleFAB = {
                                 isVisibleFAB = it
