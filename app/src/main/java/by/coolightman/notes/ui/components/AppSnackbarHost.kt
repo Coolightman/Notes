@@ -2,6 +2,7 @@ package by.coolightman.notes.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
@@ -17,7 +18,8 @@ fun AppSnackbarHost(
         Snackbar(
             snackbarData = data,
             shape = RoundedCornerShape(24.dp),
-            modifier = Modifier.padding(horizontal = 12.dp)
+            modifier = Modifier.padding(horizontal = 12.dp),
+            actionColor = MaterialTheme.colors.primary
         )
     }
 }
