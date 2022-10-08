@@ -1,6 +1,7 @@
 package by.coolightman.notes.ui.model
 
 sealed class NavRoutes(val route: String) {
+    object Splash : NavRoutes("splash")
     object Notes : NavRoutes("notes")
     object EditNote : NavRoutes("edit_note")
     object NotesTrash : NavRoutes("notes_trash")

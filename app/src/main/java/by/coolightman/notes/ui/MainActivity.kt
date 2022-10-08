@@ -1,7 +1,6 @@
 package by.coolightman.notes.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -19,6 +18,7 @@ import by.coolightman.notes.ui.components.AppBottomBar
 import by.coolightman.notes.ui.components.AppFloatingActionButton
 import by.coolightman.notes.ui.components.AppSnackbarHost
 import by.coolightman.notes.ui.components.PrepareUI
+import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.ui.navigation.AppNavigationHost
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,11 +68,10 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AppNavigationHost(
                             navController = navController,
-                            startDestination = viewModel.uiState.startDestinationPreference,
+                            startDestination = NavRoutes.Splash.route,
                             scaffoldState = scaffoldState,
                             isVisibleFAB = {
                                 isVisibleFAB = it
-                                Log.d("MainActivity", "isVisibleFAB: $it")
                             }
                         )
                     }
