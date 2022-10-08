@@ -23,8 +23,8 @@ import by.coolightman.notes.R
 import by.coolightman.notes.ui.model.NavRoutes
 import kotlinx.coroutines.delay
 
-private const val SPLASH_DELAY_MILLIS = 200L
-private const val ANIM_DURATION_MILLIS = 200
+private const val SPLASH_DELAY_MILLIS = 250L
+private const val ANIM_DURATION_MILLIS = 250
 private const val ANIM_OVERSHOOT = 1.2f
 
 @Composable
@@ -38,7 +38,7 @@ fun SplashScreen(
 
     LaunchedEffect(viewModel.uiState.startDestinationPreference) {
         scale.animateTo(
-            targetValue = 1.5f,
+            targetValue = 1.2f,
             animationSpec = tween(
                 durationMillis = ANIM_DURATION_MILLIS,
                 easing = {
