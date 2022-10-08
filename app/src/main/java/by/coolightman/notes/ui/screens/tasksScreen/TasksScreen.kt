@@ -61,7 +61,7 @@ fun TasksScreen(
         mutableStateOf(false)
     }
     val fabVisibility = listState.isScrollingUp()
-    LaunchedEffect(fabVisibility){
+    LaunchedEffect(fabVisibility) {
         isVisibleFAB(fabVisibility)
     }
 
@@ -88,8 +88,10 @@ fun TasksScreen(
                 ) {
                     DropdownMenuItem(
                         onClick = {
-                            openDeleteInactiveTasksDialog = true
-                            isDropMenuExpanded = false
+                            if (uiState.inactiveTasksCount != 0) {
+                                openDeleteInactiveTasksDialog = true
+                                isDropMenuExpanded = false
+                            }
                         }
                     ) {
                         Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
