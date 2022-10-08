@@ -161,7 +161,8 @@ fun NotesTrashScreen(
                     ) {
                         NotesItem(
                             item = note,
-                            onClick = {}
+                            onClick = {},
+                            onLongPress = {}
                         )
                     }
                 }

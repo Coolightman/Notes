@@ -6,9 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortNotesBy
-import by.coolightman.notes.domain.usecase.notes.GetAllNotesSortByUseCase
-import by.coolightman.notes.domain.usecase.notes.GetNotesTrashCountUseCase
-import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
+import by.coolightman.notes.domain.usecase.notes.*
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
 import by.coolightman.notes.util.SORT_NOTES_BY_KEY
@@ -24,7 +22,9 @@ class NotesViewModel @Inject constructor(
     private val getAllNotesSortByUseCase: GetAllNotesSortByUseCase,
     private val putNoteInTrashUseCase: PutNoteInTrashUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
-    private val getIntPreferenceUseCase: GetIntPreferenceUseCase
+    private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
+    private val setIsSelectedNoteUseCase: SetIsSelectedNoteUseCase,
+    private val resetSelectionsUseCase: ResetSelectionsUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesUiState())
@@ -69,6 +69,19 @@ class NotesViewModel @Inject constructor(
     fun putInNoteTrash(noteId: Long) {
         viewModelScope.launch {
             putNoteInTrashUseCase(noteId)
+        }
+    }
+
+    fun setIsSelectedNote(noteId: Long){
+        viewModelScope.launch {
+            setIsSelectedNoteUseCase(noteId)
+        }
+    }
+
+    fun resetSelections(noteId: Long){
+        viewModelScope.launch {
+            resetSelectionsUseCase()
+            setIsSelectedNoteUseCase(noteId)
         }
     }
 }

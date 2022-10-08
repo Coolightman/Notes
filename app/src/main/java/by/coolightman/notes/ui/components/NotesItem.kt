@@ -1,8 +1,9 @@
 package by.coolightman.notes.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -24,12 +25,14 @@ import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.toFormattedDate
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NotesItem(
     item: Note,
     modifier: Modifier = Modifier,
     elevation: Dp = 2.dp,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongPress: () -> Unit
 ) {
 
     Card(
@@ -42,7 +45,10 @@ fun NotesItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onClick() }
+                .combinedClickable(
+                    onClick = { onClick() },
+                    onLongClick = { onLongPress() }
+                )
         ) {
             if (item.title.isNotEmpty()) {
                 Box(
@@ -120,5 +126,5 @@ private fun NotesItemPreview() {
         isExpandable = false,
         isExpanded = false
     )
-    NotesItem(item = note, onClick = {})
+    NotesItem(item = note, onClick = {}, onLongPress = {})
 }
