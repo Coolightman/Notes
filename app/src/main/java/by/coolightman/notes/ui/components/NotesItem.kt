@@ -3,16 +3,19 @@ package by.coolightman.notes.ui.components
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,85 +26,122 @@ import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.ui.model.ItemColor
+import by.coolightman.notes.ui.theme.InactiveBackground
 import by.coolightman.notes.util.toFormattedDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NotesItem(
-    item: Note,
+    note: Note,
     modifier: Modifier = Modifier,
     elevation: Dp = 2.dp,
     onClick: () -> Unit,
-    onLongPress: () -> Unit
+    onLongPress: () -> Unit,
+    onCheckedChange: () -> Unit,
+    isSelectionMode: Boolean = false
 ) {
+    var itemHeight by remember {
+        mutableStateOf(0.dp)
+    }
+    var itemWidth by remember {
+        mutableStateOf(0.dp)
+    }
+    val density = LocalDensity.current
 
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = elevation,
         modifier = modifier
             .fillMaxWidth()
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .combinedClickable(
-                    onClick = { onClick() },
-                    onLongClick = { onLongPress() }
-                )
-        ) {
-            if (item.title.isNotEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(ItemColor.values()[item.colorIndex].color).copy(0.8f))
-                ) {
-                    Text(
-                        textAlign = TextAlign.Center,
-                        text = item.title,
-                        style = MaterialTheme.typography.h6.copy(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(2.dp)
-                            .align(Alignment.Center)
-                    )
-                }
-            } else {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(ItemColor.values()[item.colorIndex].color).copy(0.8f))
-                        .height(4.dp)
-                )
+            .onGloballyPositioned { coordinates ->
+                itemHeight = density.run { coordinates.size.height.toDp() }
+                itemWidth = density.run { coordinates.size.width.toDp() }
             }
+    ) {
+        Box {
             Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(ItemColor.values()[item.colorIndex].color).copy(0.05f))
+                    .combinedClickable(
+                        onClick = { onClick() },
+                        onLongClick = { onLongPress() }
+                    )
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .defaultMinSize(minHeight = 48.dp)
-                ) {
-                    Text(
-                        text = item.text,
-                        style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
+                if (note.title.isNotEmpty()) {
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .align(Alignment.TopStart)
-                            .padding(12.dp, 8.dp, 12.dp, 0.dp)
+                            .background(Color(ItemColor.values()[note.colorIndex].color).copy(0.8f))
+                    ) {
+                        Text(
+                            textAlign = TextAlign.Center,
+                            text = note.title,
+                            style = MaterialTheme.typography.h6.copy(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(2.dp)
+                                .align(Alignment.Center)
+                        )
+                    }
+                } else {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(ItemColor.values()[note.colorIndex].color).copy(0.8f))
+                            .height(4.dp)
                     )
                 }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(ItemColor.values()[note.colorIndex].color).copy(0.05f))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .defaultMinSize(minHeight = 48.dp)
+                    ) {
+                        Text(
+                            text = note.text,
+                            style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.TopStart)
+                                .padding(12.dp, 8.dp, 12.dp, 0.dp)
+                        )
+                    }
 
-                val dateText = if (item.isEdited) {
-                    val edited = stringResource(R.string.edit)
-                    "$edited " + item.editedAt.toFormattedDate()
-                } else item.createdAt.toFormattedDate()
-                DateText(text = dateText)
+                    val dateText = if (note.isEdited) {
+                        val edited = stringResource(R.string.edit)
+                        "$edited " + note.editedAt.toFormattedDate()
+                    } else note.createdAt.toFormattedDate()
+                    DateText(text = dateText)
+                }
+            }
+            if (isSelectionMode) {
+                Box(
+                    modifier = Modifier
+                        .height(itemHeight)
+                        .width(itemWidth)
+                        .background(
+                            InactiveBackground.copy(
+                                alpha = if (note.isSelected) 0.4f
+                                else 0f
+                            )
+                        )
+                        .align(Alignment.Center)
+                        .clickable { onCheckedChange() }
+                ) {
+                    AppCheckbox(
+                        checked = note.isSelected,
+                        onCheckedChange = { onCheckedChange() },
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                    )
+                }
             }
         }
     }
@@ -126,5 +166,5 @@ private fun NotesItemPreview() {
         isExpandable = false,
         isExpanded = false
     )
-    NotesItem(item = note, onClick = {}, onLongPress = {})
+    NotesItem(note = note, onClick = {}, onLongPress = {}, onCheckedChange = {})
 }

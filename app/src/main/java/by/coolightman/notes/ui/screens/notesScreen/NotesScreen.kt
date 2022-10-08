@@ -2,25 +2,17 @@ package by.coolightman.notes.ui.screens.notesScreen
 
 import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,14 +25,12 @@ import by.coolightman.notes.ui.model.NavRoutes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
     navController: NavController, viewModel: NotesViewModel = hiltViewModel(),
     isVisibleFAB: (Boolean) -> Unit
 ) {
     val uiState = viewModel.uiState
-    val density = LocalDensity.current
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     var isShowSortPanel by rememberSaveable {
@@ -171,59 +161,23 @@ fun NotesScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(items = uiState.list, key = { it.id }) { note ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
-                    ) {
-                        var itemHeight by remember {
-                            mutableStateOf(0.dp)
-                        }
-                        var itemWidth by remember {
-                            mutableStateOf(0.dp)
-                        }
-                        NotesItem(
-                            item = note,
-                            modifier = Modifier.onGloballyPositioned { coordinates ->
-                                itemHeight = density.run { coordinates.size.height.toDp() }
-                                itemWidth = density.run { coordinates.size.width.toDp() }
-                            },
-                            onClick = {
-                                navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
-                                    launchSingleTop = true
-                                }
-                            },
-                            onLongPress = {
-                                scope.launch {
-                                    viewModel.resetSelections(note.id)
-                                    delay(50)
-                                    isSelectionMode = true
-                                }
+                    NotesItem(
+                        note = note,
+                        onClick = {
+                            navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
+                                launchSingleTop = true
                             }
-                        )
-                        if (isSelectionMode) {
-                            Box(
-                                modifier = Modifier
-                                    .height(itemHeight)
-                                    .width(itemWidth)
-                                    .background(
-                                        MaterialTheme.colors.secondary.copy(
-                                            alpha = if (note.isSelected) 0.4f
-                                            else 0.2f
-                                        )
-                                    )
-                                    .align(Alignment.Center)
-                                    .clickable { viewModel.setIsSelectedNote(note.id) }
-                            ) {
-                                AppCheckbox(
-                                    checked = note.isSelected,
-                                    onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
-                                    modifier = Modifier.align(Alignment.CenterEnd)
-                                )
+                        },
+                        onLongPress = {
+                            scope.launch {
+                                viewModel.resetSelections(note.id)
+                                delay(50)
+                                isSelectionMode = true
                             }
-                        }
-                    }
-
+                        },
+                        onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
+                        isSelectionMode = isSelectionMode
+                    )
                 }
             }
         }

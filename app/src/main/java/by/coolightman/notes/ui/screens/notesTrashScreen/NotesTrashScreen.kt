@@ -160,9 +160,10 @@ fun NotesTrashScreen(
                         modifier = Modifier.animateItemPlacement()
                     ) {
                         NotesItem(
-                            item = note,
+                            note = note,
                             onClick = {},
-                            onLongPress = {}
+                            onLongPress = {},
+                            onCheckedChange = {}
                         )
                     }
                 }
