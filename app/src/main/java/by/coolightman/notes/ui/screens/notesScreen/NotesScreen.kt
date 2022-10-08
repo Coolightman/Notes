@@ -2,6 +2,7 @@ package by.coolightman.notes.ui.screens.notesScreen
 
 import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,6 +27,7 @@ import by.coolightman.notes.ui.model.NavRoutes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
     navController: NavController, viewModel: NotesViewModel = hiltViewModel(),
@@ -200,7 +202,8 @@ fun NotesScreen(
                             }
                         },
                         onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
-                        isSelectionMode = isSelectionMode
+                        isSelectionMode = isSelectionMode,
+                        modifier = Modifier.animateItemPlacement()
                     )
                 }
             }

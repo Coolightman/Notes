@@ -2,6 +2,7 @@ package by.coolightman.notes.ui.screens.tasksScreen
 
 import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ import by.coolightman.notes.ui.model.NavRoutes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TasksScreen(
     navController: NavController,
@@ -178,7 +180,8 @@ fun TasksScreen(
                 state = listState,
                 verticalArrangement = Arrangement.spacedBy(6.dp),
                 contentPadding = PaddingValues(12.dp),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
                 items(items = uiState.list, key = { it.id }) { task ->
                     TasksItem(
@@ -197,7 +200,8 @@ fun TasksScreen(
                             }
                         },
                         onCheckedChange = { viewModel.setIsSelectedNote(task.id) },
-                        isSelectionMode = isSelectionMode
+                        isSelectionMode = isSelectionMode,
+                        modifier = Modifier.animateItemPlacement()
                     )
                 }
             }
