@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
@@ -71,74 +73,112 @@ fun NotesScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        AppTopAppBar(
-            title = {
-                AppTitleText(text = stringResource(id = R.string.notes_title))
-            },
-            actions = {
-                if (uiState.list.isNotEmpty()) {
-                    IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
+        if (!isSelectionMode) {
+            AppTopAppBar(
+                title = {
+                    AppTitleText(text = stringResource(id = R.string.notes_title))
+                },
+                actions = {
+                    if (uiState.list.isNotEmpty()) {
+                        IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_sort_24),
+                                contentDescription = "sort",
+                                tint = if (isShowSortPanel) {
+                                    MaterialTheme.colors.primary
+                                } else {
+                                    MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                                }
+                            )
+                        }
+                    }
+                    IconButton(onClick = { isDropMenuExpanded = true }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_sort_24),
-                            contentDescription = "sort",
-                            tint = if (isShowSortPanel) {
+                            Icons.Default.MoreVert,
+                            contentDescription = "more",
+                            tint = if (isDropMenuExpanded) {
                                 MaterialTheme.colors.primary
                             } else {
                                 MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                             }
                         )
                     }
-                }
-                IconButton(onClick = { isDropMenuExpanded = true }) {
-                    Icon(
-                        Icons.Default.MoreVert,
-                        contentDescription = "more",
-                        tint = if (isDropMenuExpanded) {
-                            MaterialTheme.colors.primary
-                        } else {
-                            MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                    DropdownMenu(
+                        expanded = isDropMenuExpanded,
+                        onDismissRequest = { isDropMenuExpanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            onClick = {
+                                navController.navigate(NavRoutes.NotesTrash.route) {
+                                    launchSingleTop = true
+                                }
+                                isDropMenuExpanded = false
+                            }
+                        ) {
+                            BadgedIcon(
+                                icon = painterResource(id = R.drawable.ic_delete_full_24),
+                                iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
+                                badgeValue = uiState.trashCount
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = stringResource(R.string.trash))
                         }
-                    )
-                }
-                DropdownMenu(
-                    expanded = isDropMenuExpanded,
-                    onDismissRequest = { isDropMenuExpanded = false }
-                ) {
-                    DropdownMenuItem(
-                        onClick = {
-                            navController.navigate(NavRoutes.NotesTrash.route) {
+                        DropdownMenuItem(onClick = {
+                            navController.navigate(NavRoutes.Settings.route) {
                                 launchSingleTop = true
                             }
                             isDropMenuExpanded = false
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Settings,
+                                contentDescription = "settings"
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(text = stringResource(R.string.settings))
+                        }
+                        if (uiState.notesCount != 0) {
+                            Divider()
+                            CountRow(
+                                label = stringResource(R.string.total_count),
+                                value = uiState.notesCount
+                            )
+                        }
+                    }
+                })
+        } else {
+            AppTopAppBar(
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            isSelectionMode = false
                         }
                     ) {
-                        BadgedIcon(
-                            icon = painterResource(id = R.drawable.ic_delete_full_24),
-                            iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
-                            badgeValue = uiState.trashCount
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "close",
+                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                         )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(text = stringResource(R.string.trash))
                     }
-                    DropdownMenuItem(onClick = {
-                        navController.navigate(NavRoutes.Settings.route) {
-                            launchSingleTop = true
+                },
+                title = {
+                    AppTitleText(text = "${uiState.selectedCount} selected")
+                },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            viewModel.putSelectedNotesInTrash()
+                            isSelectionMode = false
                         }
-                        isDropMenuExpanded = false
-                    }) {
-                        Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(text = stringResource(R.string.settings))
-                    }
-                    if (uiState.notesCount != 0) {
-                        Divider()
-                        CountRow(
-                            label = stringResource(R.string.total_count),
-                            value = uiState.notesCount
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "delete",
+                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                         )
                     }
                 }
-            })
+            )
+        }
 
         SortPanel(
             isVisible = isShowSortPanel,

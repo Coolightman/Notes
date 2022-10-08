@@ -20,7 +20,7 @@ import javax.inject.Inject
 class NotesViewModel @Inject constructor(
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
     private val getAllNotesSortByUseCase: GetAllNotesSortByUseCase,
-    private val putNoteInTrashUseCase: PutNoteInTrashUseCase,
+    private val putSelectedNotesInTrashUseCase: PutSelectedNotesInTrashUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val setIsSelectedNoteUseCase: SetIsSelectedNoteUseCase,
@@ -44,11 +44,12 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             sortNotesBy.flatMapLatest { sortBy ->
                 getAllNotesSortByUseCase(sortBy)
-            }.collectLatest {
+            }.collectLatest { it ->
                 uiState = uiState.copy(
                     list = it,
                     sortByIndex = sortNotesBy.first().ordinal,
-                    notesCount = it.size
+                    notesCount = it.size,
+                    selectedCount = it.filter { note -> note.isSelected }.size
                 )
             }
         }
@@ -66,19 +67,19 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun putInNoteTrash(noteId: Long) {
+    fun putSelectedNotesInTrash() {
         viewModelScope.launch {
-            putNoteInTrashUseCase(noteId)
+            putSelectedNotesInTrashUseCase()
         }
     }
 
-    fun setIsSelectedNote(noteId: Long){
+    fun setIsSelectedNote(noteId: Long) {
         viewModelScope.launch {
             setIsSelectedNoteUseCase(noteId)
         }
     }
 
-    fun resetSelections(noteId: Long){
+    fun resetSelections(noteId: Long) {
         viewModelScope.launch {
             resetSelectionsUseCase()
             setIsSelectedNoteUseCase(noteId)
