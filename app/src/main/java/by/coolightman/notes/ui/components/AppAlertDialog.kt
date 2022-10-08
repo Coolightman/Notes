@@ -39,7 +39,6 @@ fun AppAlertDialog(
                     color = MaterialTheme.colors.onSurface.copy(0.8f),
                     style = MaterialTheme.typography.subtitle1.copy(
                         fontSize = 18.sp,
-                        letterSpacing = 1.sp,
                         fontWeight = FontWeight.SemiBold
                     ),
                     lineHeight = 24.sp,
@@ -53,7 +52,6 @@ fun AppAlertDialog(
                         text = secondaryText,
                         color = MaterialTheme.colors.onSurface.copy(0.4f),
                         style = MaterialTheme.typography.body2.copy(
-                            letterSpacing = 1.sp,
                             fontWeight = FontWeight.Light
                         ),
                         lineHeight = 24.sp,
