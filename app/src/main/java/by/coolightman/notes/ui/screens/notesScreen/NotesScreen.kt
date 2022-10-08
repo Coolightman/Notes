@@ -215,7 +215,7 @@ fun NotesScreen(
                                     .align(Alignment.Center)
                                     .clickable { viewModel.setIsSelectedNote(note.id) }
                             ) {
-                                Checkbox(
+                                AppCheckbox(
                                     checked = note.isSelected,
                                     onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
                                     modifier = Modifier.align(Alignment.CenterEnd)
