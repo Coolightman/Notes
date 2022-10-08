@@ -15,5 +15,8 @@ data class NoteDb(
     @ColumnInfo(name = "edited_at") val editedAt: Long,
     @ColumnInfo(name = "is_show_date") val isShowDate: Boolean,
     @ColumnInfo(name = "is_edited") val isEdited: Boolean,
-    @ColumnInfo(name = "is_in_trash") val isInTrash: Boolean
+    @ColumnInfo(name = "is_in_trash") val isInTrash: Boolean,
+    @ColumnInfo(name = "is_selected") val isSelected: Boolean,
+    @ColumnInfo(name = "is_expandable") val isExpandable: Boolean,
+    @ColumnInfo(name = "is_expanded") val isExpanded: Boolean
 )

@@ -12,7 +12,10 @@ fun NoteDb.toNote(): Note = Note(
     editedAt = editedAt,
     isShowDate = isShowDate,
     isEdited = isEdited,
-    isInTrash = isInTrash
+    isInTrash = isInTrash,
+    isSelected = isSelected,
+    isExpandable = isExpandable,
+    isExpanded = isExpanded
 )
 
 fun Note.toNoteDb(): NoteDb = NoteDb(
@@ -24,5 +27,8 @@ fun Note.toNoteDb(): NoteDb = NoteDb(
     editedAt = editedAt,
     isShowDate = isShowDate,
     isEdited = isEdited,
-    isInTrash = isInTrash
+    isInTrash = isInTrash,
+    isSelected = isSelected,
+    isExpandable = isExpandable,
+    isExpanded = isExpanded
 )

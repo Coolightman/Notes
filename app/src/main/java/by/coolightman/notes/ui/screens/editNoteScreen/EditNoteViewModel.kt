@@ -90,7 +90,10 @@ class EditNoteViewModel @Inject constructor(
                 editedAt = 0L,
                 isEdited = false,
                 isInTrash = false,
-                isShowDate = false
+                isShowDate = false,
+                isSelected = false,
+                isExpandable = false,
+                isExpanded = false
             )
             createNoteUseCase(createdNote)
         }

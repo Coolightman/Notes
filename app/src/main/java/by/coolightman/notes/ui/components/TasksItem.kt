@@ -99,7 +99,10 @@ private fun NotesItemPreview() {
         isEdited = false,
         isImportant = true,
         isActive = false,
-        isHidden = false
+        isHidden = false,
+        isSelected = false,
+        isExpandable = false,
+        isExpanded = false
     )
     TasksItem(item = task, onClick = {}, onSwitchActive = {})
 }

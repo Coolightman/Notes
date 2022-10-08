@@ -9,5 +9,8 @@ data class Note(
     val editedAt: Long,
     val isShowDate: Boolean,
     val isEdited: Boolean,
-    val isInTrash: Boolean
+    val isInTrash: Boolean,
+    val isSelected: Boolean,
+    val isExpandable: Boolean,
+    val isExpanded: Boolean
 )

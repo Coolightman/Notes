@@ -115,7 +115,10 @@ private fun NotesItemPreview() {
         editedAt = 198719889775L,
         isShowDate = true,
         isEdited = false,
-        isInTrash = false
+        isInTrash = false,
+        isSelected = false,
+        isExpandable = false,
+        isExpanded = false
     )
     NotesItem(item = note, onClick = {})
 }

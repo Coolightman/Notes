@@ -93,7 +93,10 @@ class EditTaskViewModel @Inject constructor(
                 editedAt = 0L,
                 isEdited = false,
                 isActive = true,
-                isHidden = false
+                isHidden = false,
+                isSelected = false,
+                isExpandable = false,
+                isExpanded = false
             )
             createTaskUseCase(createdTask)
         }

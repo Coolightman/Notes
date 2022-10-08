@@ -12,7 +12,10 @@ fun TaskDb.toTask(): Task = Task(
     editedAt = editedAt,
     isEdited = isEdited,
     isActive = isActive,
-    isHidden = isHidden
+    isHidden = isHidden,
+    isSelected = isSelected,
+    isExpandable = isExpandable,
+    isExpanded = isExpanded
 )
 
 fun Task.toTaskDb(): TaskDb = TaskDb(
@@ -24,5 +27,8 @@ fun Task.toTaskDb(): TaskDb = TaskDb(
     editedAt = editedAt,
     isEdited = isEdited,
     isActive = isActive,
-    isHidden = isHidden
+    isHidden = isHidden,
+    isSelected = isSelected,
+    isExpandable = isExpandable,
+    isExpanded = isExpanded
 )

@@ -9,5 +9,8 @@ data class Task(
     val editedAt: Long,
     val isEdited: Boolean,
     val isActive: Boolean,
-    val isHidden: Boolean
+    val isHidden: Boolean,
+    val isSelected: Boolean,
+    val isExpandable: Boolean,
+    val isExpanded: Boolean
 )
