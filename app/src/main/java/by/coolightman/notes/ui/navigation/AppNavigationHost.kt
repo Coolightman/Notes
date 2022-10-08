@@ -33,7 +33,7 @@ fun AppNavigationHost(
         composable(
             route = NavRoutes.Splash.route,
         ){
-            SplashScreen(navController = navController)
+            SplashScreen()
         }
 
         composable(

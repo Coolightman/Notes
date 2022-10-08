@@ -17,26 +17,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.model.NavRoutes
-import kotlinx.coroutines.delay
 
-private const val SPLASH_DELAY_MILLIS = 250L
 private const val ANIM_DURATION_MILLIS = 250
 private const val ANIM_OVERSHOOT = 1.2f
 
 @Composable
-fun SplashScreen(
-    viewModel: MainViewModel = hiltViewModel(),
-    navController: NavHostController
-) {
+fun SplashScreen() {
     val scale = remember {
         Animatable(0f)
     }
 
-    LaunchedEffect(viewModel.uiState.startDestinationPreference) {
+    LaunchedEffect(Unit) {
         scale.animateTo(
             targetValue = 1.2f,
             animationSpec = tween(
@@ -46,13 +38,6 @@ fun SplashScreen(
                 }
             )
         )
-        delay(SPLASH_DELAY_MILLIS)
-
-        navController.navigate(viewModel.uiState.startDestinationPreference) {
-            popUpTo(NavRoutes.Splash.route) {
-                inclusive = true
-            }
-        }
     }
 
     Box(
@@ -67,7 +52,6 @@ fun SplashScreen(
                 .align(Alignment.Center)
                 .size(80.dp)
                 .scale(scale.value)
-
         )
     }
 }

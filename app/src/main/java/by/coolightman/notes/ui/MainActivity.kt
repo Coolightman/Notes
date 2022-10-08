@@ -22,6 +22,7 @@ import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.ui.navigation.AppNavigationHost
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -40,6 +41,13 @@ class MainActivity : ComponentActivity() {
                     ThemeMode.DARK_MODE -> true
                     ThemeMode.LIGHT_MODE -> false
                 }
+            }
+            var startDestination by remember {
+                mutableStateOf(NavRoutes.Splash.route)
+            }
+            LaunchedEffect(viewModel.uiState.startDestinationPreference){
+                delay(SPLASH_DELAY)
+                startDestination = viewModel.uiState.startDestinationPreference
             }
             var isVisibleFAB by remember {
                 mutableStateOf(true)
@@ -68,7 +76,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AppNavigationHost(
                             navController = navController,
-                            startDestination = NavRoutes.Splash.route,
+                            startDestination = startDestination,
                             scaffoldState = scaffoldState,
                             isVisibleFAB = {
                                 isVisibleFAB = it
@@ -78,5 +86,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    companion object{
+        private const val SPLASH_DELAY = 300L
     }
 }
