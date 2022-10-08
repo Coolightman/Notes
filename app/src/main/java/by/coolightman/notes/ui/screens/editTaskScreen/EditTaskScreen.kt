@@ -8,7 +8,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -154,23 +153,13 @@ fun EditTaskScreen(
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
         ) {
-            TextButton(
-                onClick = {
-                    if (text.trim().isNotEmpty()) {
-                        viewModel.saveTask(text.trim(), selectedColor, isImportant)
-                        goBack(scope, focusManager, navController)
-                    } else {
-                        showSnack(scope, scaffoldState, context.getString(R.string.empty_task))
-                    }
-                },
-                modifier = Modifier
-                    .padding(8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Done,
-                    contentDescription = "save note",
-                    modifier = Modifier.size(36.dp)
-                )
+            DoneButton {
+                if (text.trim().isNotEmpty()) {
+                    viewModel.saveTask(text.trim(), selectedColor, isImportant)
+                    goBack(scope, focusManager, navController)
+                } else {
+                    showSnack(scope, scaffoldState, context.getString(R.string.empty_task))
+                }
             }
         }
     }
