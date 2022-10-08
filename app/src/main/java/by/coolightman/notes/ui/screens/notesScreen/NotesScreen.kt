@@ -19,7 +19,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
@@ -31,8 +30,6 @@ import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
-import by.coolightman.notes.util.DISMISS_DELAY
-import by.coolightman.notes.util.FRACTIONAL_THRESHOLD
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -174,82 +171,59 @@ fun NotesScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(items = uiState.list, key = { it.id }) { note ->
-                    val dismissState = rememberDismissState(confirmStateChange = {
-                        if (it == DismissValue.DismissedToEnd) {
-                            scope.launch {
-                                delay(DISMISS_DELAY)
-                                viewModel.putInNoteTrash(note.id)
-                            }
-                        }
-                        true
-                    })
-
-                    SwipeToDismiss(
-                        state = dismissState,
-                        directions = setOf(DismissDirection.StartToEnd),
-                        dismissThresholds = { FractionalThreshold(FRACTIONAL_THRESHOLD) },
-                        background = {
-                            DeleteSwipeSub(
-                                dismissState = dismissState,
-                                icon = painterResource(R.drawable.ic_delete_sweep_24),
-                                subColor = Color.Yellow
-                            )
-                        },
-                        modifier = Modifier.animateItemPlacement()
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(12.dp))
-                        ) {
-                            var itemHeight by remember {
-                                mutableStateOf(0.dp)
-                            }
-                            var itemWidth by remember {
-                                mutableStateOf(0.dp)
-                            }
-                            NotesItem(
-                                item = note,
-                                modifier = Modifier.onGloballyPositioned { coordinates ->
-                                    itemHeight = density.run { coordinates.size.height.toDp() }
-                                    itemWidth = density.run { coordinates.size.width.toDp() }
-                                },
-                                onClick = {
-                                    navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
-                                        launchSingleTop = true
-                                    }
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.resetSelections(note.id)
-                                        delay(50)
-                                        isSelectionMode = true
-                                    }
+                        var itemHeight by remember {
+                            mutableStateOf(0.dp)
+                        }
+                        var itemWidth by remember {
+                            mutableStateOf(0.dp)
+                        }
+                        NotesItem(
+                            item = note,
+                            modifier = Modifier.onGloballyPositioned { coordinates ->
+                                itemHeight = density.run { coordinates.size.height.toDp() }
+                                itemWidth = density.run { coordinates.size.width.toDp() }
+                            },
+                            onClick = {
+                                navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
+                                    launchSingleTop = true
                                 }
-                            )
-                            if (isSelectionMode) {
-                                Box(
-                                    modifier = Modifier
-                                        .height(itemHeight)
-                                        .width(itemWidth)
-                                        .background(
-                                            MaterialTheme.colors.secondary.copy(
-                                                alpha = if (note.isSelected) 0.4f
-                                                else 0.2f
-                                            )
+                            },
+                            onLongPress = {
+                                scope.launch {
+                                    viewModel.resetSelections(note.id)
+                                    delay(50)
+                                    isSelectionMode = true
+                                }
+                            }
+                        )
+                        if (isSelectionMode) {
+                            Box(
+                                modifier = Modifier
+                                    .height(itemHeight)
+                                    .width(itemWidth)
+                                    .background(
+                                        MaterialTheme.colors.secondary.copy(
+                                            alpha = if (note.isSelected) 0.4f
+                                            else 0.2f
                                         )
-                                        .align(Alignment.Center)
-                                        .clickable { viewModel.setIsSelectedNote(note.id) }
-                                ) {
-                                    Checkbox(
-                                        checked = note.isSelected,
-                                        onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
-                                        modifier = Modifier.align(Alignment.CenterEnd)
                                     )
-                                }
+                                    .align(Alignment.Center)
+                                    .clickable { viewModel.setIsSelectedNote(note.id) }
+                            ) {
+                                Checkbox(
+                                    checked = note.isSelected,
+                                    onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
+                                    modifier = Modifier.align(Alignment.CenterEnd)
+                                )
                             }
                         }
                     }
+
                 }
             }
         }
