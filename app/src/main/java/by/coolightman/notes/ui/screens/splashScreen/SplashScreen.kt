@@ -1,4 +1,4 @@
-package by.coolightman.notes.ui
+package by.coolightman.notes.ui.screens.splashScreen
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable

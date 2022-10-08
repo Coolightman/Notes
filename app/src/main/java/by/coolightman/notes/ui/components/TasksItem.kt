@@ -1,19 +1,20 @@
 package by.coolightman.notes.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,23 +25,28 @@ import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.Gold
+import by.coolightman.notes.ui.theme.InactiveBackground
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TasksItem(
-    item: Task,
+    task: Task,
     modifier: Modifier = Modifier,
     elevation: Dp = 2.dp,
     onClick: () -> Unit,
-    onSwitchActive: () -> Unit
+    onSwitchActive: () -> Unit,
+    onLongPress: () -> Unit,
+    onCheckedChange: () -> Unit,
+    isSelectionMode: Boolean = false
 ) {
 
-    val backgroundAlfa = if (item.isActive) 0.5f
+    val backgroundAlfa = if (task.isActive) 0.5f
     else 0.2f
 
-    val contentAlfa = if (item.isActive) 1f
+    val contentAlfa = if (task.isActive) 1f
     else 0.5f
 
-    val textStyle = if (item.isActive) {
+    val textStyle = if (task.isActive) {
         MaterialTheme.typography.body1.copy(
             fontSize = 18.sp
         )
@@ -49,6 +55,13 @@ fun TasksItem(
             fontSize = 18.1.sp, textDecoration = TextDecoration.LineThrough
         )
     }
+    var itemHeight by remember {
+        mutableStateOf(0.dp)
+    }
+    var itemWidth by remember {
+        mutableStateOf(0.dp)
+    }
+    val density = LocalDensity.current
 
     Card(
         shape = RoundedCornerShape(24.dp),
@@ -56,32 +69,62 @@ fun TasksItem(
         modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 48.dp)
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onClick() }
-                .background(Color(ItemColor.values()[item.colorIndex].color).copy(backgroundAlfa)))
-        {
-            IconButton(onClick = { onSwitchActive() }) {
-                Icon(
-                    painter = painterResource(
-                        id = if (item.isActive) R.drawable.ic_outline_circle_24
-                        else R.drawable.ic_task_24
-                    ),
-                    contentDescription = "active task",
-                    tint = if (item.isImportant) Gold.copy(contentAlfa)
-                    else LocalContentColor.current.copy(contentAlfa)
-                )
+            .onGloballyPositioned { coordinates ->
+                itemHeight = density.run { coordinates.size.height.toDp() }
+                itemWidth = density.run { coordinates.size.width.toDp() }
             }
-            Text(
-                text = item.text,
-                style = textStyle,
+    ) {
+        Box{
+            Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 4.dp, 8.dp, 4.dp)
-                    .alpha(contentAlfa)
-            )
+                    .combinedClickable(
+                        onClick = { onClick() },
+                        onLongClick = { onLongPress() }
+                    )
+                    .background(Color(ItemColor.values()[task.colorIndex].color).copy(backgroundAlfa)))
+            {
+                IconButton(onClick = { onSwitchActive() }) {
+                    Icon(
+                        painter = painterResource(
+                            id = if (task.isActive) R.drawable.ic_outline_circle_24
+                            else R.drawable.ic_task_24
+                        ),
+                        contentDescription = "active task",
+                        tint = if (task.isImportant) Gold.copy(contentAlfa)
+                        else LocalContentColor.current.copy(contentAlfa)
+                    )
+                }
+                Text(
+                    text = task.text,
+                    style = textStyle,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 4.dp, 8.dp, 4.dp)
+                        .alpha(contentAlfa)
+                )
+            }
+            if (isSelectionMode) {
+                Box(
+                    modifier = Modifier
+                        .height(itemHeight)
+                        .width(itemWidth)
+                        .background(
+                            InactiveBackground.copy(
+                                alpha = if (task.isSelected) 0.4f
+                                else 0f
+                            )
+                        )
+                        .align(Alignment.Center)
+                        .clickable { onCheckedChange() }
+                ) {
+                    AppCheckbox(
+                        checked = task.isSelected,
+                        onCheckedChange = { onCheckedChange() },
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                    )
+                }
+            }
         }
     }
 }
@@ -104,5 +147,11 @@ private fun NotesItemPreview() {
         isExpandable = false,
         isExpanded = false
     )
-    TasksItem(item = task, onClick = {}, onSwitchActive = {})
+    TasksItem(
+        task = task,
+        onClick = {},
+        onSwitchActive = {},
+        onCheckedChange = {},
+        onLongPress = {}
+    )
 }

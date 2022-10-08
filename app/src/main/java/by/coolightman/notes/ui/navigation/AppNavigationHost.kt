@@ -13,7 +13,7 @@ import by.coolightman.notes.ui.screens.editTaskScreen.EditTaskScreen
 import by.coolightman.notes.ui.screens.notesScreen.NotesScreen
 import by.coolightman.notes.ui.screens.notesTrashScreen.NotesTrashScreen
 import by.coolightman.notes.ui.screens.settingsScreen.SettingsScreen
-import by.coolightman.notes.ui.SplashScreen
+import by.coolightman.notes.ui.screens.splashScreen.SplashScreen
 import by.coolightman.notes.ui.screens.tasksScreen.TasksScreen
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.ARG_TASK_ID

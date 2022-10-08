@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
@@ -146,28 +145,13 @@ fun NotesScreen(
                     }
                 })
         } else {
-            AppTopAppBar(
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            isSelectionMode = false
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "close",
-                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
-                        )
-                    }
-                },
-                title = {
-                    AppTitleText(text = "${uiState.selectedCount} selected")
-                },
+            SelectionTopAppBar(
+                onCloseClick = { isSelectionMode = false },
+                selectedCount = uiState.selectedCount,
                 actions = {
                     IconButton(
                         onClick = {
                             viewModel.putSelectedNotesInTrash()
-                            isSelectionMode = false
                         }
                     ) {
                         Icon(

@@ -28,6 +28,10 @@ class TaskRepositoryImpl @Inject constructor(
         taskDao.update(task.toTaskDb())
     }
 
+    override suspend fun updateList(list: List<Task>) {
+        taskDao.updateList(list.map { it.toTaskDb() })
+    }
+
     override suspend fun delete(taskId: Long) {
         taskDao.delete(taskId)
     }

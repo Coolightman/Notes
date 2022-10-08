@@ -18,6 +18,7 @@
     <string name="restore">RESTORE</string>
     <string name="delete_all_notes_dialog">Do you want to empty the trash?</string>
     <string name="delete_inactive_tasks_dialog">Do you want to delete all inactive tasks?</string>
+    <string name="delete_these_tasks_dialog">Do you want to delete these tasks?</string>
     <string name="delete">DELETE</string>
     <string name="created">created:</string>
     <string name="edited">edited:</string>
@@ -40,4 +41,5 @@
     <string name="new_note_color">New note color</string>
     <string name="new_task_color">New task color</string>
     <string name="can_not_restore_it">You can\'t restore it</string>
+    <string name="selected">selected</string>
 </resources>

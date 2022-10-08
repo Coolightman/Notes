@@ -24,7 +24,7 @@ class NotesViewModel @Inject constructor(
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val setIsSelectedNoteUseCase: SetIsSelectedNoteUseCase,
-    private val resetSelectionsUseCase: ResetSelectionsUseCase
+    private val resetNotesSelectionsUseCase: ResetNotesSelectionsUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesUiState())
@@ -81,7 +81,7 @@ class NotesViewModel @Inject constructor(
 
     fun resetSelections(noteId: Long) {
         viewModelScope.launch {
-            resetSelectionsUseCase()
+            resetNotesSelectionsUseCase()
             setIsSelectedNoteUseCase(noteId)
         }
     }

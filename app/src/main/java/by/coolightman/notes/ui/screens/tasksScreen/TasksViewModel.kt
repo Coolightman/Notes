@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.tasks.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,14 +15,13 @@ class TasksViewModel @Inject constructor(
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val deleteInactiveTasksUseCase: DeleteInactiveTasksUseCase,
     private val switchTaskActivityUseCase: SwitchTaskActivityUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase,
-    private val showTaskUseCase: ShowTaskUseCase
+    private val deleteSelectedTasksUseCase: DeleteSelectedTasksUseCase,
+    private val resetTasksSelectionsUseCase: ResetTasksSelectionsUseCase,
+    private val setIsSelectedTaskUseCase: SetIsSelectedTaskUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(TasksUiState())
         private set
-
-    private lateinit var canceledJob: Job
 
     init {
         getTasks()
@@ -36,33 +34,40 @@ class TasksViewModel @Inject constructor(
                     list = it,
                     activeTasksCount = it.filter { task -> task.isActive }.size,
                     inactiveTasksCount = it.filter { task -> !task.isActive }.size,
+                    selectedCount = it.filter { task -> task.isSelected }.size
                 )
             }
         }
     }
 
     fun deleteInactiveTasks() {
-        canceledJob = viewModelScope.launch {
+        viewModelScope.launch {
             deleteInactiveTasksUseCase()
         }
     }
 
-    fun deleteTask(taskId: Long) {
-        canceledJob = viewModelScope.launch {
-            deleteTaskUseCase(taskId)
-        }
-    }
-
-    fun cancelDeletion(taskId: Long) {
-        canceledJob.cancel()
+    fun deleteSelectedTasks() {
         viewModelScope.launch {
-            showTaskUseCase(taskId)
+            deleteSelectedTasksUseCase()
         }
     }
 
     fun switchTaskActivity(taskId: Long) {
         viewModelScope.launch {
             switchTaskActivityUseCase(taskId)
+        }
+    }
+
+    fun setIsSelectedNote(taskId: Long) {
+        viewModelScope.launch {
+            setIsSelectedTaskUseCase(taskId)
+        }
+    }
+
+    fun resetSelections(taskId: Long) {
+        viewModelScope.launch {
+            resetTasksSelectionsUseCase()
+            setIsSelectedTaskUseCase(taskId)
         }
     }
 }

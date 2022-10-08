@@ -4,7 +4,7 @@ import by.coolightman.notes.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-class ResetSelectionsUseCase @Inject constructor(
+class ResetNotesSelectionsUseCase @Inject constructor(
     private val noteRepository: NoteRepository
 ) {
     suspend operator fun invoke() {
