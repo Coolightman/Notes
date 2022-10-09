@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -89,6 +90,9 @@ fun TasksScreen(
             isSelectionMode = false
         }
     }
+    LaunchedEffect(uiState.list.isEmpty()){
+        isSelectionMode = false
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         if (!isSelectionMode) {
@@ -156,6 +160,17 @@ fun TasksScreen(
                 onCloseClick = { isSelectionMode = false },
                 selectedCount = uiState.selectedCount,
                 actions = {
+                    IconButton(
+                        onClick = {
+                            viewModel.selectAllTasks()
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_select_all_24),
+                            contentDescription = "select all",
+                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        )
+                    }
                     IconButton(
                         onClick = {
                             openDeleteSelectedTasksDialog = true

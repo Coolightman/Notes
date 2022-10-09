@@ -32,7 +32,7 @@ fun SelectionTopAppBar(
             }
         },
         title = {
-            AppTitleText(text = "$selectedCount " + stringResource(R.string.selected))
+            AppTitleText(text = "$selectedCount " + stringResource(R.string.selected_pcs))
         },
         actions = {
             actions()

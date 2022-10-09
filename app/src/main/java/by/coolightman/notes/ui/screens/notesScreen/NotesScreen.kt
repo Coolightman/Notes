@@ -72,6 +72,9 @@ fun NotesScreen(
             isSelectionMode = false
         }
     }
+    LaunchedEffect(uiState.list.isEmpty()){
+        isSelectionMode = false
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         if (!isSelectionMode) {
@@ -151,6 +154,17 @@ fun NotesScreen(
                 onCloseClick = { isSelectionMode = false },
                 selectedCount = uiState.selectedCount,
                 actions = {
+                    IconButton(
+                        onClick = {
+                            viewModel.selectAllNotes()
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_select_all_24),
+                            contentDescription = "select all",
+                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        )
+                    }
                     IconButton(
                         onClick = {
                             viewModel.putSelectedNotesInTrash()
