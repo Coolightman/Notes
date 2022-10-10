@@ -27,7 +27,7 @@ import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColor
-import by.coolightman.notes.ui.theme.Gold
+import by.coolightman.notes.ui.theme.ImportantTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -108,7 +108,7 @@ fun EditTaskScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(itemColors[selectedColor].color).copy(0.5f))
+                    .background(Color(itemColors[selectedColor].color).copy(0.3f))
             ) {
                 IconButton(
                     onClick = { }
@@ -118,7 +118,7 @@ fun EditTaskScreen(
                             id = R.drawable.ic_outline_circle_24
                         ),
                         contentDescription = "active task",
-                        tint = if (isImportant) Gold
+                        tint = if (isImportant) ImportantTask
                         else LocalContentColor.current
                     )
                 }
@@ -165,7 +165,8 @@ fun EditTaskScreen(
         SelectColorBar(
             selected = selectedColor,
             onSelect = { selectedColor = it },
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            alpha = 0.4f
         )
         SwitchCard(
             label = stringResource(R.string.important_task),

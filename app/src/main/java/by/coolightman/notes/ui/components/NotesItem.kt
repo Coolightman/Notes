@@ -99,7 +99,7 @@ fun NotesItem(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(ItemColor.values()[note.colorIndex].color).copy(0.05f))
+                        .background(Color(ItemColor.values()[note.colorIndex].color).copy(0.2f))
                 ) {
                     Box(
                         modifier = Modifier

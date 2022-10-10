@@ -22,7 +22,8 @@ import by.coolightman.notes.ui.model.ItemColor
 fun SelectColorBar(
     modifier: Modifier = Modifier,
     selected: Int,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
+    alpha: Float = 0.8f
 ) {
     val colors = remember { ItemColor.values() }
 
@@ -36,7 +37,7 @@ fun SelectColorBar(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(Color(itemColor.color).copy(0.8f))
+                    .background(Color(itemColor.color).copy(alpha))
                     .clickable { onSelect(index) }
             ){
                 if (index == selected){

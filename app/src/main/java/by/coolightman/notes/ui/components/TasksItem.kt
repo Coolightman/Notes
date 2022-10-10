@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.ui.model.ItemColor
-import by.coolightman.notes.ui.theme.Gold
+import by.coolightman.notes.ui.theme.ImportantTask
 import by.coolightman.notes.ui.theme.InactiveBackground
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -50,8 +50,8 @@ fun TasksItem(
     onExpandClick: () -> Unit
 ) {
 
-    val backgroundAlfa = if (task.isActive) 0.5f
-    else 0.2f
+    val backgroundAlfa = if (task.isActive) 0.3f
+    else 0.15f
 
     val contentAlfa = if (task.isActive) 1f
     else 0.5f
@@ -107,7 +107,7 @@ fun TasksItem(
                             else R.drawable.ic_task_24
                         ),
                         contentDescription = "active task",
-                        tint = if (task.isImportant) Gold.copy(contentAlfa)
+                        tint = if (task.isImportant) ImportantTask.copy(contentAlfa)
                         else LocalContentColor.current.copy(contentAlfa)
                     )
                 }
@@ -124,7 +124,7 @@ fun TasksItem(
                         .padding(0.dp, 4.dp, 8.dp, 4.dp)
                         .alpha(contentAlfa)
                 )
-                if (isExpandable) {
+                if (isExpandable && !isSelectionMode) {
                     IconButton(
                         onClick = { onExpandClick() },
                         modifier = Modifier.align(Alignment.Bottom)

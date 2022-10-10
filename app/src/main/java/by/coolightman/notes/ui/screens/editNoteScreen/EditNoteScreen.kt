@@ -114,7 +114,7 @@ fun EditNoteScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color(itemColors[selectedColor].color).copy(0.05f))
+                            .background(Color(itemColors[selectedColor].color).copy(0.2f))
                     ) {
                         CustomTextField(
                             text = text,
