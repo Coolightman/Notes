@@ -65,6 +65,7 @@ fun NotesScreen(
     LaunchedEffect(isSelectionMode) {
         if (isSelectionMode) {
             view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+            isShowSortPanel = false
         }
     }
     if (isSelectionMode) {
