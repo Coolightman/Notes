@@ -18,7 +18,8 @@ class TasksViewModel @Inject constructor(
     private val deleteSelectedTasksUseCase: DeleteSelectedTasksUseCase,
     private val resetTasksSelectionsUseCase: ResetTasksSelectionsUseCase,
     private val setIsSelectedTaskUseCase: SetIsSelectedTaskUseCase,
-    private val selectAllTasksUseCase: SelectAllTasksUseCase
+    private val selectAllTasksUseCase: SelectAllTasksUseCase,
+    private val switchTaskExpandUseCase: SwitchTaskExpandUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(TasksUiState())
@@ -75,6 +76,12 @@ class TasksViewModel @Inject constructor(
     fun selectAllTasks() {
         viewModelScope.launch {
             selectAllTasksUseCase()
+        }
+    }
+
+    fun switchExpand(taskId: Long){
+        viewModelScope.launch {
+            switchTaskExpandUseCase(taskId)
         }
     }
 }

@@ -70,7 +70,8 @@ class EditTaskViewModel @Inject constructor(
     fun saveTask(
         text: String,
         colorIndex: Int,
-        isImportant: Boolean
+        isImportant: Boolean,
+        numberOfLines: Int
     ) {
         viewModelScope.launch {
             task?.let {
@@ -95,7 +96,7 @@ class EditTaskViewModel @Inject constructor(
                 isActive = true,
                 isHidden = false,
                 isSelected = false,
-                isExpandable = false,
+                isExpandable = numberOfLines > 1,
                 isExpanded = false
             )
             createTaskUseCase(createdTask)

@@ -1,6 +1,9 @@
 package by.coolightman.notes.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,15 +11,19 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -37,7 +44,10 @@ fun TasksItem(
     onSwitchActive: () -> Unit,
     onLongPress: () -> Unit,
     onCheckedChange: () -> Unit,
-    isSelectionMode: Boolean = false
+    isSelectionMode: Boolean = false,
+    isExpandable: Boolean = false,
+    isExpanded: Boolean = false,
+    onExpandClick: () -> Unit
 ) {
 
     val backgroundAlfa = if (task.isActive) 0.5f
@@ -62,6 +72,10 @@ fun TasksItem(
         mutableStateOf(0.dp)
     }
     val density = LocalDensity.current
+    val rotateState by animateFloatAsState(
+        targetValue = if (isExpanded) 0F else 180F,
+        animationSpec = tween(500)
+    )
 
     Card(
         shape = RoundedCornerShape(24.dp),
@@ -74,7 +88,7 @@ fun TasksItem(
                 itemWidth = density.run { coordinates.size.width.toDp() }
             }
     ) {
-        Box{
+        Box {
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -82,7 +96,9 @@ fun TasksItem(
                         onClick = { onClick() },
                         onLongClick = { onLongPress() }
                     )
-                    .background(Color(ItemColor.values()[task.colorIndex].color).copy(backgroundAlfa)))
+                    .background(Color(ItemColor.values()[task.colorIndex].color).copy(backgroundAlfa))
+                    .animateContentSize()
+            )
             {
                 IconButton(onClick = { onSwitchActive() }) {
                     Icon(
@@ -98,11 +114,30 @@ fun TasksItem(
                 Text(
                     text = task.text,
                     style = textStyle,
+                    maxLines =
+                    if (isExpanded) 1
+                    else Integer.MAX_VALUE,
+
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .weight(1f)
                         .padding(0.dp, 4.dp, 8.dp, 4.dp)
                         .alpha(contentAlfa)
                 )
+                if (isExpandable) {
+                    IconButton(
+                        onClick = { onExpandClick() },
+                        modifier = Modifier.align(Alignment.Bottom)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = "drop down",
+                            modifier = Modifier.rotate(rotateState)
+                        )
+                    }
+                } else {
+                    Spacer(modifier = Modifier.width(48.dp))
+                }
             }
             if (isSelectionMode) {
                 Box(
@@ -152,6 +187,7 @@ private fun NotesItemPreview() {
         onClick = {},
         onSwitchActive = {},
         onCheckedChange = {},
-        onLongPress = {}
+        onLongPress = {},
+        onExpandClick = {}
     )
 }

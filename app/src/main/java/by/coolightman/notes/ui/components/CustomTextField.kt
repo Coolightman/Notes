@@ -15,6 +15,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
@@ -26,7 +27,8 @@ fun CustomTextField(
     placeholder: String = "",
     onValueChange: (String) -> Unit,
     fontSize: TextUnit = 18.sp,
-    keyboardController: SoftwareKeyboardController?
+    keyboardController: SoftwareKeyboardController?,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -59,6 +61,7 @@ fun CustomTextField(
             }
             innerTextField()
         },
+        onTextLayout = { onTextLayout(it) },
         modifier = modifier
             .focusRequester(focusRequester)
     )

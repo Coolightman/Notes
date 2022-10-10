@@ -90,7 +90,7 @@ fun TasksScreen(
             isSelectionMode = false
         }
     }
-    LaunchedEffect(uiState.list.isEmpty()){
+    LaunchedEffect(uiState.list.isEmpty()) {
         isSelectionMode = false
     }
 
@@ -216,7 +216,10 @@ fun TasksScreen(
                         },
                         onCheckedChange = { viewModel.setIsSelectedNote(task.id) },
                         isSelectionMode = isSelectionMode,
-                        modifier = Modifier.animateItemPlacement()
+                        modifier = Modifier.animateItemPlacement(),
+                        isExpandable = task.isExpandable,
+                        isExpanded = task.isExpanded,
+                        onExpandClick = { viewModel.switchExpand(task.id) }
                     )
                 }
             }

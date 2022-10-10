@@ -8,10 +8,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +54,9 @@ fun EditTaskScreen(
     }
     var isImportant by remember {
         mutableStateOf(false)
+    }
+    var numberOfLines by remember {
+        mutableStateOf(1)
     }
     LaunchedEffect(uiState) {
         text = uiState.text
@@ -105,7 +110,9 @@ fun EditTaskScreen(
                     .fillMaxWidth()
                     .background(Color(itemColors[selectedColor].color).copy(0.5f))
             ) {
-                IconButton(onClick = { }) {
+                IconButton(
+                    onClick = { }
+                ) {
                     Icon(
                         painter = painterResource(
                             id = R.drawable.ic_outline_circle_24
@@ -120,10 +127,27 @@ fun EditTaskScreen(
                     placeholder = stringResource(R.string.text_placeholder),
                     onValueChange = { text = it },
                     keyboardController = keyboardController,
+                    onTextLayout = { textLayoutResult ->
+                        numberOfLines = derivedStateOf { textLayoutResult.lineCount }.value
+                    },
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp, 4.dp, 8.dp, 4.dp)
+                        .weight(1f)
+                        .padding(vertical = 4.dp)
                 )
+                if (numberOfLines > 1) {
+                    IconButton(
+                        onClick = { },
+                        modifier = Modifier.align(Alignment.Bottom)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = "drop down",
+                            modifier = Modifier.rotate(180f)
+                        )
+                    }
+                } else {
+                    Spacer(modifier = Modifier.width(48.dp))
+                }
             }
         }
         if (createdAt.isNotEmpty()) {
@@ -155,7 +179,7 @@ fun EditTaskScreen(
         ) {
             DoneButton {
                 if (text.trim().isNotEmpty()) {
-                    viewModel.saveTask(text.trim(), selectedColor, isImportant)
+                    viewModel.saveTask(text.trim(), selectedColor, isImportant, numberOfLines)
                     goBack(scope, focusManager, navController)
                 } else {
                     showSnack(scope, scaffoldState, context.getString(R.string.empty_task))
