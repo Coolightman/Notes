@@ -31,7 +31,6 @@ import kotlinx.coroutines.launch
 fun TasksScreen(
     navController: NavController,
     viewModel: TasksViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState,
     isVisibleFAB: (Boolean) -> Unit
 ) {
     val uiState = viewModel.uiState

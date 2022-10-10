@@ -72,7 +72,6 @@ fun AppNavigationHost(
         ) {
             TasksScreen(
                 navController = navController,
-                scaffoldState = scaffoldState,
                 isVisibleFAB = { isVisibleFAB(it) }
             )
         }
