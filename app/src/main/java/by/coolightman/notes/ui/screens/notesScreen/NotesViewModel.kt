@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
-    private val getAllNotesSortByUseCase: GetAllNotesSortByUseCase,
+    private val getAllNotesUseCase: GetAllNotesUseCase,
     private val putSelectedNotesInTrashUseCase: PutSelectedNotesInTrashUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
@@ -41,6 +41,9 @@ class NotesViewModel @Inject constructor(
         getStringPreferenceUseCase(NOTES_FILTER_SELECTION)
             .map { convertPrefStringToFilterSelectionList(it) }
 
+    private val sortFilter: Flow<Pair<SortNotesBy, List<Boolean>>> =
+        sortNotesBy.combine(filterSelection){sort, filter -> Pair(sort, filter) }
+
     init {
         getNotes()
         getTrashCount()
@@ -60,8 +63,8 @@ class NotesViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun getNotes() {
         viewModelScope.launch {
-            sortNotesBy.flatMapLatest { sortBy ->
-                getAllNotesSortByUseCase(sortBy)
+            sortFilter.flatMapLatest { sortFilter ->
+                getAllNotesUseCase(sortFilter.first, sortFilter.second)
             }.collectLatest {
                 uiState = uiState.copy(
                     list = it,
