@@ -36,4 +36,18 @@ class PreferencesRepositoryImpl @Inject constructor(
         return dataStore.data
             .map { preferences -> preferences[dataStoreKey] ?: "" }
     }
+
+    override suspend fun putBoolean(key: String, value: Boolean) {
+        val dataStoreKey = booleanPreferencesKey(key)
+        dataStore.edit { preferences ->
+            preferences[dataStoreKey] = value
+        }
+    }
+
+    override fun getBoolean(key: String): Flow<Boolean> {
+        val dataStoreKey = booleanPreferencesKey(key)
+        return dataStore.data
+            .map { preferences -> preferences[dataStoreKey] ?: false }
+    }
+
 }

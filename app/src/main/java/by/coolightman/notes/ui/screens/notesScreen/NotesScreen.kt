@@ -217,6 +217,7 @@ fun NotesScreen(
                         },
                         onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
                         isSelectionMode = isSelectionMode,
+                        isShowNoteDate = uiState.isShowNoteDate,
                         modifier = Modifier.animateItemPlacement()
                     )
                 }

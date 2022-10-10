@@ -5,15 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
-import by.coolightman.notes.domain.usecase.preferences.GetStringPreferenceUseCase
-import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
-import by.coolightman.notes.domain.usecase.preferences.PutStringPreferenceUseCase
+import by.coolightman.notes.domain.usecase.preferences.*
 import by.coolightman.notes.ui.model.ThemeMode
-import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
-import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
-import by.coolightman.notes.util.START_DESTINATION_KEY
-import by.coolightman.notes.util.THEME_MODE_KEY
+import by.coolightman.notes.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,7 +18,9 @@ class SettingsViewModel @Inject constructor(
     private val putStringPreferenceUseCase: PutStringPreferenceUseCase,
     private val getStringPreferenceUseCase: GetStringPreferenceUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
-    private val getIntPreferenceUseCase: GetIntPreferenceUseCase
+    private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
+    private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase,
+    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(SettingsUiState())
@@ -39,6 +35,17 @@ class SettingsViewModel @Inject constructor(
         getThemeMode()
         getNewNoteColor()
         getNewTaskColor()
+        getIsShowNotesDate()
+    }
+
+    private fun getIsShowNotesDate() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE).collectLatest {
+                uiState = uiState.copy(
+                    isShowNotesDate = it
+                )
+            }
+        }
     }
 
     private fun getThemeMode() {
@@ -102,6 +109,12 @@ class SettingsViewModel @Inject constructor(
     fun setNewTaskColor(colorIndex: Int) {
         viewModelScope.launch {
             putIntPreferenceUseCase(NEW_TASK_COLOR_KEY, colorIndex)
+        }
+    }
+
+    fun setIsShowNotedDate(value: Boolean) {
+        viewModelScope.launch {
+            putBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE, value)
         }
     }
 }

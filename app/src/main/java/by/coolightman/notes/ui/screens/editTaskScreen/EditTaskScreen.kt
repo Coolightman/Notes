@@ -146,7 +146,7 @@ fun EditTaskScreen(
         SwitchCard(
             label = stringResource(R.string.important_task),
             checked = isImportant,
-            onCheckedChange = { isImportant = !isImportant }
+            onCheckedChange = { isImportant = it }
         )
         Spacer(modifier = Modifier.weight(1f))
         Row(

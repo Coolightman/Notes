@@ -38,7 +38,8 @@ fun NotesItem(
     onClick: () -> Unit,
     onLongPress: () -> Unit,
     onCheckedChange: () -> Unit,
-    isSelectionMode: Boolean = false
+    isSelectionMode: Boolean = false,
+    isShowNoteDate: Boolean = true
 ) {
     var itemHeight by remember {
         mutableStateOf(0.dp)
@@ -115,11 +116,13 @@ fun NotesItem(
                         )
                     }
 
-                    val dateText = if (note.isEdited) {
-                        val edited = stringResource(R.string.edit)
-                        "$edited " + note.editedAt.toFormattedDate()
-                    } else note.createdAt.toFormattedDate()
-                    DateText(text = dateText)
+                    if (isShowNoteDate) {
+                        val dateText = if (note.isEdited) {
+                            val edited = stringResource(R.string.edit)
+                            "$edited " + note.editedAt.toFormattedDate()
+                        } else note.createdAt.toFormattedDate()
+                        DateText(text = dateText)
+                    }
                 }
             }
             if (isSelectionMode) {

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 fun SwitchCard(
     label: String,
     checked: Boolean,
-    onCheckedChange: () -> Unit
+    onCheckedChange: (Boolean) -> Unit
 ) {
     Card(
         elevation = 2.dp,
@@ -43,7 +43,7 @@ fun SwitchCard(
             AppSwitch(
                 checked = checked,
                 onCheckedChange = {
-                    onCheckedChange()
+                    onCheckedChange(!checked)
                 },
                 modifier = Modifier.padding(horizontal = 12.dp)
             )

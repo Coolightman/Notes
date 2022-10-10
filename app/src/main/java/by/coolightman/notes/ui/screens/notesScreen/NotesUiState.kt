@@ -7,5 +7,6 @@ data class NotesUiState(
     val trashCount: Int = 0,
     val sortByIndex: Int = 0,
     val notesCount: Int = 0,
-    val selectedCount: Int = 0
+    val selectedCount: Int = 0,
+    val isShowNoteDate: Boolean = false
 )

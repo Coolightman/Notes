@@ -42,4 +42,5 @@
     <string name="new_task_color">New task color</string>
     <string name="can_not_restore_it">You can\'t restore it</string>
     <string name="selected_pcs">selected</string>
+    <string name="show_notes_date">Show notes date</string>
 </resources>

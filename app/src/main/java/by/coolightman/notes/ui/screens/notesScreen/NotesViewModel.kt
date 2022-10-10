@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortNotesBy
 import by.coolightman.notes.domain.usecase.notes.*
+import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
+import by.coolightman.notes.util.IS_SHOW_NOTE_DATE
 import by.coolightman.notes.util.SORT_NOTES_BY_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +27,8 @@ class NotesViewModel @Inject constructor(
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val setIsSelectedNoteUseCase: SetIsSelectedNoteUseCase,
     private val resetNotesSelectionsUseCase: ResetNotesSelectionsUseCase,
-    private val selectAllNotesUseCase: SelectAllNotesUseCase
+    private val selectAllNotesUseCase: SelectAllNotesUseCase,
+    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesUiState())
@@ -38,6 +41,17 @@ class NotesViewModel @Inject constructor(
     init {
         getNotes()
         getTrashCount()
+        getIsShowDatePref()
+    }
+
+    private fun getIsShowDatePref() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE).collectLatest {
+                uiState = uiState.copy(
+                    isShowNoteDate = it
+                )
+            }
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -87,7 +101,7 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun selectAllNotes(){
+    fun selectAllNotes() {
         viewModelScope.launch {
             selectAllNotesUseCase()
         }
