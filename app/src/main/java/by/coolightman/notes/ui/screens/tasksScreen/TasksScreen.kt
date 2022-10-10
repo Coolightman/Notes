@@ -2,6 +2,7 @@ package by.coolightman.notes.ui.screens.tasksScreen
 
 import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -237,7 +238,7 @@ fun TasksScreen(
                         },
                         onCheckedChange = { viewModel.setIsSelectedNote(task.id) },
                         isSelectionMode = isSelectionMode,
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier.animateItemPlacement(tween()),
                         isExpandable = task.isExpandable,
                         isExpanded = task.isExpanded,
                         onExpandClick = { viewModel.switchExpand(task.id) }
