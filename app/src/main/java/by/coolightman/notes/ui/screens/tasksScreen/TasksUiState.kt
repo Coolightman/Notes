@@ -6,5 +6,6 @@ data class TasksUiState(
     val list: List<Task> = emptyList(),
     val activeTasksCount: Int = 0,
     val inactiveTasksCount: Int = 0,
-    val selectedCount: Int = 0
+    val selectedCount: Int = 0,
+    val isListHasExpandable: Boolean = false
 )

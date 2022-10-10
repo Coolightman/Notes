@@ -128,6 +128,28 @@ fun TasksScreen(
                             Spacer(modifier = Modifier.width(16.dp))
                             Text(text = stringResource(R.string.delete_inactive))
                         }
+                        if (uiState.isListHasExpandable) {
+                            DropdownMenuItem(
+                                onClick = { viewModel.expandAll() }
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_expand_all_24),
+                                    contentDescription = "expand all"
+                                )
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Text(text = stringResource(R.string.expand_all))
+                            }
+                            DropdownMenuItem(
+                                onClick = { viewModel.collapseAll() }
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_collapse_all_24),
+                                    contentDescription = "collapse all"
+                                )
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Text(text = stringResource(R.string.collapse_all))
+                            }
+                        }
                         DropdownMenuItem(onClick = {
                             navController.navigate(NavRoutes.Settings.route) {
                                 launchSingleTop = true

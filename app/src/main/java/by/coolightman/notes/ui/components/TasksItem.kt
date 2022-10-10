@@ -73,7 +73,7 @@ fun TasksItem(
     }
     val density = LocalDensity.current
     val rotateState by animateFloatAsState(
-        targetValue = if (isExpanded) 0F else 180F,
+        targetValue = if (isExpanded) 180F else 0F,
         animationSpec = tween(500)
     )
 
@@ -115,8 +115,8 @@ fun TasksItem(
                     text = task.text,
                     style = textStyle,
                     maxLines =
-                    if (isExpanded) 1
-                    else Integer.MAX_VALUE,
+                    if (isExpanded) Integer.MAX_VALUE
+                    else 1,
 
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier

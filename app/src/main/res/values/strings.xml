@@ -43,4 +43,6 @@
     <string name="can_not_restore_it">You can\'t restore it</string>
     <string name="selected_pcs">selected</string>
     <string name="show_notes_date">Show notes date</string>
+    <string name="expand_all">Expand all</string>
+    <string name="collapse_all">Collapse all</string>
 </resources>

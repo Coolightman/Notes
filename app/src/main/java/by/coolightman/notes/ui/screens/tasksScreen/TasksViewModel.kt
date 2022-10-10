@@ -19,7 +19,9 @@ class TasksViewModel @Inject constructor(
     private val resetTasksSelectionsUseCase: ResetTasksSelectionsUseCase,
     private val setIsSelectedTaskUseCase: SetIsSelectedTaskUseCase,
     private val selectAllTasksUseCase: SelectAllTasksUseCase,
-    private val switchTaskExpandUseCase: SwitchTaskExpandUseCase
+    private val switchTaskExpandUseCase: SwitchTaskExpandUseCase,
+    private val expandAllTasksUseCase: ExpandAllTasksUseCase,
+    private val collapseAllTasksUseCase: CollapseAllTasksUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(TasksUiState())
@@ -36,7 +38,8 @@ class TasksViewModel @Inject constructor(
                     list = it,
                     activeTasksCount = it.filter { task -> task.isActive }.size,
                     inactiveTasksCount = it.filter { task -> !task.isActive }.size,
-                    selectedCount = it.filter { task -> task.isSelected }.size
+                    selectedCount = it.filter { task -> task.isSelected }.size,
+                    isListHasExpandable = it.any { task -> task.isExpandable }
                 )
             }
         }
@@ -82,6 +85,18 @@ class TasksViewModel @Inject constructor(
     fun switchExpand(taskId: Long){
         viewModelScope.launch {
             switchTaskExpandUseCase(taskId)
+        }
+    }
+
+    fun expandAll(){
+        viewModelScope.launch {
+            expandAllTasksUseCase()
+        }
+    }
+
+    fun collapseAll(){
+        viewModelScope.launch {
+            collapseAllTasksUseCase()
         }
     }
 }
