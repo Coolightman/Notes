@@ -1,6 +1,7 @@
 package by.coolightman.notes.ui.screens.notesScreen
 
 import by.coolightman.notes.domain.model.Note
+import by.coolightman.notes.ui.model.ItemColor
 
 data class NotesUiState(
     val list: List<Note> = emptyList(),
@@ -8,5 +9,6 @@ data class NotesUiState(
     val sortByIndex: Int = 0,
     val notesCount: Int = 0,
     val selectedCount: Int = 0,
-    val isShowNoteDate: Boolean = false
+    val isShowNoteDate: Boolean = false,
+    val currentFilterSelection: List<Boolean> = ItemColor.values().map { false }
 )

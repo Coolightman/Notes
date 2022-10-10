@@ -7,11 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortNotesBy
 import by.coolightman.notes.domain.usecase.notes.*
-import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
-import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
-import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
-import by.coolightman.notes.util.IS_SHOW_NOTE_DATE
-import by.coolightman.notes.util.SORT_NOTES_BY_KEY
+import by.coolightman.notes.domain.usecase.preferences.*
+import by.coolightman.notes.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -25,6 +22,8 @@ class NotesViewModel @Inject constructor(
     private val putSelectedNotesInTrashUseCase: PutSelectedNotesInTrashUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
+    private val putStringPreferenceUseCase: PutStringPreferenceUseCase,
+    private val getStringPreferenceUseCase: GetStringPreferenceUseCase,
     private val setIsSelectedNoteUseCase: SetIsSelectedNoteUseCase,
     private val resetNotesSelectionsUseCase: ResetNotesSelectionsUseCase,
     private val selectAllNotesUseCase: SelectAllNotesUseCase,
@@ -37,6 +36,10 @@ class NotesViewModel @Inject constructor(
     private val sortNotesBy: Flow<SortNotesBy> =
         getIntPreferenceUseCase(SORT_NOTES_BY_KEY)
             .map { value -> SortNotesBy.values()[value] }
+
+    private val filterSelection: Flow<List<Boolean>> =
+        getStringPreferenceUseCase(NOTES_FILTER_SELECTION)
+            .map { convertPrefStringToFilterSelectionList(it) }
 
     init {
         getNotes()
@@ -59,12 +62,13 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             sortNotesBy.flatMapLatest { sortBy ->
                 getAllNotesSortByUseCase(sortBy)
-            }.collectLatest { it ->
+            }.collectLatest {
                 uiState = uiState.copy(
                     list = it,
                     sortByIndex = sortNotesBy.first().ordinal,
                     notesCount = it.size,
-                    selectedCount = it.filter { note -> note.isSelected }.size
+                    selectedCount = it.filter { note -> note.isSelected }.size,
+                    currentFilterSelection = filterSelection.first()
                 )
             }
         }
@@ -104,6 +108,12 @@ class NotesViewModel @Inject constructor(
     fun selectAllNotes() {
         viewModelScope.launch {
             selectAllNotesUseCase()
+        }
+    }
+
+    fun setFilterSelection(selection: List<Boolean>) {
+        viewModelScope.launch {
+            putStringPreferenceUseCase(NOTES_FILTER_SELECTION, selection.toPreferenceString())
         }
     }
 }

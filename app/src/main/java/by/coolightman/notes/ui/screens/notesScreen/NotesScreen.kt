@@ -72,7 +72,7 @@ fun NotesScreen(
             isSelectionMode = false
         }
     }
-    LaunchedEffect(uiState.list.isEmpty()){
+    LaunchedEffect(uiState.list.isEmpty()) {
         isSelectionMode = false
     }
 
@@ -180,12 +180,12 @@ fun NotesScreen(
             )
         }
 
-        SortPanel(
+        SortFilterPanel(
             isVisible = isShowSortPanel,
-            onSort = {
-                viewModel.setSortBy(it)
-            },
-            currentSortIndex = uiState.sortByIndex
+            currentSortIndex = uiState.sortByIndex,
+            onSort = { viewModel.setSortBy(it) },
+            currentFilterSelection = uiState.currentFilterSelection,
+            onFilterSelection = { viewModel.setFilterSelection(it) }
         )
 
         if (uiState.list.isEmpty()) {
