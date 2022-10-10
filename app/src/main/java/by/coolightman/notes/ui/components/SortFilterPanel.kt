@@ -107,8 +107,10 @@ fun SortFilterPanel(
                 ) {
                     ResetColorFilterButton(
                         onClick = {
-                            filterSelectionList = colors.map { false }
-                            onFilterSelection(filterSelectionList)
+                            if (filterSelectionList.contains(true)) {
+                                filterSelectionList = colors.map { false }
+                                onFilterSelection(filterSelectionList)
+                            }
                         }
                     )
                     Spacer(
