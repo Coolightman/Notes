@@ -17,60 +17,60 @@ class GetAllNotesUseCase @Inject constructor(
     }
 
     private fun filterList(notesFlow: Flow<List<Note>>, filterBy: List<Boolean>): Flow<List<Note>> {
-        return notesFlow.map {
+        return notesFlow.map { notesList ->
             val filteredList = mutableListOf<Note>()
-            if (filterBy.contains(true)) {
-                filterBy.forEachIndexed { index, filterState ->
-                    if (filterState) {
-                        filteredList.addAll(it.filter { note -> note.colorIndex == index })
+            filteredList.apply {
+                if (filterBy.contains(true)) {
+                    filterBy.forEachIndexed { index, filterState ->
+                        if (filterState) {
+                            addAll(notesList.filter { note -> note.colorIndex == index })
+                        }
                     }
+                } else {
+                    addAll(notesList)
                 }
-            } else {
-                filteredList.addAll(it)
             }
-            filteredList
         }
     }
 
-
-private fun sortList(notesFlow: Flow<List<Note>>, sortBy: SortBy): Flow<List<Note>> {
-    return when (sortBy) {
-        SortBy.COLOR -> {
-            notesFlow.map { list -> list.sortedBy { it.colorIndex } }
-        }
-        SortBy.COLOR_DESC -> {
-            notesFlow.map { list -> list.sortedByDescending { it.colorIndex } }
-        }
-        SortBy.EDIT_DATE -> {
-            notesFlow.map { list ->
-                list
-                    .sortedBy {
-                        if (it.isEdited) {
-                            it.editedAt
-                        } else {
-                            it.createdAt
-                        }
-                    }
+    private fun sortList(notesFlow: Flow<List<Note>>, sortBy: SortBy): Flow<List<Note>> {
+        return when (sortBy) {
+            SortBy.COLOR -> {
+                notesFlow.map { list -> list.sortedBy { it.colorIndex } }
             }
-        }
-        SortBy.EDIT_DATE_DESC -> {
-            notesFlow.map { list ->
-                list
-                    .sortedByDescending {
-                        if (it.isEdited) {
-                            it.editedAt
-                        } else {
-                            it.createdAt
-                        }
-                    }
+            SortBy.COLOR_DESC -> {
+                notesFlow.map { list -> list.sortedByDescending { it.colorIndex } }
             }
-        }
-        SortBy.CREATE_DATE -> {
-            notesFlow.map { list -> list.sortedBy { it.createdAt } }
-        }
-        SortBy.CREATE_DATE_DESC -> {
-            notesFlow.map { list -> list.sortedByDescending { it.createdAt } }
+            SortBy.EDIT_DATE -> {
+                notesFlow.map { list ->
+                    list
+                        .sortedBy {
+                            if (it.isEdited) {
+                                it.editedAt
+                            } else {
+                                it.createdAt
+                            }
+                        }
+                }
+            }
+            SortBy.EDIT_DATE_DESC -> {
+                notesFlow.map { list ->
+                    list
+                        .sortedByDescending {
+                            if (it.isEdited) {
+                                it.editedAt
+                            } else {
+                                it.createdAt
+                            }
+                        }
+                }
+            }
+            SortBy.CREATE_DATE -> {
+                notesFlow.map { list -> list.sortedBy { it.createdAt } }
+            }
+            SortBy.CREATE_DATE_DESC -> {
+                notesFlow.map { list -> list.sortedByDescending { it.createdAt } }
+            }
         }
     }
-}
 }
