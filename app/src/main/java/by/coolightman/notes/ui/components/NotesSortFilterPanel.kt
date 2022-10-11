@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
-import by.coolightman.notes.domain.model.SortNotesBy
+import by.coolightman.notes.domain.model.SortBy
 import by.coolightman.notes.ui.model.ItemColor
 import kotlinx.coroutines.launch
 
@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 fun NotesSortFilterPanel(
     isVisible: Boolean = false,
     currentSortIndex: Int,
-    onSort: (SortNotesBy) -> Unit,
+    onSort: (SortBy) -> Unit,
     currentFilterSelection: List<Boolean>,
     onFilterSelection: (List<Boolean>) -> Unit
 ) {
@@ -73,22 +73,22 @@ fun NotesSortFilterPanel(
                     onSort = { onSort(it) },
                     currentSortIndex = currentSortIndex,
                     text = stringResource(R.string.color),
-                    chipIndex1 = SortNotesBy.COLOR.ordinal,
-                    chipIndex2 = SortNotesBy.COLOR_DESC.ordinal
+                    chipIndex1 = SortBy.COLOR.ordinal,
+                    chipIndex2 = SortBy.COLOR_DESC.ordinal
                 )
                 SortByChipDouble(
                     onSort = { onSort(it) },
                     currentSortIndex = currentSortIndex,
                     text = stringResource(R.string.created_sort),
-                    chipIndex1 = SortNotesBy.CREATE_DATE.ordinal,
-                    chipIndex2 = SortNotesBy.CREATE_DATE_DESC.ordinal
+                    chipIndex1 = SortBy.CREATE_DATE.ordinal,
+                    chipIndex2 = SortBy.CREATE_DATE_DESC.ordinal
                 )
                 SortByChipDouble(
                     onSort = { onSort(it) },
                     currentSortIndex = currentSortIndex,
                     text = stringResource(R.string.edited_sort),
-                    chipIndex1 = SortNotesBy.EDIT_DATE.ordinal,
-                    chipIndex2 = SortNotesBy.EDIT_DATE_DESC.ordinal
+                    chipIndex1 = SortBy.EDIT_DATE.ordinal,
+                    chipIndex2 = SortBy.EDIT_DATE_DESC.ordinal
                 )
                 FilterByColorChip(
                     isSelected = isFilterDropMenuExpanded,

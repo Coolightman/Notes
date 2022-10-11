@@ -8,13 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
-import by.coolightman.notes.domain.model.SortNotesBy
+import by.coolightman.notes.domain.model.SortBy
 import by.coolightman.notes.ui.theme.InactiveBackground
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SortByChipDouble(
-    onSort: (SortNotesBy) -> Unit,
+    onSort: (SortBy) -> Unit,
     currentSortIndex: Int,
     text: String,
     chipIndex1: Int,
@@ -22,8 +22,8 @@ fun SortByChipDouble(
 ) {
     FilterChip(
         onClick = {
-            if (currentSortIndex == chipIndex1) onSort(SortNotesBy.values()[chipIndex2])
-            else onSort(SortNotesBy.values()[chipIndex1])
+            if (currentSortIndex == chipIndex1) onSort(SortBy.values()[chipIndex2])
+            else onSort(SortBy.values()[chipIndex1])
         },
         content = { Text(text = text) },
         selected = currentSortIndex == chipIndex1 || currentSortIndex == chipIndex2,

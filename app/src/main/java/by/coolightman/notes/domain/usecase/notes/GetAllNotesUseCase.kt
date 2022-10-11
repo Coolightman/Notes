@@ -1,7 +1,7 @@
 package by.coolightman.notes.domain.usecase.notes
 
 import by.coolightman.notes.domain.model.Note
-import by.coolightman.notes.domain.model.SortNotesBy
+import by.coolightman.notes.domain.model.SortBy
 import by.coolightman.notes.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetAllNotesUseCase @Inject constructor(
     private val repository: NoteRepository
 ) {
-    operator fun invoke(sortBy: SortNotesBy, filterBy: List<Boolean>): Flow<List<Note>> {
+    operator fun invoke(sortBy: SortBy, filterBy: List<Boolean>): Flow<List<Note>> {
         val notesFlow = repository.getAllActive()
         val filteredFlow = filterList(notesFlow, filterBy)
         return sortList(filteredFlow, sortBy)
@@ -33,15 +33,15 @@ class GetAllNotesUseCase @Inject constructor(
     }
 
 
-private fun sortList(notesFlow: Flow<List<Note>>, sortBy: SortNotesBy): Flow<List<Note>> {
+private fun sortList(notesFlow: Flow<List<Note>>, sortBy: SortBy): Flow<List<Note>> {
     return when (sortBy) {
-        SortNotesBy.COLOR -> {
+        SortBy.COLOR -> {
             notesFlow.map { list -> list.sortedBy { it.colorIndex } }
         }
-        SortNotesBy.COLOR_DESC -> {
+        SortBy.COLOR_DESC -> {
             notesFlow.map { list -> list.sortedByDescending { it.colorIndex } }
         }
-        SortNotesBy.EDIT_DATE -> {
+        SortBy.EDIT_DATE -> {
             notesFlow.map { list ->
                 list
                     .sortedBy {
@@ -53,7 +53,7 @@ private fun sortList(notesFlow: Flow<List<Note>>, sortBy: SortNotesBy): Flow<Lis
                     }
             }
         }
-        SortNotesBy.EDIT_DATE_DESC -> {
+        SortBy.EDIT_DATE_DESC -> {
             notesFlow.map { list ->
                 list
                     .sortedByDescending {
@@ -65,10 +65,10 @@ private fun sortList(notesFlow: Flow<List<Note>>, sortBy: SortNotesBy): Flow<Lis
                     }
             }
         }
-        SortNotesBy.CREATE_DATE -> {
+        SortBy.CREATE_DATE -> {
             notesFlow.map { list -> list.sortedBy { it.createdAt } }
         }
-        SortNotesBy.CREATE_DATE_DESC -> {
+        SortBy.CREATE_DATE_DESC -> {
             notesFlow.map { list -> list.sortedByDescending { it.createdAt } }
         }
     }
