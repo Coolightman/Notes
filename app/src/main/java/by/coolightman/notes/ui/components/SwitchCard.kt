@@ -38,7 +38,7 @@ fun SwitchCard(
                 ),
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = 12.dp)
+                    .padding(horizontal = 8.dp)
             )
             AppSwitch(
                 checked = checked,
