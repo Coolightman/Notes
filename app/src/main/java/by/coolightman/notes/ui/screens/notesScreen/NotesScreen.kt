@@ -181,7 +181,7 @@ fun NotesScreen(
             )
         }
 
-        NotesSortFilterPanel(
+        SortFilterPanel(
             isVisible = isShowSortPanel,
             currentSortIndex = uiState.sortByIndex,
             onSort = { viewModel.setSortBy(it) },

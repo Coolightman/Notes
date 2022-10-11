@@ -34,42 +34,38 @@ class GetAllNotesUseCase @Inject constructor(
     }
 
     private fun sortList(notesFlow: Flow<List<Note>>, sortBy: SortBy): Flow<List<Note>> {
-        return when (sortBy) {
-            SortBy.COLOR -> {
-                notesFlow.map { list -> list.sortedBy { it.colorIndex } }
-            }
-            SortBy.COLOR_DESC -> {
-                notesFlow.map { list -> list.sortedByDescending { it.colorIndex } }
-            }
-            SortBy.EDIT_DATE -> {
-                notesFlow.map { list ->
-                    list
-                        .sortedBy {
-                            if (it.isEdited) {
-                                it.editedAt
-                            } else {
-                                it.createdAt
-                            }
-                        }
+        return notesFlow.map { notesList ->
+            when (sortBy) {
+                SortBy.COLOR -> {
+                    notesList.sortedBy { it.colorIndex }
                 }
-            }
-            SortBy.EDIT_DATE_DESC -> {
-                notesFlow.map { list ->
-                    list
-                        .sortedByDescending {
-                            if (it.isEdited) {
-                                it.editedAt
-                            } else {
-                                it.createdAt
-                            }
-                        }
+                SortBy.COLOR_DESC -> {
+                    notesList.sortedByDescending { it.colorIndex }
                 }
-            }
-            SortBy.CREATE_DATE -> {
-                notesFlow.map { list -> list.sortedBy { it.createdAt } }
-            }
-            SortBy.CREATE_DATE_DESC -> {
-                notesFlow.map { list -> list.sortedByDescending { it.createdAt } }
+                SortBy.EDIT_DATE -> {
+                    notesList.sortedBy {
+                        if (it.isEdited) {
+                            it.editedAt
+                        } else {
+                            it.createdAt
+                        }
+                    }
+                }
+                SortBy.EDIT_DATE_DESC -> {
+                    notesList.sortedByDescending {
+                        if (it.isEdited) {
+                            it.editedAt
+                        } else {
+                            it.createdAt
+                        }
+                    }
+                }
+                SortBy.CREATE_DATE -> {
+                    notesList.sortedBy { it.createdAt }
+                }
+                SortBy.CREATE_DATE_DESC -> {
+                    notesList.sortedByDescending { it.createdAt }
+                }
             }
         }
     }

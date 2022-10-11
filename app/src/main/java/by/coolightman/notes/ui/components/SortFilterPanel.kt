@@ -23,7 +23,7 @@ import by.coolightman.notes.ui.model.ItemColor
 import kotlinx.coroutines.launch
 
 @Composable
-fun NotesSortFilterPanel(
+fun SortFilterPanel(
     isVisible: Boolean = false,
     currentSortIndex: Int,
     onSort: (SortBy) -> Unit,

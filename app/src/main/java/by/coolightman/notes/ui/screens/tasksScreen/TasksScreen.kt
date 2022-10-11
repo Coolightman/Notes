@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
@@ -37,6 +38,21 @@ fun TasksScreen(
     val uiState = viewModel.uiState
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    var isShowSortPanel by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var sortByCash by rememberSaveable {
+        mutableStateOf(-1)
+    }
+
+//  scroll list to top only when another sortBy
+    LaunchedEffect(uiState.sortByIndex) {
+        if (sortByCash != uiState.sortByIndex) {
+            sortByCash = uiState.sortByIndex
+            delay(500)
+            listState.animateScrollToItem(0)
+        }
+    }
     var openDeleteInactiveTasksDialog by remember {
         mutableStateOf(false)
     }
@@ -101,6 +117,19 @@ fun TasksScreen(
                     AppTitleText(text = stringResource(id = R.string.tasks_title))
                 },
                 actions = {
+                    if (uiState.list.isNotEmpty()) {
+                        IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_sort_24),
+                                contentDescription = "sort",
+                                tint = if (isShowSortPanel) {
+                                    MaterialTheme.colors.primary
+                                } else {
+                                    MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                                }
+                            )
+                        }
+                    }
                     IconButton(onClick = { isDropMenuExpanded = true }) {
                         Icon(
                             Icons.Default.MoreVert,
@@ -207,6 +236,14 @@ fun TasksScreen(
                 }
             )
         }
+
+        SortFilterPanel(
+            isVisible = isShowSortPanel,
+            currentSortIndex = uiState.sortByIndex,
+            onSort = { viewModel.setSortBy(it) },
+            currentFilterSelection = uiState.currentFilterSelection,
+            onFilterSelection = { viewModel.setFilterSelection(it) }
+        )
 
         if (uiState.list.isEmpty()) {
             EmptyContentSplash(
