@@ -104,7 +104,15 @@ fun NotesItem(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .defaultMinSize(minHeight = 48.dp)
+                            .defaultMinSize(
+                                minHeight = if (isShowNoteDate) 54.dp
+                                else 62.dp
+                            )
+                            .padding(
+                                12.dp, 8.dp, 12.dp,
+                                bottom = if (isShowNoteDate) 0.dp
+                                else 8.dp
+                            )
                     ) {
                         Text(
                             text = note.text,
@@ -112,7 +120,6 @@ fun NotesItem(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(Alignment.TopStart)
-                                .padding(12.dp, 8.dp, 12.dp, 0.dp)
                         )
                     }
 

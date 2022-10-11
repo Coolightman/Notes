@@ -125,7 +125,7 @@ fun EditNoteScreen(
                             keyboardController = keyboardController,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .defaultMinSize(minHeight = 48.dp)
+                                .defaultMinSize(minHeight = 54.dp)
                                 .padding(12.dp, 8.dp, 12.dp, 0.dp)
                         )
                         DateText(text = dateText)
