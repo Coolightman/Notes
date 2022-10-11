@@ -14,7 +14,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import by.coolightman.notes.ui.model.BottomTabs
-import kotlinx.coroutines.delay
 
 @Composable
 fun AppBottomBar(
@@ -29,8 +28,7 @@ fun AppBottomBar(
     var isVisible by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(currentRoute){
-        delay(50)
+    LaunchedEffect(currentRoute) {
         isVisible = currentRoute in bottomRoutes
     }
 

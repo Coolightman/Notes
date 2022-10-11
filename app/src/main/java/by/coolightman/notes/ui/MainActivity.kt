@@ -22,7 +22,6 @@ import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.ui.navigation.AppNavigationHost
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -45,8 +44,7 @@ class MainActivity : ComponentActivity() {
             var startDestination by remember {
                 mutableStateOf(NavRoutes.Splash.route)
             }
-            LaunchedEffect(viewModel.uiState.startDestinationPreference){
-                delay(SPLASH_DELAY)
+            LaunchedEffect(viewModel.uiState.startDestinationPreference) {
                 startDestination = viewModel.uiState.startDestinationPreference
             }
             var isVisibleFAB by remember {
@@ -86,9 +84,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    companion object{
-        private const val SPLASH_DELAY = 300L
     }
 }
