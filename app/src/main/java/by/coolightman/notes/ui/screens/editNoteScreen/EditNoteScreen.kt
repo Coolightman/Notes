@@ -71,6 +71,7 @@ fun EditNoteScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         AppTopAppBar(
             navigationIcon = {
@@ -88,78 +89,72 @@ fun EditNoteScreen(
             }
         )
 
-        Column(
+        Card(
+            shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(scrollState)
+                .padding(12.dp, 12.dp, 12.dp, 0.dp),
+            elevation = 2.dp
         ) {
-            Card(
-                shape = RoundedCornerShape(12.dp),
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp, 12.dp, 12.dp, 0.dp),
-                elevation = 2.dp
+                    .background(Color(itemColors[selectedColor].color).copy(0.8f))
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(itemColors[selectedColor].color).copy(0.8f))
+                NoteTitleField(
+                    title = title,
+                    onValueChange = { title = it },
+                    focusManager = focusManager
+                )
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(0.dp)
                 ) {
-                    NoteTitleField(
-                        title = title,
-                        onValueChange = { title = it },
-                        focusManager = focusManager
-                    )
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(0.dp)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(itemColors[selectedColor].color).copy(0.2f))
                     ) {
-                        Column(
+                        CustomTextField(
+                            text = text,
+                            placeholder = stringResource(R.string.text_placeholder),
+                            onValueChange = {
+                                text = it
+                            },
+                            keyboardController = keyboardController,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(Color(itemColors[selectedColor].color).copy(0.2f))
-                        ) {
-                            CustomTextField(
-                                text = text,
-                                placeholder = stringResource(R.string.text_placeholder),
-                                onValueChange = {
-                                    text = it
-                                },
-                                keyboardController = keyboardController,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .defaultMinSize(minHeight = 54.dp)
-                                    .padding(12.dp, 8.dp, 12.dp, 0.dp)
-                            )
-                            DateText(text = dateText)
-                        }
+                                .defaultMinSize(minHeight = 54.dp)
+                                .padding(12.dp, 8.dp, 12.dp, 0.dp)
+                        )
+                        DateText(text = dateText)
                     }
                 }
             }
-            if (createdAt.isNotEmpty()) {
-                DateText(
-                    text = stringResource(R.string.created) + " " + createdAt,
-                    modifier = Modifier.padding(horizontal = 12.dp)
-                )
-            }
-            SelectColorBar(
-                selected = selectedColor,
-                onSelect = { selectedColor = it },
-                modifier = Modifier.padding(8.dp)
+        }
+        if (createdAt.isNotEmpty()) {
+            DateText(
+                text = stringResource(R.string.created) + " " + createdAt,
+                modifier = Modifier.padding(horizontal = 12.dp)
             )
-            Spacer(modifier = Modifier.weight(1f))
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                DoneButton {
-                    if (text.trim().isNotEmpty()) {
-                        viewModel.saveNote(title.trim(), text.trim(), selectedColor)
-                        goBack(scope, focusManager, navController)
-                    } else {
-                        showSnack(scope, scaffoldState, context.getString(R.string.empty_note))
-                    }
+        }
+        SelectColorBar(
+            selected = selectedColor,
+            onSelect = { selectedColor = it },
+            modifier = Modifier.padding(8.dp)
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            DoneButton {
+                if (text.trim().isNotEmpty()) {
+                    viewModel.saveNote(title.trim(), text.trim(), selectedColor)
+                    goBack(scope, focusManager, navController)
+                } else {
+                    showSnack(scope, scaffoldState, context.getString(R.string.empty_note))
                 }
             }
         }
