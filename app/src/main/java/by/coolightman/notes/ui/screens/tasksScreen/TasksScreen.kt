@@ -224,7 +224,9 @@ fun TasksScreen(
                     }
                     IconButton(
                         onClick = {
-                            openDeleteSelectedTasksDialog = true
+                            if (uiState.selectedCount > 0) {
+                                openDeleteSelectedTasksDialog = true
+                            }
                         }
                     ) {
                         Icon(

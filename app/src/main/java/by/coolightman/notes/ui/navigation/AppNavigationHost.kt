@@ -41,6 +41,7 @@ fun AppNavigationHost(
         ) {
             NotesScreen(
                 navController = navController,
+                scaffoldState = scaffoldState,
                 isVisibleFAB = { isVisibleFAB(it) }
             )
         }

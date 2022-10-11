@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,18 +25,22 @@ import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
+import by.coolightman.notes.util.showSnack
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
-    navController: NavController, viewModel: NotesViewModel = hiltViewModel(),
+    navController: NavController,
+    scaffoldState: ScaffoldState,
+    viewModel: NotesViewModel = hiltViewModel(),
     isVisibleFAB: (Boolean) -> Unit
 ) {
     val uiState = viewModel.uiState
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     var isShowSortPanel by rememberSaveable {
         mutableStateOf(false)
     }
@@ -168,7 +173,14 @@ fun NotesScreen(
                     }
                     IconButton(
                         onClick = {
-                            viewModel.putSelectedNotesInTrash()
+                            if (uiState.selectedCount > 0) {
+                                viewModel.putSelectedNotesInTrash()
+                                showSnack(
+                                    scope,
+                                    scaffoldState,
+                                    context.getString(R.string.notes_sent_to_trash)
+                                )
+                            }
                         }
                     ) {
                         Icon(
