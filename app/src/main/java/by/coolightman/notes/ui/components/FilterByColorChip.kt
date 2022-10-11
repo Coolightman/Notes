@@ -16,11 +16,15 @@ import by.coolightman.notes.ui.theme.InactiveBackground
 fun FilterByColorChip(
     isSelected: Boolean = false,
     isActive: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    dropdown: @Composable () -> Unit
 ) {
     FilterChip(
         onClick = { onClick() },
-        content = { Text(text = stringResource(R.string.filter)) },
+        content = {
+            Text(text = stringResource(R.string.filter))
+            dropdown()
+        },
         selected = isSelected,
         trailingIcon = {
             Icon(
@@ -37,6 +41,7 @@ fun FilterByColorChip(
             selectedContentColor = MaterialTheme.colors.onSurface,
             backgroundColor = InactiveBackground.copy(0.3f),
         ),
-        modifier = Modifier.padding(horizontal = 4.dp)
+        modifier = Modifier.padding(start = 4.dp, end = 8.dp)
     )
+
 }

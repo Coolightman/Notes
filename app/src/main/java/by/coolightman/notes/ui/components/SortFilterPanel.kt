@@ -99,42 +99,44 @@ fun SortFilterPanel(
                             isFilterDropMenuExpanded = !isFilterDropMenuExpanded
                         }
                     }
-                )
-                DropdownMenu(
-                    expanded = isFilterDropMenuExpanded,
-                    onDismissRequest = { isFilterDropMenuExpanded = false },
-                    modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
-                    ResetColorFilterButton(
-                        onClick = {
-                            if (filterSelectionList.contains(true)) {
-                                filterSelectionList = colors.map { false }
-                                onFilterSelection(filterSelectionList)
-                            }
-                        }
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(4.dp)
-                    )
-                    colors.forEachIndexed { index, itemColor ->
-                        ColorFilterButton(
-                            itemColor = itemColor,
-                            isSelected = filterSelectionList[index],
+                    DropdownMenu(
+                        expanded = isFilterDropMenuExpanded,
+                        onDismissRequest = { isFilterDropMenuExpanded = false },
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ) {
+                        ResetColorFilterButton(
                             onClick = {
-                                filterSelectionList = mutableListOf<Boolean>().apply {
-                                    filterSelectionList.forEachIndexed { index, b ->
-                                        if (index == it) {
-                                            add(!b)
-                                        } else add(b)
-                                    }
+                                if (filterSelectionList.contains(true)) {
+                                    filterSelectionList = colors.map { false }
+                                    onFilterSelection(filterSelectionList)
                                 }
-                                onFilterSelection(filterSelectionList)
                             }
                         )
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(4.dp)
+                        )
+                        colors.forEachIndexed { index, itemColor ->
+                            ColorFilterButton(
+                                itemColor = itemColor,
+                                isSelected = filterSelectionList[index],
+                                onClick = {
+                                    filterSelectionList = mutableListOf<Boolean>().apply {
+                                        filterSelectionList.forEachIndexed { index, b ->
+                                            if (index == it) {
+                                                add(!b)
+                                            } else add(b)
+                                        }
+                                    }
+                                    onFilterSelection(filterSelectionList)
+                                }
+                            )
+                        }
                     }
                 }
+
             }
         }
     }

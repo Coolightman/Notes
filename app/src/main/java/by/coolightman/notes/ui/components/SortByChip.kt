@@ -42,6 +42,10 @@ fun SortByChipDouble(
             selectedContentColor = MaterialTheme.colors.onSurface,
             backgroundColor = InactiveBackground.copy(0.3f)
         ),
-        modifier = Modifier.padding(horizontal = 4.dp)
+        modifier = Modifier.padding(
+            end = 4.dp,
+            start = if (chipIndex1 == 0) 8.dp
+            else 4.dp
+        )
     )
 }
