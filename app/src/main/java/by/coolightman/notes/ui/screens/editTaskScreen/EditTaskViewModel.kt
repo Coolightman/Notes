@@ -80,7 +80,8 @@ class EditTaskViewModel @Inject constructor(
                     colorIndex = colorIndex,
                     isImportant = isImportant,
                     isEdited = true,
-                    editedAt = System.currentTimeMillis()
+                    editedAt = System.currentTimeMillis(),
+                    isExpandable = numberOfLines > 1,
                 )
                 updateTaskUseCase(updatedTask)
                 return@launch
