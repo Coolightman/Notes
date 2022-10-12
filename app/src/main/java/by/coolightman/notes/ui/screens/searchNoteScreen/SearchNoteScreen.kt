@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
@@ -39,6 +42,13 @@ fun SearchNoteScreen(
         mutableStateOf("")
     }
 
+    LaunchedEffect(searchKey) {
+        if (searchKey.length >= 2) {
+            viewModel.searchByKey(searchKey)
+        } else{
+            viewModel.clearSearchResult()
+        }
+    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
