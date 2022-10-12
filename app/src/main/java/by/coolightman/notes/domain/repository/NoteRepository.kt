@@ -15,6 +15,8 @@ interface NoteRepository {
 
     fun getTrashCount(): Flow<Int>
 
+    fun searchNote(key: String): Flow<List<Note>>
+
     suspend fun update(note: Note)
 
     suspend fun updateList(list: List<Note>)

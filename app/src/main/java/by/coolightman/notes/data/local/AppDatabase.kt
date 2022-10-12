@@ -5,13 +5,15 @@ import androidx.room.RoomDatabase
 import by.coolightman.notes.data.local.dao.NoteDao
 import by.coolightman.notes.data.local.dao.TaskDao
 import by.coolightman.notes.data.local.dbModel.NoteDb
+import by.coolightman.notes.data.local.dbModel.NoteFtsDb
 import by.coolightman.notes.data.local.dbModel.TaskDb
 
 @Database(
-    version = 3,
+    version = 4,
     entities = [
         NoteDb::class,
-        TaskDb::class
+        TaskDb::class,
+        NoteFtsDb::class
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
