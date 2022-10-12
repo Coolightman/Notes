@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.preferences.*
+import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +37,7 @@ class SettingsViewModel @Inject constructor(
         getNewNoteColor()
         getNewTaskColor()
         getIsShowNotesDate()
+        getNotesViewMode()
     }
 
     private fun getIsShowNotesDate() {
@@ -88,6 +90,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    private fun getNotesViewMode() {
+        viewModelScope.launch {
+            getIntPreferenceUseCase(NOTES_VIEW_MODE).collectLatest {
+                uiState = uiState.copy(
+                    currentNotesViewMode = NotesViewMode.values()[it]
+                )
+            }
+        }
+    }
+
     fun setStartDestination(route: String) {
         viewModelScope.launch {
             putStringPreferenceUseCase(START_DESTINATION_KEY, route)
@@ -115,6 +127,12 @@ class SettingsViewModel @Inject constructor(
     fun setIsShowNotedDate(value: Boolean) {
         viewModelScope.launch {
             putBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE, value)
+        }
+    }
+
+    fun setNotesViewMode(value: NotesViewMode) {
+        viewModelScope.launch {
+            putIntPreferenceUseCase(NOTES_VIEW_MODE, value.ordinal)
         }
     }
 }

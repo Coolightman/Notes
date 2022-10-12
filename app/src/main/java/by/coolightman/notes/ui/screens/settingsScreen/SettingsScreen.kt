@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
+import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.ui.model.ThemeMode
 
 @Composable
@@ -54,7 +55,11 @@ fun SettingsScreen(
                 .verticalScroll(scrollState)
         ) {
 
-            Spacer(modifier = Modifier.fillMaxWidth().height(8.dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+            )
 
             SettingsRow(title = stringResource(R.string.start_screen)) {
                 StartDestinationChip(
@@ -97,12 +102,33 @@ fun SettingsScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.fillMaxWidth().height(8.dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+            )
 
             SettingsRow(title = stringResource(R.string.new_note_color)) {
                 SelectColorBar(
                     selected = uiState.newNoteColorIndex,
                     onSelect = { viewModel.setNewNoteColor(it) }
+                )
+            }
+
+            SettingsRow(title = "Notes view mode") {
+                NotesViewModeChip(
+                    icon = painterResource(id = R.drawable.ic_list_mode_24),
+                    currentViewMode = uiState.currentNotesViewMode,
+                    chipViewMode = NotesViewMode.LIST,
+                    title = stringResource(id = R.string.list_mode),
+                    onClick = { viewModel.setNotesViewMode(it) }
+                )
+                NotesViewModeChip(
+                    icon = painterResource(id = R.drawable.ic_grid_mode_24),
+                    currentViewMode = uiState.currentNotesViewMode,
+                    chipViewMode = NotesViewMode.GRID,
+                    title = stringResource(id = R.string.grid_mode),
+                    onClick = { viewModel.setNotesViewMode(it) }
                 )
             }
 
@@ -112,7 +138,11 @@ fun SettingsScreen(
                 onCheckedChange = { viewModel.setIsShowNotedDate(it) }
             )
 
-            Spacer(modifier = Modifier.fillMaxWidth().height(8.dp))
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+            )
 
             SettingsRow(title = stringResource(R.string.new_task_color)) {
                 SelectColorBar(

@@ -1,5 +1,6 @@
 package by.coolightman.notes.ui.screens.settingsScreen
 
+import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.ui.model.ThemeMode
 
 data class SettingsUiState(
@@ -7,5 +8,6 @@ data class SettingsUiState(
     val themeMode: ThemeMode = ThemeMode.SYSTEM_MODE,
     val newNoteColorIndex: Int = 0,
     val newTaskColorIndex: Int = 0,
-    val isShowNotesDate: Boolean = false
+    val isShowNotesDate: Boolean = false,
+    val currentNotesViewMode: NotesViewMode = NotesViewMode.LIST
 )

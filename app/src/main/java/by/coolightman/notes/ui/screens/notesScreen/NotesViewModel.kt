@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
 import by.coolightman.notes.domain.usecase.notes.*
 import by.coolightman.notes.domain.usecase.preferences.*
+import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,6 +49,7 @@ class NotesViewModel @Inject constructor(
         getNotes()
         getTrashCount()
         getIsShowDatePref()
+        getNotesViewMode()
     }
 
     private fun getIsShowDatePref() {
@@ -85,6 +87,16 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             getNotesTrashCountUseCase().collect {
                 uiState = uiState.copy(trashCount = it)
+            }
+        }
+    }
+
+    private fun getNotesViewMode() {
+        viewModelScope.launch {
+            getIntPreferenceUseCase(NOTES_VIEW_MODE).collectLatest {
+                uiState = uiState.copy(
+                    currentNotesViewMode = NotesViewMode.values()[it]
+                )
             }
         }
     }
