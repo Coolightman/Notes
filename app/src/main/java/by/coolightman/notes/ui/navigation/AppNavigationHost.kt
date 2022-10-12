@@ -12,6 +12,7 @@ import by.coolightman.notes.ui.screens.editNoteScreen.EditNoteScreen
 import by.coolightman.notes.ui.screens.editTaskScreen.EditTaskScreen
 import by.coolightman.notes.ui.screens.notesScreen.NotesScreen
 import by.coolightman.notes.ui.screens.notesTrashScreen.NotesTrashScreen
+import by.coolightman.notes.ui.screens.searchNoteScreen.SearchNoteScreen
 import by.coolightman.notes.ui.screens.settingsScreen.SettingsScreen
 import by.coolightman.notes.ui.screens.splashScreen.SplashScreen
 import by.coolightman.notes.ui.screens.tasksScreen.TasksScreen
@@ -64,6 +65,14 @@ fun AppNavigationHost(
             route = NavRoutes.NotesTrash.route,
         ) {
             NotesTrashScreen(
+                navController = navController
+            )
+        }
+
+        composable(
+            route = NavRoutes.SearchNote.route,
+        ) {
+            SearchNoteScreen(
                 navController = navController
             )
         }

@@ -27,6 +27,7 @@ fun CustomTextField(
     placeholder: String = "",
     onValueChange: (String) -> Unit,
     fontSize: TextUnit = 18.sp,
+    singleLine: Boolean = false,
     keyboardController: SoftwareKeyboardController?,
     onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
@@ -44,6 +45,7 @@ fun CustomTextField(
             fontSize = fontSize,
             color = LocalContentColor.current.copy(LocalContentAlpha.current)
         ),
+        singleLine = singleLine,
         cursorBrush = SolidColor(MaterialTheme.colors.primary.copy(alpha = ContentAlpha.high)),
         decorationBox = { innerTextField ->
             Row(

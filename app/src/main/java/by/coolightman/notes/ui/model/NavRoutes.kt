@@ -5,6 +5,7 @@ sealed class NavRoutes(val route: String) {
     object Notes : NavRoutes("notes")
     object EditNote : NavRoutes("edit_note")
     object NotesTrash : NavRoutes("notes_trash")
+    object SearchNote : NavRoutes("search_note")
     object Tasks : NavRoutes("tasks")
     object EditTask : NavRoutes("edit_task")
     object Settings : NavRoutes("settings")
