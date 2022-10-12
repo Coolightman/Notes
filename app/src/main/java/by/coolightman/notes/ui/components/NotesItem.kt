@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -78,13 +79,15 @@ fun NotesItem(
                         Text(
                             textAlign = TextAlign.Center,
                             text = note.title,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.h6.copy(
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(2.dp)
+                                .padding(vertical = 2.dp, horizontal = 8.dp)
                                 .align(Alignment.Center)
                         )
                     }
