@@ -28,7 +28,8 @@ class NotesViewModel @Inject constructor(
     private val setIsSelectedNoteUseCase: SetIsSelectedNoteUseCase,
     private val resetNotesSelectionsUseCase: ResetNotesSelectionsUseCase,
     private val selectAllNotesUseCase: SelectAllNotesUseCase,
-    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
+    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
+    private val switchNoteExpandUseCase: SwitchNoteExpandUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesUiState())
@@ -129,6 +130,12 @@ class NotesViewModel @Inject constructor(
     fun setFilterSelection(selection: List<Boolean>) {
         viewModelScope.launch {
             putStringPreferenceUseCase(NOTES_FILTER_SELECTION, selection.toPreferenceString())
+        }
+    }
+
+    fun switchExpand(noteId: Long){
+        viewModelScope.launch {
+            switchNoteExpandUseCase(noteId)
         }
     }
 }

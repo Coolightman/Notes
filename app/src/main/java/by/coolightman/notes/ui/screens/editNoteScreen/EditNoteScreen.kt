@@ -8,10 +8,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -53,11 +55,18 @@ fun EditNoteScreen(
     var selectedColor by remember {
         mutableStateOf(0)
     }
+    var numberOfLines by remember {
+        mutableStateOf(1)
+    }
+    var isAllowToCollapse by remember {
+        mutableStateOf(false)
+    }
     LaunchedEffect(uiState) {
         title = uiState.title
         text = uiState.text
         selectedColor = uiState.colorIndex
         createdAt = uiState.createdAt
+        isAllowToCollapse = uiState.isAllowToCollapse
         if (createdAt.isEmpty()) {
             selectedColor = uiState.newNoteColorPrefIndex
         }
@@ -123,13 +132,40 @@ fun EditNoteScreen(
                             onValueChange = {
                                 text = it
                             },
+                            onTextLayout = { textLayoutResult ->
+                                numberOfLines = derivedStateOf { textLayoutResult.lineCount }.value
+                            },
                             keyboardController = keyboardController,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .defaultMinSize(minHeight = 54.dp)
                                 .padding(12.dp, 8.dp, 12.dp, 0.dp)
                         )
-                        DateText(text = dateText)
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            if (isAllowToCollapse) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowDropDown,
+                                    contentDescription = "drop down",
+                                    modifier = Modifier
+                                        .rotate(180f)
+                                        .weight(1f)
+                                        .padding(horizontal = 6.dp, vertical = 2.dp)
+                                )
+                                DateText(
+                                    text = dateText,
+                                    modifier = Modifier
+                                        .align(Alignment.Bottom)
+                                )
+                            } else {
+                                DateText(
+                                    text = dateText,
+                                    modifier = Modifier.weight(1f)
+                                )
+                            }
+
+                        }
                     }
                 }
             }
@@ -137,7 +173,9 @@ fun EditNoteScreen(
         if (createdAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.created) + " " + createdAt,
-                modifier = Modifier.padding(horizontal = 12.dp)
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth()
             )
         }
         SelectColorBar(
@@ -145,6 +183,13 @@ fun EditNoteScreen(
             onSelect = { selectedColor = it },
             modifier = Modifier.padding(8.dp)
         )
+        if (numberOfLines > 2) {
+            SwitchCard(
+                label = stringResource(id = R.string.allow_to_collapse),
+                checked = isAllowToCollapse,
+                onCheckedChange = { isAllowToCollapse = !isAllowToCollapse }
+            )
+        }
         Spacer(modifier = Modifier.weight(1f))
         Row(
             horizontalArrangement = Arrangement.End,
@@ -152,7 +197,12 @@ fun EditNoteScreen(
         ) {
             DoneButton {
                 if (text.trim().isNotEmpty()) {
-                    viewModel.saveNote(title.trim(), text.trim(), selectedColor)
+                    viewModel.saveNote(
+                        title.trim(), text.trim(), selectedColor,
+                        isExpandable =
+                        if (numberOfLines > 2) isAllowToCollapse
+                        else false
+                    )
                     goBack(scope, focusManager, navController)
                 } else {
                     showSnack(scope, scaffoldState, context.getString(R.string.empty_note))

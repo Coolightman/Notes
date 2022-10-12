@@ -1,6 +1,5 @@
 package by.coolightman.notes.ui.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -25,7 +24,6 @@ fun DateText(
         ),
         color = MaterialTheme.colors.onSurface.copy(0.25f),
         modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp, 2.dp)
+            .padding(0.dp, 2.dp, 8.dp, 2.dp)
     )
 }

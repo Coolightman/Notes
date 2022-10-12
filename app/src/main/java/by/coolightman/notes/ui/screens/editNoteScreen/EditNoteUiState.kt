@@ -5,5 +5,6 @@ data class EditNoteUiState(
     val text: String = "",
     val createdAt: String = "",
     val colorIndex: Int = 0,
-    val newNoteColorPrefIndex: Int = 0
+    val newNoteColorPrefIndex: Int = 0,
+    val isAllowToCollapse: Boolean = false
 )

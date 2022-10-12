@@ -1,6 +1,9 @@
 package by.coolightman.notes.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,11 +11,15 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -40,7 +47,10 @@ fun NotesItem(
     onLongPress: () -> Unit,
     onCheckedChange: () -> Unit,
     isSelectionMode: Boolean = false,
-    isShowNoteDate: Boolean = true
+    isShowNoteDate: Boolean = true,
+    isExpanded: Boolean = false,
+    isExpandable: Boolean = false,
+    onExpandClick: () -> Unit
 ) {
     var itemHeight by remember {
         mutableStateOf(0.dp)
@@ -49,7 +59,10 @@ fun NotesItem(
         mutableStateOf(0.dp)
     }
     val density = LocalDensity.current
-
+    val rotateState by animateFloatAsState(
+        targetValue = if (isExpanded) 180F else 0F,
+        animationSpec = tween(500)
+    )
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = elevation,
@@ -108,30 +121,67 @@ fun NotesItem(
                         modifier = Modifier
                             .fillMaxWidth()
                             .defaultMinSize(
-                                minHeight = if (isShowNoteDate) 54.dp
+                                minHeight = if (isShowNoteDate || isExpandable) 54.dp
                                 else 62.dp
                             )
                             .padding(
                                 12.dp, 8.dp, 12.dp,
-                                bottom = if (isShowNoteDate) 0.dp
+                                bottom = if (isShowNoteDate || isExpandable) 0.dp
                                 else 8.dp
                             )
+                            .animateContentSize()
                     ) {
                         Text(
                             text = note.text,
                             style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
+                            maxLines = if (isExpanded) Integer.MAX_VALUE else 2,
+                            overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(Alignment.TopStart)
                         )
                     }
 
-                    if (isShowNoteDate) {
-                        val dateText = if (note.isEdited) {
-                            val edited = stringResource(R.string.edit)
-                            "$edited " + note.editedAt.toFormattedDate()
-                        } else note.createdAt.toFormattedDate()
-                        DateText(text = dateText)
+                    if (isShowNoteDate || isExpandable) {
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            if (isExpandable) {
+                                Box(modifier = Modifier
+                                    .weight(1f)
+                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                                    .clickable { onExpandClick() }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.ArrowDropDown,
+                                        contentDescription = "drop down",
+                                        modifier = Modifier
+                                            .rotate(rotateState)
+                                            .align(Alignment.Center)
+                                    )
+                                }
+                                if (isShowNoteDate) {
+                                    val dateText = if (note.isEdited) {
+                                        val edited = stringResource(R.string.edit)
+                                        "$edited " + note.editedAt.toFormattedDate()
+                                    } else note.createdAt.toFormattedDate()
+                                    DateText(
+                                        text = dateText,
+                                        modifier = Modifier
+                                            .align(Alignment.Bottom)
+                                    )
+                                }
+                            } else {
+                                val dateText = if (note.isEdited) {
+                                    val edited = stringResource(R.string.edit)
+                                    "$edited " + note.editedAt.toFormattedDate()
+                                } else note.createdAt.toFormattedDate()
+                                DateText(
+                                    text = dateText,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .align(Alignment.Bottom)
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -179,5 +229,5 @@ private fun NotesItemPreview() {
         isExpandable = false,
         isExpanded = false
     )
-    NotesItem(note = note, onClick = {}, onLongPress = {}, onCheckedChange = {})
+    NotesItem(note = note, onClick = {}, onLongPress = {}, onCheckedChange = {}, onExpandClick = {})
 }

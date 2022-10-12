@@ -215,8 +215,8 @@ fun NotesScreen(
                 iconId = R.drawable.ic_note_24, textId = R.string.no_notes
             )
         } else {
-            when(uiState.currentNotesViewMode){
-                NotesViewMode.LIST->{
+            when (uiState.currentNotesViewMode) {
+                NotesViewMode.LIST -> {
                     LazyColumn(
                         state = listState,
                         verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -241,12 +241,15 @@ fun NotesScreen(
                                 onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
-                                modifier = Modifier.animateItemPlacement()
+                                modifier = Modifier.animateItemPlacement(),
+                                isExpanded = note.isExpanded,
+                                isExpandable = note.isExpandable,
+                                onExpandClick = { viewModel.switchExpand(note.id) }
                             )
                         }
                     }
                 }
-                NotesViewMode.GRID->{
+                NotesViewMode.GRID -> {
                     LazyVerticalStaggeredGrid(
                         columns = StaggeredGridCells.Fixed(2),
                         modifier = Modifier.fillMaxSize(),
@@ -272,7 +275,10 @@ fun NotesScreen(
                                 },
                                 onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
                                 isSelectionMode = isSelectionMode,
-                                isShowNoteDate = uiState.isShowNoteDate
+                                isShowNoteDate = uiState.isShowNoteDate,
+                                isExpanded = note.isExpanded,
+                                isExpandable = note.isExpandable,
+                                onExpandClick = { viewModel.switchExpand(note.id) }
                             )
                         }
                     }

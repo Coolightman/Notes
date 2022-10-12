@@ -153,13 +153,13 @@ fun EditTaskScreen(
         if (createdAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.created) + " " + createdAt,
-                modifier = Modifier.padding(horizontal = 12.dp)
+                modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth()
             )
         }
         if (editedAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.edited) + " " + editedAt,
-                modifier = Modifier.padding(horizontal = 12.dp)
+                modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth()
             )
         }
         SelectColorBar(

@@ -163,7 +163,8 @@ fun NotesTrashScreen(
                             note = note,
                             onClick = {},
                             onLongPress = {},
-                            onCheckedChange = {}
+                            onCheckedChange = {},
+                            onExpandClick = {}
                         )
                     }
                 }

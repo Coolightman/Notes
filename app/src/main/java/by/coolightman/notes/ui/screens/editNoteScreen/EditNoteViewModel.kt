@@ -60,14 +60,18 @@ class EditNoteViewModel @Inject constructor(
                     title = it.title,
                     text = it.text,
                     createdAt = it.createdAt.toFormattedDate(),
-                    colorIndex = it.colorIndex
+                    colorIndex = it.colorIndex,
+                    isAllowToCollapse = it.isExpandable
                 )
             }
         }
     }
 
     fun saveNote(
-        title: String, text: String, colorIndex: Int
+        title: String,
+        text: String,
+        colorIndex: Int,
+        isExpandable: Boolean
     ) {
         viewModelScope.launch {
             note?.let {
@@ -76,7 +80,9 @@ class EditNoteViewModel @Inject constructor(
                     text = text,
                     colorIndex = colorIndex,
                     isEdited = true,
-                    editedAt = System.currentTimeMillis()
+                    editedAt = System.currentTimeMillis(),
+                    isExpandable = isExpandable,
+                    isExpanded = !isExpandable
                 )
                 updateNoteUseCase(updatedNote)
                 return@launch
@@ -92,7 +98,7 @@ class EditNoteViewModel @Inject constructor(
                 isInTrash = false,
                 isShowDate = false,
                 isSelected = false,
-                isExpandable = false,
+                isExpandable = isExpandable,
                 isExpanded = false
             )
             createNoteUseCase(createdNote)
