@@ -1,7 +1,6 @@
 package by.coolightman.notes.ui.screens.settingsScreen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -14,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import by.coolightman.notes.R
@@ -53,6 +53,8 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
+
+            Spacer(modifier = Modifier.fillMaxWidth().height(8.dp))
 
             SettingsRow(title = stringResource(R.string.start_screen)) {
                 StartDestinationChip(
@@ -95,6 +97,8 @@ fun SettingsScreen(
                 )
             }
 
+            Spacer(modifier = Modifier.fillMaxWidth().height(8.dp))
+
             SettingsRow(title = stringResource(R.string.new_note_color)) {
                 SelectColorBar(
                     selected = uiState.newNoteColorIndex,
@@ -102,17 +106,20 @@ fun SettingsScreen(
                 )
             }
 
+            SwitchCard(
+                label = stringResource(R.string.show_notes_date),
+                checked = uiState.isShowNotesDate,
+                onCheckedChange = { viewModel.setIsShowNotedDate(it) }
+            )
+
+            Spacer(modifier = Modifier.fillMaxWidth().height(8.dp))
+
             SettingsRow(title = stringResource(R.string.new_task_color)) {
                 SelectColorBar(
                     selected = uiState.newTaskColorIndex,
                     onSelect = { viewModel.setNewTaskColor(it) }
                 )
             }
-            SwitchCard(
-                label = stringResource(R.string.show_notes_date),
-                checked = uiState.isShowNotesDate,
-                onCheckedChange = { viewModel.setIsShowNotedDate(it) }
-            )
         }
     }
 }
