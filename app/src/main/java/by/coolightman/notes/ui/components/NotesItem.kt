@@ -157,25 +157,16 @@ fun NotesItem(
                                             .align(Alignment.Center)
                                     )
                                 }
-                                if (isShowNoteDate) {
-                                    val dateText = if (note.isEdited) {
-                                        val edited = stringResource(R.string.edit)
-                                        "$edited " + note.editedAt.toFormattedDate()
-                                    } else note.createdAt.toFormattedDate()
-                                    DateText(
-                                        text = dateText,
-                                        modifier = Modifier
-                                            .align(Alignment.Bottom)
-                                    )
-                                }
-                            } else {
+                            }
+                            if (isShowNoteDate) {
                                 val dateText = if (note.isEdited) {
                                     val edited = stringResource(R.string.edit)
                                     "$edited " + note.editedAt.toFormattedDate()
                                 } else note.createdAt.toFormattedDate()
                                 DateText(
                                     text = dateText,
-                                    modifier = Modifier
+                                    modifier = if (isExpandable) Modifier.align(Alignment.Bottom)
+                                    else Modifier
                                         .weight(1f)
                                         .align(Alignment.Bottom)
                                 )
