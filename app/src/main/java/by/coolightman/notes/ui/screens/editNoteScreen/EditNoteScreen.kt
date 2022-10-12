@@ -58,7 +58,7 @@ fun EditNoteScreen(
     var numberOfLines by remember {
         mutableStateOf(1)
     }
-    var isAllowToCollapse by remember {
+    var isAllowedToCollapse by remember {
         mutableStateOf(false)
     }
     LaunchedEffect(uiState) {
@@ -66,7 +66,7 @@ fun EditNoteScreen(
         text = uiState.text
         selectedColor = uiState.colorIndex
         createdAt = uiState.createdAt
-        isAllowToCollapse = uiState.isAllowToCollapse
+        isAllowedToCollapse = uiState.isAllowToCollapse
         if (createdAt.isEmpty()) {
             selectedColor = uiState.newNoteColorPrefIndex
         }
@@ -144,27 +144,20 @@ fun EditNoteScreen(
                         Row(
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            if (isAllowToCollapse) {
+                            if (isAllowedToCollapse) {
                                 Icon(
                                     imageVector = Icons.Default.ArrowDropDown,
                                     contentDescription = "drop down",
                                     modifier = Modifier
                                         .rotate(180f)
                                         .weight(1f)
-                                        .padding(horizontal = 6.dp, vertical = 2.dp)
-                                )
-                                DateText(
-                                    text = dateText,
-                                    modifier = Modifier
-                                        .align(Alignment.Bottom)
-                                )
-                            } else {
-                                DateText(
-                                    text = dateText,
-                                    modifier = Modifier.weight(1f)
                                 )
                             }
-
+                            DateText(
+                                text = dateText,
+                                modifier = if (isAllowedToCollapse) Modifier.align(Alignment.Bottom)
+                                else Modifier.weight(1f)
+                            )
                         }
                     }
                 }
@@ -186,8 +179,8 @@ fun EditNoteScreen(
         if (numberOfLines > 2) {
             SwitchCard(
                 label = stringResource(id = R.string.allow_to_collapse),
-                checked = isAllowToCollapse,
-                onCheckedChange = { isAllowToCollapse = !isAllowToCollapse }
+                checked = isAllowedToCollapse,
+                onCheckedChange = { isAllowedToCollapse = !isAllowedToCollapse }
             )
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -200,7 +193,7 @@ fun EditNoteScreen(
                     viewModel.saveNote(
                         title.trim(), text.trim(), selectedColor,
                         isExpandable =
-                        if (numberOfLines > 2) isAllowToCollapse
+                        if (numberOfLines > 2) isAllowedToCollapse
                         else false
                     )
                     goBack(scope, focusManager, navController)

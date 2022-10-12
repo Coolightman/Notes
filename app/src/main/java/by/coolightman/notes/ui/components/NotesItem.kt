@@ -147,7 +147,6 @@ fun NotesItem(
                             if (isExpandable) {
                                 Box(modifier = Modifier
                                     .weight(1f)
-                                    .padding(horizontal = 6.dp, vertical = 2.dp)
                                     .clickable { onExpandClick() }
                                 ) {
                                     Icon(
