@@ -30,6 +30,8 @@
     <string name="notes_sent_to_trash">Note(s) sent to trash</string>
     <string name="delete_inactive">Delete inactive</string>
     <string name="settings">Settings</string>
+    <string name="list_mode">List mode</string>
+    <string name="grid_mode">Grid mode</string>
     <string name="trash">Trash</string>
     <string name="active_count">active:</string>
     <string name="inactive_count">inactive:</string>

@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -39,6 +43,7 @@ fun NotesScreen(
 ) {
     val uiState = viewModel.uiState
     val listState = rememberLazyListState()
+    val gridState = rememberLazyStaggeredGridState()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     var isShowSortPanel by rememberSaveable {
@@ -80,6 +85,9 @@ fun NotesScreen(
     }
     LaunchedEffect(uiState.list.isEmpty()) {
         isSelectionMode = false
+    }
+    var isLazyGridMode by remember {
+        mutableStateOf(false)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -133,6 +141,29 @@ fun NotesScreen(
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(text = stringResource(R.string.trash))
                         }
+
+                        DropdownMenuItem(
+                            onClick = {
+                                isDropMenuExpanded = false
+                                isLazyGridMode = !isLazyGridMode
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(
+                                    id = if (isLazyGridMode) R.drawable.ic_list_mode_24
+                                    else R.drawable.ic_grid_mode_24
+                                ),
+                                contentDescription = "mode"
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(
+                                text = stringResource(
+                                    id = if (isLazyGridMode) R.string.list_mode
+                                    else R.string.grid_mode
+                                )
+                            )
+                        }
+
                         DropdownMenuItem(onClick = {
                             navController.navigate(NavRoutes.Settings.route) {
                                 launchSingleTop = true
@@ -206,33 +237,64 @@ fun NotesScreen(
                 iconId = R.drawable.ic_note_24, textId = R.string.no_notes
             )
         } else {
-
-            LazyColumn(
-                state = listState,
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-                contentPadding = PaddingValues(12.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(items = uiState.list, key = { it.id }) { note ->
-                    NotesItem(
-                        note = note,
-                        onClick = {
-                            navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
-                                launchSingleTop = true
-                            }
-                        },
-                        onLongPress = {
-                            scope.launch {
-                                viewModel.resetSelections(note.id)
-                                delay(50)
-                                isSelectionMode = true
-                            }
-                        },
-                        onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
-                        isSelectionMode = isSelectionMode,
-                        isShowNoteDate = uiState.isShowNoteDate,
-                        modifier = Modifier.animateItemPlacement()
-                    )
+            if (!isLazyGridMode) {
+                LazyColumn(
+                    state = listState,
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    contentPadding = PaddingValues(12.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(items = uiState.list, key = { it.id }) { note ->
+                        NotesItem(
+                            note = note,
+                            onClick = {
+                                navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            onLongPress = {
+                                scope.launch {
+                                    viewModel.resetSelections(note.id)
+                                    delay(50)
+                                    isSelectionMode = true
+                                }
+                            },
+                            onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
+                            isSelectionMode = isSelectionMode,
+                            isShowNoteDate = uiState.isShowNoteDate,
+                            modifier = Modifier.animateItemPlacement()
+                        )
+                    }
+                }
+            } else {
+                LazyVerticalStaggeredGrid(
+                    columns = StaggeredGridCells.Fixed(2),
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    state = gridState
+                ) {
+                    items(items = uiState.list, key = { it.id }) { note ->
+                        NotesItem(
+                            note = note,
+                            onClick = {
+                                navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            onLongPress = {
+                                scope.launch {
+                                    viewModel.resetSelections(note.id)
+                                    delay(50)
+                                    isSelectionMode = true
+                                }
+                            },
+                            onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
+                            isSelectionMode = isSelectionMode,
+                            isShowNoteDate = uiState.isShowNoteDate
+                        )
+                    }
                 }
             }
         }
