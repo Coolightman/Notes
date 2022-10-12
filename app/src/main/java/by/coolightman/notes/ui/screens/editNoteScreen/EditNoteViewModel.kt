@@ -60,6 +60,7 @@ class EditNoteViewModel @Inject constructor(
                     title = it.title,
                     text = it.text,
                     createdAt = it.createdAt.toFormattedDate(),
+                    editedAt = it.editedAt.toFormattedDate(),
                     colorIndex = it.colorIndex,
                     isAllowToCollapse = it.isExpandable
                 )

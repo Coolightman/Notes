@@ -165,7 +165,7 @@ fun EditTaskScreen(
         SelectColorBar(
             selected = selectedColor,
             onSelect = { selectedColor = it },
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
             alpha = 0.4f
         )
         SwitchCard(

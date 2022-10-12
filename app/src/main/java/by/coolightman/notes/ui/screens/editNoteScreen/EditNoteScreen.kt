@@ -52,6 +52,9 @@ fun EditNoteScreen(
     var createdAt by remember {
         mutableStateOf("")
     }
+    var editedAt by remember {
+        mutableStateOf("")
+    }
     var selectedColor by remember {
         mutableStateOf(0)
     }
@@ -66,6 +69,7 @@ fun EditNoteScreen(
         text = uiState.text
         selectedColor = uiState.colorIndex
         createdAt = uiState.createdAt
+        editedAt = uiState.editedAt
         isAllowedToCollapse = uiState.isAllowToCollapse
         if (createdAt.isEmpty()) {
             selectedColor = uiState.newNoteColorPrefIndex
@@ -171,10 +175,16 @@ fun EditNoteScreen(
                     .fillMaxWidth()
             )
         }
+        if (editedAt.isNotEmpty()) {
+            DateText(
+                text = stringResource(R.string.edited) + " " + editedAt,
+                modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth()
+            )
+        }
         SelectColorBar(
             selected = selectedColor,
             onSelect = { selectedColor = it },
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
         )
         if (numberOfLines > 2) {
             SwitchCard(
