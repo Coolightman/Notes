@@ -9,7 +9,7 @@ import by.coolightman.notes.data.local.dbModel.NoteFtsDb
 import by.coolightman.notes.data.local.dbModel.TaskDb
 
 @Database(
-    version = 4,
+    version = 5,
     entities = [
         NoteDb::class,
         TaskDb::class,
