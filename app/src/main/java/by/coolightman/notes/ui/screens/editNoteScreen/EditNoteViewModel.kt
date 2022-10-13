@@ -7,9 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Note
-import by.coolightman.notes.domain.usecase.notes.CreateNoteUseCase
-import by.coolightman.notes.domain.usecase.notes.GetNoteUseCase
-import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
+import by.coolightman.notes.domain.usecase.notes.*
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
@@ -25,7 +23,8 @@ class EditNoteViewModel @Inject constructor(
     private val getNoteUseCase: GetNoteUseCase,
     private val updateNoteUseCase: UpdateNoteUseCase,
     private val createNoteUseCase: CreateNoteUseCase,
-    private val getIntPreferenceUseCase: GetIntPreferenceUseCase
+    private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
+    private val putNoteInTrashUseCase: PutNoteInTrashUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(EditNoteUiState())
@@ -103,6 +102,14 @@ class EditNoteViewModel @Inject constructor(
                 isExpanded = false
             )
             createNoteUseCase(createdNote)
+        }
+    }
+
+    fun sentNoteToTrash(){
+        viewModelScope.launch {
+            note?.let {
+                putNoteInTrashUseCase(it.id)
+            }
         }
     }
 }

@@ -14,9 +14,12 @@
     <string name="task_deleted">Task deleted</string>
     <string name="cancel">@android:string/cancel</string>
     <string name="undo">UNDO</string>
-    <string name="restore_all_notes_dialog">Do you want to restore all notes?</string>
     <string name="restore">RESTORE</string>
+    <string name="send">SEND</string>
+    <string name="restore_all_notes_dialog">Do you want to restore all notes?</string>
     <string name="delete_all_notes_dialog">Do you want to empty the trash?</string>
+    <string name="sent_note_to_trash_dialog">Do you want to send a note to the trash?</string>
+    <string name="delete_task_dialog">Do you want to delete a task?</string>
     <string name="delete_inactive_tasks_dialog">Do you want to delete all inactive tasks?</string>
     <string name="delete_these_tasks_dialog">Do you want to delete these tasks?</string>
     <string name="delete">DELETE</string>

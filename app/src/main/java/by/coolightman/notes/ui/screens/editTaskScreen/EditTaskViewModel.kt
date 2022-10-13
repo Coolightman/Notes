@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.tasks.CreateTaskUseCase
+import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.UpdateTaskUseCase
 import by.coolightman.notes.util.ARG_TASK_ID
@@ -25,7 +26,8 @@ class EditTaskViewModel @Inject constructor(
     private val getTaskUseCase: GetTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
-    private val getIntPreferenceUseCase: GetIntPreferenceUseCase
+    private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(EditTaskUiState())
@@ -101,6 +103,14 @@ class EditTaskViewModel @Inject constructor(
                 isExpanded = false
             )
             createTaskUseCase(createdTask)
+        }
+    }
+
+    fun deleteTask(){
+        viewModelScope.launch {
+            task?.let {
+                deleteTaskUseCase(it.id)
+            }
         }
     }
 }
