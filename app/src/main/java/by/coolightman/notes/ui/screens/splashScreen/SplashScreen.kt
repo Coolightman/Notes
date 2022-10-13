@@ -10,9 +10,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import by.coolightman.notes.ui.MainViewModel
 import by.coolightman.notes.ui.model.NavRoutes
-import kotlinx.coroutines.delay
-
-private const val SPLASH_DELAY_MILLIS = 300L
 
 @Composable
 fun SplashScreen(
@@ -24,11 +21,12 @@ fun SplashScreen(
         mutableStateOf(viewModel.uiState.startDestinationPreference)
     }
 
-    LaunchedEffect(Unit) {
-        delay(SPLASH_DELAY_MILLIS)
-        navController.navigate(startDestination) {
-            popUpTo(NavRoutes.Splash.route) {
-                inclusive = true
+    LaunchedEffect(startDestination) {
+        if (startDestination != NavRoutes.Splash.route) {
+            navController.navigate(startDestination) {
+                popUpTo(NavRoutes.Splash.route) {
+                    inclusive = true
+                }
             }
         }
     }

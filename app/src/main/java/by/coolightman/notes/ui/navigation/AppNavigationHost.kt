@@ -55,8 +55,8 @@ fun AppNavigationHost(
 
         composable(
             route = NavRoutes.Splash.route,
-            enterTransition = { EnterTransition.None },
-            exitTransition = { ExitTransition.None }
+            enterTransition = { fadeIn(animationSpec = tween(TRANSITION_DURATION)) },
+            exitTransition = { fadeOut(animationSpec = tween(TRANSITION_DURATION)) }
         ) {
             SplashScreen(navController)
         }
