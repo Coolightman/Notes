@@ -65,10 +65,7 @@ fun EditNoteScreen(
         mutableStateOf(uiState.editedAt)
     }
     var selectedColor by remember(uiState.colorIndex) {
-        mutableStateOf(
-            if (uiState.createdAt.isEmpty()) uiState.newNoteColorPrefIndex
-            else uiState.colorIndex
-        )
+        mutableStateOf(uiState.colorIndex)
     }
     var numberOfLines by remember {
         mutableStateOf(1)

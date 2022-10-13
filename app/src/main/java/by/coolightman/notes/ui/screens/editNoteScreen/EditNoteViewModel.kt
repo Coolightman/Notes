@@ -7,7 +7,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Note
-import by.coolightman.notes.domain.usecase.notes.*
+import by.coolightman.notes.domain.usecase.notes.CreateNoteUseCase
+import by.coolightman.notes.domain.usecase.notes.GetNoteUseCase
+import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
+import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
@@ -19,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditNoteViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val getNoteUseCase: GetNoteUseCase,
     private val updateNoteUseCase: UpdateNoteUseCase,
     private val createNoteUseCase: CreateNoteUseCase,
@@ -36,7 +39,7 @@ class EditNoteViewModel @Inject constructor(
         val noteId = savedStateHandle.get<Long>(ARG_NOTE_ID) ?: 0L
         if (noteId != 0L) {
             getNote(noteId)
-        } else{
+        } else {
             getNewNoteColorPreference()
         }
     }
@@ -45,7 +48,7 @@ class EditNoteViewModel @Inject constructor(
         viewModelScope.launch {
             getIntPreferenceUseCase(NEW_NOTE_COLOR_KEY).collectLatest {
                 uiState = uiState.copy(
-                    newNoteColorPrefIndex = it
+                    colorIndex = it
                 )
             }
         }
@@ -105,7 +108,7 @@ class EditNoteViewModel @Inject constructor(
         }
     }
 
-    fun sentNoteToTrash(){
+    fun sentNoteToTrash() {
         viewModelScope.launch {
             note?.let {
                 putNoteInTrashUseCase(it.id)

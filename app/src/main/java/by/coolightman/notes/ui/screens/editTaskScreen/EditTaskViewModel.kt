@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditTaskViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val getTaskUseCase: GetTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
@@ -48,7 +48,7 @@ class EditTaskViewModel @Inject constructor(
         viewModelScope.launch {
             getIntPreferenceUseCase(NEW_TASK_COLOR_KEY).collectLatest {
                 uiState = uiState.copy(
-                    newTaskColorPrefIndex = it
+                    colorIndex = it
                 )
             }
         }

@@ -40,48 +40,39 @@ fun EditTaskScreen(
     scaffoldState: ScaffoldState
 ) {
     val uiState = viewModel.uiState
-    var text by remember {
-        mutableStateOf("")
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val scrollState = rememberScrollState()
+    val itemColors = remember { ItemColor.values() }
+    val scope = rememberCoroutineScope()
+
+    var text by remember(uiState.text) {
+        mutableStateOf(uiState.text)
     }
-    var createdAt by remember {
-        mutableStateOf("")
+    val createdAt by remember(uiState.createdAt) {
+        mutableStateOf(uiState.createdAt)
     }
-    var editedAt by remember {
-        mutableStateOf("")
+    val editedAt by remember(uiState.editedAt) {
+        mutableStateOf(uiState.editedAt)
     }
-    var selectedColor by remember {
-        mutableStateOf(0)
+    var selectedColor by remember(uiState.colorIndex) {
+        mutableStateOf(uiState.colorIndex)
     }
-    var isImportant by remember {
-        mutableStateOf(false)
+    var isImportant by remember(uiState.isImportant) {
+        mutableStateOf(uiState.isImportant)
     }
     var numberOfLines by remember {
         mutableStateOf(1)
     }
-    LaunchedEffect(uiState) {
-        text = uiState.text
-        selectedColor = uiState.colorIndex
-        isImportant = uiState.isImportant
-        createdAt = uiState.createdAt
-        editedAt = uiState.editedAt
-        if (createdAt.isEmpty()) {
-            selectedColor = uiState.newTaskColorPrefIndex
-        }
-    }
-    val scrollState = rememberScrollState()
-    val itemColors = remember { ItemColor.values() }
-    val focusManager = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val scope = rememberCoroutineScope()
-    val context = LocalContext.current
     var openDeleteDialog by remember {
         mutableStateOf(false)
     }
 
     when {
         openDeleteDialog -> {
-            AppAlertDialog(
-                text = stringResource(R.string.delete_task_dialog),
+            AppAlertDialog(text = stringResource(R.string.delete_task_dialog),
                 secondaryText = stringResource(id = R.string.can_not_restore_it),
                 confirmButtonText = stringResource(R.string.delete),
                 confirmButtonColor = MaterialTheme.colors.error,
@@ -90,8 +81,7 @@ fun EditTaskScreen(
                     viewModel.deleteTask()
                     goBack(scope, focusManager, navController)
                 },
-                onCancel = { openDeleteDialog = false }
-            )
+                onCancel = { openDeleteDialog = false })
         }
     }
 
@@ -103,9 +93,7 @@ fun EditTaskScreen(
         AppTopAppBar(
             navigationIcon = {
                 IconButton(
-                    onClick = {
-                        goBack(scope, focusManager, navController)
-                    }
+                    onClick = { goBack(scope, focusManager, navController) }
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
@@ -116,9 +104,7 @@ fun EditTaskScreen(
             },
             actions = {
                 if (createdAt.isNotEmpty()) {
-                    IconButton(
-                        onClick = { openDeleteDialog = true }
-                    ) {
+                    IconButton(onClick = { openDeleteDialog = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete_forever_24),
                             contentDescription = "delete",
@@ -143,18 +129,15 @@ fun EditTaskScreen(
                     .fillMaxWidth()
                     .background(Color(itemColors[selectedColor].color).copy(0.3f))
             ) {
-                IconButton(
-                    onClick = { }
-                ) {
+                IconButton(onClick = { }) {
                     Icon(
-                        painter = painterResource(
-                            id = R.drawable.ic_outline_circle_24
-                        ),
+                        painter = painterResource(id = R.drawable.ic_outline_circle_24),
                         contentDescription = "active task",
                         tint = if (isImportant) ImportantTask
                         else LocalContentColor.current
                     )
                 }
+
                 CustomTextField(
                     text = text,
                     placeholder = stringResource(R.string.text_placeholder),
@@ -167,6 +150,7 @@ fun EditTaskScreen(
                         .weight(1f)
                         .padding(vertical = 4.dp)
                 )
+
                 if (numberOfLines > 1) {
                     IconButton(
                         onClick = { },
@@ -183,6 +167,7 @@ fun EditTaskScreen(
                 }
             }
         }
+
         if (createdAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.created) + " " + createdAt,
@@ -191,6 +176,7 @@ fun EditTaskScreen(
                     .fillMaxWidth()
             )
         }
+
         if (editedAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.edited) + " " + editedAt,
@@ -199,18 +185,21 @@ fun EditTaskScreen(
                     .fillMaxWidth()
             )
         }
+
         SelectColorBar(
             selected = selectedColor,
             onSelect = { selectedColor = it },
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
             alpha = 0.4f
         )
-        SwitchCard(
-            label = stringResource(R.string.important_task),
+
+        SwitchCard(label = stringResource(R.string.important_task),
             checked = isImportant,
             onCheckedChange = { isImportant = it }
         )
+
         Spacer(modifier = Modifier.weight(1f))
+
         Row(
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
@@ -228,9 +217,7 @@ fun EditTaskScreen(
 }
 
 private fun showSnack(
-    scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
-    text: String
+    scope: CoroutineScope, scaffoldState: ScaffoldState, text: String
 ) {
     scope.launch {
         val job = launch {
@@ -245,9 +232,7 @@ private fun showSnack(
 }
 
 private fun goBack(
-    scope: CoroutineScope,
-    focusManager: FocusManager,
-    navController: NavController
+    scope: CoroutineScope, focusManager: FocusManager, navController: NavController
 ) {
     scope.launch {
         focusManager.clearFocus()
