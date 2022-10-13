@@ -41,47 +41,40 @@ fun EditNoteScreen(
     scaffoldState: ScaffoldState
 ) {
     val uiState = viewModel.uiState
-    var title by remember {
-        mutableStateOf("")
-    }
-    var text by remember {
-        mutableStateOf("")
-    }
-    val dateText by remember {
-        mutableStateOf(System.currentTimeMillis().toFormattedDate())
-    }
-    var createdAt by remember {
-        mutableStateOf("")
-    }
-    var editedAt by remember {
-        mutableStateOf("")
-    }
-    var selectedColor by remember {
-        mutableStateOf(0)
-    }
-    var numberOfLines by remember {
-        mutableStateOf(1)
-    }
-    var isAllowedToCollapse by remember {
-        mutableStateOf(false)
-    }
-    LaunchedEffect(uiState) {
-        title = uiState.title
-        text = uiState.text
-        selectedColor = uiState.colorIndex
-        createdAt = uiState.createdAt
-        editedAt = uiState.editedAt
-        isAllowedToCollapse = uiState.isAllowToCollapse
-        if (createdAt.isEmpty()) {
-            selectedColor = uiState.newNoteColorPrefIndex
-        }
-    }
     val scrollState = rememberScrollState()
     val itemColors = remember { ItemColor.values() }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    var title by remember(uiState.title) {
+        mutableStateOf(uiState.title)
+    }
+    var text by remember(uiState.text) {
+        mutableStateOf(uiState.text)
+    }
+    val dateText by remember {
+        mutableStateOf(System.currentTimeMillis().toFormattedDate())
+    }
+    val createdAt by remember(uiState.createdAt) {
+        mutableStateOf(uiState.createdAt)
+    }
+    val editedAt by remember(uiState.editedAt) {
+        mutableStateOf(uiState.editedAt)
+    }
+    var selectedColor by remember(uiState.colorIndex) {
+        mutableStateOf(
+            if (uiState.createdAt.isEmpty()) uiState.newNoteColorPrefIndex
+            else uiState.colorIndex
+        )
+    }
+    var numberOfLines by remember {
+        mutableStateOf(1)
+    }
+    var isAllowedToCollapse by remember(uiState.isAllowToCollapse) {
+        mutableStateOf(uiState.isAllowToCollapse)
+    }
     var openDeleteDialog by remember {
         mutableStateOf(false)
     }
@@ -154,6 +147,7 @@ fun EditNoteScreen(
                     onValueChange = { title = it },
                     focusManager = focusManager
                 )
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(0.dp)
@@ -178,6 +172,7 @@ fun EditNoteScreen(
                                 .defaultMinSize(minHeight = 54.dp)
                                 .padding(12.dp, 8.dp, 12.dp, 0.dp)
                         )
+
                         Row(
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -190,6 +185,7 @@ fun EditNoteScreen(
                                         .weight(1f)
                                 )
                             }
+
                             DateText(
                                 text = dateText,
                                 modifier = if (isAllowedToCollapse) Modifier.align(Alignment.Bottom)
@@ -208,6 +204,7 @@ fun EditNoteScreen(
                     .fillMaxWidth()
             )
         }
+
         if (editedAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.edited) + " " + editedAt,
@@ -216,11 +213,13 @@ fun EditNoteScreen(
                     .fillMaxWidth()
             )
         }
+
         SelectColorBar(
             selected = selectedColor,
             onSelect = { selectedColor = it },
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
         )
+
         if (numberOfLines > 2) {
             SwitchCard(
                 label = stringResource(id = R.string.allow_to_collapse),
@@ -228,7 +227,9 @@ fun EditNoteScreen(
                 onCheckedChange = { isAllowedToCollapse = !isAllowedToCollapse }
             )
         }
+
         Spacer(modifier = Modifier.weight(1f))
+
         Row(
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
