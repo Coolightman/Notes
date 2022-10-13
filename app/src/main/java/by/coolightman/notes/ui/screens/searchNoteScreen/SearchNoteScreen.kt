@@ -40,8 +40,10 @@ fun SearchNoteScreen(
     navController: NavHostController,
     viewModel: SearchNoteViewModel = hiltViewModel()
 ) {
+    val uiState = viewModel.uiState
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
@@ -61,20 +63,17 @@ fun SearchNoteScreen(
             viewModel.clearSearchResult()
         }
     }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         AppTopAppBar(
             navigationIcon = {
-                IconButton(
-                    onClick = {
-                        goBack(scope, focusManager, navController)
-                    }
-                ) {
+                IconButton(onClick = { goBack(scope, focusManager, navController) }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
             },
@@ -93,20 +92,19 @@ fun SearchNoteScreen(
             },
             actions = {
                 if (isShowCancelBt) {
-                    IconButton(
-                        onClick = { searchKey = "" }
-                    ) {
+                    IconButton(onClick = { searchKey = "" }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_cancel_24),
                             contentDescription = "cancel",
-                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current),
+                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current),
                             modifier = Modifier.size(20.dp)
                         )
                     }
                 }
             }
         )
-        if (viewModel.uiState.list.isEmpty() && searchKey.length > 1) {
+
+        if (uiState.list.isEmpty() && searchKey.length > 1) {
             EmptyContentSplash(
                 iconId = R.drawable.ic_search_splash_24,
                 textId = R.string.no_results
@@ -114,11 +112,11 @@ fun SearchNoteScreen(
         } else {
             LazyColumn(
                 state = listState,
-                verticalArrangement = Arrangement.spacedBy(6.dp),
                 contentPadding = PaddingValues(12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(items = viewModel.uiState.list, key = { it.id }) { note ->
+                items(items = uiState.list, key = { it.id }) { note ->
                     NotesItem(
                         note = note,
                         onClick = {

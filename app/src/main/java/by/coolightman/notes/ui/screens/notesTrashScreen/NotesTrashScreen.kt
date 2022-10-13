@@ -29,59 +29,57 @@ fun NotesTrashScreen(
     viewModel: NotesTrashViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState
+
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+
     var openDeleteAllDialog by remember {
         mutableStateOf(false)
     }
+    if (openDeleteAllDialog) {
+        AppAlertDialog(
+            text = stringResource(R.string.delete_all_notes_dialog),
+            secondaryText = stringResource(R.string.can_not_restore_it),
+            confirmButtonText = stringResource(R.string.delete),
+            confirmButtonColor = MaterialTheme.colors.error,
+            onConfirm = {
+                viewModel.deleteAllTrash()
+                openDeleteAllDialog = false
+            },
+            onCancel = { openDeleteAllDialog = false }
+        )
+    }
+
     var openRestoreAllDialog by remember {
         mutableStateOf(false)
     }
-    when {
-        openDeleteAllDialog -> {
-            AppAlertDialog(
-                text = stringResource(R.string.delete_all_notes_dialog),
-                secondaryText = stringResource(id = R.string.can_not_restore_it),
-                confirmButtonText = stringResource(R.string.delete),
-                confirmButtonColor = MaterialTheme.colors.error,
-                onConfirm = {
-                    viewModel.deleteAllTrash()
-                    openDeleteAllDialog = false
-                },
-                onCancel = { openDeleteAllDialog = false }
-            )
-        }
-        openRestoreAllDialog -> {
-            AppAlertDialog(
-                text = stringResource(R.string.restore_all_notes_dialog),
-                confirmButtonText = stringResource(R.string.restore),
-                onConfirm = {
-                    viewModel.restoreAllTrash()
-                    openRestoreAllDialog = false
-                },
-                onCancel = { openRestoreAllDialog = false }
-            )
-        }
+    if (openRestoreAllDialog) {
+        AppAlertDialog(
+            text = stringResource(R.string.restore_all_notes_dialog),
+            confirmButtonText = stringResource(R.string.restore),
+            onConfirm = {
+                viewModel.restoreAllTrash()
+                openRestoreAllDialog = false
+            },
+            onCancel = { openRestoreAllDialog = false }
+        )
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
-            title = {
-                AppTitleText(text = stringResource(id = R.string.trash_title))
-            },
+            title = { AppTitleText(text = stringResource(R.string.trash_title)) },
             navigationIcon = {
-                IconButton(
-                    onClick = { navController.popBackStack() }
-                ) {
+                IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
             },
             actions = {
                 Spacer(modifier = Modifier.width(16.dp))
+
                 IconButton(
                     onClick = {
                         if (uiState.list.isNotEmpty()) {
@@ -90,11 +88,12 @@ fun NotesTrashScreen(
                     }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_restore_trash_24),
+                        painter = painterResource(R.drawable.ic_restore_trash_24),
                         contentDescription = "restore all",
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
+
                 IconButton(
                     onClick = {
                         if (uiState.list.isNotEmpty()) {
@@ -103,9 +102,9 @@ fun NotesTrashScreen(
                     }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_delete_forever_24),
+                        painter = painterResource(R.drawable.ic_delete_forever_24),
                         contentDescription = "delete all forever",
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
             }
@@ -119,14 +118,11 @@ fun NotesTrashScreen(
         } else {
             LazyColumn(
                 state = listState,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = uiState.list,
-                    key = { it.id }
-                ) { note ->
+                items(items = uiState.list, key = { it.id }) { note ->
                     val dismissState = rememberDismissState(
                         confirmStateChange = {
                             when (it) {

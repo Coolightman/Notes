@@ -33,29 +33,34 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel = hiltViewModel<MainViewModel>()
+            val uiState = viewModel.uiState
             val systemMode = isSystemInDarkTheme()
+
+            val scaffoldState = rememberScaffoldState()
+            val navController = rememberAnimatedNavController()
+
             var themeMode by remember {
                 mutableStateOf(systemMode)
             }
-            LaunchedEffect(viewModel.uiState.themeModePreference) {
-                themeMode = when (viewModel.uiState.themeModePreference) {
+            LaunchedEffect(uiState.themeModePreference) {
+                themeMode = when (uiState.themeModePreference) {
                     ThemeMode.SYSTEM_MODE -> systemMode
                     ThemeMode.DARK_MODE -> true
                     ThemeMode.LIGHT_MODE -> false
                 }
             }
+
             var isVisibleFAB by remember {
                 mutableStateOf(true)
             }
+
             PrepareUI(darkMode = themeMode) {
-                val scaffoldState = rememberScaffoldState()
-                val navController = rememberAnimatedNavController()
                 Scaffold(
                     scaffoldState = scaffoldState,
                     bottomBar = {
                         AppBottomBar(
                             navController = navController,
-                            startScreenPref = viewModel.uiState.startDestinationPreference
+                            startScreenPref = uiState.startDestinationPreference
                         )
                     },
                     floatingActionButtonPosition = FabPosition.End,
@@ -67,10 +72,7 @@ class MainActivity : ComponentActivity() {
                     },
                     snackbarHost = { AppSnackbarHost(hostState = it) }
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
+                    Box(modifier = Modifier.fillMaxSize()) {
                         AppNavigationHost(
                             navController = navController,
                             startDestination = NavRoutes.Splash.route,

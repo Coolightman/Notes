@@ -32,29 +32,23 @@ fun SettingsScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
-            title = {
-                AppTitleText(text = stringResource(id = R.string.settings_title))
-            },
+            title = { AppTitleText(text = stringResource(R.string.settings_title)) },
             navigationIcon = {
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    }
-                ) {
+                IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
             }
         )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
-
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -63,38 +57,41 @@ fun SettingsScreen(
 
             SettingsRow(title = stringResource(R.string.start_screen)) {
                 StartDestinationChip(
-                    icon = painterResource(id = R.drawable.ic_note_24),
+                    icon = painterResource(R.drawable.ic_note_24),
                     appStartDestination = uiState.appStartDestination,
                     chipDestination = NavRoutes.Notes.route,
-                    title = stringResource(id = R.string.notes_title),
+                    title = stringResource(R.string.notes_title),
                     onClick = { viewModel.setStartDestination(it) }
                 )
+
                 StartDestinationChip(
-                    icon = painterResource(id = R.drawable.ic_task_24),
+                    icon = painterResource(R.drawable.ic_task_24),
                     appStartDestination = uiState.appStartDestination,
                     chipDestination = NavRoutes.Tasks.route,
-                    title = stringResource(id = R.string.tasks_title),
+                    title = stringResource(R.string.tasks_title),
                     onClick = { viewModel.setStartDestination(it) }
                 )
             }
 
             SettingsRow(title = stringResource(R.string.theme)) {
                 ThemeModeChip(
-                    icon = painterResource(id = R.drawable.ic_theme_system_24),
+                    icon = painterResource(R.drawable.ic_theme_system_24),
                     appThemeMode = uiState.themeMode,
                     chipThemeMode = ThemeMode.SYSTEM_MODE,
                     title = stringResource(R.string.system_theme),
                     onClick = { viewModel.setThemeMode(it) }
                 )
+
                 ThemeModeChip(
-                    icon = painterResource(id = R.drawable.ic_theme_night_24),
+                    icon = painterResource(R.drawable.ic_theme_night_24),
                     appThemeMode = uiState.themeMode,
                     chipThemeMode = ThemeMode.DARK_MODE,
                     title = stringResource(R.string.dark_theme),
                     onClick = { viewModel.setThemeMode(it) }
                 )
+
                 ThemeModeChip(
-                    icon = painterResource(id = R.drawable.ic_theme_day_24),
+                    icon = painterResource(R.drawable.ic_theme_day_24),
                     appThemeMode = uiState.themeMode,
                     chipThemeMode = ThemeMode.LIGHT_MODE,
                     title = stringResource(R.string.light_theme),
@@ -117,17 +114,18 @@ fun SettingsScreen(
 
             SettingsRow(title = "Notes view mode") {
                 NotesViewModeChip(
-                    icon = painterResource(id = R.drawable.ic_list_mode_24),
+                    icon = painterResource(R.drawable.ic_list_mode_24),
                     currentViewMode = uiState.currentNotesViewMode,
                     chipViewMode = NotesViewMode.LIST,
-                    title = stringResource(id = R.string.list_mode),
+                    title = stringResource(R.string.list_mode),
                     onClick = { viewModel.setNotesViewMode(it) }
                 )
+
                 NotesViewModeChip(
-                    icon = painterResource(id = R.drawable.ic_grid_mode_24),
+                    icon = painterResource(R.drawable.ic_grid_mode_24),
                     currentViewMode = uiState.currentNotesViewMode,
                     chipViewMode = NotesViewMode.GRID,
-                    title = stringResource(id = R.string.grid_mode),
+                    title = stringResource(R.string.grid_mode),
                     onClick = { viewModel.setNotesViewMode(it) }
                 )
             }

@@ -16,9 +16,10 @@ fun SplashScreen(
     navController: NavHostController,
     viewModel: MainViewModel = hiltViewModel()
 ) {
+    val uiState = viewModel.uiState
 
-    val startDestination by remember(viewModel.uiState.startDestinationPreference) {
-        mutableStateOf(viewModel.uiState.startDestinationPreference)
+    val startDestination by remember(uiState.startDestinationPreference) {
+        mutableStateOf(uiState.startDestinationPreference)
     }
 
     LaunchedEffect(startDestination) {

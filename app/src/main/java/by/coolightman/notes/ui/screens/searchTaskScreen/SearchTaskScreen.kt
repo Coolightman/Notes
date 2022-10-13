@@ -25,7 +25,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.*
+import by.coolightman.notes.ui.components.AppTopAppBar
+import by.coolightman.notes.ui.components.CustomTextField
+import by.coolightman.notes.ui.components.EmptyContentSplash
+import by.coolightman.notes.ui.components.TasksItem
 import by.coolightman.notes.ui.model.NavRoutes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -37,8 +40,10 @@ fun SearchTaskScreen(
     navController: NavHostController,
     viewModel: SearchTaskViewModel = hiltViewModel()
 ) {
+    val uiState = viewModel.uiState
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
@@ -58,20 +63,17 @@ fun SearchTaskScreen(
             viewModel.clearSearchResult()
         }
     }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         AppTopAppBar(
             navigationIcon = {
-                IconButton(
-                    onClick = {
-                        goBack(scope, focusManager, navController)
-                    }
-                ) {
+                IconButton(onClick = { goBack(scope, focusManager, navController) }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
             },
@@ -96,14 +98,15 @@ fun SearchTaskScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_cancel_24),
                             contentDescription = "cancel",
-                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current),
+                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current),
                             modifier = Modifier.size(20.dp)
                         )
                     }
                 }
             }
         )
-        if (viewModel.uiState.list.isEmpty() && searchKey.length > 1) {
+
+        if (uiState.list.isEmpty() && searchKey.length > 1) {
             EmptyContentSplash(
                 iconId = R.drawable.ic_search_splash_24,
                 textId = R.string.no_results
@@ -115,7 +118,7 @@ fun SearchTaskScreen(
                 contentPadding = PaddingValues(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(items = viewModel.uiState.list, key = { it.id }) { task ->
+                items(items = uiState.list, key = { it.id }) { task ->
                     TasksItem(
                         task = task,
                         onClick = {
@@ -124,7 +127,7 @@ fun SearchTaskScreen(
                             }
                         },
                         onLongPress = { },
-                        onCheckedChange = {  },
+                        onCheckedChange = { },
                         modifier = Modifier.animateItemPlacement(),
                         isExpandable = task.isExpandable,
                         isExpanded = task.isExpanded,
