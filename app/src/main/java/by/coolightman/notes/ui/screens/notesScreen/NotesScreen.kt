@@ -86,9 +86,7 @@ fun NotesScreen(
         }
     }
     if (isSelectionMode) {
-        BackHandler {
-            isSelectionMode = false
-        }
+        BackHandler { isSelectionMode = false }
     }
     LaunchedEffect(uiState.list.isEmpty()) {
         isSelectionMode = false
