@@ -89,7 +89,7 @@ fun NotesScreen(
         isSelectionMode = false
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().padding(bottom = 56.dp)) {
         if (!isSelectionMode) {
             AppTopAppBar(
                 title = {
