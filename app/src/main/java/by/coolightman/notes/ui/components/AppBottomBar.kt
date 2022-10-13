@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import by.coolightman.notes.ui.model.BottomTabs
@@ -18,6 +17,7 @@ import by.coolightman.notes.ui.model.BottomTabs
 @Composable
 fun AppBottomBar(
     navController: NavHostController,
+    startScreenPref: String
 ) {
     val bottomTabs = remember { BottomTabs.values() }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -48,7 +48,7 @@ fun AppBottomBar(
                     },
                     onClick = {
                         navController.navigate(tab.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
+                            popUpTo(startScreenPref) {
                                 saveState = true
                             }
                             launchSingleTop = true

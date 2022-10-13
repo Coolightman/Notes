@@ -18,6 +18,7 @@ import by.coolightman.notes.ui.components.AppBottomBar
 import by.coolightman.notes.ui.components.AppFloatingActionButton
 import by.coolightman.notes.ui.components.AppSnackbarHost
 import by.coolightman.notes.ui.components.PrepareUI
+import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.ui.navigation.AppNavigationHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -43,9 +44,6 @@ class MainActivity : ComponentActivity() {
                     ThemeMode.LIGHT_MODE -> false
                 }
             }
-            val startDestination by remember(viewModel.uiState.startDestinationPreference) {
-                mutableStateOf(viewModel.uiState.startDestinationPreference)
-            }
             var isVisibleFAB by remember {
                 mutableStateOf(true)
             }
@@ -55,7 +53,10 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     scaffoldState = scaffoldState,
                     bottomBar = {
-                        AppBottomBar(navController = navController)
+                        AppBottomBar(
+                            navController = navController,
+                            startScreenPref = viewModel.uiState.startDestinationPreference
+                        )
                     },
                     floatingActionButtonPosition = FabPosition.End,
                     floatingActionButton = {
@@ -72,7 +73,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AppNavigationHost(
                             navController = navController,
-                            startDestination = startDestination,
+                            startDestination = NavRoutes.Splash.route,
                             scaffoldState = scaffoldState,
                             isVisibleFAB = {
                                 isVisibleFAB = it

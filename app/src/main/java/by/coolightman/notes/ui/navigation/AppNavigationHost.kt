@@ -58,7 +58,7 @@ fun AppNavigationHost(
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None }
         ) {
-            SplashScreen()
+            SplashScreen(navController)
         }
 
         composable(
