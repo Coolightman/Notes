@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -43,7 +46,7 @@ fun CustomTextField(
         onValueChange = { onValueChange(it) },
         textStyle = MaterialTheme.typography.body1.copy(
             fontSize = fontSize,
-            color = LocalContentColor.current.copy(LocalContentAlpha.current)
+            color = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
         ),
         singleLine = singleLine,
         cursorBrush = SolidColor(MaterialTheme.colors.primary.copy(alpha = ContentAlpha.high)),

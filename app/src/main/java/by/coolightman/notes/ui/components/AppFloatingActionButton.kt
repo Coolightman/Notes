@@ -6,6 +6,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.painterResource
@@ -76,7 +77,7 @@ fun FAB(
             Icon(
                 painter = painterResource(id = R.drawable.ic_add_24),
                 contentDescription = "add",
-                tint = MaterialTheme.colors.onSurface
+                tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
             )
         }
     }

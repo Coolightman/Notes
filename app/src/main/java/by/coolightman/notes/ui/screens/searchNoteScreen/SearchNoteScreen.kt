@@ -89,7 +89,6 @@ fun SearchNoteScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(end = 8.dp)
-
                 )
             },
             actions = {
