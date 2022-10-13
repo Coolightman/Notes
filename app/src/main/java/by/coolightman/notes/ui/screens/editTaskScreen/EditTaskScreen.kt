@@ -73,7 +73,7 @@ fun EditTaskScreen(
     when {
         openDeleteDialog -> {
             AppAlertDialog(text = stringResource(R.string.delete_task_dialog),
-                secondaryText = stringResource(id = R.string.can_not_restore_it),
+                secondaryText = stringResource(R.string.can_not_restore_it),
                 confirmButtonText = stringResource(R.string.delete),
                 confirmButtonColor = MaterialTheme.colors.error,
                 onConfirm = {
@@ -92,13 +92,11 @@ fun EditTaskScreen(
     ) {
         AppTopAppBar(
             navigationIcon = {
-                IconButton(
-                    onClick = { goBack(scope, focusManager, navController) }
-                ) {
+                IconButton(onClick = { goBack(scope, focusManager, navController) }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
             },
@@ -106,9 +104,9 @@ fun EditTaskScreen(
                 if (createdAt.isNotEmpty()) {
                     IconButton(onClick = { openDeleteDialog = true }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_delete_forever_24),
+                            painter = painterResource(R.drawable.ic_delete_forever_24),
                             contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                         )
                     }
                 }
@@ -131,7 +129,7 @@ fun EditTaskScreen(
             ) {
                 IconButton(onClick = { }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_outline_circle_24),
+                        painter = painterResource(R.drawable.ic_outline_circle_24),
                         contentDescription = "active task",
                         tint = if (isImportant) ImportantTask
                         else LocalContentColor.current
@@ -193,7 +191,8 @@ fun EditTaskScreen(
             alpha = 0.4f
         )
 
-        SwitchCard(label = stringResource(R.string.important_task),
+        SwitchCard(
+            label = stringResource(R.string.important_task),
             checked = isImportant,
             onCheckedChange = { isImportant = it }
         )

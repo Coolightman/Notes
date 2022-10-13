@@ -44,18 +44,21 @@ fun NotesScreen(
     isVisibleFAB: (Boolean) -> Unit
 ) {
     val uiState = viewModel.uiState
+    val context = LocalContext.current
+    val view = LocalView.current
+
     val listState = rememberLazyListState()
     val gridState = rememberLazyStaggeredGridState()
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
-    var isShowSortPanel by rememberSaveable {
+
+    var isShowSortPanel by remember {
         mutableStateOf(false)
     }
+
+    //  scroll list to top only when another sortBy
     var sortByCash by rememberSaveable {
         mutableStateOf(-1)
     }
-
-//  scroll list to top only when another sortBy
     LaunchedEffect(uiState.sortByIndex) {
         if (sortByCash != uiState.sortByIndex) {
             sortByCash = uiState.sortByIndex
@@ -63,17 +66,19 @@ fun NotesScreen(
             listState.animateScrollToItem(0)
         }
     }
-    var isDropMenuExpanded by remember {
-        mutableStateOf(false)
-    }
+
     val fabVisibility = listState.isScrollingUp()
     LaunchedEffect(fabVisibility) {
         isVisibleFAB(fabVisibility)
     }
+
+    var isDropMenuExpanded by remember {
+        mutableStateOf(false)
+    }
+
     var isSelectionMode by remember {
         mutableStateOf(false)
     }
-    val view = LocalView.current
     LaunchedEffect(isSelectionMode) {
         if (isSelectionMode) {
             view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
@@ -89,12 +94,14 @@ fun NotesScreen(
         isSelectionMode = false
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(bottom = 56.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 56.dp)
+    ) {
         if (!isSelectionMode) {
             AppTopAppBar(
-                title = {
-                    AppTitleText(text = stringResource(id = R.string.notes_title))
-                },
+                title = { AppTitleText(text = stringResource(R.string.notes_title)) },
                 actions = {
                     if (uiState.list.isNotEmpty()) {
                         IconButton(
@@ -110,15 +117,13 @@ fun NotesScreen(
                                 tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                             )
                         }
+
                         IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_baseline_sort_24),
+                                painter = painterResource(R.drawable.ic_baseline_sort_24),
                                 contentDescription = "sort",
-                                tint = if (isShowSortPanel) {
-                                    MaterialTheme.colors.primary
-                                } else {
-                                    MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
-                                }
+                                tint = if (isShowSortPanel) MaterialTheme.colors.primary
+                                else MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                             )
                         }
                     }
@@ -127,11 +132,8 @@ fun NotesScreen(
                         Icon(
                             Icons.Default.MoreVert,
                             contentDescription = "more",
-                            tint = if (isDropMenuExpanded) {
-                                MaterialTheme.colors.primary
-                            } else {
-                                MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
-                            }
+                            tint = if (isDropMenuExpanded) MaterialTheme.colors.primary
+                            else MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                         )
                     }
 
@@ -148,27 +150,34 @@ fun NotesScreen(
                             }
                         ) {
                             BadgedIcon(
-                                icon = painterResource(id = R.drawable.ic_delete_full_24),
-                                iconEmptyBadge = painterResource(id = R.drawable.ic_delete_empty_24),
+                                icon = painterResource(R.drawable.ic_delete_full_24),
+                                iconEmptyBadge = painterResource(R.drawable.ic_delete_empty_24),
                                 badgeValue = uiState.trashCount
                             )
+
                             Spacer(modifier = Modifier.width(4.dp))
+
                             Text(text = stringResource(R.string.trash))
                         }
 
-                        DropdownMenuItem(onClick = {
-                            navController.navigate(NavRoutes.Settings.route) {
-                                launchSingleTop = true
+                        DropdownMenuItem(
+                            onClick = {
+                                navController.navigate(NavRoutes.Settings.route) {
+                                    launchSingleTop = true
+                                }
+                                isDropMenuExpanded = false
                             }
-                            isDropMenuExpanded = false
-                        }) {
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Settings,
                                 contentDescription = "settings"
                             )
+
                             Spacer(modifier = Modifier.width(16.dp))
+
                             Text(text = stringResource(R.string.settings))
                         }
+
                         if (uiState.notesCount != 0) {
                             Divider()
                             CountRow(
@@ -177,21 +186,18 @@ fun NotesScreen(
                             )
                         }
                     }
-                })
+                }
+            )
         } else {
             SelectionTopAppBar(
                 onCloseClick = { isSelectionMode = false },
                 selectedCount = uiState.selectedCount,
                 actions = {
-                    IconButton(
-                        onClick = {
-                            viewModel.selectAllNotes()
-                        }
-                    ) {
+                    IconButton(onClick = { viewModel.selectAllNotes() }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_select_all_24),
+                            painter = painterResource(R.drawable.ic_select_all_24),
                             contentDescription = "select all",
-                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                         )
                     }
                     IconButton(
@@ -209,7 +215,7 @@ fun NotesScreen(
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                         )
                     }
                 }
@@ -225,16 +231,14 @@ fun NotesScreen(
         )
 
         if (uiState.list.isEmpty()) {
-            EmptyContentSplash(
-                iconId = R.drawable.ic_note_24, textId = R.string.no_notes
-            )
+            EmptyContentSplash(iconId = R.drawable.ic_note_24, textId = R.string.no_notes)
         } else {
             when (uiState.currentNotesViewMode) {
                 NotesViewMode.LIST -> {
                     LazyColumn(
                         state = listState,
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
                         contentPadding = PaddingValues(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(items = uiState.list, key = { it.id }) { note ->
@@ -265,12 +269,12 @@ fun NotesScreen(
                 }
                 NotesViewMode.GRID -> {
                     LazyVerticalStaggeredGrid(
+                        state = gridState,
                         columns = StaggeredGridCells.Fixed(2),
-                        modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(12.dp),
                         verticalArrangement = Arrangement.spacedBy(6.dp),
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        state = gridState
+                        modifier = Modifier.fillMaxSize()
                     ) {
                         items(items = uiState.list, key = { it.id }) { note ->
                             NotesItem(

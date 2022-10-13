@@ -100,27 +100,21 @@ fun EditNoteScreen(
     ) {
         AppTopAppBar(
             navigationIcon = {
-                IconButton(
-                    onClick = {
-                        goBack(scope, focusManager, navController)
-                    }
-                ) {
+                IconButton(onClick = { goBack(scope, focusManager, navController) }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
             },
             actions = {
                 if (createdAt.isNotEmpty()) {
-                    IconButton(
-                        onClick = { openDeleteDialog = true }
-                    ) {
+                    IconButton(onClick = { openDeleteDialog = true }) {
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                         )
                     }
                 }
@@ -158,9 +152,7 @@ fun EditNoteScreen(
                         CustomTextField(
                             text = text,
                             placeholder = stringResource(R.string.text_placeholder),
-                            onValueChange = {
-                                text = it
-                            },
+                            onValueChange = { text = it },
                             onTextLayout = { textLayoutResult ->
                                 numberOfLines = derivedStateOf { textLayoutResult.lineCount }.value
                             },
@@ -220,7 +212,7 @@ fun EditNoteScreen(
 
         if (numberOfLines > 2) {
             SwitchCard(
-                label = stringResource(id = R.string.allow_to_collapse),
+                label = stringResource(R.string.allow_to_collapse),
                 checked = isAllowedToCollapse,
                 onCheckedChange = { isAllowedToCollapse = !isAllowedToCollapse }
             )
