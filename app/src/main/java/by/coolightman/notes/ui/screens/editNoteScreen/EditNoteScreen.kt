@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -100,6 +101,19 @@ fun EditNoteScreen(
                         tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                     )
                 }
+            },
+            actions = {
+                if (createdAt.isNotEmpty()) {
+                    IconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "delete",
+                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        )
+                    }
+                }
             }
         )
 
@@ -178,7 +192,9 @@ fun EditNoteScreen(
         if (editedAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.edited) + " " + editedAt,
-                modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth()
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth()
             )
         }
         SelectColorBar(

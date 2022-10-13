@@ -93,6 +93,19 @@ fun EditTaskScreen(
                         tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                     )
                 }
+            },
+            actions = {
+                if (createdAt.isNotEmpty()) {
+                    IconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_delete_forever_24),
+                            contentDescription = "delete",
+                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
+                        )
+                    }
+                }
             }
         )
 
@@ -153,13 +166,17 @@ fun EditTaskScreen(
         if (createdAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.created) + " " + createdAt,
-                modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth()
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth()
             )
         }
         if (editedAt.isNotEmpty()) {
             DateText(
                 text = stringResource(R.string.edited) + " " + editedAt,
-                modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth()
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth()
             )
         }
         SelectColorBar(

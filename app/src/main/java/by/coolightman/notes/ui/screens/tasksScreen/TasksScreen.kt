@@ -244,7 +244,7 @@ fun TasksScreen(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Delete,
+                            painter = painterResource(id = R.drawable.ic_delete_forever_24),
                             contentDescription = "delete",
                             tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current)
                         )
