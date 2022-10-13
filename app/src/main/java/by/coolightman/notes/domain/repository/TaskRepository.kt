@@ -11,6 +11,8 @@ interface TaskRepository {
 
     fun getAll(): Flow<List<Task>>
 
+    fun searchTask(key: String): Flow<List<Task>>
+
     suspend fun update(task: Task)
 
     suspend fun updateList(list: List<Task>)

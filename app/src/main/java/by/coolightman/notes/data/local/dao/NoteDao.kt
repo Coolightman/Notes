@@ -28,7 +28,7 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes JOIN notesFts ON notes.id == notesFts.rowid " +
             "WHERE notesFts MATCH :keyword AND is_in_trash = 0 ORDER by created_at DESC")
-    fun searchNotes(keyword: String): Flow<List<NoteDb>>
+    fun searchNote(keyword: String): Flow<List<NoteDb>>
 
     @Update
     suspend fun update(note: NoteDb)

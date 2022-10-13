@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -118,6 +119,19 @@ fun TasksScreen(
                 },
                 actions = {
                     if (uiState.list.isNotEmpty()) {
+                        IconButton(
+                            onClick = {
+                                navController.navigate(NavRoutes.SearchTask.route) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "search",
+                                tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            )
+                        }
                         IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_sort_24),

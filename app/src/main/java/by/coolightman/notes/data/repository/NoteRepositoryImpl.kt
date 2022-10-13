@@ -34,7 +34,7 @@ class NoteRepositoryImpl @Inject constructor(
         noteDao.getTrashCount().flowOn(Dispatchers.IO)
 
     override fun searchNote(key: String): Flow<List<Note>> =
-        noteDao.searchNotes("$key*").map { list -> list.map { it.toNote() } }
+        noteDao.searchNote("$key*").map { list -> list.map { it.toNote() } }
 
     override suspend fun update(note: Note) {
         noteDao.update(note.toNoteDb())

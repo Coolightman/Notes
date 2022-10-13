@@ -1,11 +1,11 @@
-package by.coolightman.notes.ui.screens.searchNoteScreen
+package by.coolightman.notes.ui.screens.searchTaskScreen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.coolightman.notes.domain.usecase.notes.SearchNoteUseCase
+import by.coolightman.notes.domain.usecase.tasks.SearchTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchNoteViewModel @Inject constructor(
-    private val searchNoteUseCase: SearchNoteUseCase
+class SearchTaskViewModel @Inject constructor(
+    private val searchTaskUseCase: SearchTaskUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(SearchNoteUiState())
+    var uiState by mutableStateOf(SearchTaskUiState())
         private set
 
     private val _searchKey = MutableStateFlow("")
@@ -32,7 +32,7 @@ class SearchNoteViewModel @Inject constructor(
     private fun search() {
         viewModelScope.launch {
             _searchKey.flatMapLatest { key ->
-                searchNoteUseCase(key)
+                searchTaskUseCase(key)
             }.collectLatest {
                 uiState = uiState.copy(
                     list = it

@@ -8,6 +8,7 @@ sealed class NavRoutes(val route: String) {
     object SearchNote : NavRoutes("search_note")
     object Tasks : NavRoutes("tasks")
     object EditTask : NavRoutes("edit_task")
+    object SearchTask : NavRoutes("search_task")
     object Settings : NavRoutes("settings")
 
     fun withArgs(vararg args: String): String {

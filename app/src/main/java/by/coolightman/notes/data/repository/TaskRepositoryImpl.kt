@@ -24,6 +24,9 @@ class TaskRepositoryImpl @Inject constructor(
         taskDao.getAll()
             .map { list -> list.map { it.toTask() } }
 
+    override fun searchTask(key: String): Flow<List<Task>> =
+        taskDao.searchTask("$key*").map { list -> list.map { it.toTask() } }
+
     override suspend fun update(task: Task) {
         taskDao.update(task.toTaskDb())
     }

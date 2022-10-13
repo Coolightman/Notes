@@ -16,6 +16,12 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE is_hidden = 0")
     fun getAll(): Flow<List<TaskDb>>
 
+    @Query(
+        "SELECT * FROM tasks JOIN tasksFts ON tasks.id == tasksFts.rowid " +
+                "WHERE tasksFts MATCH :keyword ORDER by created_at DESC"
+    )
+    fun searchTask(keyword: String): Flow<List<TaskDb>>
+
     @Update
     suspend fun update(task: TaskDb)
 
