@@ -12,11 +12,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,13 +45,18 @@ fun SearchNoteScreen(
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
-    var searchKey by remember {
+    var searchKey by rememberSaveable {
         mutableStateOf("")
     }
 
+    var isShowCancelBt by remember {
+        mutableStateOf(false)
+    }
+
     LaunchedEffect(searchKey) {
+        isShowCancelBt = searchKey.isNotEmpty()
         if (searchKey.length >= 2) {
-            viewModel.searchByKey(searchKey)
+            viewModel.setSearchKey(searchKey)
         } else {
             viewModel.clearSearchResult()
         }
@@ -84,8 +91,21 @@ fun SearchNoteScreen(
                         .padding(end = 8.dp)
 
                 )
+            },
+            actions = {
+                if (isShowCancelBt) {
+                    IconButton(
+                        onClick = { searchKey = "" }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_cancel_24),
+                            contentDescription = "cancel",
+                            tint = MaterialTheme.colors.onSurface.copy(alpha = LocalContentAlpha.current),
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
             }
-
         )
         if (viewModel.uiState.list.isEmpty() && searchKey.length > 1) {
             EmptyContentSplash(
@@ -108,9 +128,9 @@ fun SearchNoteScreen(
                             }
                         },
                         onLongPress = { },
-                        onCheckedChange = {  },
+                        onCheckedChange = { },
                         modifier = Modifier.animateItemPlacement(),
-                        onExpandClick = {  }
+                        onExpandClick = { }
                     )
                 }
             }

@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.notes.SearchNotesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,14 +22,27 @@ class SearchNoteViewModel @Inject constructor(
     var uiState by mutableStateOf(SearchNoteUiState())
         private set
 
-    fun searchByKey(key: String) {
+    private val _searchKey = MutableStateFlow("")
+
+    init {
+        search()
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun search() {
         viewModelScope.launch {
-            searchNotesUseCase(key).collectLatest {
+            _searchKey.flatMapLatest { key ->
+                searchNotesUseCase(key)
+            }.collectLatest {
                 uiState = uiState.copy(
                     list = it
                 )
             }
         }
+    }
+
+    fun setSearchKey(key: String) {
+        viewModelScope.launch { _searchKey.emit(key) }
     }
 
     fun clearSearchResult() {
