@@ -41,12 +41,13 @@ fun EditNoteScreen(
     scaffoldState: ScaffoldState
 ) {
     val uiState = viewModel.uiState
-    val scrollState = rememberScrollState()
-    val itemColors = remember { ItemColor.values() }
+    val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val scrollState = rememberScrollState()
+    val itemColors = remember { ItemColor.values() }
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     var title by remember(uiState.title) {
         mutableStateOf(uiState.title)
