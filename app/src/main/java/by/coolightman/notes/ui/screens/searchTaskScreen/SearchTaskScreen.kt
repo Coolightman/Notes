@@ -124,10 +124,12 @@ fun SearchTaskScreen(
                             }
                         },
                         onLongPress = { },
-                        onCheckedChange = { },
+                        onCheckedChange = {  },
                         modifier = Modifier.animateItemPlacement(),
-                        onExpandClick = { },
-                        onSwitchActive = { }
+                        isExpandable = task.isExpandable,
+                        isExpanded = task.isExpanded,
+                        onExpandClick = { viewModel.switchExpand(task.id) },
+                        onSwitchActive = { viewModel.switchTaskActivity(task.id) }
                     )
                 }
             }

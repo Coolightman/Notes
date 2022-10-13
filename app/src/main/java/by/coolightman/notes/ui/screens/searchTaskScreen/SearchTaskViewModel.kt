@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.tasks.SearchTaskUseCase
+import by.coolightman.notes.domain.usecase.tasks.SwitchTaskActivityUseCase
+import by.coolightman.notes.domain.usecase.tasks.SwitchTaskExpandUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchTaskViewModel @Inject constructor(
-    private val searchTaskUseCase: SearchTaskUseCase
+    private val searchTaskUseCase: SearchTaskUseCase,
+    private val switchTaskActivityUseCase: SwitchTaskActivityUseCase,
+    private val switchTaskExpandUseCase: SwitchTaskExpandUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(SearchTaskUiState())
@@ -38,6 +42,18 @@ class SearchTaskViewModel @Inject constructor(
                     list = it
                 )
             }
+        }
+    }
+
+    fun switchTaskActivity(taskId: Long) {
+        viewModelScope.launch {
+            switchTaskActivityUseCase(taskId)
+        }
+    }
+
+    fun switchExpand(taskId: Long){
+        viewModelScope.launch {
+            switchTaskExpandUseCase(taskId)
         }
     }
 
