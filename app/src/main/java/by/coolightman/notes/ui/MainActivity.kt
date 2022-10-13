@@ -3,6 +3,7 @@ package by.coolightman.notes.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +14,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import by.coolightman.notes.ui.components.AppBottomBar
 import by.coolightman.notes.ui.components.AppFloatingActionButton
 import by.coolightman.notes.ui.components.AppSnackbarHost
@@ -21,11 +21,13 @@ import by.coolightman.notes.ui.components.PrepareUI
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.ui.navigation.AppNavigationHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -52,7 +54,7 @@ class MainActivity : ComponentActivity() {
             }
             PrepareUI(darkMode = themeMode) {
                 val scaffoldState = rememberScaffoldState()
-                val navController = rememberNavController()
+                val navController = rememberAnimatedNavController()
                 Scaffold(
                     scaffoldState = scaffoldState,
                     bottomBar = {
