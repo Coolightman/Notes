@@ -29,7 +29,7 @@ import by.coolightman.notes.util.ARG_TASK_ID
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
-private const val TRANSITION_DURATION = 100
+private const val TRANSITION_DURATION = 300
 private const val SLIDE_DURATION = 300
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -50,9 +50,7 @@ fun AppNavigationHost(
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = startDestination,
-        enterTransition = { fadeIn(animationSpec = tween(TRANSITION_DURATION)) },
-        exitTransition = { fadeOut(animationSpec = tween(TRANSITION_DURATION)) }
+        startDestination = startDestination
     ) {
 
         composable(
