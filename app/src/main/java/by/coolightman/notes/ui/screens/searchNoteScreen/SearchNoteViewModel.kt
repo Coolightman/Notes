@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.notes.SearchNoteUseCase
+import by.coolightman.notes.domain.usecase.notes.SwitchNoteExpandUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchNoteViewModel @Inject constructor(
-    private val searchNoteUseCase: SearchNoteUseCase
+    private val searchNoteUseCase: SearchNoteUseCase,
+    private val switchNoteExpandUseCase: SwitchNoteExpandUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(SearchNoteUiState())
@@ -38,6 +40,12 @@ class SearchNoteViewModel @Inject constructor(
                     list = it
                 )
             }
+        }
+    }
+
+    fun switchExpand(noteId: Long){
+        viewModelScope.launch {
+            switchNoteExpandUseCase(noteId)
         }
     }
 

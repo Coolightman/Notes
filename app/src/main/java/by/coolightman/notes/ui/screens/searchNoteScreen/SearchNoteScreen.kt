@@ -129,7 +129,9 @@ fun SearchNoteScreen(
                         onLongPress = { },
                         onCheckedChange = { },
                         modifier = Modifier.animateItemPlacement(),
-                        onExpandClick = { }
+                        isExpanded = note.isExpanded,
+                        isExpandable = note.isExpandable,
+                        onExpandClick = { viewModel.switchExpand(note.id) }
                     )
                 }
             }
