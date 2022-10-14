@@ -37,6 +37,7 @@ class SettingsViewModel @Inject constructor(
         getNewNoteColor()
         getNewTaskColor()
         getIsShowNotesDate()
+        getIsNotesColoredBackground()
         getNotesViewMode()
     }
 
@@ -45,6 +46,16 @@ class SettingsViewModel @Inject constructor(
             getBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE).collectLatest {
                 uiState = uiState.copy(
                     isShowNotesDate = it
+                )
+            }
+        }
+    }
+
+    private fun getIsNotesColoredBackground() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK).collectLatest {
+                uiState = uiState.copy(
+                    isNotesColoredBackground = it
                 )
             }
         }
@@ -127,6 +138,12 @@ class SettingsViewModel @Inject constructor(
     fun setIsShowNotedDate(value: Boolean) {
         viewModelScope.launch {
             putBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE, value)
+        }
+    }
+
+    fun setIsNotesColoredBackground(value: Boolean) {
+        viewModelScope.launch {
+            putBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK, value)
         }
     }
 

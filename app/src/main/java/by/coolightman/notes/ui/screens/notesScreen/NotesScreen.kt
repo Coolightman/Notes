@@ -257,10 +257,11 @@ fun NotesScreen(
                                 onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
-                                modifier = Modifier.animateItemPlacement(),
+                                isColoredBackground = uiState.isColoredBackground,
                                 isExpanded = note.isExpanded,
                                 isExpandable = note.isExpandable,
-                                onExpandClick = { viewModel.switchExpand(note.id) }
+                                onExpandClick = { viewModel.switchExpand(note.id) },
+                                modifier = Modifier.animateItemPlacement()
                             )
                         }
                     }
@@ -292,6 +293,7 @@ fun NotesScreen(
                                 onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
+                                isColoredBackground = uiState.isColoredBackground,
                                 isExpanded = note.isExpanded,
                                 isExpandable = note.isExpandable,
                                 onExpandClick = { viewModel.switchExpand(note.id) }

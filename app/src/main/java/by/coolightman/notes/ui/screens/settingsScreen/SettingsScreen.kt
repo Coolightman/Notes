@@ -49,12 +49,6 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp)
-            )
-
             SettingsRow(title = stringResource(R.string.start_screen)) {
                 StartDestinationChip(
                     icon = painterResource(R.drawable.ic_note_24),
@@ -134,6 +128,12 @@ fun SettingsScreen(
                 label = stringResource(R.string.show_notes_date),
                 checked = uiState.isShowNotesDate,
                 onCheckedChange = { viewModel.setIsShowNotedDate(it) }
+            )
+
+            SwitchCard(
+                label = stringResource(R.string.colored_notes_background),
+                checked = uiState.isNotesColoredBackground,
+                onCheckedChange = { viewModel.setIsNotesColoredBackground(it) }
             )
 
             Spacer(

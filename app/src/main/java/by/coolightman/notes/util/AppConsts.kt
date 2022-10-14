@@ -11,6 +11,7 @@ const val THEME_MODE_KEY = "ThemeModeKey"
 const val NEW_NOTE_COLOR_KEY = "NewNoteColorKey"
 const val NEW_TASK_COLOR_KEY = "NewTaskColorKey"
 const val IS_SHOW_NOTE_DATE = "isShowNoteDate"
+const val IS_NOTES_COLORED_BACK = "isNotesColoredBackground"
 const val NOTES_VIEW_MODE = "notesViewMode"
 
 const val SORT_NOTES_BY_KEY = "SortNotesByKey"

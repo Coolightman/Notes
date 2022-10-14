@@ -11,6 +11,7 @@ data class NotesUiState(
     val notesCount: Int = 0,
     val selectedCount: Int = 0,
     val isShowNoteDate: Boolean = false,
+    val isColoredBackground: Boolean = false,
     val currentFilterSelection: List<Boolean> = ItemColor.values().map { false },
     val currentNotesViewMode: NotesViewMode = NotesViewMode.LIST
 )

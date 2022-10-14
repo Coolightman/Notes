@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.ui.model.ItemColor
+import by.coolightman.notes.ui.theme.GrayItem
 import by.coolightman.notes.ui.theme.InactiveBackground
 import by.coolightman.notes.util.toFormattedDate
 
@@ -48,6 +49,7 @@ fun NotesItem(
     onCheckedChange: () -> Unit,
     isSelectionMode: Boolean = false,
     isShowNoteDate: Boolean = true,
+    isColoredBackground: Boolean = true,
     isExpanded: Boolean = false,
     isExpandable: Boolean = false,
     onExpandClick: () -> Unit
@@ -115,7 +117,13 @@ fun NotesItem(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(ItemColor.values()[note.colorIndex].color).copy(0.2f))
+                        .background(
+                            if (isColoredBackground) {
+                                Color(ItemColor.values()[note.colorIndex].color).copy(0.2f)
+                            } else {
+                                GrayItem.copy(0.2f)
+                            }
+                        )
                 ) {
                     Box(
                         modifier = Modifier
