@@ -68,9 +68,6 @@ fun EditTaskScreen(
     var isHasNotification by remember {
         mutableStateOf(false)
     }
-    var notificationDate by remember {
-        mutableStateOf(System.currentTimeMillis())
-    }
     var numberOfLines by remember {
         mutableStateOf(1)
     }

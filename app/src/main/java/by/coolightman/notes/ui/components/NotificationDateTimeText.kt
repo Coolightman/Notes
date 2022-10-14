@@ -15,6 +15,8 @@ import by.coolightman.notes.ui.theme.InactiveBackground
 import by.coolightman.notes.util.toFormattedDate
 import by.coolightman.notes.util.toFormattedTime
 
+private const val CORNERS_ROUND = 8
+
 @Composable
 fun NotificationDateTimeText(
     notificationDate: Long,
@@ -33,10 +35,10 @@ fun NotificationDateTimeText(
                 fontWeight = FontWeight.Light
             ),
             modifier = Modifier
-                .clip(RoundedCornerShape(50, 0, 0, 50))
+                .clip(RoundedCornerShape(CORNERS_ROUND.dp, 0.dp, 0.dp, CORNERS_ROUND.dp))
                 .background(InactiveBackground.copy(0.3f))
                 .clickable { onClickDate() }
-                .padding(12.dp, 8.dp, 6.dp, 8.dp)
+                .padding(8.dp, 4.dp, 6.dp, 4.dp)
         )
 
         Spacer(modifier = Modifier.width(4.dp))
@@ -47,10 +49,10 @@ fun NotificationDateTimeText(
                 fontWeight = FontWeight.Light
             ),
             modifier = Modifier
-                .clip(RoundedCornerShape(0, 50, 50, 0))
+                .clip(RoundedCornerShape(0.dp, CORNERS_ROUND.dp, CORNERS_ROUND.dp, 0.dp))
                 .background(InactiveBackground.copy(0.3f))
                 .clickable { onClickTime() }
-                .padding(6.dp, 8.dp, 12.dp, 8.dp)
+                .padding(6.dp, 4.dp, 8.dp, 4.dp)
         )
     }
 }
