@@ -66,23 +66,21 @@ fun EditTaskScreen(
     var numberOfLines by remember {
         mutableStateOf(1)
     }
+
     var openDeleteDialog by remember {
         mutableStateOf(false)
     }
-
-    when {
-        openDeleteDialog -> {
-            AppAlertDialog(text = stringResource(R.string.delete_task_dialog),
-                secondaryText = stringResource(R.string.can_not_restore_it),
-                confirmButtonText = stringResource(R.string.delete),
-                confirmButtonColor = MaterialTheme.colors.error,
-                onConfirm = {
-                    openDeleteDialog = false
-                    viewModel.deleteTask()
-                    goBack(scope, focusManager, navController)
-                },
-                onCancel = { openDeleteDialog = false })
-        }
+    if (openDeleteDialog) {
+        AppAlertDialog(text = stringResource(R.string.delete_task_dialog),
+            secondaryText = stringResource(R.string.can_not_restore_it),
+            confirmButtonText = stringResource(R.string.delete),
+            confirmButtonColor = MaterialTheme.colors.error,
+            onConfirm = {
+                openDeleteDialog = false
+                viewModel.deleteTask()
+                goBack(scope, focusManager, navController)
+            },
+            onCancel = { openDeleteDialog = false })
     }
 
     Column(

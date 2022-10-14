@@ -73,24 +73,22 @@ fun EditNoteScreen(
     var isAllowedToCollapse by remember(uiState.isAllowToCollapse) {
         mutableStateOf(uiState.isAllowToCollapse)
     }
+
     var openDeleteDialog by remember {
         mutableStateOf(false)
     }
-
-    when {
-        openDeleteDialog -> {
-            AppAlertDialog(
-                text = stringResource(R.string.sent_note_to_trash_dialog),
-                confirmButtonText = stringResource(R.string.send),
-                confirmButtonColor = MaterialTheme.colors.error,
-                onConfirm = {
-                    openDeleteDialog = false
-                    viewModel.sentNoteToTrash()
-                    goBack(scope, focusManager, navController)
-                },
-                onCancel = { openDeleteDialog = false }
-            )
-        }
+    if (openDeleteDialog) {
+        AppAlertDialog(
+            text = stringResource(R.string.sent_note_to_trash_dialog),
+            confirmButtonText = stringResource(R.string.send),
+            confirmButtonColor = MaterialTheme.colors.error,
+            onConfirm = {
+                openDeleteDialog = false
+                viewModel.sentNoteToTrash()
+                goBack(scope, focusManager, navController)
+            },
+            onCancel = { openDeleteDialog = false }
+        )
     }
 
     Column(
