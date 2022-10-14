@@ -5,9 +5,17 @@
         <item name="colorPrimaryDark">@color/nightBackground</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">@color/nightBackground</item>
-        <item name="android:timePickerStyle">@style/TimePickerSpinnerMode</item>
-        <item name="android:datePickerStyle">@style/DatePickerSpinnerMode</item>
+        <item name="android:timePickerStyle">@style/TimePickerSpinnerModeNight</item>
+        <item name="android:datePickerStyle">@style/DatePickerSpinnerModeNight</item>
         <item name="colorPrimary">@color/nightPrimary</item>
+    </style>
+
+    <style name="TimePickerSpinnerModeNight" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:timePickerMode">spinner</item>
+    </style>
+
+    <style name="DatePickerSpinnerModeNight" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:datePickerMode">spinner</item>
     </style>
 
 </resources>

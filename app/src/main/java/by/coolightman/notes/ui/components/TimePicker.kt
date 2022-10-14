@@ -17,11 +17,11 @@ fun TimePicker(
     TimePickerDialog(
         context,
         { _, hour: Int, minute: Int ->
-            calendar.set(Calendar.HOUR, hour)
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
             calendar.set(Calendar.MINUTE, minute)
             selectedTime(calendar)
         },
-        calendar.get(Calendar.HOUR),
+        calendar.get(Calendar.HOUR_OF_DAY),
         calendar.get(Calendar.MINUTE),
         DateFormat.is24HourFormat(context)
     ).apply {

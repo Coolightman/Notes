@@ -6,16 +6,16 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/dayBackground</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
-        <item name="android:timePickerStyle">@style/TimePickerSpinnerMode</item>
-        <item name="android:datePickerStyle">@style/DatePickerSpinnerMode</item>
+        <item name="android:timePickerStyle">@style/TimePickerSpinnerModeDay</item>
+        <item name="android:datePickerStyle">@style/DatePickerSpinnerModeDay</item>
         <item name="colorPrimary">@color/dayPrimary</item>
     </style>
 
-    <style name="TimePickerSpinnerMode" parent="Theme.MaterialComponents.DayNight.Dialog">
+    <style name="TimePickerSpinnerModeDay" parent="Theme.MaterialComponents.DayNight.Dialog">
         <item name="android:timePickerMode">spinner</item>
     </style>
 
-    <style name="DatePickerSpinnerMode" parent="Theme.MaterialComponents.DayNight.Dialog">
+    <style name="DatePickerSpinnerModeDay" parent="Theme.MaterialComponents.DayNight.Dialog">
         <item name="android:datePickerMode">spinner</item>
     </style>
 

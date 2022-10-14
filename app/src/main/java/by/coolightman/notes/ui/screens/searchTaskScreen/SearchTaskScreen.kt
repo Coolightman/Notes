@@ -122,8 +122,10 @@ fun SearchTaskScreen(
                     TasksItem(
                         task = task,
                         onClick = {
-                            navController.navigate(NavRoutes.EditTask.withArgs(task.id.toString())) {
-                                launchSingleTop = true
+                            if (task.isActive) {
+                                navController.navigate(NavRoutes.EditTask.withArgs(task.id.toString())) {
+                                    launchSingleTop = true
+                                }
                             }
                         },
                         onLongPress = { },
