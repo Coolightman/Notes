@@ -14,7 +14,7 @@ val RedItem = Color(0xFFF44336)
 val YellowItem = Color(0xFFFFEB3B)
 val GreenItem = Color(0xFF4CAF50)
 val NavyItem = Color(0xFF03A9F4)
-val BlueItem = Color(0xFF3F51B5)
+val BlueItem = Color(0xFF08558D)
 val GrayItem = Color(0xFF696969)
 
 val ImportantTask = Color(0xFFFF8A65)
