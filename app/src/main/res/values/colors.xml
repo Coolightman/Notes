@@ -9,4 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="nightBackground">#FF121212</color>
     <color name="dayBackground">#FFFFFFFF</color>
+
+    <color name="dayPrimary">#FF64B5F6</color>
+    <color name="nightPrimary">#FF2196F3</color>
+
+
 </resources>

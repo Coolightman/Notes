@@ -35,10 +35,12 @@ fun NotificationDateTimeText(
             modifier = Modifier
                 .clip(RoundedCornerShape(50, 0, 0, 50))
                 .background(InactiveBackground.copy(0.3f))
-                .clickable { onClickTime() }
+                .clickable { onClickDate() }
                 .padding(12.dp, 8.dp, 6.dp, 8.dp)
         )
-        Spacer(modifier = Modifier.width(2.dp))
+
+        Spacer(modifier = Modifier.width(4.dp))
+
         Text(
             text = notificationDate.toFormattedTime(),
             style = MaterialTheme.typography.h6.copy(
@@ -47,7 +49,7 @@ fun NotificationDateTimeText(
             modifier = Modifier
                 .clip(RoundedCornerShape(0, 50, 50, 0))
                 .background(InactiveBackground.copy(0.3f))
-                .clickable { onClickDate() }
+                .clickable { onClickTime() }
                 .padding(6.dp, 8.dp, 12.dp, 8.dp)
         )
     }

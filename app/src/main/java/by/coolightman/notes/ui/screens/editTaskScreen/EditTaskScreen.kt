@@ -32,6 +32,7 @@ import by.coolightman.notes.ui.theme.ImportantTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -90,6 +91,31 @@ fun EditTaskScreen(
             onCancel = { openDeleteDialog = false })
     }
 
+    var calendar by remember {
+        mutableStateOf(Calendar.getInstance(Locale.getDefault()))
+    }
+    var openTimePicker by remember {
+        mutableStateOf(false)
+    }
+    if (openTimePicker) {
+        TimePicker(
+            calendar = calendar,
+            onCancel = { openTimePicker = false },
+            selectedTime = { calendar = it }
+        )
+    }
+
+    var openDatePicker by remember {
+        mutableStateOf(false)
+    }
+    if (openDatePicker) {
+        DatePicker(
+            calendar = calendar,
+            onCancel = { openDatePicker = false },
+            selectedTime = { calendar = it }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -132,7 +158,7 @@ fun EditTaskScreen(
                     .fillMaxWidth()
                     .background(Color(itemColors[selectedColor].color).copy(0.3f))
             ) {
-                Box{
+                Box {
                     IconButton(onClick = { }) {
                         Icon(
                             painter = painterResource(R.drawable.ic_outline_circle_24),
@@ -141,7 +167,7 @@ fun EditTaskScreen(
                             else LocalContentColor.current
                         )
                     }
-                    if (isHasNotification){
+                    if (isHasNotification) {
                         Icon(
                             imageVector = Icons.Default.Notifications,
                             contentDescription = "notifications",
@@ -222,9 +248,9 @@ fun EditTaskScreen(
 
         if (isHasNotification) {
             NotificationDateTimeText(
-                notificationDate = notificationDate,
-                onClickTime = {},
-                onClickDate = {}
+                notificationDate = calendar.timeInMillis,
+                onClickTime = { openTimePicker = true },
+                onClickDate = { openDatePicker = true }
             )
         }
 
@@ -235,7 +261,7 @@ fun EditTaskScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             DoneButton {
-                if (text.trim().isNotEmpty()) {
+                if (text.trim().isNotEmpty() && isValidDate(calendar)) {
                     viewModel.saveTask(text.trim(), selectedColor, isImportant, numberOfLines)
                     goBack(scope, focusManager, navController)
                 } else {
@@ -244,6 +270,12 @@ fun EditTaskScreen(
             }
         }
     }
+}
+
+fun isValidDate(calendar: Calendar): Boolean {
+    val checkCalendar = Calendar.getInstance(Locale.getDefault())
+    checkCalendar.set(Calendar.MINUTE, checkCalendar.get(Calendar.MINUTE) + 1)
+    return checkCalendar.timeInMillis < calendar.timeInMillis
 }
 
 private fun showSnack(
