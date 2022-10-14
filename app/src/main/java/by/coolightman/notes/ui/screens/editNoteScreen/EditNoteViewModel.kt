@@ -14,7 +14,7 @@ import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
-import by.coolightman.notes.util.toFormattedDate
+import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -61,8 +61,8 @@ class EditNoteViewModel @Inject constructor(
                 uiState = uiState.copy(
                     title = it.title,
                     text = it.text,
-                    createdAt = it.createdAt.toFormattedDate(),
-                    editedAt = it.editedAt.toFormattedDate(),
+                    createdAt = it.createdAt.toFormattedFullDate(),
+                    editedAt = it.editedAt.toFormattedFullDate(),
                     colorIndex = it.colorIndex,
                     isAllowToCollapse = it.isExpandable
                 )

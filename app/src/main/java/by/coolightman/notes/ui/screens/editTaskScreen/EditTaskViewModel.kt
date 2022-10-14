@@ -14,7 +14,7 @@ import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.UpdateTaskUseCase
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
-import by.coolightman.notes.util.toFormattedDate
+import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -62,8 +62,8 @@ class EditTaskViewModel @Inject constructor(
                     text = it.text,
                     colorIndex = it.colorIndex,
                     isImportant = it.isImportant,
-                    createdAt = it.createdAt.toFormattedDate(),
-                    editedAt = it.editedAt.toFormattedDate()
+                    createdAt = it.createdAt.toFormattedFullDate(),
+                    editedAt = it.editedAt.toFormattedFullDate()
                 )
             }
         }

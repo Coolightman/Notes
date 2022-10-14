@@ -28,7 +28,7 @@ import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.showSnack
-import by.coolightman.notes.util.toFormattedDate
+import by.coolightman.notes.util.toFormattedFullDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -56,7 +56,7 @@ fun EditNoteScreen(
         mutableStateOf(uiState.text)
     }
     val dateText by remember {
-        mutableStateOf(System.currentTimeMillis().toFormattedDate())
+        mutableStateOf(System.currentTimeMillis().toFormattedFullDate())
     }
     val createdAt by remember(uiState.createdAt) {
         mutableStateOf(uiState.createdAt)

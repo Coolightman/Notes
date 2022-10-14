@@ -36,7 +36,7 @@ import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.GrayItem
 import by.coolightman.notes.ui.theme.InactiveBackground
-import by.coolightman.notes.util.toFormattedDate
+import by.coolightman.notes.util.toFormattedFullDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -169,8 +169,8 @@ fun NotesItem(
                             if (isShowNoteDate) {
                                 val dateText = if (note.isEdited) {
                                     val edited = stringResource(R.string.edit)
-                                    "$edited " + note.editedAt.toFormattedDate()
-                                } else note.createdAt.toFormattedDate()
+                                    "$edited " + note.editedAt.toFormattedFullDate()
+                                } else note.createdAt.toFormattedFullDate()
                                 DateText(
                                     text = dateText,
                                     modifier = if (isExpandable) Modifier.align(Alignment.Bottom)

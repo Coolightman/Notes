@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -62,6 +63,12 @@ fun EditTaskScreen(
     }
     var isImportant by remember(uiState.isImportant) {
         mutableStateOf(uiState.isImportant)
+    }
+    var isHasNotification by remember {
+        mutableStateOf(false)
+    }
+    var notificationDate by remember {
+        mutableStateOf(System.currentTimeMillis())
     }
     var numberOfLines by remember {
         mutableStateOf(1)
@@ -125,13 +132,25 @@ fun EditTaskScreen(
                     .fillMaxWidth()
                     .background(Color(itemColors[selectedColor].color).copy(0.3f))
             ) {
-                IconButton(onClick = { }) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_outline_circle_24),
-                        contentDescription = "active task",
-                        tint = if (isImportant) ImportantTask
-                        else LocalContentColor.current
-                    )
+                Box{
+                    IconButton(onClick = { }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_outline_circle_24),
+                            contentDescription = "active task",
+                            tint = if (isImportant) ImportantTask
+                            else LocalContentColor.current
+                        )
+                    }
+                    if (isHasNotification){
+                        Icon(
+                            imageVector = Icons.Default.Notifications,
+                            contentDescription = "notifications",
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(4.dp)
+                                .size(12.dp)
+                        )
+                    }
                 }
 
                 CustomTextField(
@@ -194,6 +213,20 @@ fun EditTaskScreen(
             checked = isImportant,
             onCheckedChange = { isImportant = it }
         )
+
+        SwitchCard(
+            label = stringResource(R.string.add_notification),
+            checked = isHasNotification,
+            onCheckedChange = { isHasNotification = it }
+        )
+
+        if (isHasNotification) {
+            NotificationDateTimeText(
+                notificationDate = notificationDate,
+                onClickTime = {},
+                onClickDate = {}
+            )
+        }
 
         Spacer(modifier = Modifier.weight(1f))
 
