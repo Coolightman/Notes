@@ -18,5 +18,7 @@ data class TaskDb(
     @ColumnInfo(name = "is_hidden") val isHidden: Boolean,
     @ColumnInfo(name = "is_selected") val isSelected: Boolean,
     @ColumnInfo(name = "is_expandable") val isExpandable: Boolean,
-    @ColumnInfo(name = "is_expanded") val isExpanded: Boolean
+    @ColumnInfo(name = "is_expanded") val isExpanded: Boolean,
+    @ColumnInfo(name = "is_has_notification") val isHasNotification: Boolean,
+    @ColumnInfo(name = "notification_time") val notificationTime: Long
 )

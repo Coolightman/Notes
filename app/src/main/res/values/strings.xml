@@ -31,7 +31,7 @@
     <string name="edited_sort">Edited</string>
     <string name="empty_note">Note is empty</string>
     <string name="empty_task">Task is empty</string>
-    <string name="wrong_notification_time">Notification time is wrong</string>
+    <string name="wrong_notification_time">Notification time must be in the future</string>
     <string name="notes_sent_to_trash">Note(s) sent to trash</string>
     <string name="delete_inactive">Delete inactive</string>
     <string name="settings">Settings</string>
@@ -59,4 +59,5 @@
     <string name="no_results">No results</string>
     <string name="colored_notes_background">Colored notes background</string>
     <string name="task_notification_title">Task</string>
+    <string name="task_for_time"> for </string>
 </resources>

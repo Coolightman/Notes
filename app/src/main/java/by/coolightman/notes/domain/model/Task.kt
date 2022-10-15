@@ -1,5 +1,7 @@
 package by.coolightman.notes.domain.model
 
+import java.util.Calendar
+
 data class Task(
     val id: Long = 0,
     val text: String,
@@ -12,5 +14,7 @@ data class Task(
     val isHidden: Boolean,
     val isSelected: Boolean,
     val isExpandable: Boolean,
-    val isExpanded: Boolean
+    val isExpanded: Boolean,
+    val isHasNotification: Boolean,
+    val notificationTime: Calendar
 )

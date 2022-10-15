@@ -34,7 +34,11 @@ class NotificationReceiver : BroadcastReceiver() {
             PendingIntent.getActivity(context, 0, launchAppIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setContentTitle(context.resources.getString(R.string.task_notification_title))
+            .setContentTitle(
+                context.resources.getString(R.string.task_notification_title) + " " +
+                        context.getString(R.string.task_for_time) + " " +
+                        intent.getStringExtra(NOTIFICATION_TIME)
+            )
             .setContentText(intent.getStringExtra(NOTIFICATION_TEXT_EXTRA))
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(launchAppPendingIntent)

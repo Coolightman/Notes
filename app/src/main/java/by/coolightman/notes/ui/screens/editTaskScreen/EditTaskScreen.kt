@@ -1,9 +1,5 @@
 package by.coolightman.notes.ui.screens.editTaskScreen
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -30,12 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.broadcastReceiver.NotificationReceiver
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.ImportantTask
-import by.coolightman.notes.util.NOTIFICATION_ID_EXTRA
-import by.coolightman.notes.util.NOTIFICATION_TEXT_EXTRA
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -72,8 +65,8 @@ fun EditTaskScreen(
     var isImportant by remember(uiState.isImportant) {
         mutableStateOf(uiState.isImportant)
     }
-    var isHasNotification by remember {
-        mutableStateOf(false)
+    var isHasNotification by remember(uiState.isHasNotification) {
+        mutableStateOf(uiState.isHasNotification)
     }
     var numberOfLines by remember {
         mutableStateOf(1)
@@ -95,8 +88,8 @@ fun EditTaskScreen(
             onCancel = { openDeleteDialog = false })
     }
 
-    var calendar by remember {
-        mutableStateOf(Calendar.getInstance(Locale.getDefault()))
+    var calendar by remember(uiState.notificationTime) {
+        mutableStateOf(uiState.notificationTime)
     }
     var openTimePicker by remember {
         mutableStateOf(false)
@@ -262,30 +255,20 @@ fun EditTaskScreen(
                         )
                     }
                     else -> {
-                        viewModel.saveTask(text.trim(), selectedColor, isImportant, numberOfLines)
+                        viewModel.saveTask(
+                            text.trim(),
+                            selectedColor,
+                            isImportant,
+                            numberOfLines,
+                            isHasNotification,
+                            calendar
+                        )
                         goBack(scope, focusManager, navController)
                     }
                 }
             }
         }
     }
-}
-
-fun scheduleNotification(context: Context, taskId: Int, taskText: String, calendar: Calendar) {
-    val intent = Intent(context, NotificationReceiver::class.java)
-    intent.putExtra(NOTIFICATION_TEXT_EXTRA, taskText)
-    intent.putExtra(NOTIFICATION_ID_EXTRA, taskId)
-
-    val pendingIntent = PendingIntent.getBroadcast(
-        context, taskId, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    )
-
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val scheduledTime = calendar.timeInMillis
-
-    alarmManager.setExactAndAllowWhileIdle(
-        AlarmManager.RTC_WAKEUP, scheduledTime, pendingIntent
-    )
 }
 
 fun isValidDate(calendar: Calendar): Boolean {

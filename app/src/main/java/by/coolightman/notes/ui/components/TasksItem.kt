@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +34,7 @@ import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.ImportantTask
 import by.coolightman.notes.ui.theme.InactiveBackground
+import java.util.*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -100,16 +102,28 @@ fun TasksItem(
                     .animateContentSize()
             )
             {
-                IconButton(onClick = { onSwitchActive() }) {
-                    Icon(
-                        painter = painterResource(
-                            id = if (task.isActive) R.drawable.ic_outline_circle_24
-                            else R.drawable.ic_task_24
-                        ),
-                        contentDescription = "active task",
-                        tint = if (task.isImportant) ImportantTask.copy(contentAlfa)
-                        else LocalContentColor.current.copy(contentAlfa)
-                    )
+                Box {
+                    IconButton(onClick = {onSwitchActive() }) {
+                        Icon(
+                            painter = painterResource(
+                                id = if (task.isActive) R.drawable.ic_outline_circle_24
+                                else R.drawable.ic_task_24
+                            ),
+                            contentDescription = "active task",
+                            tint = if (task.isImportant) ImportantTask.copy(contentAlfa)
+                            else LocalContentColor.current.copy(contentAlfa)
+                        )
+                    }
+                    if (task.isHasNotification) {
+                        Icon(
+                            imageVector = Icons.Default.Notifications,
+                            contentDescription = "notifications",
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(4.dp)
+                                .size(12.dp)
+                        )
+                    }
                 }
                 Text(
                     text = task.text,
@@ -180,7 +194,9 @@ private fun NotesItemPreview() {
         isHidden = false,
         isSelected = false,
         isExpandable = false,
-        isExpanded = false
+        isExpanded = false,
+        isHasNotification = true,
+        notificationTime = Calendar.getInstance(Locale.getDefault())
     )
     TasksItem(
         task = task,

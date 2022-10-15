@@ -13,8 +13,8 @@ class TaskRepositoryImpl @Inject constructor(
     private val taskDao: TaskDao
 ) : TaskRepository {
 
-    override suspend fun insert(task: Task) {
-        taskDao.insert(task.toTaskDb())
+    override suspend fun insert(task: Task): Long {
+        return taskDao.insert(task.toTaskDb())
     }
 
     override suspend fun getTask(taskId: Long): Task =

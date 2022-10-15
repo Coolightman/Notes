@@ -8,16 +8,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
-import by.coolightman.notes.domain.usecase.tasks.CreateTaskUseCase
-import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
-import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
-import by.coolightman.notes.domain.usecase.tasks.UpdateTaskUseCase
+import by.coolightman.notes.domain.usecase.tasks.*
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +25,9 @@ class EditTaskViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase
+    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val createNotificationUseCase: CreateNotificationUseCase,
+    private val removeNotificationUseCase: RemoveNotificationUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(EditTaskUiState())
@@ -63,7 +63,9 @@ class EditTaskViewModel @Inject constructor(
                     colorIndex = it.colorIndex,
                     isImportant = it.isImportant,
                     createdAt = it.createdAt.toFormattedFullDate(),
-                    editedAt = it.editedAt.toFormattedFullDate()
+                    editedAt = it.editedAt.toFormattedFullDate(),
+                    isHasNotification = it.isHasNotification,
+                    notificationTime = it.notificationTime
                 )
             }
         }
@@ -73,7 +75,9 @@ class EditTaskViewModel @Inject constructor(
         text: String,
         colorIndex: Int,
         isImportant: Boolean,
-        numberOfLines: Int
+        numberOfLines: Int,
+        isHasNotification: Boolean,
+        notificationTime: Calendar
     ) {
         viewModelScope.launch {
             task?.let {
@@ -84,8 +88,16 @@ class EditTaskViewModel @Inject constructor(
                     isEdited = true,
                     editedAt = System.currentTimeMillis(),
                     isExpandable = numberOfLines > 1,
+                    isHasNotification = isHasNotification,
+                    notificationTime = if (!isHasNotification) Calendar.getInstance()
+                    else notificationTime
                 )
                 updateTaskUseCase(updatedTask)
+                if (isHasNotification) {
+                    createNotificationUseCase(it.id.toInt(), text, notificationTime)
+                } else if (it.isHasNotification){
+                    removeNotificationUseCase(it.id.toInt())
+                }
                 return@launch
             }
 
@@ -100,13 +112,18 @@ class EditTaskViewModel @Inject constructor(
                 isHidden = false,
                 isSelected = false,
                 isExpandable = numberOfLines > 1,
-                isExpanded = false
+                isExpanded = false,
+                isHasNotification = isHasNotification,
+                notificationTime = notificationTime
             )
-            createTaskUseCase(createdTask)
+            val taskId = createTaskUseCase(createdTask).toInt()
+            if (isHasNotification) {
+                createNotificationUseCase(taskId, text, notificationTime)
+            }
         }
     }
 
-    fun deleteTask(){
+    fun deleteTask() {
         viewModelScope.launch {
             task?.let {
                 deleteTaskUseCase(it.id)
