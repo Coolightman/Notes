@@ -258,11 +258,21 @@ fun EditTaskScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             DoneButton {
-                if (text.trim().isNotEmpty() && isValidDate(calendar)) {
-                    viewModel.saveTask(text.trim(), selectedColor, isImportant, numberOfLines)
-                    goBack(scope, focusManager, navController)
-                } else {
-                    showSnack(scope, scaffoldState, context.getString(R.string.empty_task))
+                when {
+                    text.trim().isEmpty() -> {
+                        showSnack(scope, scaffoldState, context.getString(R.string.empty_task))
+                    }
+                    isHasNotification && !isValidDate(calendar) -> {
+                        showSnack(
+                            scope,
+                            scaffoldState,
+                            context.getString(R.string.wrong_notification_time)
+                        )
+                    }
+                    else -> {
+                        viewModel.saveTask(text.trim(), selectedColor, isImportant, numberOfLines)
+                        goBack(scope, focusManager, navController)
+                    }
                 }
             }
         }
