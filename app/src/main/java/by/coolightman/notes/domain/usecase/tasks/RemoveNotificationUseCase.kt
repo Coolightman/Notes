@@ -11,12 +11,12 @@ import javax.inject.Inject
 class RemoveNotificationUseCase @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) {
-    operator fun invoke(taskId: Int) {
+    operator fun invoke(taskId: Long) {
         val intent = Intent(appContext, NotificationReceiver::class.java)
 
         val pendingIntent = PendingIntent.getBroadcast(
             appContext,
-            taskId,
+            taskId.toInt(),
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )

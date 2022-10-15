@@ -5,11 +5,12 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class DeleteSelectedTasksUseCase @Inject constructor(
-    private val repository: TaskRepository
+    private val repository: TaskRepository,
+    private val deleteTaskUseCase: DeleteTaskUseCase
 ) {
     suspend operator fun invoke() {
         repository.getAll().first().filter { it.isSelected }.forEach {
-            repository.delete(it.id)
+            deleteTaskUseCase(it.id)
         }
     }
 }

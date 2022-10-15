@@ -22,7 +22,7 @@ class SwitchTaskActivityUseCase @Inject constructor(
 
     private fun updateNotification(task: Task) {
         if (!task.isActive) {
-            removeNotificationUseCase(task.id.toInt())
+            removeNotificationUseCase(task.id)
         }
     }
 }

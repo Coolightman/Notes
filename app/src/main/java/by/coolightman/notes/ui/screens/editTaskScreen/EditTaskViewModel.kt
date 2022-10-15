@@ -96,7 +96,7 @@ class EditTaskViewModel @Inject constructor(
                 if (isHasNotification) {
                     createNotificationUseCase(it.id.toInt(), text, notificationTime)
                 } else if (it.isHasNotification){
-                    removeNotificationUseCase(it.id.toInt())
+                    removeNotificationUseCase(it.id)
                 }
                 return@launch
             }
