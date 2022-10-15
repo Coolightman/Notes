@@ -263,9 +263,6 @@ fun EditTaskScreen(
                     }
                     else -> {
                         viewModel.saveTask(text.trim(), selectedColor, isImportant, numberOfLines)
-                        if (isHasNotification) {
-                            scheduleNotification(context, text.length, text.trim(), calendar)
-                        }
                         goBack(scope, focusManager, navController)
                     }
                 }
