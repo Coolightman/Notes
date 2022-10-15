@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.ui.model.ItemColor
-import by.coolightman.notes.ui.theme.GrayItem
+import by.coolightman.notes.ui.theme.EmptyBackground
 import by.coolightman.notes.ui.theme.InactiveBackground
 import by.coolightman.notes.util.toFormattedFullDate
 
@@ -121,7 +121,7 @@ fun NotesItem(
                             if (isColoredBackground) {
                                 Color(ItemColor.values()[note.colorIndex].color).copy(0.2f)
                             } else {
-                                GrayItem.copy(0.2f)
+                                EmptyBackground.copy(0.2f)
                             }
                         )
                 ) {

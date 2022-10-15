@@ -51,7 +51,7 @@ class NotesViewModel @Inject constructor(
         getTrashCount()
         getIsShowDatePref()
         getNotesViewMode()
-        getIsColorfulBackground()
+        getIsColoredBackground()
     }
 
     private fun getIsShowDatePref() {
@@ -103,7 +103,7 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    private fun getIsColorfulBackground() {
+    private fun getIsColoredBackground() {
         viewModelScope.launch {
             getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK).collectLatest {
                 uiState = uiState.copy(

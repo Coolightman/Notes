@@ -11,8 +11,10 @@ import by.coolightman.notes.domain.usecase.notes.CreateNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
+import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.util.ARG_NOTE_ID
+import by.coolightman.notes.util.IS_NOTES_COLORED_BACK
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +29,8 @@ class EditNoteViewModel @Inject constructor(
     private val updateNoteUseCase: UpdateNoteUseCase,
     private val createNoteUseCase: CreateNoteUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
-    private val putNoteInTrashUseCase: PutNoteInTrashUseCase
+    private val putNoteInTrashUseCase: PutNoteInTrashUseCase,
+    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(EditNoteUiState())
@@ -41,6 +44,17 @@ class EditNoteViewModel @Inject constructor(
             getNote(noteId)
         } else {
             getNewNoteColorPreference()
+        }
+        getColoredBackgroundPreference()
+    }
+
+    private fun getColoredBackgroundPreference() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK).collectLatest {
+                uiState = uiState.copy(
+                    isColoredBackground = it
+                )
+            }
         }
     }
 

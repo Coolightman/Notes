@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColor
+import by.coolightman.notes.ui.theme.EmptyBackground
 import by.coolightman.notes.util.showSnack
 import by.coolightman.notes.util.toFormattedFullDate
 import kotlinx.coroutines.CoroutineScope
@@ -145,7 +146,11 @@ fun EditNoteScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color(itemColors[selectedColor].color).copy(0.2f))
+                            .background(
+                                color = if (uiState.isColoredBackground) {
+                                    Color(itemColors[selectedColor].color).copy(0.2f)
+                                } else EmptyBackground.copy(0.2f)
+                            )
                     ) {
                         CustomTextField(
                             text = text,

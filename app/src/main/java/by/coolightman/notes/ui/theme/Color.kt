@@ -17,4 +17,5 @@ val NavyItem = Color(0xFF03A9F4)
 val BlueItem = Color(0xFF08558D)
 val GrayItem = Color(0xFF696969)
 
+val EmptyBackground = Color(0xFF4B5358)
 val ImportantTask = Color(0xFFFF8A65)
