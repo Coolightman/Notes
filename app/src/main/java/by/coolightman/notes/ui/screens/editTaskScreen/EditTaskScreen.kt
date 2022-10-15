@@ -1,5 +1,9 @@
 package by.coolightman.notes.ui.screens.editTaskScreen
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -26,9 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
+import by.coolightman.notes.broadcastReceiver.NotificationReceiver
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.ImportantTask
+import by.coolightman.notes.util.NOTIFICATION_ID_EXTRA
+import by.coolightman.notes.util.NOTIFICATION_TEXT_EXTRA
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -95,22 +102,18 @@ fun EditTaskScreen(
         mutableStateOf(false)
     }
     if (openTimePicker) {
-        TimePicker(
-            calendar = calendar,
+        TimePicker(calendar = calendar,
             onCancel = { openTimePicker = false },
-            selectedTime = { calendar = it }
-        )
+            selectedTime = { calendar = it })
     }
 
     var openDatePicker by remember {
         mutableStateOf(false)
     }
     if (openDatePicker) {
-        DatePicker(
-            calendar = calendar,
+        DatePicker(calendar = calendar,
             onCancel = { openDatePicker = false },
-            selectedTime = { calendar = it }
-        )
+            selectedTime = { calendar = it })
     }
 
     Column(
@@ -118,28 +121,25 @@ fun EditTaskScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        AppTopAppBar(
-            navigationIcon = {
-                IconButton(onClick = { goBack(scope, focusManager, navController) }) {
+        AppTopAppBar(navigationIcon = {
+            IconButton(onClick = { goBack(scope, focusManager, navController) }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "back",
+                    tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                )
+            }
+        }, actions = {
+            if (createdAt.isNotEmpty()) {
+                IconButton(onClick = { openDeleteDialog = true }) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back",
+                        painter = painterResource(R.drawable.ic_delete_forever_24),
+                        contentDescription = "delete",
                         tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                     )
                 }
-            },
-            actions = {
-                if (createdAt.isNotEmpty()) {
-                    IconButton(onClick = { openDeleteDialog = true }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_delete_forever_24),
-                            contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
-                        )
-                    }
-                }
             }
-        )
+        })
 
         Card(
             shape = RoundedCornerShape(24.dp),
@@ -191,8 +191,7 @@ fun EditTaskScreen(
 
                 if (numberOfLines > 1) {
                     IconButton(
-                        onClick = { },
-                        modifier = Modifier.align(Alignment.Bottom)
+                        onClick = { }, modifier = Modifier.align(Alignment.Bottom)
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -231,31 +230,24 @@ fun EditTaskScreen(
             alpha = 0.4f
         )
 
-        SwitchCard(
-            label = stringResource(R.string.important_task),
+        SwitchCard(label = stringResource(R.string.important_task),
             checked = isImportant,
-            onCheckedChange = { isImportant = it }
-        )
+            onCheckedChange = { isImportant = it })
 
-        SwitchCard(
-            label = stringResource(R.string.add_notification),
+        SwitchCard(label = stringResource(R.string.add_notification),
             checked = isHasNotification,
-            onCheckedChange = { isHasNotification = it }
-        )
+            onCheckedChange = { isHasNotification = it })
 
         if (isHasNotification) {
-            NotificationDateTimeText(
-                notificationDate = calendar.timeInMillis,
+            NotificationDateTimeText(notificationDate = calendar.timeInMillis,
                 onClickTime = { openTimePicker = true },
-                onClickDate = { openDatePicker = true }
-            )
+                onClickDate = { openDatePicker = true })
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
         Row(
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier.fillMaxWidth()
+            horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()
         ) {
             DoneButton {
                 when {
@@ -271,6 +263,9 @@ fun EditTaskScreen(
                     }
                     else -> {
                         viewModel.saveTask(text.trim(), selectedColor, isImportant, numberOfLines)
+                        if (isHasNotification) {
+                            scheduleNotification(context, text.length, text.trim(), calendar)
+                        }
                         goBack(scope, focusManager, navController)
                     }
                 }
@@ -279,9 +274,25 @@ fun EditTaskScreen(
     }
 }
 
+fun scheduleNotification(context: Context, taskId: Int, taskText: String, calendar: Calendar) {
+    val intent = Intent(context, NotificationReceiver::class.java)
+    intent.putExtra(NOTIFICATION_TEXT_EXTRA, taskText)
+    intent.putExtra(NOTIFICATION_ID_EXTRA, taskId)
+
+    val pendingIntent = PendingIntent.getBroadcast(
+        context, taskId, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val scheduledTime = calendar.timeInMillis
+
+    alarmManager.setExactAndAllowWhileIdle(
+        AlarmManager.RTC_WAKEUP, scheduledTime, pendingIntent
+    )
+}
+
 fun isValidDate(calendar: Calendar): Boolean {
     val checkCalendar = Calendar.getInstance(Locale.getDefault())
-    checkCalendar.set(Calendar.MINUTE, checkCalendar.get(Calendar.MINUTE) + 1)
     return checkCalendar.timeInMillis < calendar.timeInMillis
 }
 
@@ -291,8 +302,7 @@ private fun showSnack(
     scope.launch {
         val job = launch {
             scaffoldState.snackbarHostState.showSnackbar(
-                message = text,
-                duration = SnackbarDuration.Indefinite
+                message = text, duration = SnackbarDuration.Indefinite
             )
         }
         delay(2000L)

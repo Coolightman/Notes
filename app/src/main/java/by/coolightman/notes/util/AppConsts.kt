@@ -19,3 +19,9 @@ const val SORT_TASKS_BY_KEY = "SortTasksByKey"
 
 const val NOTES_FILTER_SELECTION = "notesFilterSelection"
 const val TASKS_FILTER_SELECTION = "tasksFilterSelection"
+
+const val NOTIFICATION_CHANNEL_ID = "notification_channel_1"
+const val NOTIFICATION_CHANNEL_NAME = "Tasks notifications"
+const val NOTIFICATION_CHANNEL_DESCRIPTION = "Manage notifications for application tasks"
+const val NOTIFICATION_TEXT_EXTRA = "notificationTextExtra"
+const val NOTIFICATION_ID_EXTRA = "notificationIdExtra"
