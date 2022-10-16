@@ -11,6 +11,7 @@ import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.tasks.*
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
+import by.coolightman.notes.util.roundTimeToMinute
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -25,9 +26,7 @@ class EditTaskViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase,
-    private val createNotificationUseCase: CreateNotificationUseCase,
-    private val removeNotificationUseCase: RemoveNotificationUseCase
+    private val deleteTaskUseCase: DeleteTaskUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(EditTaskUiState())
@@ -80,45 +79,37 @@ class EditTaskViewModel @Inject constructor(
         notificationTime: Calendar
     ) {
         viewModelScope.launch {
-            task?.let {
-                val updatedTask = it.copy(
+            if (task == null) {
+                val createdTask = Task(
                     text = text,
                     colorIndex = colorIndex,
                     isImportant = isImportant,
-                    isEdited = true,
-                    editedAt = System.currentTimeMillis(),
+                    createdAt = System.currentTimeMillis(),
+                    editedAt = 0L,
+                    isEdited = false,
+                    isActive = true,
+                    isHidden = false,
+                    isSelected = false,
                     isExpandable = numberOfLines > 1,
+                    isExpanded = false,
                     isHasNotification = isHasNotification,
-                    notificationTime = if (!isHasNotification) Calendar.getInstance()
-                    else notificationTime
+                    notificationTime = notificationTime.roundTimeToMinute()
                 )
-                updateTaskUseCase(updatedTask)
-                if (isHasNotification) {
-                    createNotificationUseCase(it.id.toInt(), text, notificationTime)
-                } else if (it.isHasNotification){
-                    removeNotificationUseCase(it.id)
+                createTaskUseCase(createdTask)
+            } else {
+                task?.let {
+                    val updatedTask = it.copy(
+                        text = text,
+                        colorIndex = colorIndex,
+                        isImportant = isImportant,
+                        isEdited = true,
+                        editedAt = System.currentTimeMillis(),
+                        isExpandable = numberOfLines > 1,
+                        isHasNotification = isHasNotification,
+                        notificationTime = notificationTime.roundTimeToMinute()
+                    )
+                    updateTaskUseCase(updatedTask)
                 }
-                return@launch
-            }
-
-            val createdTask = Task(
-                text = text,
-                colorIndex = colorIndex,
-                isImportant = isImportant,
-                createdAt = System.currentTimeMillis(),
-                editedAt = 0L,
-                isEdited = false,
-                isActive = true,
-                isHidden = false,
-                isSelected = false,
-                isExpandable = numberOfLines > 1,
-                isExpanded = false,
-                isHasNotification = isHasNotification,
-                notificationTime = notificationTime
-            )
-            val taskId = createTaskUseCase(createdTask).toInt()
-            if (isHasNotification) {
-                createNotificationUseCase(taskId, text, notificationTime)
             }
         }
     }

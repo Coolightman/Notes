@@ -16,7 +16,7 @@ class SwitchTaskActivityUseCase @Inject constructor(
             isHasNotification = false,
             notificationTime = Calendar.getInstance()
         )
-        updateNotification(task)
+        updateNotification(switched)
         repository.update(switched)
     }
 
