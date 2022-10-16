@@ -63,6 +63,25 @@ fun TasksScreen(
         }
     }
 
+    var isDropMenuExpanded by remember {
+        mutableStateOf(false)
+    }
+
+    var isSelectionMode by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(isSelectionMode) {
+        if (isSelectionMode) {
+            view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+        }
+    }
+    if (isSelectionMode) {
+        BackHandler { isSelectionMode = false }
+    }
+    LaunchedEffect(uiState.list.isEmpty()) {
+        isSelectionMode = false
+    }
+
     var openDeleteInactiveTasksDialog by remember {
         mutableStateOf(false)
     }
@@ -92,28 +111,11 @@ fun TasksScreen(
             onConfirm = {
                 viewModel.deleteSelectedTasks()
                 openDeleteSelectedTasksDialog = false
+                isSelectionMode = false
+
             },
             onCancel = { openDeleteSelectedTasksDialog = false }
         )
-    }
-
-    var isDropMenuExpanded by remember {
-        mutableStateOf(false)
-    }
-
-    var isSelectionMode by remember {
-        mutableStateOf(false)
-    }
-    LaunchedEffect(isSelectionMode) {
-        if (isSelectionMode) {
-            view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
-        }
-    }
-    if (isSelectionMode) {
-        BackHandler { isSelectionMode = false }
-    }
-    LaunchedEffect(uiState.list.isEmpty()) {
-        isSelectionMode = false
     }
 
     Column(

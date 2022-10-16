@@ -207,6 +207,7 @@ fun NotesScreen(
                                     scaffoldState,
                                     context.getString(R.string.notes_sent_to_trash)
                                 )
+                                isSelectionMode = false
                             }
                         }
                     ) {
