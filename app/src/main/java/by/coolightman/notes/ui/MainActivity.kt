@@ -5,14 +5,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.FabPosition
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import by.coolightman.notes.ui.components.AppBottomBar
 import by.coolightman.notes.ui.components.AppFloatingActionButton
@@ -73,6 +78,7 @@ class MainActivity : ComponentActivity() {
                     snackbarHost = { AppSnackbarHost(hostState = it) }
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
+                        Box(modifier = Modifier.fillMaxWidth().height(56.dp).background(MaterialTheme.colors.secondary))
                         AppNavigationHost(
                             navController = navController,
                             startDestination = NavRoutes.Splash.route,
