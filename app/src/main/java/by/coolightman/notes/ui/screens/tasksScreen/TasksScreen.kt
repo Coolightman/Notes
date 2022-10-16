@@ -139,15 +139,15 @@ fun TasksScreen(
                                 tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
                             )
                         }
+                    }
 
-                        IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_baseline_sort_24),
-                                contentDescription = "sort",
-                                tint = if (isShowSortPanel) MaterialTheme.colors.primary
-                                else MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
-                            )
-                        }
+                    IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_baseline_sort_24),
+                            contentDescription = "sort",
+                            tint = if (isShowSortPanel) MaterialTheme.colors.primary
+                            else MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                        )
                     }
 
                     IconButton(onClick = { isDropMenuExpanded = true }) {
