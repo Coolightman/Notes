@@ -47,9 +47,9 @@ fun TasksItem(
     onLongPress: () -> Unit,
     onCheckedChange: () -> Unit,
     isSelectionMode: Boolean = false,
-    isExpandable: Boolean = false,
-    isExpanded: Boolean = false,
-    onExpandClick: () -> Unit
+    isCollapsable: Boolean = false,
+    isCollapsed: Boolean = false,
+    onCollapseClick: () -> Unit
 ) {
 
     val backgroundAlfa = if (task.isActive) 0.3f
@@ -75,7 +75,7 @@ fun TasksItem(
     }
     val density = LocalDensity.current
     val rotateState by animateFloatAsState(
-        targetValue = if (isExpanded) 180F else 0F,
+        targetValue = if (isCollapsed) 0f else 180f,
         animationSpec = tween(500)
     )
 
@@ -129,8 +129,8 @@ fun TasksItem(
                     text = task.text,
                     style = textStyle,
                     maxLines =
-                    if (isExpanded) Integer.MAX_VALUE
-                    else 1,
+                    if (isCollapsed) 1
+                    else Integer.MAX_VALUE,
 
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
@@ -138,9 +138,9 @@ fun TasksItem(
                         .padding(0.dp, 4.dp, 8.dp, 4.dp)
                         .alpha(contentAlfa)
                 )
-                if (isExpandable && !isSelectionMode) {
+                if (isCollapsable && !isSelectionMode) {
                     IconButton(
-                        onClick = { onExpandClick() },
+                        onClick = { onCollapseClick() },
                         modifier = Modifier.align(Alignment.Bottom)
                     ) {
                         Icon(
@@ -193,8 +193,8 @@ private fun NotesItemPreview() {
         isActive = false,
         isHidden = false,
         isSelected = false,
-        isExpandable = false,
-        isExpanded = false,
+        isCollapsable = false,
+        isCollapsed = false,
         isHasNotification = true,
         notificationTime = Calendar.getInstance(Locale.getDefault())
     )
@@ -204,6 +204,6 @@ private fun NotesItemPreview() {
         onSwitchActive = {},
         onCheckedChange = {},
         onLongPress = {},
-        onExpandClick = {}
+        onCollapseClick = {}
     )
 }

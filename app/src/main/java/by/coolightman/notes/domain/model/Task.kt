@@ -13,8 +13,8 @@ data class Task(
     val isActive: Boolean,
     val isHidden: Boolean,
     val isSelected: Boolean,
-    val isExpandable: Boolean,
-    val isExpanded: Boolean,
+    val isCollapsable: Boolean,
+    val isCollapsed: Boolean,
     val isHasNotification: Boolean,
     val notificationTime: Calendar
 )

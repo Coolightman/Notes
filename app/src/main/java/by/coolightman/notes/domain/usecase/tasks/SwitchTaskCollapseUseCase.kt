@@ -3,14 +3,14 @@ package by.coolightman.notes.domain.usecase.tasks
 import by.coolightman.notes.domain.repository.TaskRepository
 import javax.inject.Inject
 
-class SetIsSelectedTaskUseCase @Inject constructor(
+class SwitchTaskCollapseUseCase @Inject constructor(
     private val repository: TaskRepository
 ) {
-    suspend operator fun invoke(taskId: Long) {
+    suspend operator fun invoke(taskId: Long){
         val task = repository.getTask(taskId)
-        val editedNote = task.copy(
-            isSelected = !task.isSelected
+        val editedTask = task.copy(
+            isCollapsed = !task.isCollapsed
         )
-        repository.update(editedNote)
+        repository.update(editedTask)
     }
 }

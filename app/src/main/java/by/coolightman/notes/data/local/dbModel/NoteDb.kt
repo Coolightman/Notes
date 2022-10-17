@@ -17,6 +17,7 @@ data class NoteDb(
     @ColumnInfo(name = "is_edited") val isEdited: Boolean,
     @ColumnInfo(name = "is_in_trash") val isInTrash: Boolean,
     @ColumnInfo(name = "is_selected") val isSelected: Boolean,
-    @ColumnInfo(name = "is_expandable") val isExpandable: Boolean,
-    @ColumnInfo(name = "is_expanded") val isExpanded: Boolean
+    @ColumnInfo(name = "is_hidden") val isHidden: Boolean,
+    @ColumnInfo(name = "is_collapsable") val isCollapsable: Boolean,
+    @ColumnInfo(name = "is_collapsed") val isCollapsed: Boolean
 )

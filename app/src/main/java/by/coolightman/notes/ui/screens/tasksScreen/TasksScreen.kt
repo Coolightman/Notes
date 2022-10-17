@@ -177,7 +177,7 @@ fun TasksScreen(
                             Text(text = stringResource(R.string.delete_inactive))
                         }
 
-                        if (uiState.isListHasExpandable) {
+                        if (uiState.isListHasCollapsable) {
                             DropdownMenuItem(
                                 onClick = { viewModel.expandAll() }
                             ) {
@@ -306,12 +306,12 @@ fun TasksScreen(
                                 isSelectionMode = true
                             }
                         },
-                        onCheckedChange = { viewModel.setIsSelectedNote(task.id) },
+                        onCheckedChange = { viewModel.switchIsSelectedNote(task.id) },
                         isSelectionMode = isSelectionMode,
                         modifier = Modifier.animateItemPlacement(tween()),
-                        isExpandable = task.isExpandable,
-                        isExpanded = task.isExpanded,
-                        onExpandClick = { viewModel.switchExpand(task.id) }
+                        isCollapsable = task.isCollapsable,
+                        isCollapsed = task.isCollapsed,
+                        onCollapseClick = { viewModel.switchCollapse(task.id) }
                     )
                 }
             }

@@ -8,8 +8,8 @@ class ExpandAllTasksUseCase @Inject constructor(
     private val repository: TaskRepository
 ) {
     suspend operator fun invoke() {
-        val list = repository.getAll().first().filter { it.isExpandable }
-        val editedList = list.map { it.copy(isExpanded = true) }
+        val list = repository.getAll().first().filter { it.isCollapsable }
+        val editedList = list.map { it.copy(isCollapsed = false) }
         repository.updateList(editedList)
     }
 }

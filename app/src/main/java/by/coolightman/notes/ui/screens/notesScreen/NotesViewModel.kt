@@ -25,11 +25,11 @@ class NotesViewModel @Inject constructor(
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val putStringPreferenceUseCase: PutStringPreferenceUseCase,
     private val getStringPreferenceUseCase: GetStringPreferenceUseCase,
-    private val setIsSelectedNoteUseCase: SetIsSelectedNoteUseCase,
+    private val switchIsSelectedNoteUseCase: SwitchIsSelectedNoteUseCase,
     private val resetNotesSelectionsUseCase: ResetNotesSelectionsUseCase,
     private val selectAllNotesUseCase: SelectAllNotesUseCase,
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
-    private val switchNoteExpandUseCase: SwitchNoteExpandUseCase
+    private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesUiState())
@@ -119,16 +119,16 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun setIsSelectedNote(noteId: Long) {
+    fun switchIsSelectedNote(noteId: Long) {
         viewModelScope.launch {
-            setIsSelectedNoteUseCase(noteId)
+            switchIsSelectedNoteUseCase(noteId)
         }
     }
 
     fun resetSelections(noteId: Long) {
         viewModelScope.launch {
             resetNotesSelectionsUseCase()
-            setIsSelectedNoteUseCase(noteId)
+            switchIsSelectedNoteUseCase(noteId)
         }
     }
 
@@ -144,9 +144,9 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun switchExpand(noteId: Long){
+    fun switchCollapse(noteId: Long){
         viewModelScope.launch {
-            switchNoteExpandUseCase(noteId)
+            switchNoteCollapseUseCase(noteId)
         }
     }
 }

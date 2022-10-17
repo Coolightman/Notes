@@ -2,7 +2,6 @@ package by.coolightman.notes.domain.usecase.tasks
 
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.repository.TaskRepository
-import java.util.*
 import javax.inject.Inject
 
 class SwitchTaskActivityUseCase @Inject constructor(
@@ -13,8 +12,7 @@ class SwitchTaskActivityUseCase @Inject constructor(
         val task = repository.getTask(taskId)
         val switched = task.copy(
             isActive = !task.isActive,
-            isHasNotification = false,
-            notificationTime = Calendar.getInstance()
+            isHasNotification = false
         )
         updateNotification(switched)
         repository.update(switched)

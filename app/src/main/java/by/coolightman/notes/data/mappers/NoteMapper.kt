@@ -14,8 +14,9 @@ fun NoteDb.toNote(): Note = Note(
     isEdited = isEdited,
     isInTrash = isInTrash,
     isSelected = isSelected,
-    isExpandable = isExpandable,
-    isExpanded = isExpanded
+    isHidden = isHidden,
+    isCollapsable = isCollapsable,
+    isCollapsed = isCollapsed
 )
 
 fun Note.toNoteDb(): NoteDb = NoteDb(
@@ -29,6 +30,7 @@ fun Note.toNoteDb(): NoteDb = NoteDb(
     isEdited = isEdited,
     isInTrash = isInTrash,
     isSelected = isSelected,
-    isExpandable = isExpandable,
-    isExpanded = isExpanded
+    isHidden = isHidden,
+    isCollapsable = isCollapsable,
+    isCollapsed = isCollapsed
 )

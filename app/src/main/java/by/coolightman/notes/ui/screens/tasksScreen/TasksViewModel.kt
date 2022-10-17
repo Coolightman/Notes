@@ -25,9 +25,9 @@ class TasksViewModel @Inject constructor(
     private val switchTaskActivityUseCase: SwitchTaskActivityUseCase,
     private val deleteSelectedTasksUseCase: DeleteSelectedTasksUseCase,
     private val resetTasksSelectionsUseCase: ResetTasksSelectionsUseCase,
-    private val setIsSelectedTaskUseCase: SetIsSelectedTaskUseCase,
+    private val switchIsSelectedTaskUseCase: SwitchIsSelectedTaskUseCase,
     private val selectAllTasksUseCase: SelectAllTasksUseCase,
-    private val switchTaskExpandUseCase: SwitchTaskExpandUseCase,
+    private val switchTaskCollapseUseCase: SwitchTaskCollapseUseCase,
     private val expandAllTasksUseCase: ExpandAllTasksUseCase,
     private val collapseAllTasksUseCase: CollapseAllTasksUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
@@ -65,7 +65,7 @@ class TasksViewModel @Inject constructor(
                     activeTasksCount = it.filter { task -> task.isActive }.size,
                     inactiveTasksCount = it.filter { task -> !task.isActive }.size,
                     selectedCount = it.filter { task -> task.isSelected }.size,
-                    isListHasExpandable = it.any { task -> task.isExpandable },
+                    isListHasCollapsable = it.any { task -> task.isCollapsable },
                     sortByIndex = sortBy.first().ordinal,
                     currentFilterSelection = filterSelection.first()
                 )
@@ -101,16 +101,16 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun setIsSelectedNote(taskId: Long) {
+    fun switchIsSelectedNote(taskId: Long) {
         viewModelScope.launch {
-            setIsSelectedTaskUseCase(taskId)
+            switchIsSelectedTaskUseCase(taskId)
         }
     }
 
     fun resetSelections(taskId: Long) {
         viewModelScope.launch {
             resetTasksSelectionsUseCase()
-            setIsSelectedTaskUseCase(taskId)
+            switchIsSelectedTaskUseCase(taskId)
         }
     }
 
@@ -120,9 +120,9 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun switchExpand(taskId: Long){
+    fun switchCollapse(taskId: Long){
         viewModelScope.launch {
-            switchTaskExpandUseCase(taskId)
+            switchTaskCollapseUseCase(taskId)
         }
     }
 

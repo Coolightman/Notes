@@ -15,8 +15,8 @@ fun TaskDb.toTask(): Task = Task(
     isActive = isActive,
     isHidden = isHidden,
     isSelected = isSelected,
-    isExpandable = isExpandable,
-    isExpanded = isExpanded,
+    isCollapsable = isCollapsable,
+    isCollapsed = isCollapsed,
     isHasNotification = isHasNotification,
     notificationTime = notificationTime.convertToCalendar(),
 )
@@ -32,8 +32,8 @@ fun Task.toTaskDb(): TaskDb = TaskDb(
     isActive = isActive,
     isHidden = isHidden,
     isSelected = isSelected,
-    isExpandable = isExpandable,
-    isExpanded = isExpanded,
+    isCollapsable = isCollapsable,
+    isCollapsed = isCollapsed,
     isHasNotification = isHasNotification,
     notificationTime = notificationTime.timeInMillis
 )

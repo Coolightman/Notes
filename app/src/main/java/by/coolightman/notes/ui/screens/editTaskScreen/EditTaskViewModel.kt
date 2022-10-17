@@ -8,7 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
-import by.coolightman.notes.domain.usecase.tasks.*
+import by.coolightman.notes.domain.usecase.tasks.CreateTaskUseCase
+import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
+import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
+import by.coolightman.notes.domain.usecase.tasks.UpdateTaskUseCase
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
 import by.coolightman.notes.util.roundTimeToMinute
@@ -90,8 +93,8 @@ class EditTaskViewModel @Inject constructor(
                     isActive = true,
                     isHidden = false,
                     isSelected = false,
-                    isExpandable = numberOfLines > 1,
-                    isExpanded = false,
+                    isCollapsable = isCollapsable(numberOfLines),
+                    isCollapsed = true,
                     isHasNotification = isHasNotification,
                     notificationTime = notificationTime.roundTimeToMinute()
                 )
@@ -104,7 +107,10 @@ class EditTaskViewModel @Inject constructor(
                         isImportant = isImportant,
                         isEdited = true,
                         editedAt = System.currentTimeMillis(),
-                        isExpandable = numberOfLines > 1,
+                        isCollapsable = isCollapsable(numberOfLines),
+                        isCollapsed =
+                        if (!isCollapsable(numberOfLines)) false
+                        else it.isCollapsed,
                         isHasNotification = isHasNotification,
                         notificationTime = notificationTime.roundTimeToMinute()
                     )
@@ -113,6 +119,8 @@ class EditTaskViewModel @Inject constructor(
             }
         }
     }
+
+    private fun isCollapsable(numberOfLines: Int) = numberOfLines > 1
 
     fun deleteTask() {
         viewModelScope.launch {

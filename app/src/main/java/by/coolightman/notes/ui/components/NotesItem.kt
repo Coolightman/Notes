@@ -50,9 +50,9 @@ fun NotesItem(
     isSelectionMode: Boolean = false,
     isShowNoteDate: Boolean = true,
     isColoredBackground: Boolean = true,
-    isExpanded: Boolean = false,
-    isExpandable: Boolean = false,
-    onExpandClick: () -> Unit
+    isCollapsed: Boolean = false,
+    isCollapsable: Boolean = false,
+    onCollapseClick: () -> Unit
 ) {
     var itemHeight by remember {
         mutableStateOf(0.dp)
@@ -62,7 +62,7 @@ fun NotesItem(
     }
     val density = LocalDensity.current
     val rotateState by animateFloatAsState(
-        targetValue = if (isExpanded) 180F else 0F,
+        targetValue = if (isCollapsed) 0f else 180f,
         animationSpec = tween(500)
     )
     Card(
@@ -129,12 +129,12 @@ fun NotesItem(
                         modifier = Modifier
                             .fillMaxWidth()
                             .defaultMinSize(
-                                minHeight = if (isShowNoteDate || isExpandable) 54.dp
+                                minHeight = if (isShowNoteDate || isCollapsable) 54.dp
                                 else 62.dp
                             )
                             .padding(
                                 12.dp, 8.dp, 12.dp,
-                                bottom = if (isShowNoteDate || isExpandable) 0.dp
+                                bottom = if (isShowNoteDate || isCollapsable) 0.dp
                                 else 8.dp
                             )
                             .animateContentSize()
@@ -142,7 +142,7 @@ fun NotesItem(
                         Text(
                             text = note.text,
                             style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
-                            maxLines = if (isExpanded) Integer.MAX_VALUE else 2,
+                            maxLines = if (isCollapsed) 2 else Integer.MAX_VALUE,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -150,12 +150,12 @@ fun NotesItem(
                         )
                     }
 
-                    if (isShowNoteDate || isExpandable) {
+                    if (isShowNoteDate || isCollapsable) {
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            if (isExpandable) {
+                            if (isCollapsable) {
                                 Box(modifier = Modifier
                                     .weight(1f)
-                                    .clickable { onExpandClick() }
+                                    .clickable { onCollapseClick() }
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.ArrowDropDown,
@@ -173,7 +173,7 @@ fun NotesItem(
                                 } else note.createdAt.toFormattedFullDate()
                                 DateText(
                                     text = dateText,
-                                    modifier = if (isExpandable) Modifier.align(Alignment.Bottom)
+                                    modifier = if (isCollapsable) Modifier.align(Alignment.Bottom)
                                     else Modifier
                                         .weight(1f)
                                         .align(Alignment.Bottom)
@@ -224,8 +224,9 @@ private fun NotesItemPreview() {
         isEdited = false,
         isInTrash = false,
         isSelected = false,
-        isExpandable = false,
-        isExpanded = false
+        isCollapsable = false,
+        isCollapsed = false,
+        isHidden = false
     )
-    NotesItem(note = note, onClick = {}, onLongPress = {}, onCheckedChange = {}, onExpandClick = {})
+    NotesItem(note = note, onClick = {}, onLongPress = {}, onCheckedChange = {}, onCollapseClick = {})
 }

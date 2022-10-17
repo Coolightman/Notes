@@ -14,7 +14,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.model.NavRoutes
-import kotlinx.coroutines.delay
 
 @Composable
 fun AppFloatingActionButton(
@@ -29,8 +28,8 @@ fun AppFloatingActionButton(
         mutableStateOf(false)
     }
     LaunchedEffect(currentRoute) {
-        delay(50)
-        isVisibleGenerally = currentRoute == NavRoutes.Notes.route || currentRoute == NavRoutes.Tasks.route
+        isVisibleGenerally =
+            currentRoute == NavRoutes.Notes.route || currentRoute == NavRoutes.Tasks.route
     }
 
     if (isVisibleGenerally) {

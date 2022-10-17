@@ -255,13 +255,13 @@ fun NotesScreen(
                                         isSelectionMode = true
                                     }
                                 },
-                                onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
+                                onCheckedChange = { viewModel.switchIsSelectedNote(note.id) },
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
                                 isColoredBackground = uiState.isColoredBackground,
-                                isExpanded = note.isExpanded,
-                                isExpandable = note.isExpandable,
-                                onExpandClick = { viewModel.switchExpand(note.id) },
+                                isCollapsed = note.isCollapsed,
+                                isCollapsable = note.isCollapsable,
+                                onCollapseClick = { viewModel.switchCollapse(note.id) },
                                 modifier = Modifier.animateItemPlacement()
                             )
                         }
@@ -291,13 +291,13 @@ fun NotesScreen(
                                         isSelectionMode = true
                                     }
                                 },
-                                onCheckedChange = { viewModel.setIsSelectedNote(note.id) },
+                                onCheckedChange = { viewModel.switchIsSelectedNote(note.id) },
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
                                 isColoredBackground = uiState.isColoredBackground,
-                                isExpanded = note.isExpanded,
-                                isExpandable = note.isExpandable,
-                                onExpandClick = { viewModel.switchExpand(note.id) }
+                                isCollapsed = note.isCollapsed,
+                                isCollapsable = note.isCollapsable,
+                                onCollapseClick = { viewModel.switchCollapse(note.id) }
                             )
                         }
                     }

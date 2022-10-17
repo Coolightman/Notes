@@ -160,8 +160,8 @@ fun NotesTrashScreen(
                             onClick = {},
                             onLongPress = {},
                             onCheckedChange = {},
-                            onExpandClick = {},
-                            isExpanded = note.isExpandable
+                            onCollapseClick = {},
+                            isCollapsed = note.isCollapsable
                         )
                     }
                 }

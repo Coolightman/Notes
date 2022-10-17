@@ -127,9 +127,9 @@ fun SearchNoteScreen(
                         onLongPress = { },
                         onCheckedChange = { },
                         modifier = Modifier.animateItemPlacement(),
-                        isExpanded = note.isExpanded,
-                        isExpandable = note.isExpandable,
-                        onExpandClick = { viewModel.switchExpand(note.id) }
+                        isCollapsed = note.isCollapsed,
+                        isCollapsable = note.isCollapsable,
+                        onCollapseClick = { viewModel.switchCollapse(note.id) }
                     )
                 }
             }

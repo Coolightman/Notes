@@ -131,9 +131,9 @@ fun SearchTaskScreen(
                         onLongPress = { },
                         onCheckedChange = { },
                         modifier = Modifier.animateItemPlacement(),
-                        isExpandable = task.isExpandable,
-                        isExpanded = task.isExpanded,
-                        onExpandClick = { viewModel.switchExpand(task.id) },
+                        isCollapsable = task.isCollapsable,
+                        isCollapsed = task.isCollapsed,
+                        onCollapseClick = { viewModel.switchCollapse(task.id) },
                         onSwitchActive = { viewModel.switchTaskActivity(task.id) }
                     )
                 }

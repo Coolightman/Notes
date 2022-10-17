@@ -231,7 +231,7 @@ fun EditNoteScreen(
                 if (text.trim().isNotEmpty()) {
                     viewModel.saveNote(
                         title.trim(), text.trim(), selectedColor,
-                        isExpandable =
+                        isCollapsable =
                         if (numberOfLines > 2) isAllowedToCollapse
                         else false
                     )

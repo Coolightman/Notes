@@ -10,9 +10,7 @@ class ResetTasksSelectionsUseCase @Inject constructor(
     suspend operator fun invoke() {
         val list = repository.getAll().first()
         val editedList = list.map {
-            it.copy(
-                isSelected = false
-            )
+            it.copy(isSelected = false)
         }
         repository.updateList(editedList)
     }

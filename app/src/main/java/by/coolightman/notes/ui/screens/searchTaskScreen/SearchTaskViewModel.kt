@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.tasks.SearchTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.SwitchTaskActivityUseCase
-import by.coolightman.notes.domain.usecase.tasks.SwitchTaskExpandUseCase
+import by.coolightman.notes.domain.usecase.tasks.SwitchTaskCollapseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class SearchTaskViewModel @Inject constructor(
     private val searchTaskUseCase: SearchTaskUseCase,
     private val switchTaskActivityUseCase: SwitchTaskActivityUseCase,
-    private val switchTaskExpandUseCase: SwitchTaskExpandUseCase
+    private val switchTaskCollapseUseCase: SwitchTaskCollapseUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(SearchTaskUiState())
@@ -51,9 +51,9 @@ class SearchTaskViewModel @Inject constructor(
         }
     }
 
-    fun switchExpand(taskId: Long){
+    fun switchCollapse(taskId: Long){
         viewModelScope.launch {
-            switchTaskExpandUseCase(taskId)
+            switchTaskCollapseUseCase(taskId)
         }
     }
 
