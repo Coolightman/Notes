@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.domain.usecase.notes.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,11 +17,15 @@ class NotesTrashViewModel @Inject constructor(
     private val deleteNoteUseCase: DeleteNoteUseCase,
     private val restoreNoteUseCase: RestoreNoteUseCase,
     private val deleteAllNotesTrashUseCase: DeleteAllNotesTrashUseCase,
-    private val restoreAllNotesTrashUseCase: RestoreAllNotesTrashUseCase
+    private val restoreAllNotesTrashUseCase: RestoreAllNotesTrashUseCase,
+    private val getNoteUseCase: GetNoteUseCase,
+    private val createNoteUseCase: CreateNoteUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(NotesTrashUiState())
         private set
+
+    private var deletedNoteCash: Note? = null
 
     init {
         getTrash()
@@ -38,7 +43,16 @@ class NotesTrashViewModel @Inject constructor(
 
     fun deleteNote(noteId: Long) {
         viewModelScope.launch {
+            launch { deletedNoteCash = getNoteUseCase(noteId) }.join()
             deleteNoteUseCase(noteId)
+        }
+    }
+
+    fun cancelDeletion() {
+        viewModelScope.launch {
+            deletedNoteCash?.let {
+                createNoteUseCase(it)
+            }
         }
     }
 

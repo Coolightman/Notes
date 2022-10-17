@@ -10,7 +10,6 @@ data class Note(
     val isShowDate: Boolean,
     val isEdited: Boolean,
     val isInTrash: Boolean,
-    val isHidden: Boolean,
     val isSelected: Boolean,
     val isCollapsable: Boolean,
     val isCollapsed: Boolean

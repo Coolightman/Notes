@@ -91,7 +91,6 @@ class EditTaskViewModel @Inject constructor(
                     editedAt = 0L,
                     isEdited = false,
                     isActive = true,
-                    isHidden = false,
                     isSelected = false,
                     isCollapsable = isCollapsable(numberOfLines),
                     isCollapsed = true,

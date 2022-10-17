@@ -115,7 +115,8 @@ fun AppNavigationHost(
             exitTransition = { fadeOut(animationSpec = tween(TRANSITION_DURATION)) }
         ) {
             NotesTrashScreen(
-                navController = navController
+                navController = navController,
+                scaffoldState = scaffoldState
             )
         }
 

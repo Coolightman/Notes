@@ -191,7 +191,6 @@ private fun NotesItemPreview() {
         isEdited = false,
         isImportant = true,
         isActive = false,
-        isHidden = false,
         isSelected = false,
         isCollapsable = false,
         isCollapsed = false,

@@ -116,7 +116,6 @@ class EditNoteViewModel @Inject constructor(
                 isEdited = false,
                 isInTrash = false,
                 isShowDate = false,
-                isHidden = false,
                 isSelected = false,
                 isCollapsable = isCollapsable,
                 isCollapsed = false

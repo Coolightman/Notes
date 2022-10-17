@@ -225,8 +225,7 @@ private fun NotesItemPreview() {
         isInTrash = false,
         isSelected = false,
         isCollapsable = false,
-        isCollapsed = false,
-        isHidden = false
+        isCollapsed = false
     )
     NotesItem(note = note, onClick = {}, onLongPress = {}, onCheckedChange = {}, onCollapseClick = {})
 }

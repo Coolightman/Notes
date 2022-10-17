@@ -13,6 +13,7 @@
     <string name="important_task">Important task</string>
     <string name="add_notification">Notification</string>
     <string name="task_deleted">Task deleted</string>
+    <string name="note_deleted">Note deleted</string>
     <string name="cancel">@android:string/cancel</string>
     <string name="undo">UNDO</string>
     <string name="restore">RESTORE</string>

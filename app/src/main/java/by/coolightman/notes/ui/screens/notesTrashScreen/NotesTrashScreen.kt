@@ -1,5 +1,6 @@
 package by.coolightman.notes.ui.screens.notesTrashScreen
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,9 +28,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun NotesTrashScreen(
     navController: NavController,
+    scaffoldState: ScaffoldState,
     viewModel: NotesTrashViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState
+    val context = LocalContext.current
 
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
@@ -130,6 +134,7 @@ fun NotesTrashScreen(
                                     scope.launch {
                                         delay(DISMISS_DELAY)
                                         viewModel.deleteNote(note.id)
+                                        showSnackbar(scaffoldState, context, viewModel)
                                     }
                                     true
                                 }
@@ -167,5 +172,19 @@ fun NotesTrashScreen(
                 }
             }
         }
+    }
+}
+
+private suspend fun showSnackbar(
+    scaffoldState: ScaffoldState,
+    context: Context,
+    viewModel: NotesTrashViewModel
+) {
+    val action = scaffoldState.snackbarHostState.showSnackbar(
+        message = context.getString(R.string.note_deleted),
+        actionLabel = context.getString(R.string.undo)
+    )
+    if (action == SnackbarResult.ActionPerformed) {
+        viewModel.cancelDeletion()
     }
 }

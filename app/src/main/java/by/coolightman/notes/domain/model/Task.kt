@@ -11,7 +11,6 @@ data class Task(
     val editedAt: Long,
     val isEdited: Boolean,
     val isActive: Boolean,
-    val isHidden: Boolean,
     val isSelected: Boolean,
     val isCollapsable: Boolean,
     val isCollapsed: Boolean,

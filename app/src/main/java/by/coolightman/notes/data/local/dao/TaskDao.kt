@@ -13,7 +13,7 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getTask(taskId: Long): TaskDb
 
-    @Query("SELECT * FROM tasks WHERE is_hidden = 0")
+    @Query("SELECT * FROM tasks")
     fun getAll(): Flow<List<TaskDb>>
 
     @Query("SELECT * FROM tasks JOIN tasksFts ON tasks.id == tasksFts.rowid " +

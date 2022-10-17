@@ -20,7 +20,7 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE is_in_trash = 0 order by created_at desc")
     fun getAllActive(): Flow<List<NoteDb>>
 
-    @Query("SELECT * FROM notes WHERE is_in_trash = 1 and is_hidden = 0")
+    @Query("SELECT * FROM notes WHERE is_in_trash = 1")
     fun getTrash(): Flow<List<NoteDb>>
 
     @Query("SELECT COUNT(id) FROM notes WHERE is_in_trash = 1")

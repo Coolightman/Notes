@@ -15,7 +15,6 @@ data class TaskDb(
     @ColumnInfo(name = "edited_at") val editedAt: Long,
     @ColumnInfo(name = "is_edited") val isEdited: Boolean,
     @ColumnInfo(name = "is_active") val isActive: Boolean,
-    @ColumnInfo(name = "is_hidden") val isHidden: Boolean,
     @ColumnInfo(name = "is_selected") val isSelected: Boolean,
     @ColumnInfo(name = "is_collapsable") val isCollapsable: Boolean,
     @ColumnInfo(name = "is_collapsed") val isCollapsed: Boolean,
