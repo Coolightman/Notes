@@ -145,7 +145,8 @@ fun SettingsScreen(
             SettingsRow(title = stringResource(R.string.new_task_color)) {
                 SelectColorBar(
                     selected = uiState.newTaskColorIndex,
-                    onSelect = { viewModel.setNewTaskColor(it) }
+                    onSelect = { viewModel.setNewTaskColor(it) },
+                    alpha = 0.6f
                 )
             }
         }

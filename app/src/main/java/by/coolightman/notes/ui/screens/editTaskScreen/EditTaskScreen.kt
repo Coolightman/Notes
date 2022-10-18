@@ -146,7 +146,7 @@ fun EditTaskScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(itemColors[selectedColor].color).copy(0.3f))
+                    .background(Color(itemColors[selectedColor].color).copy(0.4f))
             ) {
                 Box {
                     IconButton(onClick = { }) {
@@ -220,7 +220,7 @@ fun EditTaskScreen(
             selected = selectedColor,
             onSelect = { selectedColor = it },
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
-            alpha = 0.4f
+            alpha = 0.5f
         )
 
         SwitchCard(label = stringResource(R.string.important_task),

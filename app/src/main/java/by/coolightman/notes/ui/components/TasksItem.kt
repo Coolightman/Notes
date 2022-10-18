@@ -52,8 +52,8 @@ fun TasksItem(
     onCollapseClick: () -> Unit
 ) {
 
-    val backgroundAlfa = if (task.isActive) 0.3f
-    else 0.15f
+    val backgroundAlfa = if (task.isActive) 0.4f
+    else 0.2f
 
     val contentAlfa = if (task.isActive) 1f
     else 0.5f
