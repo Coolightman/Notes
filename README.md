@@ -1,4 +1,4 @@
-# Notes
+# <img src="https://user-images.githubusercontent.com/43218153/196407137-f10d26b2-0480-4426-960d-8d7d3187ddd0.png" alt="drawing" width="36" height="36"/> Notes
 Android application that helps you keep notes and make plans effectively using tasks
 
 ## _Tech stack_
