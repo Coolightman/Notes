@@ -23,7 +23,7 @@
     <string name="sent_note_to_trash_dialog">Do you want to send a note to the trash?</string>
     <string name="delete_task_dialog">Do you want to delete a task?</string>
     <string name="delete_inactive_tasks_dialog">Do you want to delete all inactive tasks?</string>
-    <string name="delete_these_tasks_dialog">Do you want to delete these tasks?</string>
+    <string name="delete_these_tasks_dialog">Do you want to delete selected tasks?</string>
     <string name="delete">DELETE</string>
     <string name="created">created:</string>
     <string name="edited">edited:</string>
@@ -33,7 +33,7 @@
     <string name="empty_note">Note is empty</string>
     <string name="empty_task">Task is empty</string>
     <string name="wrong_notification_time">Notification time must be in the future</string>
-    <string name="notes_sent_to_trash">Note(s) sent to trash</string>
+    <string name="notes_sent_to_trash">Notes sent to trash</string>
     <string name="delete_inactive">Delete inactive</string>
     <string name="settings">Settings</string>
     <string name="list_mode">List</string>
@@ -50,7 +50,6 @@
     <string name="new_note_color">New note color</string>
     <string name="new_task_color">New task color</string>
     <string name="can_not_restore_it">You can\'t restore it</string>
-    <string name="selected_pcs">selected</string>
     <string name="show_notes_date">Show notes date</string>
     <string name="expand_all">Expand all</string>
     <string name="collapse_all">Collapse all</string>
@@ -61,4 +60,5 @@
     <string name="colored_notes_background">Colored notes background</string>
     <string name="task_notification_title">Task</string>
     <string name="task_for_time"> for </string>
+    <string name="notes_view_mode">Notes view mode</string>
 </resources>

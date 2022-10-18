@@ -106,7 +106,7 @@ fun SettingsScreen(
                 )
             }
 
-            SettingsRow(title = "Notes view mode") {
+            SettingsRow(title = stringResource(R.string.notes_view_mode)) {
                 NotesViewModeChip(
                     icon = painterResource(R.drawable.ic_list_mode_24),
                     currentViewMode = uiState.currentNotesViewMode,

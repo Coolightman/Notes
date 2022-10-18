@@ -1,7 +1,6 @@
 package by.coolightman.notes.ui.components
 
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -40,6 +39,5 @@ fun StartDestinationChip(
         ),
         modifier = Modifier
             .height(40.dp)
-            .width(100.dp)
     )
 }

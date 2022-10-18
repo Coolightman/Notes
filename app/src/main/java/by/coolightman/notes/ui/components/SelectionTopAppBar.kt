@@ -8,8 +8,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import by.coolightman.notes.R
 
 @Composable
 fun SelectionTopAppBar(
@@ -32,7 +30,7 @@ fun SelectionTopAppBar(
             }
         },
         title = {
-            AppTitleText(text = "$selectedCount " + stringResource(R.string.selected_pcs))
+            AppTitleText(text = "$selectedCount")
         },
         actions = {
             actions()
