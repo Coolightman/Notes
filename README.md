@@ -8,15 +8,15 @@ Kotlin, MVVM, Clean Architecture, Jetpack compose, Hilt, Room, Coroutine+Flow, A
  - Sorting and filtering notes and tasks
  - Search by notes or tasks
  - Ability to store notes of different sizes intelligently using collapsing
- - Ability to choose how notes are displayed
  - Creating notifications for tasks
+ - Ability to choose how notes are displayed 
  - Dark, light and system app themes
  - The ability to choose the start page
  - Fast work and smooth animations
  - User customization preferences
  
 ## _Download link for APK_
-[Google Disk](https://drive.google.com/drive/folders/1v6m0ZHuLB9xkb3zq8CI2NBG2tB1WUQ4X?usp=sharing)
+[Google Drive](https://drive.google.com/drive/folders/1v6m0ZHuLB9xkb3zq8CI2NBG2tB1WUQ4X?usp=sharing)
 
 ## _Screenshots with descriptions_
 ### Notes screen
