@@ -112,7 +112,6 @@ fun TasksScreen(
                 viewModel.deleteSelectedTasks()
                 openDeleteSelectedTasksDialog = false
                 isSelectionMode = false
-
             },
             onCancel = { openDeleteSelectedTasksDialog = false }
         )
@@ -138,7 +137,8 @@ fun TasksScreen(
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "search",
-                                tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                                tint = MaterialTheme.colors.onSurface
+                                    .copy(LocalContentAlpha.current)
                             )
                         }
                     }
@@ -294,7 +294,9 @@ fun TasksScreen(
                         task = task,
                         onClick = {
                             if (task.isActive) {
-                                navController.navigate(NavRoutes.EditTask.withArgs(task.id.toString())) {
+                                navController.navigate(
+                                    NavRoutes.EditTask.withArgs(task.id.toString())
+                                ) {
                                     launchSingleTop = true
                                 }
                             }

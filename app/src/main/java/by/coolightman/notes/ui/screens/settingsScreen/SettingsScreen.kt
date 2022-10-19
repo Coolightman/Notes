@@ -1,6 +1,10 @@
 package by.coolightman.notes.ui.screens.settingsScreen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -17,7 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.*
+import by.coolightman.notes.ui.components.AppTitleText
+import by.coolightman.notes.ui.components.AppTopAppBar
+import by.coolightman.notes.ui.components.NotesViewModeChip
+import by.coolightman.notes.ui.components.SelectColorBar
+import by.coolightman.notes.ui.components.SettingsRow
+import by.coolightman.notes.ui.components.StartDestinationChip
+import by.coolightman.notes.ui.components.SwitchCard
+import by.coolightman.notes.ui.components.ThemeModeChip
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.ui.model.ThemeMode

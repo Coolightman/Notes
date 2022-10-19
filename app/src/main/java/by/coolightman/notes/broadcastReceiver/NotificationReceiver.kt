@@ -11,7 +11,12 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.MainActivity
-import by.coolightman.notes.util.*
+import by.coolightman.notes.util.NOTIFICATION_CHANNEL_DESCRIPTION
+import by.coolightman.notes.util.NOTIFICATION_CHANNEL_ID
+import by.coolightman.notes.util.NOTIFICATION_CHANNEL_NAME
+import by.coolightman.notes.util.NOTIFICATION_ID_EXTRA
+import by.coolightman.notes.util.NOTIFICATION_TEXT_EXTRA
+import by.coolightman.notes.util.NOTIFICATION_TIME
 
 class NotificationReceiver : BroadcastReceiver() {
 

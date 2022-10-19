@@ -149,7 +149,7 @@ fun EditNoteScreen(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(0.dp)
                         ) {
-                            Box(modifier = Modifier.fillMaxWidth()){
+                            Box(modifier = Modifier.fillMaxWidth()) {
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -247,9 +247,11 @@ fun EditNoteScreen(
                         onCheckedChange = { isAllowedToCollapse = !isAllowedToCollapse }
                     )
                 }
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(64.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(64.dp)
+                )
             }
 
             DoneButton(modifier = Modifier.align(Alignment.BottomEnd)) {

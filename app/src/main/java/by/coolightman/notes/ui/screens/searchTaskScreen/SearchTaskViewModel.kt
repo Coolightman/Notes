@@ -51,7 +51,7 @@ class SearchTaskViewModel @Inject constructor(
         }
     }
 
-    fun switchCollapse(taskId: Long){
+    fun switchCollapse(taskId: Long) {
         viewModelScope.launch {
             switchTaskCollapseUseCase(taskId)
         }

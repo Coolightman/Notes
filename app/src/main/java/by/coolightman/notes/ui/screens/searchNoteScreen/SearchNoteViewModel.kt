@@ -43,7 +43,7 @@ class SearchNoteViewModel @Inject constructor(
         }
     }
 
-    fun switchCollapse(noteId: Long){
+    fun switchCollapse(noteId: Long) {
         viewModelScope.launch {
             switchNoteCollapseUseCase(noteId)
         }

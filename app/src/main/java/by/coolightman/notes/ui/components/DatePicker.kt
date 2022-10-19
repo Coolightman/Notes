@@ -3,7 +3,7 @@ package by.coolightman.notes.ui.components
 import android.app.DatePickerDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import java.util.*
+import java.util.Calendar
 
 @Composable
 fun DatePicker(

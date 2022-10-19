@@ -2,7 +2,11 @@ package by.coolightman.notes.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
@@ -40,7 +44,9 @@ fun ColorFilterButton(
             )
         }
     }
-    Spacer(modifier = Modifier
-        .fillMaxWidth()
-        .height(4.dp))
+    Spacer(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(4.dp)
+    )
 }

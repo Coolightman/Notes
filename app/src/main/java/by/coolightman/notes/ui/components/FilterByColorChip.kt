@@ -43,5 +43,4 @@ fun FilterByColorChip(
         ),
         modifier = Modifier.padding(start = 4.dp, end = 8.dp)
     )
-
 }

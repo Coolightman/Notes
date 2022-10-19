@@ -112,7 +112,8 @@ fun NotesScreen(
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "search",
-                                tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                                tint = MaterialTheme.colors.onSurface
+                                    .copy(LocalContentAlpha.current)
                             )
                         }
                     }
@@ -244,7 +245,9 @@ fun NotesScreen(
                             NotesItem(
                                 note = note,
                                 onClick = {
-                                    navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
+                                    navController.navigate(
+                                        NavRoutes.EditNote.withArgs(note.id.toString())
+                                    ) {
                                         launchSingleTop = true
                                     }
                                 },
@@ -280,7 +283,9 @@ fun NotesScreen(
                             NotesItem(
                                 note = note,
                                 onClick = {
-                                    navController.navigate(NavRoutes.EditNote.withArgs(note.id.toString())) {
+                                    navController.navigate(
+                                        NavRoutes.EditNote.withArgs(note.id.toString())
+                                    ) {
                                         launchSingleTop = true
                                     }
                                 },

@@ -1,7 +1,7 @@
 package by.coolightman.notes.domain.usecase.tasks
 
 import by.coolightman.notes.domain.repository.NotificationRepository
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 class CreateNotificationUseCase @Inject constructor(

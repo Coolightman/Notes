@@ -78,7 +78,12 @@ class MainActivity : ComponentActivity() {
                     snackbarHost = { AppSnackbarHost(hostState = it) }
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
-                        Box(modifier = Modifier.fillMaxWidth().height(56.dp).background(MaterialTheme.colors.secondary))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp)
+                                .background(MaterialTheme.colors.secondary)
+                        )
                         AppNavigationHost(
                             navController = navController,
                             startDestination = NavRoutes.Splash.route,

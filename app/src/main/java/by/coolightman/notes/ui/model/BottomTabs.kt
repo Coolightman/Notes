@@ -21,5 +21,3 @@ enum class BottomTabs(
         NavRoutes.Tasks.route
     )
 }
-
-

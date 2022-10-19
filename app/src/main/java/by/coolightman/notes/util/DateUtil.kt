@@ -1,7 +1,8 @@
 package by.coolightman.notes.util
 
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 fun Long.toFormattedFullDate(): String {
     if (this == 0L) return ""

@@ -6,7 +6,7 @@ import javax.inject.Inject
 class SwitchNoteCollapseUseCase @Inject constructor(
     private val repository: NoteRepository
 ) {
-    suspend operator fun invoke(noteId: Long){
+    suspend operator fun invoke(noteId: Long) {
         val note = repository.getNote(noteId)
         val editedNote = note.copy(
             isCollapsed = !note.isCollapsed

@@ -16,8 +16,10 @@ interface TaskDao {
     @Query("SELECT * FROM tasks")
     fun getAll(): Flow<List<TaskDb>>
 
-    @Query("SELECT * FROM tasks JOIN tasksFts ON tasks.id == tasksFts.rowid " +
-                "WHERE tasksFts MATCH :keyword ORDER by created_at DESC")
+    @Query(
+        "SELECT * FROM tasks JOIN tasksFts ON tasks.id == tasksFts.rowid " +
+                "WHERE tasksFts MATCH :keyword ORDER by created_at DESC"
+    )
     fun searchTask(keyword: String): Flow<List<TaskDb>>
 
     @Update

@@ -1,6 +1,11 @@
 package by.coolightman.notes.ui.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -19,7 +24,7 @@ fun SettingsRow(
         elevation = 2.dp,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp,4.dp,4.dp,0.dp)
+            .padding(4.dp, 4.dp, 4.dp, 0.dp)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(

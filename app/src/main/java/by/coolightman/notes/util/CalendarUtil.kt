@@ -1,10 +1,9 @@
 package by.coolightman.notes.util
 
-import java.util.*
+import java.util.Calendar
 
 fun Calendar.isOld(): Boolean =
     Calendar.getInstance().timeInMillis > this.timeInMillis
-
 
 fun Long.convertToCalendar(): Calendar = Calendar.getInstance().apply {
     timeInMillis = this@convertToCalendar
@@ -17,4 +16,3 @@ fun Calendar.roundTimeToMinute(): Calendar =
         set(Calendar.SECOND, 0)
         set(Calendar.MILLISECOND, 0)
     }
-

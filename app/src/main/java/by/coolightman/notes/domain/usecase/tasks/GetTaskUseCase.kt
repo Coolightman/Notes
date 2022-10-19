@@ -3,7 +3,8 @@ package by.coolightman.notes.domain.usecase.tasks
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.repository.TaskRepository
 import by.coolightman.notes.util.isOld
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 class GetTaskUseCase @Inject constructor(

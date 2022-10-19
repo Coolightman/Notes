@@ -91,19 +91,21 @@ fun TasksItem(
             }
     ) {
         Box {
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .combinedClickable(
                         onClick = { onClick() },
                         onLongClick = { onLongPress() }
                     )
-                    .background(Color(ItemColor.values()[task.colorIndex].color).copy(backgroundAlfa))
+                    .background(
+                        Color(ItemColor.values()[task.colorIndex].color).copy(backgroundAlfa)
+                    )
                     .animateContentSize()
-            )
-            {
+            ) {
                 Box {
-                    IconButton(onClick = {onSwitchActive() }) {
+                    IconButton(onClick = { onSwitchActive() }) {
                         Icon(
                             painter = painterResource(
                                 id = if (task.isActive) R.drawable.ic_outline_circle_24

@@ -158,9 +158,10 @@ fun NotesItem(
                         if (isShowNoteDate || isCollapsable) {
                             Row(modifier = Modifier.fillMaxWidth()) {
                                 if (isCollapsable) {
-                                    Box(modifier = Modifier
-                                        .weight(1f)
-                                        .clickable { onCollapseClick() }
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .clickable { onCollapseClick() }
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.ArrowDropDown,
@@ -178,7 +179,8 @@ fun NotesItem(
                                     } else note.createdAt.toFormattedFullDate()
                                     DateText(
                                         text = dateText,
-                                        modifier = if (isCollapsable) Modifier.align(Alignment.Bottom)
+                                        modifier =
+                                        if (isCollapsable) Modifier.align(Alignment.Bottom)
                                         else Modifier
                                             .weight(1f)
                                             .align(Alignment.Bottom)
@@ -250,5 +252,6 @@ private fun NotesItemPreview() {
         onClick = {},
         onLongPress = {},
         onCheckedChange = {},
-        onCollapseClick = {})
+        onCollapseClick = {}
+    )
 }

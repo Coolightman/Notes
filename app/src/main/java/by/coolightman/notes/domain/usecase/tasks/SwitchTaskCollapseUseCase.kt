@@ -6,7 +6,7 @@ import javax.inject.Inject
 class SwitchTaskCollapseUseCase @Inject constructor(
     private val repository: TaskRepository
 ) {
-    suspend operator fun invoke(taskId: Long){
+    suspend operator fun invoke(taskId: Long) {
         val task = repository.getTask(taskId)
         val editedTask = task.copy(
             isCollapsed = !task.isCollapsed

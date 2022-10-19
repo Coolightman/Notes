@@ -76,7 +76,8 @@ fun EditTaskScreen(
         mutableStateOf(false)
     }
     if (openDeleteDialog) {
-        AppAlertDialog(text = stringResource(R.string.delete_task_dialog),
+        AppAlertDialog(
+            text = stringResource(R.string.delete_task_dialog),
             secondaryText = stringResource(R.string.can_not_restore_it),
             confirmButtonText = stringResource(R.string.delete),
             confirmButtonColor = MaterialTheme.colors.error,
@@ -85,7 +86,8 @@ fun EditTaskScreen(
                 viewModel.deleteTask()
                 goBack(scope, focusManager, navController)
             },
-            onCancel = { openDeleteDialog = false })
+            onCancel = { openDeleteDialog = false }
+        )
     }
 
     var calendar by remember(uiState.notificationTime) {
@@ -95,18 +97,22 @@ fun EditTaskScreen(
         mutableStateOf(false)
     }
     if (openTimePicker) {
-        TimePicker(calendar = calendar,
+        TimePicker(
+            calendar = calendar,
             onCancel = { openTimePicker = false },
-            selectedTime = { calendar = it })
+            selectedTime = { calendar = it }
+        )
     }
 
     var openDatePicker by remember {
         mutableStateOf(false)
     }
     if (openDatePicker) {
-        DatePicker(calendar = calendar,
+        DatePicker(
+            calendar = calendar,
             onCancel = { openDatePicker = false },
-            selectedTime = { calendar = it })
+            selectedTime = { calendar = it }
+        )
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -225,23 +231,32 @@ fun EditTaskScreen(
                     alpha = 0.5f
                 )
 
-                SwitchCard(label = stringResource(R.string.important_task),
+                SwitchCard(
+                    label = stringResource(R.string.important_task),
                     checked = isImportant,
-                    onCheckedChange = { isImportant = it })
+                    onCheckedChange = { isImportant = it }
+                )
 
-                SwitchCard(label = stringResource(R.string.add_notification),
+                SwitchCard(
+                    label = stringResource(R.string.add_notification),
                     checked = isHasNotification,
-                    onCheckedChange = { isHasNotification = it })
+                    onCheckedChange = { isHasNotification = it }
+                )
 
                 if (isHasNotification) {
-                    NotificationDateTimeText(notificationDate = calendar.timeInMillis,
+                    NotificationDateTimeText(
+                        notificationDate = calendar.timeInMillis,
                         onClickTime = { openTimePicker = true },
-                        onClickDate = { openDatePicker = true })
+                        onClickDate = { openDatePicker = true }
+                    )
                 }
 
-                Spacer(modifier = Modifier.fillMaxWidth().height(64.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(64.dp)
+                )
             }
-
 
             DoneButton(
                 modifier = Modifier.align(Alignment.BottomEnd)
@@ -280,12 +295,15 @@ fun isValidDate(calendar: Calendar): Boolean {
 }
 
 private fun showSnack(
-    scope: CoroutineScope, scaffoldState: ScaffoldState, text: String
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    text: String
 ) {
     scope.launch {
         val job = launch {
             scaffoldState.snackbarHostState.showSnackbar(
-                message = text, duration = SnackbarDuration.Indefinite
+                message = text,
+                duration = SnackbarDuration.Indefinite
             )
         }
         delay(2000L)
@@ -294,7 +312,9 @@ private fun showSnack(
 }
 
 private fun goBack(
-    scope: CoroutineScope, focusManager: FocusManager, navController: NavController
+    scope: CoroutineScope,
+    focusManager: FocusManager,
+    navController: NavController
 ) {
     scope.launch {
         focusManager.clearFocus()

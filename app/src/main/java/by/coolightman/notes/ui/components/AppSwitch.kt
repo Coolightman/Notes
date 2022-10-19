@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import by.coolightman.notes.ui.theme.InactiveBackground
 
-
 @Composable
 fun AppSwitch(
     modifier: Modifier = Modifier,

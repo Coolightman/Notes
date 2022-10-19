@@ -45,7 +45,9 @@ fun BadgedIcon(
                 Text(
                     text = badgeValue.toString(),
                     style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
-                    modifier = Modifier.align(Alignment.Center).offset(y = (-0.5).dp)
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .offset(y = (-0.5).dp)
                 )
             }
         } else {
@@ -56,5 +58,4 @@ fun BadgedIcon(
             )
         }
     }
-
 }

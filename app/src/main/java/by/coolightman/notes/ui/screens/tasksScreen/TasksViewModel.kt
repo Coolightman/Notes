@@ -48,7 +48,7 @@ class TasksViewModel @Inject constructor(
             .map { convertPrefStringToFilterSelectionList(it) }
 
     private val sortFilter: Flow<Pair<SortBy, List<Boolean>>> =
-        sortBy.combine(filterSelection){ sort, filter -> Pair(sort, filter) }
+        sortBy.combine(filterSelection) { sort, filter -> Pair(sort, filter) }
 
     init {
         getTasks()
@@ -120,19 +120,19 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun switchCollapse(taskId: Long){
+    fun switchCollapse(taskId: Long) {
         viewModelScope.launch {
             switchTaskCollapseUseCase(taskId)
         }
     }
 
-    fun expandAll(){
+    fun expandAll() {
         viewModelScope.launch {
             expandAllTasksUseCase()
         }
     }
 
-    fun collapseAll(){
+    fun collapseAll() {
         viewModelScope.launch {
             collapseAllTasksUseCase()
         }

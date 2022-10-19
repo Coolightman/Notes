@@ -12,10 +12,9 @@ fun List<Boolean>.toPreferenceString(): String {
 }
 
 fun convertPrefStringToFilterSelectionList(prefString: String): List<Boolean> {
-    if (prefString.isNotEmpty()){
-        return prefString.toList().map { it.digitToInt() }.map { it != 0 }
-    } else{
-        return ItemColor.values().map { false }
+    return if (prefString.isNotEmpty()) {
+        prefString.toList().map { it.digitToInt() }.map { it != 0 }
+    } else {
+        ItemColor.values().map { false }
     }
-
 }

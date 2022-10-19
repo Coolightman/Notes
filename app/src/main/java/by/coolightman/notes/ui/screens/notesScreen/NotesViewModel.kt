@@ -44,7 +44,7 @@ class NotesViewModel @Inject constructor(
             .map { convertPrefStringToFilterSelectionList(it) }
 
     private val sortFilter: Flow<Pair<SortBy, List<Boolean>>> =
-        sortBy.combine(filterSelection){ sort, filter -> Pair(sort, filter) }
+        sortBy.combine(filterSelection) { sort, filter -> Pair(sort, filter) }
 
     init {
         getNotes()
@@ -144,7 +144,7 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun switchCollapse(noteId: Long){
+    fun switchCollapse(noteId: Long) {
         viewModelScope.launch {
             switchNoteCollapseUseCase(noteId)
         }

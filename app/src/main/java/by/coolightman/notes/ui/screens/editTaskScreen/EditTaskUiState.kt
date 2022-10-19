@@ -1,6 +1,7 @@
 package by.coolightman.notes.ui.screens.editTaskScreen
 
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 data class EditTaskUiState(
     val text: String = "",
