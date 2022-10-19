@@ -109,11 +109,7 @@ fun EditTaskScreen(
             selectedTime = { calendar = it })
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(navigationIcon = {
             IconButton(onClick = { goBack(scope, focusManager, navController) }) {
                 Icon(
@@ -134,115 +130,122 @@ fun EditTaskScreen(
             }
         })
 
-        Card(
-            shape = RoundedCornerShape(24.dp),
-            elevation = 2.dp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 48.dp)
-                .padding(12.dp, 12.dp, 12.dp, 0.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(itemColors[selectedColor].color).copy(0.4f))
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
             ) {
-                Box {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_outline_circle_24),
-                            contentDescription = "active task",
-                            tint = if (isImportant) ImportantTask
-                            else LocalContentColor.current
-                        )
-                    }
-                    if (isHasNotification) {
-                        Icon(
-                            imageVector = Icons.Default.Notifications,
-                            contentDescription = "notifications",
+                Card(
+                    shape = RoundedCornerShape(24.dp),
+                    elevation = 2.dp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .defaultMinSize(minHeight = 48.dp)
+                        .padding(12.dp, 12.dp, 12.dp, 0.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(itemColors[selectedColor].color).copy(0.4f))
+                    ) {
+                        Box {
+                            IconButton(onClick = { }) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_outline_circle_24),
+                                    contentDescription = "active task",
+                                    tint = if (isImportant) ImportantTask
+                                    else LocalContentColor.current
+                                )
+                            }
+                            if (isHasNotification) {
+                                Icon(
+                                    imageVector = Icons.Default.Notifications,
+                                    contentDescription = "notifications",
+                                    modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(4.dp)
+                                        .size(12.dp)
+                                )
+                            }
+                        }
+
+                        CustomTextField(
+                            text = text,
+                            placeholder = stringResource(R.string.text_placeholder),
+                            onValueChange = { text = it },
+                            keyboardController = keyboardController,
+                            onTextLayout = { textLayoutResult ->
+                                numberOfLines = derivedStateOf { textLayoutResult.lineCount }.value
+                            },
                             modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(4.dp)
-                                .size(12.dp)
+                                .weight(1f)
+                                .padding(vertical = 4.dp)
                         )
+
+                        if (numberOfLines > 1) {
+                            IconButton(
+                                onClick = { }, modifier = Modifier.align(Alignment.Bottom)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowDropDown,
+                                    contentDescription = "drop down",
+                                    modifier = Modifier.rotate(180f)
+                                )
+                            }
+                        } else {
+                            Spacer(modifier = Modifier.width(48.dp))
+                        }
                     }
                 }
 
-                CustomTextField(
-                    text = text,
-                    placeholder = stringResource(R.string.text_placeholder),
-                    onValueChange = { text = it },
-                    keyboardController = keyboardController,
-                    onTextLayout = { textLayoutResult ->
-                        numberOfLines = derivedStateOf { textLayoutResult.lineCount }.value
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(vertical = 4.dp)
+                if (createdAt.isNotEmpty()) {
+                    DateText(
+                        text = stringResource(R.string.created) + " " + createdAt,
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp)
+                            .fillMaxWidth()
+                    )
+                }
+
+                if (editedAt.isNotEmpty()) {
+                    DateText(
+                        text = stringResource(R.string.edited) + " " + editedAt,
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp)
+                            .fillMaxWidth()
+                    )
+                }
+
+                SelectColorBar(
+                    selected = selectedColor,
+                    onSelect = { selectedColor = it },
+                    modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
+                    alpha = 0.5f
                 )
 
-                if (numberOfLines > 1) {
-                    IconButton(
-                        onClick = { }, modifier = Modifier.align(Alignment.Bottom)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = "drop down",
-                            modifier = Modifier.rotate(180f)
-                        )
-                    }
-                } else {
-                    Spacer(modifier = Modifier.width(48.dp))
+                SwitchCard(label = stringResource(R.string.important_task),
+                    checked = isImportant,
+                    onCheckedChange = { isImportant = it })
+
+                SwitchCard(label = stringResource(R.string.add_notification),
+                    checked = isHasNotification,
+                    onCheckedChange = { isHasNotification = it })
+
+                if (isHasNotification) {
+                    NotificationDateTimeText(notificationDate = calendar.timeInMillis,
+                        onClickTime = { openTimePicker = true },
+                        onClickDate = { openDatePicker = true })
                 }
+
+                Spacer(modifier = Modifier.fillMaxWidth().height(64.dp))
             }
-        }
 
-        if (createdAt.isNotEmpty()) {
-            DateText(
-                text = stringResource(R.string.created) + " " + createdAt,
-                modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth()
-            )
-        }
 
-        if (editedAt.isNotEmpty()) {
-            DateText(
-                text = stringResource(R.string.edited) + " " + editedAt,
-                modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth()
-            )
-        }
-
-        SelectColorBar(
-            selected = selectedColor,
-            onSelect = { selectedColor = it },
-            modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
-            alpha = 0.5f
-        )
-
-        SwitchCard(label = stringResource(R.string.important_task),
-            checked = isImportant,
-            onCheckedChange = { isImportant = it })
-
-        SwitchCard(label = stringResource(R.string.add_notification),
-            checked = isHasNotification,
-            onCheckedChange = { isHasNotification = it })
-
-        if (isHasNotification) {
-            NotificationDateTimeText(notificationDate = calendar.timeInMillis,
-                onClickTime = { openTimePicker = true },
-                onClickDate = { openDatePicker = true })
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Row(
-            horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()
-        ) {
-            DoneButton {
+            DoneButton(
+                modifier = Modifier.align(Alignment.BottomEnd)
+            ) {
                 when {
                     text.trim().isEmpty() -> {
                         showSnack(scope, scaffoldState, context.getString(R.string.empty_task))

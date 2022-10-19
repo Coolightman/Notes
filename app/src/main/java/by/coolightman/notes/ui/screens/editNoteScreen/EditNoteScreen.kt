@@ -223,6 +223,7 @@ fun EditNoteScreen(
                         onCheckedChange = { isAllowedToCollapse = !isAllowedToCollapse }
                     )
                 }
+                Spacer(modifier = Modifier.fillMaxWidth().height(64.dp))
             }
 
             DoneButton(modifier = Modifier.align(Alignment.BottomEnd)) {
