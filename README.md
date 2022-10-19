@@ -16,7 +16,7 @@ Kotlin, MVVM, Clean Architecture, Jetpack compose, Hilt, Room, Coroutine+Flow, A
  - User customization preferences
  
 ## _Download link for APK_
-[Google Drive](https://drive.google.com/drive/folders/1v6m0ZHuLB9xkb3zq8CI2NBG2tB1WUQ4X?usp=sharing)
+[Google Drive](https://drive.google.com/drive/folders/1bjfjwlLxwwDCkGynRyG3v64TISddZBmC?usp=sharing)
 
 ## _Screenshots with descriptions_
 ### Notes screen
