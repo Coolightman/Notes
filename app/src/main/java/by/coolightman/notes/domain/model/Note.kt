@@ -12,5 +12,6 @@ data class Note(
     val isInTrash: Boolean,
     val isSelected: Boolean,
     val isCollapsable: Boolean,
-    val isCollapsed: Boolean
+    val isCollapsed: Boolean,
+    val isPinned: Boolean
 )

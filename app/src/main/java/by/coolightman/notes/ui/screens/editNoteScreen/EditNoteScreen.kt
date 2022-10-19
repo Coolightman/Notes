@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -73,6 +74,9 @@ fun EditNoteScreen(
     }
     var isAllowedToCollapse by remember(uiState.isAllowToCollapse) {
         mutableStateOf(uiState.isAllowToCollapse)
+    }
+    var isPinned by remember(uiState.isPinned) {
+        mutableStateOf(uiState.isPinned)
     }
 
     var openDeleteDialog by remember {
@@ -145,47 +149,61 @@ fun EditNoteScreen(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(0.dp)
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(
-                                        color = if (uiState.isColoredBackground) {
-                                            Color(itemColors[selectedColor].color).copy(0.2f)
-                                        } else EmptyBackground.copy(0.2f)
-                                    )
-                            ) {
-                                CustomTextField(
-                                    text = text,
-                                    placeholder = stringResource(R.string.text_placeholder),
-                                    onValueChange = { text = it },
-                                    onTextLayout = { textLayoutResult ->
-                                        numberOfLines =
-                                            derivedStateOf { textLayoutResult.lineCount }.value
-                                    },
-                                    keyboardController = keyboardController,
+                            Box(modifier = Modifier.fillMaxWidth()){
+                                Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .defaultMinSize(minHeight = 54.dp)
-                                        .padding(12.dp, 8.dp, 12.dp, 0.dp)
-                                )
-
-                                Row(
-                                    modifier = Modifier.fillMaxWidth()
+                                        .background(
+                                            color = if (uiState.isColoredBackground) {
+                                                Color(itemColors[selectedColor].color).copy(0.2f)
+                                            } else EmptyBackground.copy(0.2f)
+                                        )
                                 ) {
-                                    if (isAllowedToCollapse) {
-                                        Icon(
-                                            imageVector = Icons.Default.ArrowDropDown,
-                                            contentDescription = "drop down",
-                                            modifier = Modifier
-                                                .rotate(180f)
-                                                .weight(1f)
+                                    CustomTextField(
+                                        text = text,
+                                        placeholder = stringResource(R.string.text_placeholder),
+                                        onValueChange = { text = it },
+                                        onTextLayout = { textLayoutResult ->
+                                            numberOfLines =
+                                                derivedStateOf { textLayoutResult.lineCount }.value
+                                        },
+                                        keyboardController = keyboardController,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .defaultMinSize(minHeight = 54.dp)
+                                            .padding(12.dp, 8.dp, 12.dp, 0.dp)
+                                    )
+
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        if (isAllowedToCollapse) {
+                                            Icon(
+                                                imageVector = Icons.Default.ArrowDropDown,
+                                                contentDescription = "drop down",
+                                                modifier = Modifier
+                                                    .rotate(180f)
+                                                    .weight(1f)
+                                            )
+                                        }
+
+                                        DateText(
+                                            text = dateText,
+                                            modifier = if (isAllowedToCollapse) Modifier.align(
+                                                Alignment.Bottom
+                                            )
+                                            else Modifier.weight(1f)
                                         )
                                     }
-
-                                    DateText(
-                                        text = dateText,
-                                        modifier = if (isAllowedToCollapse) Modifier.align(Alignment.Bottom)
-                                        else Modifier.weight(1f)
+                                }
+                                if (isPinned) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.ic_pin_24),
+                                        contentDescription = "pin",
+                                        modifier = Modifier
+                                            .align(Alignment.TopEnd)
+                                            .padding(2.dp)
+                                            .size(12.dp)
                                     )
                                 }
                             }
@@ -216,6 +234,12 @@ fun EditNoteScreen(
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
                 )
 
+                SwitchCard(
+                    label = stringResource(R.string.pin_at_top),
+                    checked = isPinned,
+                    onCheckedChange = { isPinned = !isPinned }
+                )
+
                 if (numberOfLines > 2) {
                     SwitchCard(
                         label = stringResource(R.string.allow_to_collapse),
@@ -223,7 +247,9 @@ fun EditNoteScreen(
                         onCheckedChange = { isAllowedToCollapse = !isAllowedToCollapse }
                     )
                 }
-                Spacer(modifier = Modifier.fillMaxWidth().height(64.dp))
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp))
             }
 
             DoneButton(modifier = Modifier.align(Alignment.BottomEnd)) {
@@ -232,7 +258,8 @@ fun EditNoteScreen(
                         title.trim(), text.trim(), selectedColor,
                         isCollapsable =
                         if (numberOfLines > 2) isAllowedToCollapse
-                        else false
+                        else false,
+                        isPinned = isPinned
                     )
                     goBack(scope, focusManager, navController)
                 } else {

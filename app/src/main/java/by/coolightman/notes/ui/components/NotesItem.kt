@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -114,72 +115,88 @@ fun NotesItem(
                             .height(4.dp)
                     )
                 }
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(
-                            if (isColoredBackground) {
-                                Color(ItemColor.values()[note.colorIndex].color).copy(0.2f)
-                            } else {
-                                EmptyBackground.copy(0.2f)
-                            }
-                        )
                 ) {
-                    Box(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .defaultMinSize(
-                                minHeight = if (isShowNoteDate || isCollapsable) 54.dp
-                                else 62.dp
+                            .background(
+                                if (isColoredBackground) {
+                                    Color(ItemColor.values()[note.colorIndex].color).copy(0.2f)
+                                } else {
+                                    EmptyBackground.copy(0.2f)
+                                }
                             )
-                            .padding(
-                                12.dp, 8.dp, 12.dp,
-                                bottom = if (isShowNoteDate || isCollapsable) 0.dp
-                                else 8.dp
-                            )
-                            .animateContentSize()
                     ) {
-                        Text(
-                            text = note.text,
-                            style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
-                            maxLines = if (isCollapsed) 2 else Integer.MAX_VALUE,
-                            overflow = TextOverflow.Ellipsis,
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.TopStart)
-                        )
-                    }
+                                .defaultMinSize(
+                                    minHeight = if (isShowNoteDate || isCollapsable) 54.dp
+                                    else 62.dp
+                                )
+                                .padding(
+                                    12.dp, 8.dp, 12.dp,
+                                    bottom = if (isShowNoteDate || isCollapsable) 0.dp
+                                    else 8.dp
+                                )
+                                .animateContentSize()
+                        ) {
+                            Text(
+                                text = note.text,
+                                style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
+                                maxLines = if (isCollapsed) 2 else Integer.MAX_VALUE,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.TopStart)
+                            )
+                        }
 
-                    if (isShowNoteDate || isCollapsable) {
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            if (isCollapsable) {
-                                Box(modifier = Modifier
-                                    .weight(1f)
-                                    .clickable { onCollapseClick() }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.ArrowDropDown,
-                                        contentDescription = "drop down",
-                                        modifier = Modifier
-                                            .rotate(rotateState)
-                                            .align(Alignment.Center)
+                        if (isShowNoteDate || isCollapsable) {
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                if (isCollapsable) {
+                                    Box(modifier = Modifier
+                                        .weight(1f)
+                                        .clickable { onCollapseClick() }
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.ArrowDropDown,
+                                            contentDescription = "drop down",
+                                            modifier = Modifier
+                                                .rotate(rotateState)
+                                                .align(Alignment.Center)
+                                        )
+                                    }
+                                }
+                                if (isShowNoteDate) {
+                                    val dateText = if (note.isEdited) {
+                                        val edited = stringResource(R.string.edit)
+                                        "$edited " + note.editedAt.toFormattedFullDate()
+                                    } else note.createdAt.toFormattedFullDate()
+                                    DateText(
+                                        text = dateText,
+                                        modifier = if (isCollapsable) Modifier.align(Alignment.Bottom)
+                                        else Modifier
+                                            .weight(1f)
+                                            .align(Alignment.Bottom)
                                     )
                                 }
                             }
-                            if (isShowNoteDate) {
-                                val dateText = if (note.isEdited) {
-                                    val edited = stringResource(R.string.edit)
-                                    "$edited " + note.editedAt.toFormattedFullDate()
-                                } else note.createdAt.toFormattedFullDate()
-                                DateText(
-                                    text = dateText,
-                                    modifier = if (isCollapsable) Modifier.align(Alignment.Bottom)
-                                    else Modifier
-                                        .weight(1f)
-                                        .align(Alignment.Bottom)
-                                )
-                            }
                         }
+                    }
+
+                    if (note.isPinned) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_pin_24),
+                            contentDescription = "pin",
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(2.dp)
+                                .size(12.dp)
+                        )
                     }
                 }
             }
@@ -225,7 +242,13 @@ private fun NotesItemPreview() {
         isInTrash = false,
         isSelected = false,
         isCollapsable = false,
-        isCollapsed = false
+        isCollapsed = false,
+        isPinned = true
     )
-    NotesItem(note = note, onClick = {}, onLongPress = {}, onCheckedChange = {}, onCollapseClick = {})
+    NotesItem(
+        note = note,
+        onClick = {},
+        onLongPress = {},
+        onCheckedChange = {},
+        onCollapseClick = {})
 }

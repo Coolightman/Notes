@@ -54,6 +54,7 @@
     <string name="expand_all">Expand all</string>
     <string name="collapse_all">Collapse all</string>
     <string name="allow_to_collapse">Allow to collapse</string>
+    <string name="pin_at_top">Pin at the top</string>
     <string name="filter">Filter</string>
     <string name="search_placeholder">Search..</string>
     <string name="no_results">No results</string>

@@ -78,7 +78,8 @@ class EditNoteViewModel @Inject constructor(
                     createdAt = it.createdAt.toFormattedFullDate(),
                     editedAt = it.editedAt.toFormattedFullDate(),
                     colorIndex = it.colorIndex,
-                    isAllowToCollapse = it.isCollapsable
+                    isAllowToCollapse = it.isCollapsable,
+                    isPinned = it.isPinned
                 )
             }
         }
@@ -88,7 +89,8 @@ class EditNoteViewModel @Inject constructor(
         title: String,
         text: String,
         colorIndex: Int,
-        isCollapsable: Boolean
+        isCollapsable: Boolean,
+        isPinned: Boolean
     ) {
         viewModelScope.launch {
             note?.let {
@@ -101,7 +103,8 @@ class EditNoteViewModel @Inject constructor(
                     isCollapsable = isCollapsable,
                     isCollapsed =
                     if (!isCollapsable) false
-                    else it.isCollapsed
+                    else it.isCollapsed,
+                    isPinned = isPinned
                 )
                 updateNoteUseCase(updatedNote)
                 return@launch
@@ -118,7 +121,8 @@ class EditNoteViewModel @Inject constructor(
                 isShowDate = false,
                 isSelected = false,
                 isCollapsable = isCollapsable,
-                isCollapsed = false
+                isCollapsed = false,
+                isPinned = isPinned
             )
             createNoteUseCase(createdNote)
         }

@@ -66,7 +66,7 @@ class GetAllNotesUseCase @Inject constructor(
                 SortBy.CREATE_DATE_DESC -> {
                     notesList.sortedByDescending { it.createdAt }
                 }
-            }
+            }.sortedByDescending { it.isPinned }
         }
     }
 }

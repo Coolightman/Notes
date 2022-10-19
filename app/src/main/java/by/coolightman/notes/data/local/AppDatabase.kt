@@ -1,5 +1,6 @@
 package by.coolightman.notes.data.local
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import by.coolightman.notes.data.local.dao.NoteDao
@@ -10,12 +11,15 @@ import by.coolightman.notes.data.local.dbModel.TaskDb
 import by.coolightman.notes.data.local.dbModel.TaskFtsDb
 
 @Database(
-    version = 9,
+    version = 2,
     entities = [
         NoteDb::class,
         TaskDb::class,
         NoteFtsDb::class,
         TaskFtsDb::class
+    ],
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
     ]
 )
 abstract class AppDatabase : RoomDatabase() {

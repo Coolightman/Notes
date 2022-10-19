@@ -55,6 +55,7 @@
     <string name="expand_all">Развернуть все</string>
     <string name="collapse_all">Свернуть все</string>
     <string name="allow_to_collapse">Разрешить сворачивать</string>
+    <string name="pin_at_top">Закрепить вверху</string>
     <string name="filter">Фильтр</string>
     <string name="search_placeholder">Поиск..</string>
     <string name="no_results">Нет результатов</string>
