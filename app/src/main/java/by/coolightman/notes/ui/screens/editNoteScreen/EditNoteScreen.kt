@@ -92,11 +92,7 @@ fun EditNoteScreen(
         )
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         AppTopAppBar(
             navigationIcon = {
                 IconButton(onClick = { goBack(scope, focusManager, navController) }) {
@@ -120,114 +116,116 @@ fun EditNoteScreen(
             }
         )
 
-        Card(
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp, 12.dp, 12.dp, 0.dp),
-            elevation = 2.dp
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(itemColors[selectedColor].color).copy(0.8f))
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
             ) {
-                NoteTitleField(
-                    title = title,
-                    onValueChange = { title = it },
-                    focusManager = focusManager
-                )
-
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(0.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp, 12.dp, 12.dp, 0.dp),
+                    elevation = 2.dp
                 ) {
                     Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(
-                                color = if (uiState.isColoredBackground) {
-                                    Color(itemColors[selectedColor].color).copy(0.2f)
-                                } else EmptyBackground.copy(0.2f)
-                            )
+                            .background(Color(itemColors[selectedColor].color).copy(0.8f))
                     ) {
-                        CustomTextField(
-                            text = text,
-                            placeholder = stringResource(R.string.text_placeholder),
-                            onValueChange = { text = it },
-                            onTextLayout = { textLayoutResult ->
-                                numberOfLines = derivedStateOf { textLayoutResult.lineCount }.value
-                            },
-                            keyboardController = keyboardController,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .defaultMinSize(minHeight = 54.dp)
-                                .padding(12.dp, 8.dp, 12.dp, 0.dp)
+                        NoteTitleField(
+                            title = title,
+                            onValueChange = { title = it },
+                            focusManager = focusManager
                         )
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(0.dp)
                         ) {
-                            if (isAllowedToCollapse) {
-                                Icon(
-                                    imageVector = Icons.Default.ArrowDropDown,
-                                    contentDescription = "drop down",
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        color = if (uiState.isColoredBackground) {
+                                            Color(itemColors[selectedColor].color).copy(0.2f)
+                                        } else EmptyBackground.copy(0.2f)
+                                    )
+                            ) {
+                                CustomTextField(
+                                    text = text,
+                                    placeholder = stringResource(R.string.text_placeholder),
+                                    onValueChange = { text = it },
+                                    onTextLayout = { textLayoutResult ->
+                                        numberOfLines =
+                                            derivedStateOf { textLayoutResult.lineCount }.value
+                                    },
+                                    keyboardController = keyboardController,
                                     modifier = Modifier
-                                        .rotate(180f)
-                                        .weight(1f)
+                                        .fillMaxWidth()
+                                        .defaultMinSize(minHeight = 54.dp)
+                                        .padding(12.dp, 8.dp, 12.dp, 0.dp)
                                 )
-                            }
 
-                            DateText(
-                                text = dateText,
-                                modifier = if (isAllowedToCollapse) Modifier.align(Alignment.Bottom)
-                                else Modifier.weight(1f)
-                            )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    if (isAllowedToCollapse) {
+                                        Icon(
+                                            imageVector = Icons.Default.ArrowDropDown,
+                                            contentDescription = "drop down",
+                                            modifier = Modifier
+                                                .rotate(180f)
+                                                .weight(1f)
+                                        )
+                                    }
+
+                                    DateText(
+                                        text = dateText,
+                                        modifier = if (isAllowedToCollapse) Modifier.align(Alignment.Bottom)
+                                        else Modifier.weight(1f)
+                                    )
+                                }
+                            }
                         }
                     }
                 }
+                if (createdAt.isNotEmpty()) {
+                    DateText(
+                        text = stringResource(R.string.created) + " " + createdAt,
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp)
+                            .fillMaxWidth()
+                    )
+                }
+
+                if (editedAt.isNotEmpty()) {
+                    DateText(
+                        text = stringResource(R.string.edited) + " " + editedAt,
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp)
+                            .fillMaxWidth()
+                    )
+                }
+
+                SelectColorBar(
+                    selected = selectedColor,
+                    onSelect = { selectedColor = it },
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
+                )
+
+                if (numberOfLines > 2) {
+                    SwitchCard(
+                        label = stringResource(R.string.allow_to_collapse),
+                        checked = isAllowedToCollapse,
+                        onCheckedChange = { isAllowedToCollapse = !isAllowedToCollapse }
+                    )
+                }
             }
-        }
-        if (createdAt.isNotEmpty()) {
-            DateText(
-                text = stringResource(R.string.created) + " " + createdAt,
-                modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth()
-            )
-        }
 
-        if (editedAt.isNotEmpty()) {
-            DateText(
-                text = stringResource(R.string.edited) + " " + editedAt,
-                modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .fillMaxWidth()
-            )
-        }
-
-        SelectColorBar(
-            selected = selectedColor,
-            onSelect = { selectedColor = it },
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 12.dp)
-        )
-
-        if (numberOfLines > 2) {
-            SwitchCard(
-                label = stringResource(R.string.allow_to_collapse),
-                checked = isAllowedToCollapse,
-                onCheckedChange = { isAllowedToCollapse = !isAllowedToCollapse }
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Row(
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            DoneButton {
+            DoneButton(modifier = Modifier.align(Alignment.BottomEnd)) {
                 if (text.trim().isNotEmpty()) {
                     viewModel.saveNote(
                         title.trim(), text.trim(), selectedColor,
