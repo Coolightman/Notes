@@ -74,9 +74,11 @@ class SettingsViewModel @Inject constructor(
     private fun getStartDestination() {
         viewModelScope.launch {
             getStringPreferenceUseCase(START_DESTINATION_KEY).collectLatest {
-                uiState = uiState.copy(
-                    appStartDestination = it
-                )
+                if (it.isNotEmpty()) {
+                    uiState = uiState.copy(
+                        appStartDestination = it
+                    )
+                }
             }
         }
     }
