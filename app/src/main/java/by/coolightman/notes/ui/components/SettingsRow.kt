@@ -31,7 +31,7 @@ fun SettingsRow(
                 text = title,
                 style = MaterialTheme.typography.body1.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colors.primaryVariant
+                    color = MaterialTheme.colors.primary
                 ),
                 modifier = Modifier.padding(8.dp, 4.dp, 8.dp, 0.dp)
             )

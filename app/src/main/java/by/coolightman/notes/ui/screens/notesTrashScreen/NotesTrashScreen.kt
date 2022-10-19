@@ -45,6 +45,7 @@ import by.coolightman.notes.ui.components.AppTopAppBar
 import by.coolightman.notes.ui.components.DeleteRestoreSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.NotesItem
+import by.coolightman.notes.ui.theme.ImportantAction
 import by.coolightman.notes.util.DISMISS_DELAY
 import by.coolightman.notes.util.FRACTIONAL_THRESHOLD
 import kotlinx.coroutines.delay
@@ -71,7 +72,7 @@ fun NotesTrashScreen(
             text = stringResource(R.string.delete_all_notes_dialog),
             secondaryText = stringResource(R.string.can_not_restore_it),
             confirmButtonText = stringResource(R.string.delete),
-            confirmButtonColor = MaterialTheme.colors.error,
+            confirmButtonColor = ImportantAction,
             onConfirm = {
                 viewModel.deleteAllTrash()
                 openDeleteAllDialog = false

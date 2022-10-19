@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColor
+import by.coolightman.notes.ui.theme.ImportantAction
 import by.coolightman.notes.ui.theme.ImportantTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -80,7 +81,7 @@ fun EditTaskScreen(
             text = stringResource(R.string.delete_task_dialog),
             secondaryText = stringResource(R.string.can_not_restore_it),
             confirmButtonText = stringResource(R.string.delete),
-            confirmButtonColor = MaterialTheme.colors.error,
+            confirmButtonColor = ImportantAction,
             onConfirm = {
                 openDeleteDialog = false
                 viewModel.deleteTask()

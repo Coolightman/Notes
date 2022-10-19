@@ -34,7 +34,7 @@ fun SwitchCard(
                 text = label,
                 style = MaterialTheme.typography.body1.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colors.primaryVariant
+                    color = MaterialTheme.colors.primary
                 ),
                 modifier = Modifier
                     .weight(1f)

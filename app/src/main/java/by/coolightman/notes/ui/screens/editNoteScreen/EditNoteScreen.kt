@@ -29,6 +29,7 @@ import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.EmptyBackground
+import by.coolightman.notes.ui.theme.ImportantAction
 import by.coolightman.notes.util.showSnack
 import by.coolightman.notes.util.toFormattedFullDate
 import kotlinx.coroutines.CoroutineScope
@@ -86,7 +87,7 @@ fun EditNoteScreen(
         AppAlertDialog(
             text = stringResource(R.string.sent_note_to_trash_dialog),
             confirmButtonText = stringResource(R.string.send),
-            confirmButtonColor = MaterialTheme.colors.error,
+            confirmButtonColor = ImportantAction,
             onConfirm = {
                 openDeleteDialog = false
                 viewModel.sentNoteToTrash()

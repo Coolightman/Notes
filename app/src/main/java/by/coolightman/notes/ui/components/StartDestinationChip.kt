@@ -38,6 +38,6 @@ fun StartDestinationChip(
             backgroundColor = InactiveBackground.copy(0.3f)
         ),
         modifier = Modifier
-            .height(40.dp)
+            .height(30.dp)
     )
 }

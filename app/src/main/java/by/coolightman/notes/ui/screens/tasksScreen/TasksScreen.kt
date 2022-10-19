@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
+import by.coolightman.notes.ui.theme.ImportantAction
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -90,7 +91,7 @@ fun TasksScreen(
             text = stringResource(R.string.delete_inactive_tasks_dialog),
             secondaryText = stringResource(R.string.can_not_restore_it),
             confirmButtonText = stringResource(R.string.delete),
-            confirmButtonColor = MaterialTheme.colors.error,
+            confirmButtonColor = ImportantAction,
             onConfirm = {
                 viewModel.deleteInactiveTasks()
                 openDeleteInactiveTasksDialog = false
@@ -107,7 +108,7 @@ fun TasksScreen(
             text = stringResource(R.string.delete_these_tasks_dialog),
             secondaryText = stringResource(R.string.can_not_restore_it),
             confirmButtonText = stringResource(R.string.delete),
-            confirmButtonColor = MaterialTheme.colors.error,
+            confirmButtonColor = ImportantAction,
             onConfirm = {
                 viewModel.deleteSelectedTasks()
                 openDeleteSelectedTasksDialog = false
