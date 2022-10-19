@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 fun SortFilterPanel(
     isVisible: Boolean = false,
     currentSortIndex: Int,
+    filterAlpha: Float = 0.8f,
     onSort: (SortBy) -> Unit,
     currentFilterSelection: List<Boolean>,
     onFilterSelection: (List<Boolean>) -> Unit
@@ -122,6 +123,7 @@ fun SortFilterPanel(
                             ColorFilterButton(
                                 itemColor = itemColor,
                                 isSelected = filterSelectionList[index],
+                                filterAlpha = filterAlpha,
                                 onClick = {
                                     filterSelectionList = mutableListOf<Boolean>().apply {
                                         filterSelectionList.forEachIndexed { index, b ->

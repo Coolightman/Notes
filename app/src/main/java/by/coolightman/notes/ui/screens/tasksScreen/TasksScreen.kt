@@ -276,6 +276,7 @@ fun TasksScreen(
             currentSortIndex = uiState.sortByIndex,
             onSort = { viewModel.setSortBy(it) },
             currentFilterSelection = uiState.currentFilterSelection,
+            filterAlpha = 0.5f,
             onFilterSelection = { viewModel.setFilterSelection(it) }
         )
 

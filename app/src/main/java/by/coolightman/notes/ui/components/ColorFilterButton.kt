@@ -21,13 +21,14 @@ import by.coolightman.notes.ui.model.ItemColor
 fun ColorFilterButton(
     itemColor: ItemColor,
     isSelected: Boolean = false,
+    filterAlpha: Float,
     onClick: (Int) -> Unit
 ) {
     Box(
         modifier = Modifier
             .size(48.dp)
             .clip(CircleShape)
-            .background(Color(itemColor.color).copy(0.8f))
+            .background(Color(itemColor.color).copy(filterAlpha))
             .clickable { onClick(itemColor.ordinal) }
     ) {
         if (isSelected) {
