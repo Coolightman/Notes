@@ -33,7 +33,7 @@
     <string name="edited_sort">Ред.</string>
     <string name="empty_note">Заметка пуста</string>
     <string name="empty_task">Задача пуста</string>
-    <string name="wrong_notification_time">Уведомление должно быть в будущем</string>
+    <string name="wrong_notification_time">Используйте будущее время для уведомления</string>
     <string name="notes_sent_to_trash">Заметки отправлены в корзину</string>
     <string name="delete_inactive">Удалить неакт.</string>
     <string name="settings">Настройки</string>
