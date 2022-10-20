@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
@@ -28,7 +27,7 @@ fun DoneButton(
             Icon(
                 imageVector = Icons.Default.Done,
                 contentDescription = "done",
-                tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                tint = MaterialTheme.colors.onSurface.copy(0.5f)
             )
         }
     )

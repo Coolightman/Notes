@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -52,7 +51,7 @@ fun SelectColorBar(
                     Icon(
                         imageVector = Icons.Default.Done,
                         contentDescription = null,
-                        tint = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
+                        tint = MaterialTheme.colors.onSurface.copy(0.5f),
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
