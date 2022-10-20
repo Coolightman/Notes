@@ -145,7 +145,6 @@ fun EditTaskScreen(
             ) {
                 Card(
                     shape = RoundedCornerShape(24.dp),
-                    elevation = 2.dp,
                     modifier = Modifier
                         .fillMaxWidth()
                         .defaultMinSize(minHeight = 48.dp)

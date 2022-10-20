@@ -20,7 +20,6 @@ fun SwitchCard(
     onCheckedChange: (Boolean) -> Unit
 ) {
     Card(
-        elevation = 2.dp,
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 48.dp)

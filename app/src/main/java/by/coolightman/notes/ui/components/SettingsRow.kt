@@ -21,7 +21,6 @@ fun SettingsRow(
     content: @Composable RowScope.() -> Unit
 ) {
     Card(
-        elevation = 2.dp,
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp, 4.dp, 4.dp, 0.dp)
