@@ -26,14 +26,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.ImportantTask
-import by.coolightman.notes.ui.theme.InactiveBackground
 import java.util.*
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -41,7 +39,6 @@ import java.util.*
 fun TasksItem(
     task: Task,
     modifier: Modifier = Modifier,
-    elevation: Dp = 2.dp,
     onClick: () -> Unit,
     onSwitchActive: () -> Unit,
     onLongPress: () -> Unit,
@@ -81,7 +78,9 @@ fun TasksItem(
 
     Card(
         shape = RoundedCornerShape(24.dp),
-        elevation = elevation,
+        elevation =
+        if (task.isSelected) 8.dp
+        else 2.dp,
         modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 48.dp)
@@ -160,12 +159,6 @@ fun TasksItem(
                     modifier = Modifier
                         .height(itemHeight)
                         .width(itemWidth)
-                        .background(
-                            InactiveBackground.copy(
-                                alpha = if (task.isSelected) 0.4f
-                                else 0f
-                            )
-                        )
                         .align(Alignment.Center)
                         .clickable { onCheckedChange() }
                 ) {

@@ -29,14 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.EmptyBackground
-import by.coolightman.notes.ui.theme.InactiveBackground
 import by.coolightman.notes.util.toFormattedFullDate
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -44,7 +42,6 @@ import by.coolightman.notes.util.toFormattedFullDate
 fun NotesItem(
     note: Note,
     modifier: Modifier = Modifier,
-    elevation: Dp = 2.dp,
     onClick: () -> Unit,
     onLongPress: () -> Unit,
     onCheckedChange: () -> Unit,
@@ -68,7 +65,9 @@ fun NotesItem(
     )
     Card(
         shape = RoundedCornerShape(12.dp),
-        elevation = elevation,
+        elevation =
+        if (note.isSelected) 8.dp
+        else 2.dp,
         modifier = modifier
             .fillMaxWidth()
             .onGloballyPositioned { coordinates ->
@@ -207,12 +206,12 @@ fun NotesItem(
                     modifier = Modifier
                         .height(itemHeight)
                         .width(itemWidth)
-                        .background(
-                            InactiveBackground.copy(
-                                alpha = if (note.isSelected) 0.4f
-                                else 0f
-                            )
-                        )
+//                        .background(
+//                            InactiveBackground.copy(
+//                                alpha = if (note.isSelected) 0.4f
+//                                else 0f
+//                            )
+//                        )
                         .align(Alignment.Center)
                         .clickable { onCheckedChange() }
                 ) {
