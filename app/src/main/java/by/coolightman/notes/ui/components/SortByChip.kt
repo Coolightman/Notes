@@ -30,8 +30,8 @@ fun SortByChipDouble(
         trailingIcon = {
             Icon(
                 painter =
-                if (currentSortIndex == chipIndex2) painterResource(R.drawable.ic_baseline_north_24)
-                else painterResource(R.drawable.ic_baseline_south_24),
+                if (currentSortIndex == chipIndex2) painterResource(R.drawable.ic_round_north_24)
+                else painterResource(R.drawable.ic_round_south_24),
                 contentDescription = null,
                 modifier = Modifier.size(16.dp)
             )
