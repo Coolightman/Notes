@@ -8,7 +8,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -58,95 +57,84 @@ fun SortFilterPanel(
     AnimatedVisibility(
         visible = isVisible,
         enter = expandVertically(
-            animationSpec = tween(
-                easing = LinearOutSlowInEasing
-            )
+            animationSpec = tween(easing = LinearOutSlowInEasing)
         ),
         exit = shrinkVertically(
-            animationSpec = tween(
-                easing = FastOutLinearInEasing
-            )
+            animationSpec = tween(easing = FastOutLinearInEasing)
         )
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(scrollState)
+                .background(MaterialTheme.colors.secondary)
+        ) {
+            SortByChipDouble(
+                onSort = { onSort(it) },
+                currentSortIndex = currentSortIndex,
+                text = stringResource(R.string.color),
+                chipIndex1 = SortBy.COLOR.ordinal,
+                chipIndex2 = SortBy.COLOR_DESC.ordinal
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(scrollState)
-                    .background(MaterialTheme.colors.secondary)
-            ) {
-                SortByChipDouble(
-                    onSort = { onSort(it) },
-                    currentSortIndex = currentSortIndex,
-                    text = stringResource(R.string.color),
-                    chipIndex1 = SortBy.COLOR.ordinal,
-                    chipIndex2 = SortBy.COLOR_DESC.ordinal
-                )
-                SortByChipDouble(
-                    onSort = { onSort(it) },
-                    currentSortIndex = currentSortIndex,
-                    text = stringResource(R.string.created_sort),
-                    chipIndex1 = SortBy.CREATE_DATE.ordinal,
-                    chipIndex2 = SortBy.CREATE_DATE_DESC.ordinal
-                )
-                SortByChipDouble(
-                    onSort = { onSort(it) },
-                    currentSortIndex = currentSortIndex,
-                    text = stringResource(R.string.edited_sort),
-                    chipIndex1 = SortBy.EDIT_DATE.ordinal,
-                    chipIndex2 = SortBy.EDIT_DATE_DESC.ordinal
-                )
-                FilterByColorChip(
-                    isSelected = isFilterDropMenuExpanded,
-                    isActive = currentFilterSelection.contains(true),
-                    onClick = {
-                        scope.launch {
-                            scrollState.scrollTo(scrollState.maxValue)
-                            isFilterDropMenuExpanded = !isFilterDropMenuExpanded
-                        }
+            SortByChipDouble(
+                onSort = { onSort(it) },
+                currentSortIndex = currentSortIndex,
+                text = stringResource(R.string.created_sort),
+                chipIndex1 = SortBy.CREATE_DATE.ordinal,
+                chipIndex2 = SortBy.CREATE_DATE_DESC.ordinal
+            )
+            SortByChipDouble(
+                onSort = { onSort(it) },
+                currentSortIndex = currentSortIndex,
+                text = stringResource(R.string.edited_sort),
+                chipIndex1 = SortBy.EDIT_DATE.ordinal,
+                chipIndex2 = SortBy.EDIT_DATE_DESC.ordinal
+            )
+            FilterByColorChip(
+                isSelected = isFilterDropMenuExpanded,
+                isActive = currentFilterSelection.contains(true),
+                onClick = {
+                    scope.launch {
+                        scrollState.scrollTo(scrollState.maxValue)
+                        isFilterDropMenuExpanded = !isFilterDropMenuExpanded
                     }
+                }
+            ) {
+                DropdownMenu(
+                    expanded = isFilterDropMenuExpanded,
+                    onDismissRequest = { isFilterDropMenuExpanded = false },
+                    modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
-                    DropdownMenu(
-                        expanded = isFilterDropMenuExpanded,
-                        onDismissRequest = { isFilterDropMenuExpanded = false },
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    ) {
-                        ResetColorFilterButton(
+                    ResetColorFilterButton(
+                        onClick = {
+                            if (filterSelectionList.contains(true)) {
+                                filterSelectionList = colors.map { false }
+                                onFilterSelection(filterSelectionList)
+                            }
+                        }
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(4.dp)
+                    )
+                    colors.forEachIndexed { index, itemColor ->
+                        ColorFilterButton(
+                            itemColor = itemColor,
+                            isSelected = filterSelectionList[index],
+                            filterAlpha = filterAlpha,
                             onClick = {
-                                if (filterSelectionList.contains(true)) {
-                                    filterSelectionList = colors.map { false }
-                                    onFilterSelection(filterSelectionList)
+                                filterSelectionList = mutableListOf<Boolean>().apply {
+                                    filterSelectionList.forEachIndexed { index, b ->
+                                        if (index == it) {
+                                            add(!b)
+                                        } else add(b)
+                                    }
                                 }
+                                onFilterSelection(filterSelectionList)
                             }
                         )
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(4.dp)
-                        )
-                        colors.forEachIndexed { index, itemColor ->
-                            ColorFilterButton(
-                                itemColor = itemColor,
-                                isSelected = filterSelectionList[index],
-                                filterAlpha = filterAlpha,
-                                onClick = {
-                                    filterSelectionList = mutableListOf<Boolean>().apply {
-                                        filterSelectionList.forEachIndexed { index, b ->
-                                            if (index == it) {
-                                                add(!b)
-                                            } else add(b)
-                                        }
-                                    }
-                                    onFilterSelection(filterSelectionList)
-                                }
-                            )
-                        }
                     }
                 }
             }

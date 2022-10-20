@@ -6,7 +6,7 @@ val Blue200 = Color(0xFF489ADB)
 val Blue500 = Color(0xFF2196F3)
 
 val NightAccent = Color(0xFF172024)
-val DayAccent = Color(0xFFB3E5FC)
+val DayAccent = Color(0xFFFFF9CF)
 
 val InactiveBackground = Color(0xFF9B9B9B)
 
