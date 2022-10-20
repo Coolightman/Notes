@@ -23,7 +23,7 @@ fun SettingsRow(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp, 4.dp, 4.dp, 0.dp)
+            .padding(4.dp, 1.dp, 4.dp, 0.dp)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(

@@ -17,13 +17,14 @@ import androidx.compose.ui.unit.dp
 fun SwitchCard(
     label: String,
     checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 48.dp)
-            .padding(4.dp, 4.dp, 4.dp, 0.dp)
+            .padding(4.dp, 1.dp, 4.dp, 0.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

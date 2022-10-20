@@ -1,9 +1,6 @@
 package by.coolightman.notes.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
@@ -56,12 +53,8 @@ fun SortFilterPanel(
 
     AnimatedVisibility(
         visible = isVisible,
-        enter = expandVertically(
-            animationSpec = tween(easing = LinearOutSlowInEasing)
-        ),
-        exit = shrinkVertically(
-            animationSpec = tween(easing = FastOutLinearInEasing)
-        )
+        enter = expandVertically(),
+        exit = shrinkVertically()
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

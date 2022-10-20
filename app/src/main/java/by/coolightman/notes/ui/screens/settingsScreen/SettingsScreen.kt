@@ -60,6 +60,12 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+            )
+
             SettingsRow(title = stringResource(R.string.start_screen)) {
                 StartDestinationChip(
                     icon = painterResource(R.drawable.ic_note_24),
