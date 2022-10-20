@@ -165,6 +165,7 @@ fun NotesItem(
                                         Icon(
                                             imageVector = Icons.Default.ArrowDropDown,
                                             contentDescription = "drop down",
+                                            tint = MaterialTheme.colors.onSurface.copy(0.5f),
                                             modifier = Modifier
                                                 .rotate(rotateState)
                                                 .align(Alignment.Center)
@@ -193,6 +194,7 @@ fun NotesItem(
                         Icon(
                             painter = painterResource(R.drawable.ic_pin_24),
                             contentDescription = "pin",
+                            tint = MaterialTheme.colors.onSurface.copy(0.5f),
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
                                 .padding(2.dp)
@@ -206,12 +208,6 @@ fun NotesItem(
                     modifier = Modifier
                         .height(itemHeight)
                         .width(itemWidth)
-//                        .background(
-//                            InactiveBackground.copy(
-//                                alpha = if (note.isSelected) 0.4f
-//                                else 0f
-//                            )
-//                        )
                         .align(Alignment.Center)
                         .clickable { onCheckedChange() }
                 ) {

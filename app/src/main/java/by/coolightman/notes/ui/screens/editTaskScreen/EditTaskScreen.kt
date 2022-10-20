@@ -162,13 +162,14 @@ fun EditTaskScreen(
                                     painter = painterResource(R.drawable.ic_outline_circle_24),
                                     contentDescription = "active task",
                                     tint = if (isImportant) ImportantTask
-                                    else LocalContentColor.current
+                                    else MaterialTheme.colors.onSurface.copy(0.8f),
                                 )
                             }
                             if (isHasNotification) {
                                 Icon(
                                     imageVector = Icons.Default.Notifications,
                                     contentDescription = "notifications",
+                                    tint = MaterialTheme.colors.onSurface.copy(0.5f),
                                     modifier = Modifier
                                         .align(Alignment.TopEnd)
                                         .padding(4.dp)
@@ -197,6 +198,7 @@ fun EditTaskScreen(
                                 Icon(
                                     imageVector = Icons.Default.ArrowDropDown,
                                     contentDescription = "drop down",
+                                    tint = MaterialTheme.colors.onSurface.copy(0.5f),
                                     modifier = Modifier.rotate(180f)
                                 )
                             }

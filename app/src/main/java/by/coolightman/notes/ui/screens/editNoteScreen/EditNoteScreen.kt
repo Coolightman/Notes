@@ -181,6 +181,7 @@ fun EditNoteScreen(
                                             Icon(
                                                 imageVector = Icons.Default.ArrowDropDown,
                                                 contentDescription = "drop down",
+                                                tint = MaterialTheme.colors.onSurface.copy(0.5f),
                                                 modifier = Modifier
                                                     .rotate(180f)
                                                     .weight(1f)
@@ -200,6 +201,7 @@ fun EditNoteScreen(
                                     Icon(
                                         painter = painterResource(R.drawable.ic_pin_24),
                                         contentDescription = "pin",
+                                        tint = MaterialTheme.colors.onSurface.copy(0.5f),
                                         modifier = Modifier
                                             .align(Alignment.TopEnd)
                                             .padding(2.dp)

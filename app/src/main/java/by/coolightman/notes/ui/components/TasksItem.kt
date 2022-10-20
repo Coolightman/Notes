@@ -112,13 +112,14 @@ fun TasksItem(
                             ),
                             contentDescription = "active task",
                             tint = if (task.isImportant) ImportantTask.copy(contentAlfa)
-                            else LocalContentColor.current.copy(contentAlfa)
+                            else MaterialTheme.colors.onSurface.copy(0.8f),
                         )
                     }
                     if (task.isHasNotification) {
                         Icon(
                             imageVector = Icons.Default.Notifications,
                             contentDescription = "notifications",
+                            tint = MaterialTheme.colors.onSurface.copy(0.5f),
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
                                 .padding(4.dp)
@@ -147,6 +148,7 @@ fun TasksItem(
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
                             contentDescription = "drop down",
+                            tint = MaterialTheme.colors.onSurface.copy(0.5f),
                             modifier = Modifier.rotate(rotateState)
                         )
                     }
