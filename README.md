@@ -4,16 +4,16 @@ Android application that helps you keep notes and make plans effectively using t
 ## _Tech stack_
 Kotlin, MVVM, Clean Architecture, Jetpack compose, Hilt, Room, Coroutine+Flow, Accompanist, Material design
 
-## _Features_
- - Sorting and filtering notes and tasks
- - Search by notes or tasks
- - Ability to store notes of different sizes intelligently using collapsing
- - Creating notifications for tasks
- - Ability to choose how notes are displayed 
- - Dark, light and system app themes
- - The ability to choose the start page
- - Fast work and smooth animations
- - User customization preferences
+## _Features_ 
+  - Sort and filter notes and tasks
+  - Search by notes or tasks
+  - Ability to intelligently store notes of different sizes using collapsing
+  - Create notifications for tasks
+  - Ability to choose how notes are displayed
+  - Dark, light and system app themes
+  - Possibility to choose the start page
+  - Fast work and smooth animations
+  - Setting user preferences
  
 ## _Download link for APK_
 [Google Drive](https://drive.google.com/drive/folders/1bjfjwlLxwwDCkGynRyG3v64TISddZBmC?usp=sharing)
