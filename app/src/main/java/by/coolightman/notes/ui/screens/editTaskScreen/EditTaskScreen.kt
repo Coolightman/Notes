@@ -79,7 +79,6 @@ fun EditTaskScreen(
     if (openDeleteDialog) {
         AppAlertDialog(
             text = stringResource(R.string.delete_task_dialog),
-            secondaryText = stringResource(R.string.can_not_restore_it),
             confirmButtonText = stringResource(R.string.delete),
             confirmButtonColor = ImportantAction,
             onConfirm = {

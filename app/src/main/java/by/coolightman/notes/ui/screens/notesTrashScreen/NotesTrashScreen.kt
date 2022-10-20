@@ -70,7 +70,6 @@ fun NotesTrashScreen(
     if (openDeleteAllDialog) {
         AppAlertDialog(
             text = stringResource(R.string.delete_all_notes_dialog),
-            secondaryText = stringResource(R.string.can_not_restore_it),
             confirmButtonText = stringResource(R.string.delete),
             confirmButtonColor = ImportantAction,
             onConfirm = {

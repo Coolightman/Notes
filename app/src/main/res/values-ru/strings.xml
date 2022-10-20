@@ -19,12 +19,12 @@
     <string name="undo">ОТМЕНА</string>
     <string name="restore">ВОССТАНОВИТЬ</string>
     <string name="send">ОТПРАВИТЬ</string>
-    <string name="restore_all_notes_dialog">Вы хотите восстановить все заметки?</string>
-    <string name="delete_all_notes_dialog">Вы хотите очистить корзину?</string>
-    <string name="sent_note_to_trash_dialog">Вы хотите отправить эту заметку в корзину?</string>
-    <string name="delete_task_dialog">Вы хотите удалить эту задачу?</string>
-    <string name="delete_inactive_tasks_dialog">Вы хотите удалить все неактивные задачи?</string>
-    <string name="delete_these_tasks_dialog">Вы хотите удалить выбранные задачи?</string>
+    <string name="restore_all_notes_dialog">Восстановить все заметки?</string>
+    <string name="delete_all_notes_dialog">Очистить корзину?</string>
+    <string name="sent_note_to_trash_dialog">Отправить эту заметку в корзину?</string>
+    <string name="delete_task_dialog">Удалить эту задачу?</string>
+    <string name="delete_inactive_tasks_dialog">Удалить все неактивные задачи?</string>
+    <string name="delete_these_tasks_dialog">Удалить выбранные задачи?</string>
     <string name="delete">УДАЛИТЬ</string>
     <string name="created">созд.</string>
     <string name="edited">ред.</string>
@@ -33,7 +33,7 @@
     <string name="edited_sort">Ред.</string>
     <string name="empty_note">Заметка пуста</string>
     <string name="empty_task">Задача пуста</string>
-    <string name="wrong_notification_time">Время уведомления должно быть в будущем</string>
+    <string name="wrong_notification_time">Уведомление должно быть в будущем</string>
     <string name="notes_sent_to_trash">Заметки отправлены в корзину</string>
     <string name="delete_inactive">Удалить неакт.</string>
     <string name="settings">Настройки</string>
@@ -50,7 +50,6 @@
     <string name="light_theme">Светл.</string>
     <string name="new_note_color">Цвет новой заметки</string>
     <string name="new_task_color">Цвет новой задачи</string>
-    <string name="can_not_restore_it">Без возможности восстановления</string>
     <string name="show_notes_date">Показывать даты заметок</string>
     <string name="expand_all">Развернуть все</string>
     <string name="collapse_all">Свернуть все</string>

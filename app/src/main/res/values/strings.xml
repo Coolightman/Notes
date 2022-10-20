@@ -18,12 +18,12 @@
     <string name="undo">UNDO</string>
     <string name="restore">RESTORE</string>
     <string name="send">SEND</string>
-    <string name="restore_all_notes_dialog">Do you want to restore all notes?</string>
-    <string name="delete_all_notes_dialog">Do you want to empty the trash?</string>
-    <string name="sent_note_to_trash_dialog">Do you want to send a note to the trash?</string>
-    <string name="delete_task_dialog">Do you want to delete a task?</string>
-    <string name="delete_inactive_tasks_dialog">Do you want to delete all inactive tasks?</string>
-    <string name="delete_these_tasks_dialog">Do you want to delete selected tasks?</string>
+    <string name="restore_all_notes_dialog">Restore all notes?</string>
+    <string name="delete_all_notes_dialog">Empty the trash?</string>
+    <string name="sent_note_to_trash_dialog">Send a note to the trash?</string>
+    <string name="delete_task_dialog">Delete a task?</string>
+    <string name="delete_inactive_tasks_dialog">Delete all inactive tasks?</string>
+    <string name="delete_these_tasks_dialog">Delete selected tasks?</string>
     <string name="delete">DELETE</string>
     <string name="created">created:</string>
     <string name="edited">edited:</string>
@@ -32,7 +32,7 @@
     <string name="edited_sort">Edited</string>
     <string name="empty_note">Note is empty</string>
     <string name="empty_task">Task is empty</string>
-    <string name="wrong_notification_time">Notification time must be in the future</string>
+    <string name="wrong_notification_time">Notification must be in the future</string>
     <string name="notes_sent_to_trash">Notes sent to trash</string>
     <string name="delete_inactive">Delete inactive</string>
     <string name="settings">Settings</string>
@@ -49,7 +49,6 @@
     <string name="light_theme">Light</string>
     <string name="new_note_color">New note color</string>
     <string name="new_task_color">New task color</string>
-    <string name="can_not_restore_it">You can\'t restore it</string>
     <string name="show_notes_date">Show notes date</string>
     <string name="expand_all">Expand all</string>
     <string name="collapse_all">Collapse all</string>
