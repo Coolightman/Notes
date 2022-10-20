@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberAnimatedNavController()
 
             var themeMode by remember {
-                mutableStateOf(systemMode)
+                mutableStateOf(true)
             }
             LaunchedEffect(uiState.themeModePreference) {
                 themeMode = when (uiState.themeModePreference) {
