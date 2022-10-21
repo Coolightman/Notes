@@ -23,14 +23,16 @@ fun BadgedIcon(
     icon: Painter,
     iconEmptyBadge: Painter? = null,
     badgeValue: Int,
-    badgeColor: Color = MaterialTheme.colors.primary.copy(0.7f)
+    badgeColor: Color = MaterialTheme.colors.primary.copy(0.7f),
+    color: Color
 ) {
     Box(modifier = Modifier.size(height = 48.dp, width = 36.dp)) {
         if (badgeValue > 0) {
             Icon(
                 painter = icon,
                 contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterStart)
+                modifier = Modifier.align(Alignment.CenterStart),
+                tint = color
             )
             Box(
                 modifier = Modifier
@@ -45,6 +47,7 @@ fun BadgedIcon(
                 Text(
                     text = badgeValue.toString(),
                     style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
+                    color = color,
                     modifier = Modifier
                         .align(Alignment.Center)
                         .offset(y = (-0.5).dp)
@@ -54,7 +57,8 @@ fun BadgedIcon(
             Icon(
                 painter = iconEmptyBadge ?: icon,
                 contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterStart)
+                modifier = Modifier.align(Alignment.CenterStart),
+                tint = color
             )
         }
     }

@@ -31,6 +31,7 @@ import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.NotesViewMode
+import by.coolightman.notes.util.dropDownItemColor
 import by.coolightman.notes.util.showSnack
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -151,12 +152,16 @@ fun NotesScreen(
                             BadgedIcon(
                                 icon = painterResource(R.drawable.ic_delete_full_24),
                                 iconEmptyBadge = painterResource(R.drawable.ic_delete_empty_24),
-                                badgeValue = uiState.trashCount
+                                badgeValue = uiState.trashCount,
+                                color = dropDownItemColor()
                             )
 
                             Spacer(modifier = Modifier.width(4.dp))
 
-                            Text(text = stringResource(R.string.trash))
+                            Text(
+                                text = stringResource(R.string.trash),
+                                color = dropDownItemColor()
+                            )
                         }
 
                         DropdownMenuItem(
@@ -169,19 +174,24 @@ fun NotesScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Settings,
-                                contentDescription = "settings"
+                                contentDescription = "settings",
+                                tint = dropDownItemColor()
                             )
 
                             Spacer(modifier = Modifier.width(16.dp))
 
-                            Text(text = stringResource(R.string.settings))
+                            Text(
+                                text = stringResource(R.string.settings),
+                                color = dropDownItemColor()
+                            )
                         }
 
                         if (uiState.notesCount != 0) {
                             Divider()
                             CountRow(
                                 label = stringResource(R.string.total_count),
-                                value = uiState.notesCount
+                                value = uiState.notesCount,
+                                color = dropDownItemColor()
                             )
                         }
                     }

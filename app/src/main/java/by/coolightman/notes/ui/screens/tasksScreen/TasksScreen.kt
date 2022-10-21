@@ -27,6 +27,7 @@ import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.theme.ImportantAction
+import by.coolightman.notes.util.dropDownItemColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -171,9 +172,16 @@ fun TasksScreen(
                                 }
                             }
                         ) {
-                            Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "delete",
+                                tint = dropDownItemColor()
+                            )
                             Spacer(modifier = Modifier.width(16.dp))
-                            Text(text = stringResource(R.string.delete_inactive))
+                            Text(
+                                text = stringResource(R.string.delete_inactive),
+                                color = dropDownItemColor()
+                            )
                         }
 
                         if (uiState.isListHasCollapsable) {
@@ -182,12 +190,16 @@ fun TasksScreen(
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.ic_expand_all_24),
-                                    contentDescription = "expand all"
+                                    contentDescription = "expand all",
+                                    tint = dropDownItemColor()
                                 )
 
                                 Spacer(modifier = Modifier.width(16.dp))
 
-                                Text(text = stringResource(R.string.expand_all))
+                                Text(
+                                    text = stringResource(R.string.expand_all),
+                                    color = dropDownItemColor()
+                                )
                             }
 
                             DropdownMenuItem(
@@ -195,12 +207,16 @@ fun TasksScreen(
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.ic_collapse_all_24),
-                                    contentDescription = "collapse all"
+                                    contentDescription = "collapse all",
+                                    tint = dropDownItemColor()
                                 )
 
                                 Spacer(modifier = Modifier.width(16.dp))
 
-                                Text(text = stringResource(R.string.collapse_all))
+                                Text(
+                                    text = stringResource(R.string.collapse_all),
+                                    color = dropDownItemColor()
+                                )
                             }
                         }
 
@@ -214,12 +230,16 @@ fun TasksScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Settings,
-                                contentDescription = "settings"
+                                contentDescription = "settings",
+                                tint = dropDownItemColor()
                             )
 
                             Spacer(modifier = Modifier.width(16.dp))
 
-                            Text(text = stringResource(R.string.settings))
+                            Text(
+                                text = stringResource(R.string.settings),
+                                color = dropDownItemColor()
+                            )
                         }
 
                         if (uiState.activeTasksCount != 0 || uiState.inactiveTasksCount != 0) {
@@ -227,12 +247,14 @@ fun TasksScreen(
 
                             CountRow(
                                 label = stringResource(R.string.active_count),
-                                value = uiState.activeTasksCount
+                                value = uiState.activeTasksCount,
+                                color = dropDownItemColor()
                             )
 
                             CountRow(
                                 label = stringResource(R.string.inactive_count),
-                                value = uiState.inactiveTasksCount
+                                value = uiState.inactiveTasksCount,
+                                color = dropDownItemColor()
                             )
                         }
                     }

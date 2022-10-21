@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -17,7 +18,8 @@ import androidx.compose.ui.unit.dp
 fun CountRow(
     modifier: Modifier = Modifier,
     label: String,
-    value: Int
+    value: Int,
+    color: Color
 ) {
     if (value != 0) {
         Row(
@@ -30,7 +32,8 @@ fun CountRow(
                 text = label,
                 style = MaterialTheme.typography.body2.copy(
                     fontWeight = FontWeight.Light
-                )
+                ),
+                color = color
             )
             Text(
                 text = value.toString(),
@@ -38,6 +41,7 @@ fun CountRow(
                 style = MaterialTheme.typography.body2.copy(
                     fontWeight = FontWeight.SemiBold
                 ),
+                color = color,
                 modifier = Modifier.width(28.dp)
             )
         }
