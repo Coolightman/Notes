@@ -54,7 +54,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun getIsShowNotesDate() {
         viewModelScope.launch {
-            getBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE).collectLatest {
+            getBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE, true).collectLatest {
                 uiState = uiState.copy(
                     isShowNotesDate = it
                 )
@@ -64,7 +64,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun getIsNotesColoredBackground() {
         viewModelScope.launch {
-            getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK).collectLatest {
+            getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK, true).collectLatest {
                 uiState = uiState.copy(
                     isNotesColoredBackground = it
                 )

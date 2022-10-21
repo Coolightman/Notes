@@ -50,7 +50,7 @@ class EditNoteViewModel @Inject constructor(
 
     private fun getColoredBackgroundPreference() {
         viewModelScope.launch {
-            getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK).collectLatest {
+            getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK, true).collectLatest {
                 uiState = uiState.copy(
                     isColoredBackground = it
                 )

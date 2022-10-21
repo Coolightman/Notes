@@ -9,7 +9,7 @@ data class SettingsUiState(
     val themeMode: ThemeMode = ThemeMode.SYSTEM_MODE,
     val newNoteColorIndex: Int = 0,
     val newTaskColorIndex: Int = 0,
-    val isShowNotesDate: Boolean = false,
-    val isNotesColoredBackground: Boolean = false,
+    val isShowNotesDate: Boolean = true,
+    val isNotesColoredBackground: Boolean = true,
     val currentNotesViewMode: NotesViewMode = NotesViewMode.LIST
 )

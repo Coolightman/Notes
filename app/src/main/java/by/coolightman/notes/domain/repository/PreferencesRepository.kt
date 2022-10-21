@@ -14,5 +14,5 @@ interface PreferencesRepository {
 
     suspend fun putBoolean(key: String, value: Boolean)
 
-    fun getBoolean(key: String): Flow<Boolean>
+    fun getBoolean(key: String, defaultValue: Boolean): Flow<Boolean>
 }

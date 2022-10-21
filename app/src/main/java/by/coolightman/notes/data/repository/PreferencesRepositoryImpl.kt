@@ -48,9 +48,9 @@ class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getBoolean(key: String): Flow<Boolean> {
+    override fun getBoolean(key: String, defaultValue: Boolean): Flow<Boolean> {
         val dataStoreKey = booleanPreferencesKey(key)
         return dataStore.data
-            .map { preferences -> preferences[dataStoreKey] ?: false }
+            .map { preferences -> preferences[dataStoreKey] ?: defaultValue }
     }
 }

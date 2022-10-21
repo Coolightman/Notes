@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetBooleanPreferenceUseCase @Inject constructor(
     private val repository: PreferencesRepository
 ) {
-    operator fun invoke(key: String) = repository.getBoolean(key)
+    operator fun invoke(key: String, defaultValue: Boolean) = repository.getBoolean(key, defaultValue)
 }
