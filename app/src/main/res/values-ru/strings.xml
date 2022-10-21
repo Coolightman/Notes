@@ -17,10 +17,10 @@
     <string name="note_deleted">Заметка удалена</string>
     <string name="cancel">ОТМЕНА</string>
     <string name="undo">ОТМЕНА</string>
-    <string name="restore">ВОССТАНОВИТЬ</string>
+    <string name="restore">ОК</string>
     <string name="send">ОТПРАВИТЬ</string>
     <string name="restore_all_notes_dialog">Восстановить все заметки?</string>
-    <string name="delete_all_notes_dialog">Очистить корзину?</string>
+    <string name="delete_all_notes_dialog">Удалить все из корзины?</string>
     <string name="sent_note_to_trash_dialog">Отправить эту заметку в корзину?</string>
     <string name="delete_task_dialog">Удалить эту задачу?</string>
     <string name="delete_inactive_tasks_dialog">Удалить все неактивные задачи?</string>
