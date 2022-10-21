@@ -11,6 +11,8 @@ import by.coolightman.notes.domain.usecase.preferences.GetStringPreferenceUseCas
 import by.coolightman.notes.domain.usecase.preferences.PutBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutStringPreferenceUseCase
+import by.coolightman.notes.ui.model.ItemColor
+import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.util.IS_NOTES_COLORED_BACK
@@ -74,7 +76,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun getThemeMode() {
         viewModelScope.launch {
-            getIntPreferenceUseCase(THEME_MODE_KEY).collectLatest {
+            getIntPreferenceUseCase(THEME_MODE_KEY, ThemeMode.DARK_MODE.ordinal).collectLatest {
                 uiState = uiState.copy(
                     themeMode = ThemeMode.values()[it]
                 )
@@ -84,7 +86,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun getStartDestination() {
         viewModelScope.launch {
-            getStringPreferenceUseCase(START_DESTINATION_KEY).collectLatest {
+            getStringPreferenceUseCase(START_DESTINATION_KEY, NavRoutes.Notes.route).collectLatest {
                 if (it.isNotEmpty()) {
                     uiState = uiState.copy(
                         appStartDestination = it
@@ -96,7 +98,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun getNewNoteColor() {
         viewModelScope.launch {
-            getIntPreferenceUseCase(NEW_NOTE_COLOR_KEY).collectLatest {
+            getIntPreferenceUseCase(NEW_NOTE_COLOR_KEY, ItemColor.GRAY.ordinal).collectLatest {
                 uiState = uiState.copy(
                     newNoteColorIndex = it
                 )
@@ -106,7 +108,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun getNewTaskColor() {
         viewModelScope.launch {
-            getIntPreferenceUseCase(NEW_TASK_COLOR_KEY).collectLatest {
+            getIntPreferenceUseCase(NEW_TASK_COLOR_KEY, ItemColor.GRAY.ordinal).collectLatest {
                 uiState = uiState.copy(
                     newTaskColorIndex = it
                 )
@@ -116,7 +118,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun getNotesViewMode() {
         viewModelScope.launch {
-            getIntPreferenceUseCase(NOTES_VIEW_MODE).collectLatest {
+            getIntPreferenceUseCase(NOTES_VIEW_MODE, NotesViewMode.LIST.ordinal).collectLatest {
                 uiState = uiState.copy(
                     currentNotesViewMode = NotesViewMode.values()[it]
                 )

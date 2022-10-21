@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetIntPreferenceUseCase @Inject constructor(
     private val repository: PreferencesRepository
 ) {
-    operator fun invoke(key: String) = repository.getInt(key)
+    operator fun invoke(key: String, defaultValue: Int) = repository.getInt(key, defaultValue)
 }

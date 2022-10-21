@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
 import by.coolightman.notes.domain.usecase.notes.*
 import by.coolightman.notes.domain.usecase.preferences.*
+import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,12 +37,14 @@ class NotesViewModel @Inject constructor(
         private set
 
     private val sortBy: Flow<SortBy> =
-        getIntPreferenceUseCase(SORT_NOTES_BY_KEY)
+        getIntPreferenceUseCase(SORT_NOTES_BY_KEY, SortBy.CREATE_DATE.ordinal)
             .map { value -> SortBy.values()[value] }
 
     private val filterSelection: Flow<List<Boolean>> =
-        getStringPreferenceUseCase(NOTES_FILTER_SELECTION)
-            .map { convertPrefStringToFilterSelectionList(it) }
+        getStringPreferenceUseCase(
+            NOTES_FILTER_SELECTION,
+            ItemColor.values().map { false }.toPreferenceString()
+        ).map { convertPrefStringToFilterSelectionList(it) }
 
     private val sortFilter: Flow<Pair<SortBy, List<Boolean>>> =
         sortBy.combine(filterSelection) { sort, filter -> Pair(sort, filter) }
@@ -95,7 +98,7 @@ class NotesViewModel @Inject constructor(
 
     private fun getNotesViewMode() {
         viewModelScope.launch {
-            getIntPreferenceUseCase(NOTES_VIEW_MODE).collectLatest {
+            getIntPreferenceUseCase(NOTES_VIEW_MODE, NotesViewMode.LIST.ordinal).collectLatest {
                 uiState = uiState.copy(
                     currentNotesViewMode = NotesViewMode.values()[it]
                 )

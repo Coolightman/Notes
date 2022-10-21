@@ -12,6 +12,7 @@ import by.coolightman.notes.domain.usecase.tasks.CreateTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.UpdateTaskUseCase
+import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
 import by.coolightman.notes.util.roundTimeToMinute
@@ -48,7 +49,7 @@ class EditTaskViewModel @Inject constructor(
 
     private fun getNewTaskColorPreference() {
         viewModelScope.launch {
-            getIntPreferenceUseCase(NEW_TASK_COLOR_KEY).collectLatest {
+            getIntPreferenceUseCase(NEW_TASK_COLOR_KEY, ItemColor.GRAY.ordinal).collectLatest {
                 uiState = uiState.copy(
                     colorIndex = it
                 )

@@ -9,6 +9,6 @@ data class TasksUiState(
     val inactiveTasksCount: Int = 0,
     val selectedCount: Int = 0,
     val isListHasCollapsable: Boolean = false,
-    val sortByIndex: Int = 2,
+    val sortByIndex: Int = 0,
     val currentFilterSelection: List<Boolean> = ItemColor.values().map { false }
 )

@@ -22,10 +22,10 @@ class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getInt(key: String): Flow<Int> {
+    override fun getInt(key: String, defaultValue: Int): Flow<Int> {
         val dataStoreKey = intPreferencesKey(key)
         return dataStore.data
-            .map { preferences -> preferences[dataStoreKey] ?: 0 }
+            .map { preferences -> preferences[dataStoreKey] ?: defaultValue }
     }
 
     override suspend fun putString(key: String, value: String) {
@@ -35,10 +35,10 @@ class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getString(key: String): Flow<String> {
+    override fun getString(key: String, defaultValue: String): Flow<String> {
         val dataStoreKey = stringPreferencesKey(key)
         return dataStore.data
-            .map { preferences -> preferences[dataStoreKey] ?: "" }
+            .map { preferences -> preferences[dataStoreKey] ?: defaultValue }
     }
 
     override suspend fun putBoolean(key: String, value: Boolean) {

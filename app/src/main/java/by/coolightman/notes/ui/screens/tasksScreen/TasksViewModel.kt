@@ -11,6 +11,7 @@ import by.coolightman.notes.domain.usecase.preferences.GetStringPreferenceUseCas
 import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutStringPreferenceUseCase
 import by.coolightman.notes.domain.usecase.tasks.*
+import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -40,12 +41,14 @@ class TasksViewModel @Inject constructor(
         private set
 
     private val sortBy: Flow<SortBy> =
-        getIntPreferenceUseCase(SORT_TASKS_BY_KEY)
+        getIntPreferenceUseCase(SORT_TASKS_BY_KEY, SortBy.CREATE_DATE.ordinal)
             .map { value -> SortBy.values()[value] }
 
     private val filterSelection: Flow<List<Boolean>> =
-        getStringPreferenceUseCase(TASKS_FILTER_SELECTION)
-            .map { convertPrefStringToFilterSelectionList(it) }
+        getStringPreferenceUseCase(
+            TASKS_FILTER_SELECTION,
+            ItemColor.values().map { false }.toPreferenceString()
+        ).map { convertPrefStringToFilterSelectionList(it) }
 
     private val sortFilter: Flow<Pair<SortBy, List<Boolean>>> =
         sortBy.combine(filterSelection) { sort, filter -> Pair(sort, filter) }

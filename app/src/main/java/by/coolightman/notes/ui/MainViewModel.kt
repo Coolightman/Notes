@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetStringPreferenceUseCase
+import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.util.START_DESTINATION_KEY
 import by.coolightman.notes.util.THEME_MODE_KEY
@@ -32,18 +33,17 @@ class MainViewModel @Inject constructor(
 
     private fun getStartDestinationPreference() {
         viewModelScope.launch {
-            val destination = getStringPreferenceUseCase(START_DESTINATION_KEY).first()
-            if (destination.isNotEmpty()) {
-                uiState = uiState.copy(
-                    startDestinationPreference = destination
-                )
-            }
+            val destination =
+                getStringPreferenceUseCase(START_DESTINATION_KEY, NavRoutes.Notes.route).first()
+            uiState = uiState.copy(
+                startDestinationPreference = destination
+            )
         }
     }
 
     private fun getThemeModePreference() {
         viewModelScope.launch {
-            getIntPreferenceUseCase(THEME_MODE_KEY).collectLatest {
+            getIntPreferenceUseCase(THEME_MODE_KEY, ThemeMode.DARK_MODE.ordinal).collectLatest {
                 uiState = uiState.copy(
                     themeModePreference = ThemeMode.values()[it]
                 )

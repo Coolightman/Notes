@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetStringPreferenceUseCase @Inject constructor(
     private val repository: PreferencesRepository
 ) {
-    operator fun invoke(key: String) = repository.getString(key)
+    operator fun invoke(key: String, defaultValue: String) = repository.getString(key, defaultValue)
 }

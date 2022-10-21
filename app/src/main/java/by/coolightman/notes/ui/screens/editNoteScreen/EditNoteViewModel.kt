@@ -13,6 +13,7 @@ import by.coolightman.notes.domain.usecase.notes.PutNoteInTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
+import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.IS_NOTES_COLORED_BACK
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
@@ -60,7 +61,7 @@ class EditNoteViewModel @Inject constructor(
 
     private fun getNewNoteColorPreference() {
         viewModelScope.launch {
-            getIntPreferenceUseCase(NEW_NOTE_COLOR_KEY).collectLatest {
+            getIntPreferenceUseCase(NEW_NOTE_COLOR_KEY, ItemColor.GRAY.ordinal).collectLatest {
                 uiState = uiState.copy(
                     colorIndex = it
                 )
