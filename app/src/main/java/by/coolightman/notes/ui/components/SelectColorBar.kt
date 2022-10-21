@@ -50,7 +50,7 @@ fun SelectColorBar(
                 if (index == selected) {
                     Icon(
                         imageVector = Icons.Default.Done,
-                        contentDescription = null,
+                        contentDescription = "selected color",
                         tint = MaterialTheme.colors.onSurface.copy(0.5f),
                         modifier = Modifier.align(Alignment.Center)
                     )

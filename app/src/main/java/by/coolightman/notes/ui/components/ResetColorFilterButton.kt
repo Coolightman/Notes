@@ -33,7 +33,7 @@ fun ResetColorFilterButton(
     ) {
         Icon(
             imageVector = Icons.Default.Close,
-            contentDescription = null,
+            contentDescription = "reset filter",
             tint = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium),
             modifier = Modifier.align(Alignment.Center)
         )

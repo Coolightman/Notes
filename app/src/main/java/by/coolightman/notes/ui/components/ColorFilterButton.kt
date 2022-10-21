@@ -37,7 +37,7 @@ fun ColorFilterButton(
         if (isSelected) {
             Icon(
                 imageVector = Icons.Default.Done,
-                contentDescription = null,
+                contentDescription = "filter",
                 tint = MaterialTheme.colors.onSurface.copy(0.5f),
                 modifier = Modifier.align(Alignment.Center)
             )
