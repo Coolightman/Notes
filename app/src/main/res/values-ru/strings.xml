@@ -62,4 +62,5 @@
     <string name="task_notification_title">Задача</string>
     <string name="task_for_time">на</string>
     <string name="notes_view_mode">Расположение заметок</string>
+    <string name="okay">ОК</string>
 </resources>
