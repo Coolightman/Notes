@@ -60,7 +60,7 @@ fun AppNavigationHost(
             exitTransition = {
                 when (targetState.destination.route) {
                     NavRoutes.Tasks.route -> {
-                        slideOutHorizontally(targetOffsetX = { it }) +
+                        slideOutHorizontally(targetOffsetX = { -it }) +
                                 fadeOut(tween(SLIDE_FADE_DURATION))
                     }
                     else -> fadeOut(animationSpec = tween())
