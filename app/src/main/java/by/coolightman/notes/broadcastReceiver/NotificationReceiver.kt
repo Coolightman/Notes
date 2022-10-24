@@ -1,5 +1,6 @@
 package by.coolightman.notes.broadcastReceiver
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -20,6 +21,7 @@ import by.coolightman.notes.util.NOTIFICATION_TIME
 
 class NotificationReceiver : BroadcastReceiver() {
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     override fun onReceive(context: Context, intent: Intent) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -50,7 +52,7 @@ class NotificationReceiver : BroadcastReceiver() {
         val okBtIntent = Intent(context, CancelNotificationReceiver::class.java).apply {
             putExtra(NOTIFICATION_ID_EXTRA, notificationId)
         }
-        val okBtPendingIntent = PendingIntent.getBroadcast(context, 0, okBtIntent, PendingIntent.FLAG_IMMUTABLE)
+        val okBtPendingIntent = PendingIntent.getBroadcast(context, 0, okBtIntent, 0)
 
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
