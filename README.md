@@ -8,6 +8,7 @@ Kotlin, MVVM, Clean Architecture, Jetpack compose, Hilt, Room, Coroutine+Flow, A
   - Sort and filter notes and tasks
   - Search by notes or tasks
   - Ability to intelligently store notes of different sizes using collapsing
+  - Pin notes to the top of the list
   - Create notifications for tasks
   - Ability to choose how notes are displayed
   - Dark, light and system app themes
