@@ -62,7 +62,7 @@ fun AppBottomBar(
                         }
                     },
                     selectedContentColor = MaterialTheme.colors.primary,
-                    unselectedContentColor = MaterialTheme.colors.onSurface.copy(0.8f),
+                    unselectedContentColor = MaterialTheme.colors.onSecondary,
                 )
             }
         }

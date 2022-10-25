@@ -104,7 +104,7 @@ fun EditNoteScreen(
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSecondary
                     )
                 }
             },
@@ -114,7 +114,7 @@ fun EditNoteScreen(
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSecondary
                         )
                     }
                 }

@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -85,7 +84,7 @@ fun SearchTaskScreen(
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSecondary
                     )
                 }
             },
@@ -110,7 +109,7 @@ fun SearchTaskScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_cancel_24),
                             contentDescription = "cancel",
-                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current),
+                            tint = MaterialTheme.colors.onSecondary,
                             modifier = Modifier.size(20.dp)
                         )
                     }

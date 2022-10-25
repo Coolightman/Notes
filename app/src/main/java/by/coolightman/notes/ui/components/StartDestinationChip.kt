@@ -32,7 +32,7 @@ fun StartDestinationChip(
         },
         content = { Text(text = title) },
         colors = ChipDefaults.filterChipColors(
-            selectedBackgroundColor = MaterialTheme.colors.primary.copy(0.5f),
+            selectedBackgroundColor = MaterialTheme.colors.primary.copy(0.7f),
             selectedLeadingIconColor = MaterialTheme.colors.onSurface,
             selectedContentColor = MaterialTheme.colors.onSurface,
             backgroundColor = InactiveBackground.copy(0.3f)

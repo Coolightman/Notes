@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import by.coolightman.notes.util.isDarkMode
 
 @Composable
 fun SettingsRow(
@@ -30,7 +31,8 @@ fun SettingsRow(
                 text = title,
                 style = MaterialTheme.typography.body1.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colors.primary
+                    color = if (isDarkMode()) MaterialTheme.colors.primary
+                    else MaterialTheme.colors.primaryVariant
                 ),
                 modifier = Modifier.padding(8.dp, 4.dp, 8.dp, 0.dp)
             )

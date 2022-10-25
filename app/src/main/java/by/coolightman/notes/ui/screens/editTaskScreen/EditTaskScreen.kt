@@ -124,7 +124,7 @@ fun EditTaskScreen(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "back",
-                    tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                    tint = MaterialTheme.colors.onSecondary
                 )
             }
         }, actions = {
@@ -133,7 +133,7 @@ fun EditTaskScreen(
                     Icon(
                         painter = painterResource(R.drawable.ic_delete_forever_24),
                         contentDescription = "delete",
-                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSecondary
                     )
                 }
             }

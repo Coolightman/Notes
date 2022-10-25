@@ -18,7 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import by.coolightman.notes.ui.theme.ImportantTask
 import by.coolightman.notes.ui.theme.InactiveBackground
 import by.coolightman.notes.ui.theme.NotesTheme
 import by.coolightman.notes.util.toFormattedDate
@@ -66,9 +65,9 @@ fun DateTimeText(
         ),
         modifier = Modifier
             .clip(CORNER_SHAPE)
-            .background(InactiveBackground.copy(0.3f))
+            .background(InactiveBackground.copy(0.2f))
             .clickable { onClick() }
-            .border(1.dp, color = ImportantTask.copy(0.8f), shape = CORNER_SHAPE)
+            .border(1.dp, color = MaterialTheme.colors.primary.copy(0.8f), shape = CORNER_SHAPE)
             .padding(8.dp)
     )
 }

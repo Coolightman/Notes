@@ -113,8 +113,7 @@ fun NotesScreen(
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "search",
-                                tint = MaterialTheme.colors.onSurface
-                                    .copy(LocalContentAlpha.current)
+                                tint = MaterialTheme.colors.onSecondary
                             )
                         }
                     }
@@ -124,7 +123,7 @@ fun NotesScreen(
                             painter = painterResource(R.drawable.ic_baseline_sort_24),
                             contentDescription = "sort",
                             tint = if (isShowSortPanel) MaterialTheme.colors.primary
-                            else MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            else MaterialTheme.colors.onSecondary
                         )
                     }
 
@@ -133,7 +132,7 @@ fun NotesScreen(
                             Icons.Default.MoreVert,
                             contentDescription = "more",
                             tint = if (isDropMenuExpanded) MaterialTheme.colors.primary
-                            else MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            else MaterialTheme.colors.onSecondary
                         )
                     }
 
@@ -206,7 +205,7 @@ fun NotesScreen(
                         Icon(
                             painter = painterResource(R.drawable.ic_select_all_24),
                             contentDescription = "select all",
-                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSecondary
                         )
                     }
                     IconButton(
@@ -225,7 +224,7 @@ fun NotesScreen(
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSecondary
                         )
                     }
                 }

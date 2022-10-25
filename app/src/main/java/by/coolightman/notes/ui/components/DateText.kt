@@ -22,7 +22,7 @@ fun DateText(
             fontSize = 10.sp,
             fontWeight = FontWeight.Light
         ),
-        color = MaterialTheme.colors.onSurface.copy(0.25f),
+        color = MaterialTheme.colors.onSurface.copy(0.5f),
         modifier = modifier
             .padding(0.dp, 2.dp, 8.dp, 2.dp)
     )

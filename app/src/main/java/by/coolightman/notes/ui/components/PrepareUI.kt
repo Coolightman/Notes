@@ -35,7 +35,7 @@ private fun DefineSystemBarsColors(darkMode: Boolean) {
     SideEffect {
         systemUiController.setStatusBarColor(
             color = statusBarColor,
-            darkIcons = useDarkIcons
+            darkIcons = false
         )
     }
 

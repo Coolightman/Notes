@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.SortBy
 import by.coolightman.notes.ui.model.ItemColor
+import by.coolightman.notes.util.isDarkMode
 import kotlinx.coroutines.launch
 
 @Composable
@@ -61,7 +62,10 @@ fun SortFilterPanel(
             modifier = Modifier
                 .fillMaxWidth()
                 .horizontalScroll(scrollState)
-                .background(MaterialTheme.colors.secondary)
+                .background(
+                    if (isDarkMode()) MaterialTheme.colors.secondary
+                    else MaterialTheme.colors.background
+                )
         ) {
             SortByChipDouble(
                 onSort = { onSort(it) },

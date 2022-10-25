@@ -17,7 +17,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarResult
@@ -103,7 +102,7 @@ fun NotesTrashScreen(
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "back",
-                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSecondary
                     )
                 }
             },
@@ -120,7 +119,7 @@ fun NotesTrashScreen(
                     Icon(
                         painter = painterResource(R.drawable.ic_restore_trash_24),
                         contentDescription = "restore all",
-                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSecondary
                     )
                 }
 
@@ -134,7 +133,7 @@ fun NotesTrashScreen(
                     Icon(
                         painter = painterResource(R.drawable.ic_delete_forever_24),
                         contentDescription = "delete all forever",
-                        tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                        tint = MaterialTheme.colors.onSecondary
                     )
                 }
             }

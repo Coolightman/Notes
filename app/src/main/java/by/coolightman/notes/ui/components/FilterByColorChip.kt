@@ -30,13 +30,13 @@ fun FilterByColorChip(
             Icon(
                 painter = painterResource(R.drawable.ic_palette_24),
                 contentDescription = null,
-                tint = if (!isSelected && isActive) MaterialTheme.colors.primary.copy(0.5f)
+                tint = if (!isSelected && isActive) MaterialTheme.colors.primary.copy(0.7f)
                 else LocalContentColor.current,
                 modifier = Modifier.size(16.dp)
             )
         },
         colors = ChipDefaults.filterChipColors(
-            selectedBackgroundColor = MaterialTheme.colors.primary.copy(0.5f),
+            selectedBackgroundColor = MaterialTheme.colors.primary.copy(0.7f),
             selectedLeadingIconColor = MaterialTheme.colors.onSurface,
             selectedContentColor = MaterialTheme.colors.onSurface,
             backgroundColor = InactiveBackground.copy(0.3f),

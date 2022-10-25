@@ -16,6 +16,6 @@ fun AppTitleText(
             fontWeight = FontWeight.Light,
             letterSpacing = 1.0.sp
         ),
-        color = MaterialTheme.colors.onSurface
+        color = MaterialTheme.colors.onSecondary
     )
 }

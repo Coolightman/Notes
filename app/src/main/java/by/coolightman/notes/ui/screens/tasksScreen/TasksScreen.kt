@@ -137,8 +137,7 @@ fun TasksScreen(
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = "search",
-                                tint = MaterialTheme.colors.onSurface
-                                    .copy(LocalContentAlpha.current)
+                                tint = MaterialTheme.colors.onSecondary
                             )
                         }
                     }
@@ -148,7 +147,7 @@ fun TasksScreen(
                             painter = painterResource(R.drawable.ic_baseline_sort_24),
                             contentDescription = "sort",
                             tint = if (isShowSortPanel) MaterialTheme.colors.primary
-                            else MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            else MaterialTheme.colors.onSecondary
                         )
                     }
 
@@ -157,7 +156,7 @@ fun TasksScreen(
                             Icons.Default.MoreVert,
                             contentDescription = "more",
                             tint = if (isDropMenuExpanded) MaterialTheme.colors.primary
-                            else MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            else MaterialTheme.colors.onSecondary
                         )
                     }
                     DropdownMenu(
@@ -271,7 +270,7 @@ fun TasksScreen(
                         Icon(
                             painter = painterResource(R.drawable.ic_select_all_24),
                             contentDescription = "select all",
-                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSecondary
                         )
                     }
 
@@ -285,7 +284,7 @@ fun TasksScreen(
                         Icon(
                             painter = painterResource(R.drawable.ic_delete_forever_24),
                             contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+                            tint = MaterialTheme.colors.onSecondary
                         )
                     }
                 }
