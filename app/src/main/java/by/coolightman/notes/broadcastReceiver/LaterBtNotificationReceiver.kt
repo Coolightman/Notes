@@ -28,7 +28,6 @@ class LaterBtNotificationReceiver : BroadcastReceiver() {
             putExtra(NOTIFICATION_TIME_EXTRA, notificationTime)
             putExtra(NOTIFICATION_TEXT_EXTRA, notificationText)
         }
-
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             notificationId,
