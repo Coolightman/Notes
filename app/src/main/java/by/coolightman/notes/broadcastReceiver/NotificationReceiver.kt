@@ -18,6 +18,7 @@ import by.coolightman.notes.util.NOTIFICATION_CHANNEL_NAME
 import by.coolightman.notes.util.NOTIFICATION_ID_EXTRA
 import by.coolightman.notes.util.NOTIFICATION_TEXT_EXTRA
 import by.coolightman.notes.util.NOTIFICATION_TIME_EXTRA
+import by.coolightman.notes.util.toFormattedTime
 
 class NotificationReceiver : BroadcastReceiver() {
 
@@ -26,11 +27,11 @@ class NotificationReceiver : BroadcastReceiver() {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
-        val notificationTime = intent.getStringExtra(NOTIFICATION_TIME_EXTRA)
+        val notificationTime = intent.getLongExtra(NOTIFICATION_TIME_EXTRA, 0L)
         val notificationTitle =
             context.resources.getString(R.string.task_notification_title) + " " + context.getString(
                 R.string.task_for_time
-            ) + " " + notificationTime
+            ) + " " + notificationTime.toFormattedTime()
         val notificationText = intent.getStringExtra(NOTIFICATION_TEXT_EXTRA)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -63,10 +64,14 @@ class NotificationReceiver : BroadcastReceiver() {
         val laterBtPendingIntent = PendingIntent.getBroadcast(context, 0, laterBtIntent, 0)
 
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notification).setContentTitle(notificationTitle)
-            .setContentText(notificationText).setStyle(NotificationCompat.BigTextStyle())
-            .setPriority(NotificationCompat.PRIORITY_HIGH).setDefaults(Notification.DEFAULT_ALL)
-            .setContentIntent(launchAppPendingIntent).addAction(
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(notificationTitle)
+            .setContentText(notificationText)
+            .setStyle(NotificationCompat.BigTextStyle())
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setDefaults(Notification.DEFAULT_ALL)
+            .setContentIntent(launchAppPendingIntent)
+            .addAction(
                 R.drawable.ic_round_done_24,
                 context.resources.getString(R.string.okay),
                 okBtPendingIntent
@@ -74,7 +79,9 @@ class NotificationReceiver : BroadcastReceiver() {
                 R.drawable.ic_round_access_time_24,
                 context.resources.getString(R.string.remind_in_10_minutes),
                 laterBtPendingIntent
-            ).setAutoCancel(true).build()
+            )
+            .setAutoCancel(true)
+            .build()
 
         notificationManager.notify(notificationId, notification)
     }

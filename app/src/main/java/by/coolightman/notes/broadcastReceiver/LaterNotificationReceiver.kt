@@ -14,7 +14,7 @@ class LaterNotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
-        val notificationTime = intent.getStringExtra(NOTIFICATION_TIME_EXTRA)
+        val notificationTime = intent.getLongExtra(NOTIFICATION_TIME_EXTRA, 0L)
         val notificationText = intent.getStringExtra(NOTIFICATION_TEXT_EXTRA)
 
         val notificationManager =
