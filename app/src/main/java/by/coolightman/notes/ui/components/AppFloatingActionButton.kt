@@ -81,7 +81,7 @@ fun FAB(
             Icon(
                 painter = painterResource(id = R.drawable.ic_add_24),
                 contentDescription = "add",
-                tint = MaterialTheme.colors.onPrimary
+                tint = MaterialTheme.colors.onSurface
             )
         }
     }
