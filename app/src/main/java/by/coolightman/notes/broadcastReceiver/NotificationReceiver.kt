@@ -56,7 +56,12 @@ class NotificationReceiver : BroadcastReceiver() {
             putExtra(NOTIFICATION_ID_EXTRA, notificationId)
         }
         val okBtPendingIntent =
-            PendingIntent.getBroadcast(context, 0, okBtIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+            PendingIntent.getBroadcast(
+                context,
+                notificationId,
+                okBtIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
         val laterBtIntent = Intent(context, LaterBtNotificationReceiver::class.java).apply {
             putExtra(NOTIFICATION_ID_EXTRA, notificationId)
@@ -64,7 +69,12 @@ class NotificationReceiver : BroadcastReceiver() {
             putExtra(NOTIFICATION_TEXT_EXTRA, notificationText)
         }
         val laterBtPendingIntent =
-            PendingIntent.getBroadcast(context, 0, laterBtIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+            PendingIntent.getBroadcast(
+                context,
+                notificationId,
+                laterBtIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
         val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
