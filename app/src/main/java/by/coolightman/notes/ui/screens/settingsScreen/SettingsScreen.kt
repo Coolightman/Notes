@@ -166,6 +166,12 @@ fun SettingsScreen(
                     alpha = 0.6f
                 )
             }
+
+            SwitchCard(
+                label = stringResource(R.string.show_notification_date),
+                checked = uiState.isShowTaskNotificationDate,
+                onCheckedChange = { viewModel.setIsShowTaskNotificationDate(it) }
+            )
         }
     }
 }

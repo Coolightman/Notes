@@ -1,6 +1,5 @@
 package by.coolightman.notes.ui.components
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -46,6 +45,7 @@ fun TasksItem(
     isSelectionMode: Boolean = false,
     isCollapsable: Boolean = false,
     isCollapsed: Boolean = false,
+    isShowNotificationDate: Boolean = false,
     onCollapseClick: () -> Unit
 ) {
 
@@ -76,107 +76,113 @@ fun TasksItem(
         animationSpec = tween(500)
     )
 
-    Card(
-        shape = RoundedCornerShape(24.dp),
-        elevation =
-        if (task.isSelected) 8.dp
-        else 2.dp,
-        modifier = modifier
-            .fillMaxWidth()
-            .defaultMinSize(minHeight = 48.dp)
-            .onGloballyPositioned { coordinates ->
-                itemHeight = density.run { coordinates.size.height.toDp() }
-                itemWidth = density.run { coordinates.size.width.toDp() }
-            }
-    ) {
-        Box {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .combinedClickable(
-                        onClick = { onClick() },
-                        onLongClick = { onLongPress() }
-                    )
-                    .background(
-                        Color(ItemColor.values()[task.colorIndex].color).copy(backgroundAlfa)
-                    )
-                    .animateContentSize()
-            ) {
-                Box {
-                    IconButton(onClick = { onSwitchActive() }) {
-                        Icon(
-                            painter = painterResource(
-                                id = if (task.isActive) R.drawable.ic_outline_circle_24
-                                else R.drawable.ic_task_24
-                            ),
-                            contentDescription = "active task",
-                            tint = if (task.isImportant) ImportantTask.copy(contentAlfa)
-                            else MaterialTheme.colors.onSurface.copy(0.8f),
-                        )
-                    }
-                    if (task.isHasNotification) {
-                        Icon(
-                            imageVector = Icons.Default.Notifications,
-                            contentDescription = "notifications",
-                            tint = MaterialTheme.colors.onSurface.copy(0.5f),
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(4.dp)
-                                .size(12.dp)
-                        )
-                    }
+    Column() {
+        Card(
+            shape = RoundedCornerShape(24.dp),
+            elevation =
+            if (task.isSelected) 8.dp
+            else 2.dp,
+            modifier = modifier
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = 48.dp)
+                .onGloballyPositioned { coordinates ->
+                    itemHeight = density.run { coordinates.size.height.toDp() }
+                    itemWidth = density.run { coordinates.size.width.toDp() }
                 }
-                Text(
-                    text = task.text,
-                    style = textStyle,
-                    maxLines =
-                    if (isCollapsed) 1
-                    else Integer.MAX_VALUE,
-
-                    overflow = TextOverflow.Ellipsis,
+        ) {
+            Box {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(0.dp, 4.dp, 8.dp, 4.dp)
-                        .alpha(contentAlfa)
-                )
-                if (isCollapsable && !isSelectionMode) {
-                    IconButton(
-                        onClick = { onCollapseClick() },
-                        modifier = Modifier.align(Alignment.Bottom)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = "drop down",
-                            tint = MaterialTheme.colors.onSurface.copy(0.5f),
-                            modifier = Modifier.rotate(rotateState)
+                        .fillMaxWidth()
+                        .combinedClickable(
+                            onClick = { onClick() },
+                            onLongClick = { onLongPress() }
                         )
-                    }
-                } else {
-                    Spacer(modifier = Modifier.width(48.dp))
-                }
-            }
-            if (isSelectionMode) {
-                Box(
-                    modifier = Modifier
-                        .height(itemHeight)
-                        .width(itemWidth)
-                        .align(Alignment.Center)
-                        .clickable { onCheckedChange() }
+                        .background(
+                            Color(ItemColor.values()[task.colorIndex].color).copy(backgroundAlfa)
+                        )
+                        .animateContentSize()
                 ) {
-                    AppCheckbox(
-                        checked = task.isSelected,
-                        onCheckedChange = { onCheckedChange() },
-                        modifier = Modifier.align(Alignment.CenterEnd)
+                    Box {
+                        IconButton(onClick = { onSwitchActive() }) {
+                            Icon(
+                                painter = painterResource(
+                                    id = if (task.isActive) R.drawable.ic_outline_circle_24
+                                    else R.drawable.ic_task_24
+                                ),
+                                contentDescription = "active task",
+                                tint = if (task.isImportant) ImportantTask.copy(contentAlfa)
+                                else MaterialTheme.colors.onSurface.copy(0.8f),
+                            )
+                        }
+                        if (task.isHasNotification && !isShowNotificationDate) {
+                            Icon(
+                                imageVector = Icons.Default.Notifications,
+                                contentDescription = "notifications",
+                                tint = MaterialTheme.colors.onSurface.copy(0.5f),
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(4.dp)
+                                    .size(12.dp)
+                            )
+                        }
+                    }
+                    Text(
+                        text = task.text,
+                        style = textStyle,
+                        maxLines =
+                        if (isCollapsed) 1
+                        else Integer.MAX_VALUE,
+
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(0.dp, 4.dp, 8.dp, 4.dp)
+                            .alpha(contentAlfa)
                     )
+                    if (isCollapsable && !isSelectionMode) {
+                        IconButton(
+                            onClick = { onCollapseClick() },
+                            modifier = Modifier.align(Alignment.Bottom)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = "drop down",
+                                tint = MaterialTheme.colors.onSurface.copy(0.5f),
+                                modifier = Modifier.rotate(rotateState)
+                            )
+                        }
+                    } else {
+                        Spacer(modifier = Modifier.width(48.dp))
+                    }
+                }
+                if (isSelectionMode) {
+                    Box(
+                        modifier = Modifier
+                            .height(itemHeight)
+                            .width(itemWidth)
+                            .align(Alignment.Center)
+                            .clickable { onCheckedChange() }
+                    ) {
+                        AppCheckbox(
+                            checked = task.isSelected,
+                            onCheckedChange = { onCheckedChange() },
+                            modifier = Modifier.align(Alignment.CenterEnd)
+                        )
+                    }
                 }
             }
         }
+        TaskNotificationDate(
+            isHasNotification = task.isHasNotification && isShowNotificationDate,
+            notificationTime = task.notificationTime.timeInMillis
+        )
     }
 }
 
 @Preview(
-    showBackground = true, uiMode = UI_MODE_NIGHT_YES
+    showBackground = true
 )
 @Composable
 private fun NotesItemPreview() {

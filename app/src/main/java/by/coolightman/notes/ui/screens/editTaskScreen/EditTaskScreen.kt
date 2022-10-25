@@ -167,7 +167,7 @@ fun EditTaskScreen(
                                     else MaterialTheme.colors.onSurface.copy(0.8f),
                                 )
                             }
-                            if (isHasNotification) {
+                            if (isHasNotification && !uiState.isShowNotificationDate) {
                                 Icon(
                                     imageVector = Icons.Default.Notifications,
                                     contentDescription = "notifications",
@@ -209,12 +209,17 @@ fun EditTaskScreen(
                         }
                     }
                 }
+                TaskNotificationDate(
+                    isHasNotification = isHasNotification && uiState.isShowNotificationDate,
+                    notificationTime = calendar.timeInMillis,
+                    modifier = Modifier.padding(end = 12.dp)
+                )
 
                 if (createdAt.isNotEmpty()) {
                     DateText(
                         text = stringResource(R.string.created) + " " + createdAt,
                         modifier = Modifier
-                            .padding(horizontal = 12.dp)
+                            .padding(horizontal = 28.dp)
                             .fillMaxWidth()
                     )
                 }
@@ -223,7 +228,7 @@ fun EditTaskScreen(
                     DateText(
                         text = stringResource(R.string.edited) + " " + editedAt,
                         modifier = Modifier
-                            .padding(horizontal = 12.dp)
+                            .padding(horizontal = 28.dp)
                             .fillMaxWidth()
                     )
                 }

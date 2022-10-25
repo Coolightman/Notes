@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
+import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetStringPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
@@ -35,6 +36,7 @@ class TasksViewModel @Inject constructor(
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val putStringPreferenceUseCase: PutStringPreferenceUseCase,
     private val getStringPreferenceUseCase: GetStringPreferenceUseCase,
+    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(TasksUiState())
@@ -55,6 +57,7 @@ class TasksViewModel @Inject constructor(
 
     init {
         getTasks()
+        getIsShowTaskNotificationDate()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -71,6 +74,16 @@ class TasksViewModel @Inject constructor(
                     isListHasCollapsable = it.any { task -> task.isCollapsable },
                     sortByIndex = sortBy.first().ordinal,
                     currentFilterSelection = filterSelection.first()
+                )
+            }
+        }
+    }
+
+    private fun getIsShowTaskNotificationDate() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(IS_SHOW_TASK_NOTIFICATION_DATE, true).collectLatest {
+                uiState = uiState.copy(
+                    isShowNotificationDate = it
                 )
             }
         }

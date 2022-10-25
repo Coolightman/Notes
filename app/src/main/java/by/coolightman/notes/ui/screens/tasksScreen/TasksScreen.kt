@@ -335,7 +335,8 @@ fun TasksScreen(
                         modifier = Modifier.animateItemPlacement(tween()),
                         isCollapsable = task.isCollapsable,
                         isCollapsed = task.isCollapsed,
-                        onCollapseClick = { viewModel.switchCollapse(task.id) }
+                        onCollapseClick = { viewModel.switchCollapse(task.id) },
+                        isShowNotificationDate = uiState.isShowNotificationDate
                     )
                 }
             }

@@ -11,5 +11,6 @@ data class SettingsUiState(
     val newTaskColorIndex: Int = 0,
     val isShowNotesDate: Boolean = false,
     val isNotesColoredBackground: Boolean = false,
+    val isShowTaskNotificationDate: Boolean = false,
     val currentNotesViewMode: NotesViewMode = NotesViewMode.LIST
 )

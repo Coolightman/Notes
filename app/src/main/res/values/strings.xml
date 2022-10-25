@@ -58,6 +58,7 @@
     <string name="search_placeholder">Search..</string>
     <string name="no_results">No results</string>
     <string name="colored_notes_background">Colored notes background</string>
+    <string name="show_notification_date">Show notification date</string>
     <string name="task_notification_title">Task</string>
     <string name="task_for_time"> for </string>
     <string name="notes_view_mode">Notes view mode</string>

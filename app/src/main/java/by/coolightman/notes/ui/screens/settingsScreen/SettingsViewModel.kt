@@ -17,6 +17,7 @@ import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.util.IS_NOTES_COLORED_BACK
 import by.coolightman.notes.util.IS_SHOW_NOTE_DATE
+import by.coolightman.notes.util.IS_SHOW_TASK_NOTIFICATION_DATE
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
 import by.coolightman.notes.util.NOTES_VIEW_MODE
@@ -52,6 +53,17 @@ class SettingsViewModel @Inject constructor(
         getIsShowNotesDate()
         getIsNotesColoredBackground()
         getNotesViewMode()
+        getIsShowTaskNotificationDate()
+    }
+
+    private fun getIsShowTaskNotificationDate() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(IS_SHOW_TASK_NOTIFICATION_DATE, true).collectLatest {
+                uiState = uiState.copy(
+                    isShowTaskNotificationDate = it
+                )
+            }
+        }
     }
 
     private fun getIsShowNotesDate() {
@@ -153,6 +165,12 @@ class SettingsViewModel @Inject constructor(
     fun setIsShowNotedDate(value: Boolean) {
         viewModelScope.launch {
             putBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE, value)
+        }
+    }
+
+    fun setIsShowTaskNotificationDate(value: Boolean) {
+        viewModelScope.launch {
+            putBooleanPreferenceUseCase(IS_SHOW_TASK_NOTIFICATION_DATE, value)
         }
     }
 

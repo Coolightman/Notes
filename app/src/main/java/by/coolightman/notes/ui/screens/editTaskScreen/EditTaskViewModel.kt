@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Task
+import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.tasks.CreateTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
@@ -14,6 +15,7 @@ import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.UpdateTaskUseCase
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.ARG_TASK_ID
+import by.coolightman.notes.util.IS_SHOW_TASK_NOTIFICATION_DATE
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
 import by.coolightman.notes.util.roundTimeToMinute
 import by.coolightman.notes.util.toFormattedFullDate
@@ -30,7 +32,8 @@ class EditTaskViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase
+    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
     var uiState by mutableStateOf(EditTaskUiState())
@@ -44,6 +47,17 @@ class EditTaskViewModel @Inject constructor(
             getTask(taskId)
         } else {
             getNewTaskColorPreference()
+        }
+        getIsShowTaskNotificationDate()
+    }
+
+    private fun getIsShowTaskNotificationDate() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(IS_SHOW_TASK_NOTIFICATION_DATE, true).collectLatest {
+                uiState = uiState.copy(
+                    isShowNotificationDate = it
+                )
+            }
         }
     }
 
