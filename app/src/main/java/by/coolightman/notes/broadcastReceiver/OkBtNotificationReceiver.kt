@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import by.coolightman.notes.util.NOTIFICATION_ID_EXTRA
 
-class CancelNotificationReceiver : BroadcastReceiver() {
+class OkBtNotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val notificationManager =

@@ -10,7 +10,7 @@ import by.coolightman.notes.util.NOTIFICATION_ID_EXTRA
 import by.coolightman.notes.util.NOTIFICATION_TEXT_EXTRA
 import by.coolightman.notes.util.NOTIFICATION_TIME_EXTRA
 
-class LaterNotificationReceiver : BroadcastReceiver() {
+class LaterBtNotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)

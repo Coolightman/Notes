@@ -26,6 +26,7 @@ class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
         val notificationTime = intent.getLongExtra(NOTIFICATION_TIME_EXTRA, 0L)
         val notificationTitle =
@@ -51,12 +52,12 @@ class NotificationReceiver : BroadcastReceiver() {
         val launchAppPendingIntent =
             PendingIntent.getActivity(context, 0, launchAppIntent, PendingIntent.FLAG_IMMUTABLE)
 
-        val okBtIntent = Intent(context, CancelNotificationReceiver::class.java).apply {
+        val okBtIntent = Intent(context, OkBtNotificationReceiver::class.java).apply {
             putExtra(NOTIFICATION_ID_EXTRA, notificationId)
         }
         val okBtPendingIntent = PendingIntent.getBroadcast(context, 0, okBtIntent, 0)
 
-        val laterBtIntent = Intent(context, LaterNotificationReceiver::class.java).apply {
+        val laterBtIntent = Intent(context, LaterBtNotificationReceiver::class.java).apply {
             putExtra(NOTIFICATION_ID_EXTRA, notificationId)
             putExtra(NOTIFICATION_TIME_EXTRA, notificationTime)
             putExtra(NOTIFICATION_TEXT_EXTRA, notificationText)
