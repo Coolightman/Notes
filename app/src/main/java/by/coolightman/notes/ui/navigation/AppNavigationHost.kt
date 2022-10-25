@@ -22,7 +22,7 @@ import by.coolightman.notes.util.ARG_TASK_ID
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
-private const val SLIDE_FADE_DURATION = 200
+private const val EXIT_DURATION = 200
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -40,8 +40,8 @@ fun AppNavigationHost(
 
         composable(
             route = NavRoutes.Splash.route,
-            enterTransition = { fadeIn(animationSpec = tween()) },
-            exitTransition = { fadeOut(animationSpec = tween()) }
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
         ) {
             SplashScreen(navController)
         }
@@ -52,18 +52,18 @@ fun AppNavigationHost(
                 when (initialState.destination.route) {
                     NavRoutes.Tasks.route -> {
                         slideInHorizontally(initialOffsetX = { -it }) +
-                                fadeIn(tween(SLIDE_FADE_DURATION))
+                                fadeIn(tween())
                     }
-                    else -> fadeIn(animationSpec = tween())
+                    else -> fadeIn(tween())
                 }
             },
             exitTransition = {
                 when (targetState.destination.route) {
                     NavRoutes.Tasks.route -> {
                         slideOutHorizontally(targetOffsetX = { -it }) +
-                                fadeOut(tween(SLIDE_FADE_DURATION))
+                                fadeOut(tween(EXIT_DURATION))
                     }
-                    else -> fadeOut(animationSpec = tween())
+                    else -> fadeOut(tween(EXIT_DURATION))
                 }
             }
         ) {
@@ -81,8 +81,8 @@ fun AppNavigationHost(
                     type = NavType.LongType
                 }
             ),
-            enterTransition = { fadeIn(animationSpec = tween()) },
-            exitTransition = { fadeOut(animationSpec = tween()) }
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
         ) {
             EditNoteScreen(
                 navController = navController,
@@ -92,8 +92,8 @@ fun AppNavigationHost(
 
         composable(
             route = NavRoutes.NotesTrash.route,
-            enterTransition = { fadeIn(animationSpec = tween()) },
-            exitTransition = { fadeOut(animationSpec = tween()) }
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
         ) {
             NotesTrashScreen(
                 navController = navController,
@@ -103,8 +103,8 @@ fun AppNavigationHost(
 
         composable(
             route = NavRoutes.SearchNote.route,
-            enterTransition = { fadeIn(animationSpec = tween()) },
-            exitTransition = { fadeOut(animationSpec = tween()) }
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
         ) {
             SearchNoteScreen(
                 navController = navController
@@ -117,18 +117,18 @@ fun AppNavigationHost(
                 when (initialState.destination.route) {
                     NavRoutes.Notes.route -> {
                         slideInHorizontally(initialOffsetX = { it }) +
-                                fadeIn(tween(SLIDE_FADE_DURATION))
+                                fadeIn(tween())
                     }
-                    else -> fadeIn(animationSpec = tween())
+                    else -> fadeIn(tween())
                 }
             },
             exitTransition = {
                 when (targetState.destination.route) {
                     NavRoutes.Notes.route -> {
                         slideOutHorizontally(targetOffsetX = { it }) +
-                                fadeOut(tween(SLIDE_FADE_DURATION))
+                                fadeOut(tween(EXIT_DURATION))
                     }
-                    else -> fadeOut(animationSpec = tween())
+                    else -> fadeOut(tween(EXIT_DURATION))
                 }
             }
         ) {
@@ -145,8 +145,8 @@ fun AppNavigationHost(
                     type = NavType.LongType
                 }
             ),
-            enterTransition = { fadeIn(animationSpec = tween()) },
-            exitTransition = { fadeOut(animationSpec = tween()) }
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
         ) {
             EditTaskScreen(
                 navController = navController,
@@ -156,8 +156,8 @@ fun AppNavigationHost(
 
         composable(
             route = NavRoutes.SearchTask.route,
-            enterTransition = { fadeIn(animationSpec = tween()) },
-            exitTransition = { fadeOut(animationSpec = tween()) }
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
         ) {
             SearchTaskScreen(
                 navController = navController
@@ -166,8 +166,8 @@ fun AppNavigationHost(
 
         composable(
             route = NavRoutes.Settings.route,
-            enterTransition = { fadeIn(animationSpec = tween()) },
-            exitTransition = { fadeOut(animationSpec = tween()) }
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
         ) {
             SettingsScreen(
                 navController = navController
