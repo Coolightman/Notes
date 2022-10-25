@@ -64,7 +64,7 @@ fun NotesItem(
         animationSpec = tween(500)
     )
     Card(
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(8.dp),
         elevation =
         if (note.isSelected) 8.dp
         else 2.dp,
