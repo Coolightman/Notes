@@ -38,6 +38,9 @@
         <receiver
             android:name=".broadcastReceiver.CancelNotificationReceiver"
             android:enabled="true" />
+        <receiver
+            android:name=".broadcastReceiver.LaterNotificationReceiver"
+            android:enabled="true" />
     </application>
 
 </manifest>

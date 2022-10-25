@@ -62,4 +62,5 @@
     <string name="task_for_time"> for </string>
     <string name="notes_view_mode">Notes view mode</string>
     <string name="okay">OK</string>
+    <string name="remind_in_10_minutes">REMIND IN 10 MINUTES</string>
 </resources>
