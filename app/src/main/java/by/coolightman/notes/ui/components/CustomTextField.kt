@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +15,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextLayoutResult
@@ -31,6 +31,7 @@ fun CustomTextField(
     onValueChange: (String) -> Unit,
     fontSize: TextUnit = 18.sp,
     singleLine: Boolean = false,
+    textColor: Color = MaterialTheme.colors.onSurface,
     keyboardController: SoftwareKeyboardController?,
     onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
@@ -46,10 +47,10 @@ fun CustomTextField(
         onValueChange = { onValueChange(it) },
         textStyle = MaterialTheme.typography.body1.copy(
             fontSize = fontSize,
-            color = MaterialTheme.colors.onSurface.copy(LocalContentAlpha.current)
+            color = textColor
         ),
         singleLine = singleLine,
-        cursorBrush = SolidColor(MaterialTheme.colors.primary.copy(alpha = ContentAlpha.high)),
+        cursorBrush = SolidColor(MaterialTheme.colors.primary.copy(ContentAlpha.high)),
         decorationBox = { innerTextField ->
             Row(
                 verticalAlignment = Alignment.Top,
@@ -60,7 +61,7 @@ fun CustomTextField(
                     Text(
                         text = placeholder,
                         style = MaterialTheme.typography.body1.copy(fontSize = fontSize),
-                        color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium)
+                        color = textColor.copy(ContentAlpha.medium)
                     )
                 }
             }

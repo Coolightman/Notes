@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.theme.InactiveBackground
+import by.coolightman.notes.util.isDarkMode
 
 @Composable
 fun AppAlertDialog(
@@ -103,7 +104,8 @@ fun AppAlertDialog(
             }
         },
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = MaterialTheme.colors.secondary,
+        backgroundColor = if (isDarkMode()) MaterialTheme.colors.secondary
+        else MaterialTheme.colors.background,
         modifier = modifier
     )
 }

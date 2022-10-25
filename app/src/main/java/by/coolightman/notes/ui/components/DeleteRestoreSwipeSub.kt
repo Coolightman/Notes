@@ -23,11 +23,13 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
+import by.coolightman.notes.ui.theme.SwipeGreen
+import by.coolightman.notes.ui.theme.SwipeRed
 
 private const val ANIMATE_DURATION = 400
 private const val GRADIENT_START = 10f
 private const val GRADIENT_END = 600f
-private const val COLOR_ALFA = 0.5f
+private const val COLOR_ALFA = 0.8f
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -48,8 +50,8 @@ fun DeleteRestoreSwipeSub(
 
     val color by animateColorAsState(
         targetValue = when (direction) {
-            DismissDirection.StartToEnd -> Color.Red.copy(COLOR_ALFA)
-            DismissDirection.EndToStart -> Color.Green.copy(COLOR_ALFA)
+            DismissDirection.StartToEnd -> SwipeRed.copy(COLOR_ALFA)
+            DismissDirection.EndToStart -> SwipeGreen.copy(COLOR_ALFA)
             else -> Color.Transparent
         },
         animationSpec = tween(ANIMATE_DURATION)

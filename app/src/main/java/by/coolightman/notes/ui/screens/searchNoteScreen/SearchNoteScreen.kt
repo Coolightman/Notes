@@ -96,6 +96,7 @@ fun SearchNoteScreen(
                     onTextLayout = {},
                     singleLine = true,
                     keyboardController = keyboardController,
+                    textColor = MaterialTheme.colors.onSecondary,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(end = 8.dp)

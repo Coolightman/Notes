@@ -23,3 +23,6 @@ val GrayItem = Color(0xFF696969)
 val EmptyBackground = Color(0xFF4B5358)
 val ImportantTask = Color(0xFFFF814E)
 val ImportantAction = Color(0xFFF44336)
+
+val SwipeGreen = Color(0xFF4CAF50)
+val SwipeRed = Color(0xFFF44336)

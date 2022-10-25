@@ -28,6 +28,7 @@ import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.theme.ImportantAction
 import by.coolightman.notes.util.dropDownItemColor
+import by.coolightman.notes.util.isScrollingUp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

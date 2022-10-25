@@ -32,6 +32,7 @@ import by.coolightman.notes.ui.components.*
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.util.dropDownItemColor
+import by.coolightman.notes.util.isScrollingUp
 import by.coolightman.notes.util.showSnack
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

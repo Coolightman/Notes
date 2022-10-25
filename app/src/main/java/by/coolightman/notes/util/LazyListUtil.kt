@@ -1,4 +1,4 @@
-package by.coolightman.notes.ui.components
+package by.coolightman.notes.util
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
