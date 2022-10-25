@@ -64,5 +64,5 @@
     <string name="notes_view_mode">Расположение заметок</string>
     <string name="okay">ОК</string>
     <string name="remind_in_10_minutes">НАПОМНИТЬ ЧЕРЕЗ 10 МИН</string>
-    <string name="show_notification_date">Показывать дату уведомления</string>
+    <string name="show_notification_date">Показывать даты уведомлений</string>
 </resources>

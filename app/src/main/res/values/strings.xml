@@ -49,7 +49,7 @@
     <string name="light_theme">Light</string>
     <string name="new_note_color">New note color</string>
     <string name="new_task_color">New task color</string>
-    <string name="show_notes_date">Show notes date</string>
+    <string name="show_notes_date">Show note dates</string>
     <string name="expand_all">Expand all</string>
     <string name="collapse_all">Collapse all</string>
     <string name="allow_to_collapse">Allow to collapse</string>
@@ -58,7 +58,7 @@
     <string name="search_placeholder">Search..</string>
     <string name="no_results">No results</string>
     <string name="colored_notes_background">Colored notes background</string>
-    <string name="show_notification_date">Show notification date</string>
+    <string name="show_notification_date">Show notification dates</string>
     <string name="task_notification_title">Task</string>
     <string name="task_for_time"> for </string>
     <string name="notes_view_mode">Notes view mode</string>
