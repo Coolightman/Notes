@@ -16,7 +16,7 @@ Kotlin, MVVM, Clean Architecture, Jetpack compose, Hilt, Room, Coroutine+Flow, A
   - Fast work and smooth animations
   - Setting user preferences
  
-## _Download link for APK_
+## _Download_
 [Google Drive](https://drive.google.com/drive/folders/1bjfjwlLxwwDCkGynRyG3v64TISddZBmC?usp=sharing) | [Play Market](https://play.google.com/store/apps/details?id=by.coolightman.notes)
 
 ## _Screenshots with descriptions_
