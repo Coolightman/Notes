@@ -136,7 +136,7 @@ fun TasksItem(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .weight(1f)
-                            .padding(0.dp, 4.dp, 8.dp, 4.dp)
+                            .padding(vertical = 4.dp)
                             .alpha(contentAlfa)
                     )
                     if (isCollapsable && !isSelectionMode) {
