@@ -17,7 +17,7 @@ Kotlin, MVVM, Clean Architecture, Jetpack compose, Hilt, Room, Coroutine+Flow, A
   - Setting user preferences
  
 ## _Download_
-[Google Drive](https://drive.google.com/drive/folders/1bjfjwlLxwwDCkGynRyG3v64TISddZBmC?usp=sharing) | [Play Market](https://play.google.com/store/apps/details?id=by.coolightman.notes)
+[Play Market](https://play.google.com/store/apps/details?id=by.coolightman.notes)
 
 ## _Screenshots with descriptions_
 ### Notes screen
