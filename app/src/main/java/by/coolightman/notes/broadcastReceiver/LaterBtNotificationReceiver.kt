@@ -40,7 +40,7 @@ class LaterBtNotificationReceiver : BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val timePlus10Min = System.currentTimeMillis() + 5 * 1000
+        val timePlus10Min = System.currentTimeMillis() + 10 * 60 * 1000
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP, timePlus10Min, pendingIntent
         )
