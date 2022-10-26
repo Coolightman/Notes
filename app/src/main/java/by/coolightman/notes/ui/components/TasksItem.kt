@@ -79,9 +79,7 @@ fun TasksItem(
     Column() {
         Card(
             shape = RoundedCornerShape(24.dp),
-            elevation =
-            if (task.isSelected) 8.dp
-            else 2.dp,
+            elevation = 2.dp,
             modifier = modifier
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 48.dp)

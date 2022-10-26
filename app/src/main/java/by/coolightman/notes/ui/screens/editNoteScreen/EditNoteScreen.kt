@@ -128,7 +128,7 @@ fun EditNoteScreen(
                     .verticalScroll(scrollState)
             ) {
                 Card(
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp, 12.dp, 12.dp, 0.dp)

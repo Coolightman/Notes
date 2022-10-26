@@ -64,10 +64,8 @@ fun NotesItem(
         animationSpec = tween(500)
     )
     Card(
-        shape = RoundedCornerShape(8.dp),
-        elevation =
-        if (note.isSelected) 8.dp
-        else 2.dp,
+        shape = RoundedCornerShape(12.dp),
+        elevation = 2.dp,
         modifier = modifier
             .fillMaxWidth()
             .onGloballyPositioned { coordinates ->

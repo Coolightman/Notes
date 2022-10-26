@@ -44,6 +44,7 @@ import by.coolightman.notes.ui.components.AppTopAppBar
 import by.coolightman.notes.ui.components.DeleteRestoreSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.NotesItem
+import by.coolightman.notes.ui.theme.Blue200
 import by.coolightman.notes.ui.theme.ImportantAction
 import by.coolightman.notes.util.DISMISS_DELAY
 import by.coolightman.notes.util.FRACTIONAL_THRESHOLD
@@ -86,6 +87,7 @@ fun NotesTrashScreen(
         AppAlertDialog(
             text = stringResource(R.string.restore_all_notes_dialog),
             confirmButtonText = stringResource(R.string.restore),
+            confirmButtonColor = Blue200,
             onConfirm = {
                 viewModel.restoreAllTrash()
                 openRestoreAllDialog = false
