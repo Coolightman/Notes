@@ -39,7 +39,7 @@ class NotificationReceiver : BroadcastReceiver() {
     @SuppressLint("UnspecifiedImmutableFlag")
     override fun onReceive(context: Context, intent: Intent) {
 
-        updateTask(intent.getIntExtra(TASK_ID_EXTRA, 0))
+        updateTask(intent.getIntExtra(TASK_ID_EXTRA, -1))
 
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
         val notificationTime = intent.getLongExtra(NOTIFICATION_TIME_EXTRA, 0L)
@@ -114,7 +114,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun updateTask(taskId: Int) {
-        if (taskId != 0) {
+        if (taskId != -1) {
             CoroutineScope(Main).launch {
                 val task = taskRepository.getTask(taskId.toLong())
                 val updated = task.copy(isHasNotification = false)
