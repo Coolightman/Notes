@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import by.coolightman.notes.R
+import by.coolightman.notes.domain.repository.TaskRepository
 import by.coolightman.notes.ui.MainActivity
 import by.coolightman.notes.util.NOTIFICATION_CHANNEL_DESCRIPTION
 import by.coolightman.notes.util.NOTIFICATION_CHANNEL_ID
@@ -18,14 +19,27 @@ import by.coolightman.notes.util.NOTIFICATION_CHANNEL_NAME
 import by.coolightman.notes.util.NOTIFICATION_ID_EXTRA
 import by.coolightman.notes.util.NOTIFICATION_TEXT_EXTRA
 import by.coolightman.notes.util.NOTIFICATION_TIME_EXTRA
+import by.coolightman.notes.util.TASK_ID_EXTRA
 import by.coolightman.notes.util.toFormattedTime
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class NotificationReceiver : BroadcastReceiver() {
+
+    @Inject
+    lateinit var taskRepository: TaskRepository
+
+    @Inject
+    lateinit var notificationManager: NotificationManager
 
     @SuppressLint("UnspecifiedImmutableFlag")
     override fun onReceive(context: Context, intent: Intent) {
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        updateTask(intent.getIntExtra(TASK_ID_EXTRA, 0))
 
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
         val notificationTime = intent.getLongExtra(NOTIFICATION_TIME_EXTRA, 0L)
@@ -97,5 +111,15 @@ class NotificationReceiver : BroadcastReceiver() {
             .build()
 
         notificationManager.notify(notificationId, notification)
+    }
+
+    private fun updateTask(taskId: Int) {
+        if (taskId != 0) {
+            CoroutineScope(Main).launch {
+                val task = taskRepository.getTask(taskId.toLong())
+                val updated = task.copy(isHasNotification = false)
+                taskRepository.update(updated)
+            }
+        }
     }
 }
