@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">Заметки</string>
     <string name="notes_title">ЗАМЕТКИ</string>
     <string name="tasks_title">ЗАДАЧИ</string>
     <string name="settings_title">НАСТРОЙКИ</string>
