@@ -1,8 +1,5 @@
 package by.coolightman.notes.ui.screens.searchNoteScreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.notes.SearchNoteUseCase
@@ -10,8 +7,11 @@ import by.coolightman.notes.domain.usecase.notes.SwitchNoteCollapseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,8 +21,8 @@ class SearchNoteViewModel @Inject constructor(
     private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(SearchNoteUiState())
-        private set
+    private val _uiState = MutableStateFlow(SearchNoteUiState())
+    val uiState: StateFlow<SearchNoteUiState> = _uiState.asStateFlow()
 
     private val _searchKey = MutableStateFlow("")
 
@@ -36,9 +36,9 @@ class SearchNoteViewModel @Inject constructor(
             _searchKey.flatMapLatest { key ->
                 searchNoteUseCase(key)
             }.collectLatest {
-                uiState = uiState.copy(
-                    list = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(list = it)
+                }
             }
         }
     }
@@ -54,8 +54,8 @@ class SearchNoteViewModel @Inject constructor(
     }
 
     fun clearSearchResult() {
-        uiState = uiState.copy(
-            list = emptyList()
-        )
+        _uiState.update { currentState ->
+            currentState.copy(list = emptyList())
+        }
     }
 }

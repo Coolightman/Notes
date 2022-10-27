@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel = hiltViewModel<MainViewModel>()
-            val uiState = viewModel.uiState
+            val uiState by viewModel.uiState.collectAsState()
             val systemMode = isSystemInDarkTheme()
 
             val scaffoldState = rememberScaffoldState()

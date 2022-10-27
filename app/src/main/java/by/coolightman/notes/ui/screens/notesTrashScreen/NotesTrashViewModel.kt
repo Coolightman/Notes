@@ -1,8 +1,5 @@
 package by.coolightman.notes.ui.screens.notesTrashScreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.Note
@@ -14,6 +11,10 @@ import by.coolightman.notes.domain.usecase.notes.GetNotesTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.RestoreAllNotesTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.RestoreNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,8 +29,8 @@ class NotesTrashViewModel @Inject constructor(
     private val createNoteUseCase: CreateNoteUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(NotesTrashUiState())
-        private set
+    private val _uiState = MutableStateFlow(NotesTrashUiState())
+    val uiState: StateFlow<NotesTrashUiState> = _uiState.asStateFlow()
 
     private var deletedNoteCash: Note? = null
 
@@ -40,9 +41,9 @@ class NotesTrashViewModel @Inject constructor(
     private fun getTrash() {
         viewModelScope.launch {
             getNotesTrashUseCase().collect {
-                uiState = uiState.copy(
-                    list = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(list = it)
+                }
             }
         }
     }

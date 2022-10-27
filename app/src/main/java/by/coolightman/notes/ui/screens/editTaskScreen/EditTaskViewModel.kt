@@ -1,8 +1,5 @@
 package by.coolightman.notes.ui.screens.editTaskScreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +17,11 @@ import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
 import by.coolightman.notes.util.roundTimeToMinute
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
@@ -36,8 +37,8 @@ class EditTaskViewModel @Inject constructor(
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(EditTaskUiState())
-        private set
+    private val _uiState = MutableStateFlow(EditTaskUiState())
+    val uiState: StateFlow<EditTaskUiState> = _uiState.asStateFlow()
 
     private var task: Task? = null
 
@@ -54,9 +55,9 @@ class EditTaskViewModel @Inject constructor(
     private fun getIsShowTaskNotificationDate() {
         viewModelScope.launch {
             getBooleanPreferenceUseCase(IS_SHOW_TASK_NOTIFICATION_DATE, true).collectLatest {
-                uiState = uiState.copy(
-                    isShowNotificationDate = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(isShowNotificationDate = it)
+                }
             }
         }
     }
@@ -64,9 +65,9 @@ class EditTaskViewModel @Inject constructor(
     private fun getNewTaskColorPreference() {
         viewModelScope.launch {
             getIntPreferenceUseCase(NEW_TASK_COLOR_KEY, ItemColor.GRAY.ordinal).collectLatest {
-                uiState = uiState.copy(
-                    colorIndex = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(colorIndex = it)
+                }
             }
         }
     }
@@ -75,15 +76,17 @@ class EditTaskViewModel @Inject constructor(
         viewModelScope.launch {
             task = getTaskUseCase(taskId)
             task?.let {
-                uiState = uiState.copy(
-                    text = it.text,
-                    colorIndex = it.colorIndex,
-                    isImportant = it.isImportant,
-                    createdAt = it.createdAt.toFormattedFullDate(),
-                    editedAt = it.editedAt.toFormattedFullDate(),
-                    isHasNotification = it.isHasNotification,
-                    notificationTime = it.notificationTime
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        text = it.text,
+                        colorIndex = it.colorIndex,
+                        isImportant = it.isImportant,
+                        createdAt = it.createdAt.toFormattedFullDate(),
+                        editedAt = it.editedAt.toFormattedFullDate(),
+                        isHasNotification = it.isHasNotification,
+                        notificationTime = it.notificationTime
+                    )
+                }
             }
         }
     }

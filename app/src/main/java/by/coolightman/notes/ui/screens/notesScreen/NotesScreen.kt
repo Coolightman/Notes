@@ -45,7 +45,7 @@ fun NotesScreen(
     viewModel: NotesViewModel = hiltViewModel(),
     isVisibleFAB: (Boolean) -> Unit
 ) {
-    val uiState = viewModel.uiState
+    val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val view = LocalView.current
 

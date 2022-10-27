@@ -1,8 +1,5 @@
 package by.coolightman.notes.ui.screens.tasksScreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
@@ -39,8 +36,8 @@ class TasksViewModel @Inject constructor(
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(TasksUiState())
-        private set
+    private val _uiState = MutableStateFlow(TasksUiState())
+    val uiState: StateFlow<TasksUiState> = _uiState.asStateFlow()
 
     private val sortBy: Flow<SortBy> =
         getIntPreferenceUseCase(SORT_TASKS_BY_KEY, SortBy.CREATE_DATE.ordinal)
@@ -66,15 +63,17 @@ class TasksViewModel @Inject constructor(
             sortFilter.flatMapLatest { sortFilter ->
                 getAllTasksUseCase(sortFilter.first, sortFilter.second)
             }.collectLatest {
-                uiState = uiState.copy(
-                    list = it,
-                    activeTasksCount = it.filter { task -> task.isActive }.size,
-                    inactiveTasksCount = it.filter { task -> !task.isActive }.size,
-                    selectedCount = it.filter { task -> task.isSelected }.size,
-                    isListHasCollapsable = it.any { task -> task.isCollapsable },
-                    sortByIndex = sortBy.first().ordinal,
-                    currentFilterSelection = filterSelection.first()
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        list = it,
+                        activeTasksCount = it.filter { task -> task.isActive }.size,
+                        inactiveTasksCount = it.filter { task -> !task.isActive }.size,
+                        selectedCount = it.filter { task -> task.isSelected }.size,
+                        isListHasCollapsable = it.any { task -> task.isCollapsable },
+                        sortByIndex = sortBy.first().ordinal,
+                        currentFilterSelection = filterSelection.first()
+                    )
+                }
             }
         }
     }
@@ -82,9 +81,9 @@ class TasksViewModel @Inject constructor(
     private fun getIsShowTaskNotificationDate() {
         viewModelScope.launch {
             getBooleanPreferenceUseCase(IS_SHOW_TASK_NOTIFICATION_DATE, true).collectLatest {
-                uiState = uiState.copy(
-                    isShowNotificationDate = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(isShowNotificationDate = it)
+                }
             }
         }
     }

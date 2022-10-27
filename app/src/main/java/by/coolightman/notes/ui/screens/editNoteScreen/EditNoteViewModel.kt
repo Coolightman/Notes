@@ -1,8 +1,5 @@
 package by.coolightman.notes.ui.screens.editNoteScreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +16,11 @@ import by.coolightman.notes.util.IS_NOTES_COLORED_BACK
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,8 +35,8 @@ class EditNoteViewModel @Inject constructor(
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(EditNoteUiState())
-        private set
+    private val _uiState = MutableStateFlow(EditNoteUiState())
+    val uiState: StateFlow<EditNoteUiState> = _uiState.asStateFlow()
 
     private var note: Note? = null
 
@@ -52,9 +53,9 @@ class EditNoteViewModel @Inject constructor(
     private fun getColoredBackgroundPreference() {
         viewModelScope.launch {
             getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK, true).collectLatest {
-                uiState = uiState.copy(
-                    isColoredBackground = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(isColoredBackground = it)
+                }
             }
         }
     }
@@ -62,9 +63,9 @@ class EditNoteViewModel @Inject constructor(
     private fun getNewNoteColorPreference() {
         viewModelScope.launch {
             getIntPreferenceUseCase(NEW_NOTE_COLOR_KEY, ItemColor.GRAY.ordinal).collectLatest {
-                uiState = uiState.copy(
-                    colorIndex = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(colorIndex = it)
+                }
             }
         }
     }
@@ -73,15 +74,17 @@ class EditNoteViewModel @Inject constructor(
         viewModelScope.launch {
             note = getNoteUseCase(noteId)
             note?.let {
-                uiState = uiState.copy(
-                    title = it.title,
-                    text = it.text,
-                    createdAt = it.createdAt.toFormattedFullDate(),
-                    editedAt = it.editedAt.toFormattedFullDate(),
-                    colorIndex = it.colorIndex,
-                    isAllowToCollapse = it.isCollapsable,
-                    isPinned = it.isPinned
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        title = it.title,
+                        text = it.text,
+                        createdAt = it.createdAt.toFormattedFullDate(),
+                        editedAt = it.editedAt.toFormattedFullDate(),
+                        colorIndex = it.colorIndex,
+                        isAllowToCollapse = it.isCollapsable,
+                        isPinned = it.isPinned
+                    )
+                }
             }
         }
     }

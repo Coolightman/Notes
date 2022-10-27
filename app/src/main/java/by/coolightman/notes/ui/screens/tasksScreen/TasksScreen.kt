@@ -2,7 +2,6 @@ package by.coolightman.notes.ui.screens.tasksScreen
 
 import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,7 +38,7 @@ fun TasksScreen(
     viewModel: TasksViewModel = hiltViewModel(),
     isVisibleFAB: (Boolean) -> Unit
 ) {
-    val uiState = viewModel.uiState
+    val uiState by viewModel.uiState.collectAsState()
     val view = LocalView.current
 
     val listState = rememberLazyListState()
@@ -332,11 +331,11 @@ fun TasksScreen(
                         },
                         onCheckedChange = { viewModel.switchIsSelectedNote(task.id) },
                         isSelectionMode = isSelectionMode,
-                        modifier = Modifier.animateItemPlacement(tween()),
                         isCollapsable = task.isCollapsable,
                         isCollapsed = task.isCollapsed,
                         onCollapseClick = { viewModel.switchCollapse(task.id) },
-                        isShowNotificationDate = uiState.isShowNotificationDate
+                        isShowNotificationDate = uiState.isShowNotificationDate,
+                        modifier = Modifier.animateItemPlacement()
                     )
                 }
             }

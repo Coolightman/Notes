@@ -45,7 +45,7 @@ fun EditTaskScreen(
     viewModel: EditTaskViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState
 ) {
-    val uiState = viewModel.uiState
+    val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current

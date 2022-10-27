@@ -1,8 +1,5 @@
 package by.coolightman.notes.ui.screens.searchTaskScreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.tasks.SearchTaskUseCase
@@ -11,8 +8,11 @@ import by.coolightman.notes.domain.usecase.tasks.SwitchTaskCollapseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,8 +23,8 @@ class SearchTaskViewModel @Inject constructor(
     private val switchTaskCollapseUseCase: SwitchTaskCollapseUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(SearchTaskUiState())
-        private set
+    private val _uiState = MutableStateFlow(SearchTaskUiState())
+    val uiState: StateFlow<SearchTaskUiState> = _uiState.asStateFlow()
 
     private val _searchKey = MutableStateFlow("")
 
@@ -38,9 +38,9 @@ class SearchTaskViewModel @Inject constructor(
             _searchKey.flatMapLatest { key ->
                 searchTaskUseCase(key)
             }.collectLatest {
-                uiState = uiState.copy(
-                    list = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(list = it)
+                }
             }
         }
     }
@@ -62,8 +62,8 @@ class SearchTaskViewModel @Inject constructor(
     }
 
     fun clearSearchResult() {
-        uiState = uiState.copy(
-            list = emptyList()
-        )
+        _uiState.update { currentState ->
+            currentState.copy(list = emptyList())
+        }
     }
 }

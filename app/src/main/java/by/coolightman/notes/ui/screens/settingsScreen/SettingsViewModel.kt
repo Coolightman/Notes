@@ -1,8 +1,5 @@
 package by.coolightman.notes.ui.screens.settingsScreen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
@@ -24,7 +21,11 @@ import by.coolightman.notes.util.NOTES_VIEW_MODE
 import by.coolightman.notes.util.START_DESTINATION_KEY
 import by.coolightman.notes.util.THEME_MODE_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,8 +39,8 @@ class SettingsViewModel @Inject constructor(
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(SettingsUiState())
-        private set
+    private val _uiState = MutableStateFlow(SettingsUiState())
+    val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
     init {
         getSettingsData()
@@ -59,9 +60,9 @@ class SettingsViewModel @Inject constructor(
     private fun getIsShowTaskNotificationDate() {
         viewModelScope.launch {
             getBooleanPreferenceUseCase(IS_SHOW_TASK_NOTIFICATION_DATE, true).collectLatest {
-                uiState = uiState.copy(
-                    isShowTaskNotificationDate = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(isShowTaskNotificationDate = it)
+                }
             }
         }
     }
@@ -69,9 +70,9 @@ class SettingsViewModel @Inject constructor(
     private fun getIsShowNotesDate() {
         viewModelScope.launch {
             getBooleanPreferenceUseCase(IS_SHOW_NOTE_DATE, true).collectLatest {
-                uiState = uiState.copy(
-                    isShowNotesDate = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(isShowNotesDate = it)
+                }
             }
         }
     }
@@ -79,9 +80,9 @@ class SettingsViewModel @Inject constructor(
     private fun getIsNotesColoredBackground() {
         viewModelScope.launch {
             getBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK, true).collectLatest {
-                uiState = uiState.copy(
-                    isNotesColoredBackground = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(isNotesColoredBackground = it)
+                }
             }
         }
     }
@@ -89,9 +90,9 @@ class SettingsViewModel @Inject constructor(
     private fun getThemeMode() {
         viewModelScope.launch {
             getIntPreferenceUseCase(THEME_MODE_KEY, ThemeMode.DARK_MODE.ordinal).collectLatest {
-                uiState = uiState.copy(
-                    themeMode = ThemeMode.values()[it]
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(themeMode = ThemeMode.values()[it])
+                }
             }
         }
     }
@@ -100,9 +101,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             getStringPreferenceUseCase(START_DESTINATION_KEY, NavRoutes.Notes.route).collectLatest {
                 if (it.isNotEmpty()) {
-                    uiState = uiState.copy(
-                        appStartDestination = it
-                    )
+                    _uiState.update { currentState ->
+                        currentState.copy(appStartDestination = it)
+                    }
                 }
             }
         }
@@ -111,9 +112,9 @@ class SettingsViewModel @Inject constructor(
     private fun getNewNoteColor() {
         viewModelScope.launch {
             getIntPreferenceUseCase(NEW_NOTE_COLOR_KEY, ItemColor.GRAY.ordinal).collectLatest {
-                uiState = uiState.copy(
-                    newNoteColorIndex = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(newNoteColorIndex = it)
+                }
             }
         }
     }
@@ -121,9 +122,9 @@ class SettingsViewModel @Inject constructor(
     private fun getNewTaskColor() {
         viewModelScope.launch {
             getIntPreferenceUseCase(NEW_TASK_COLOR_KEY, ItemColor.GRAY.ordinal).collectLatest {
-                uiState = uiState.copy(
-                    newTaskColorIndex = it
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(newTaskColorIndex = it)
+                }
             }
         }
     }
@@ -131,9 +132,9 @@ class SettingsViewModel @Inject constructor(
     private fun getNotesViewMode() {
         viewModelScope.launch {
             getIntPreferenceUseCase(NOTES_VIEW_MODE, NotesViewMode.LIST.ordinal).collectLatest {
-                uiState = uiState.copy(
-                    currentNotesViewMode = NotesViewMode.values()[it]
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(currentNotesViewMode = NotesViewMode.values()[it])
+                }
             }
         }
     }

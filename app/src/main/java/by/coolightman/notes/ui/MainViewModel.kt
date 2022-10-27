@@ -1,8 +1,5 @@
 package by.coolightman.notes.ui
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
@@ -12,8 +9,12 @@ import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.util.START_DESTINATION_KEY
 import by.coolightman.notes.util.THEME_MODE_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,8 +24,8 @@ class MainViewModel @Inject constructor(
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(MainActivityUiState())
-        private set
+    private val _uiState = MutableStateFlow(MainActivityUiState())
+    val uiState: StateFlow<MainActivityUiState> = _uiState.asStateFlow()
 
     init {
         getStartDestinationPreference()
@@ -35,18 +36,18 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val destination =
                 getStringPreferenceUseCase(START_DESTINATION_KEY, NavRoutes.Notes.route).first()
-            uiState = uiState.copy(
-                startDestinationPreference = destination
-            )
+            _uiState.update { currentState ->
+                currentState.copy(startDestinationPreference = destination)
+            }
         }
     }
 
     private fun getThemeModePreference() {
         viewModelScope.launch {
             getIntPreferenceUseCase(THEME_MODE_KEY, ThemeMode.DARK_MODE.ordinal).collectLatest {
-                uiState = uiState.copy(
-                    themeModePreference = ThemeMode.values()[it]
-                )
+                _uiState.update { currentState ->
+                    currentState.copy(themeModePreference = ThemeMode.values()[it])
+                }
             }
         }
     }
