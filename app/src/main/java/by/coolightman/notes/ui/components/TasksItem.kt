@@ -76,11 +76,11 @@ fun TasksItem(
         animationSpec = tween(500)
     )
 
-    Column() {
+    Column(modifier = modifier) {
         Card(
             shape = RoundedCornerShape(24.dp),
             elevation = 2.dp,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 48.dp)
                 .onGloballyPositioned { coordinates ->
