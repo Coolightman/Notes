@@ -17,7 +17,5 @@ data class TaskDb(
     @ColumnInfo(name = "is_active") val isActive: Boolean,
     @ColumnInfo(name = "is_selected") val isSelected: Boolean,
     @ColumnInfo(name = "is_collapsable") val isCollapsable: Boolean,
-    @ColumnInfo(name = "is_collapsed") val isCollapsed: Boolean,
-    @ColumnInfo(name = "is_has_notification") val isHasNotification: Boolean,
-    @ColumnInfo(name = "notification_time") val notificationTime: Long
+    @ColumnInfo(name = "is_collapsed") val isCollapsed: Boolean
 )
