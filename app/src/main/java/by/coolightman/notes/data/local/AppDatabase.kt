@@ -6,6 +6,7 @@ import androidx.room.DeleteColumn
 import androidx.room.RoomDatabase
 import androidx.room.migration.AutoMigrationSpec
 import by.coolightman.notes.data.local.dao.NoteDao
+import by.coolightman.notes.data.local.dao.NotificationDao
 import by.coolightman.notes.data.local.dao.TaskDao
 import by.coolightman.notes.data.local.dbModel.NoteDb
 import by.coolightman.notes.data.local.dbModel.NoteFtsDb
@@ -34,4 +35,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
     abstract fun taskDao(): TaskDao
+
+    abstract fun notificationDao(): NotificationDao
 }

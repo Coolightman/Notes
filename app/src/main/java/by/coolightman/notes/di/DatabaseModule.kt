@@ -32,6 +32,10 @@ class DatabaseModule {
     @Provides
     fun provideTaskDao(appDatabase: AppDatabase) = appDatabase.taskDao()
 
+    @Singleton
+    @Provides
+    fun provideNotificationDao(appDatabase: AppDatabase) = appDatabase.notificationDao()
+
     companion object {
         private const val DB_NAME = "app_database.db"
     }
