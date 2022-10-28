@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import by.coolightman.notes.broadcastReceiver.NotificationReceiver
 import by.coolightman.notes.data.local.dao.NotificationDao
+import by.coolightman.notes.data.mappers.toNotification
 import by.coolightman.notes.data.mappers.toNotificationDb
 import by.coolightman.notes.domain.model.Notification
 import by.coolightman.notes.domain.repository.NotificationRepository
@@ -19,10 +20,16 @@ class NotificationRepositoryImpl @Inject constructor(
     private val notificationDao: NotificationDao
 ) : NotificationRepository {
 
-    override suspend fun create(notification: Notification) {
+    override suspend fun create(notification: Notification): Int {
         createNotification(notification)
-        notificationDao.insert(notification.toNotificationDb())
+        return notificationDao.insert(notification.toNotificationDb())
     }
+
+    override suspend fun getNotification(id: Int): Notification =
+        notificationDao.get(id).toNotification()
+
+    override suspend fun getAll(): List<Notification> =
+        notificationDao.getAll().map { it.toNotification() }
 
     override suspend fun update(notification: Notification) {
         updateNotification(notification)

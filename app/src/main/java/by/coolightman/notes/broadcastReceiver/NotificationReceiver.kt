@@ -1,7 +1,6 @@
 package by.coolightman.notes.broadcastReceiver
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -11,20 +10,22 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import by.coolightman.notes.R
+import by.coolightman.notes.domain.model.Notification
+import by.coolightman.notes.domain.model.RepeatType
+import by.coolightman.notes.domain.repository.NotificationRepository
 import by.coolightman.notes.domain.repository.TaskRepository
 import by.coolightman.notes.ui.MainActivity
 import by.coolightman.notes.util.NOTIFICATION_CHANNEL_DESCRIPTION
 import by.coolightman.notes.util.NOTIFICATION_CHANNEL_ID
 import by.coolightman.notes.util.NOTIFICATION_CHANNEL_NAME
 import by.coolightman.notes.util.NOTIFICATION_ID_EXTRA
-import by.coolightman.notes.util.NOTIFICATION_TEXT_EXTRA
-import by.coolightman.notes.util.NOTIFICATION_TIME_EXTRA
 import by.coolightman.notes.util.TASK_ID_EXTRA
 import by.coolightman.notes.util.toFormattedTime
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,20 +35,29 @@ class NotificationReceiver : BroadcastReceiver() {
     lateinit var taskRepository: TaskRepository
 
     @Inject
+    lateinit var notificationRepository: NotificationRepository
+
+    @Inject
     lateinit var notificationManager: NotificationManager
 
-    @SuppressLint("UnspecifiedImmutableFlag")
     override fun onReceive(context: Context, intent: Intent) {
+        CoroutineScope(Main).launch {
+            val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, -1)
+            if (notificationId != -1) {
+                val notification = notificationRepository.getNotification(notificationId)
+                val task = taskRepository.getTask(notification.taskId)
+                showNotification(context, notification, task.text)
+                updateNotificationsDb(notification)
+            }
+        }
+    }
 
-        updateTask(intent.getIntExtra(TASK_ID_EXTRA, -1))
-
-        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
-        val notificationTime = intent.getLongExtra(NOTIFICATION_TIME_EXTRA, 0L)
+    @SuppressLint("UnspecifiedImmutableFlag")
+    private fun showNotification(context: Context, notification: Notification, text: String) {
         val notificationTitle =
-            context.resources.getString(R.string.task_notification_title) + " " + context.getString(
-                R.string.task_for_time
-            ) + " " + notificationTime.toFormattedTime()
-        val notificationText = intent.getStringExtra(NOTIFICATION_TEXT_EXTRA)
+            context.resources.getString(R.string.task_notification_title) +
+                    " " + context.getString(R.string.task_for_time) + " " +
+                    notification.time.timeInMillis.toFormattedTime()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
@@ -67,36 +77,34 @@ class NotificationReceiver : BroadcastReceiver() {
             PendingIntent.getActivity(context, 0, launchAppIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val okBtIntent = Intent(context, OkBtNotificationReceiver::class.java).apply {
-            putExtra(NOTIFICATION_ID_EXTRA, notificationId)
+            putExtra(NOTIFICATION_ID_EXTRA, notification.id)
         }
         val okBtPendingIntent =
             PendingIntent.getBroadcast(
                 context,
-                notificationId,
+                notification.id,
                 okBtIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
 
         val laterBtIntent = Intent(context, LaterBtNotificationReceiver::class.java).apply {
-            putExtra(NOTIFICATION_ID_EXTRA, notificationId)
-            putExtra(NOTIFICATION_TIME_EXTRA, notificationTime)
-            putExtra(NOTIFICATION_TEXT_EXTRA, notificationText)
+            putExtra(NOTIFICATION_ID_EXTRA, notification.id)
+            putExtra(TASK_ID_EXTRA, notification.taskId)
         }
         val laterBtPendingIntent =
             PendingIntent.getBroadcast(
                 context,
-                notificationId,
+                notification.id,
                 laterBtIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
 
-        val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+        val showingNotification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(notificationTitle)
-            .setContentText(notificationText)
+            .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle())
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setDefaults(Notification.DEFAULT_ALL)
             .setContentIntent(launchAppPendingIntent)
             .addAction(
                 R.drawable.ic_round_done_24,
@@ -110,16 +118,36 @@ class NotificationReceiver : BroadcastReceiver() {
             .setAutoCancel(true)
             .build()
 
-        notificationManager.notify(notificationId, notification)
+        notificationManager.notify(notification.id, showingNotification)
     }
 
-    private fun updateTask(taskId: Int) {
-        if (taskId != -1) {
-            CoroutineScope(Main).launch {
-                val task = taskRepository.getTask(taskId.toLong())
-                val updated = task.copy(isHasNotification = false)
-                taskRepository.update(updated)
+    private suspend fun updateNotificationsDb(notification: Notification) {
+        when (notification.repeatType) {
+            RepeatType.NO -> notificationRepository.delete(notification.id)
+            else -> {
+                val updatedNotification = updateByRepeatType(notification)
+                notificationRepository.update(updatedNotification)
             }
         }
+    }
+
+    private fun updateByRepeatType(notification: Notification): Notification {
+        val now = Calendar.getInstance()
+        val updatedTime = when (notification.repeatType) {
+            RepeatType.DAY -> now.apply {
+                set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH) + 1)
+            }
+            RepeatType.WEEK -> now.apply {
+                set(Calendar.WEEK_OF_YEAR, now.get(Calendar.WEEK_OF_YEAR) + 1)
+            }
+            RepeatType.MONTH -> now.apply {
+                set(Calendar.MONTH, now.get(Calendar.MONTH) + 1)
+            }
+            RepeatType.YEAR -> now.apply {
+                set(Calendar.YEAR, now.get(Calendar.YEAR) + 1)
+            }
+            else -> throw RuntimeException("Wrong RepeatType!")
+        }
+        return notification.copy(time = updatedTime)
     }
 }

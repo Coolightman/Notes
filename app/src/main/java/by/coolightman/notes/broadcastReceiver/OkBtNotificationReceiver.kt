@@ -15,7 +15,9 @@ class OkBtNotificationReceiver : BroadcastReceiver() {
     lateinit var notificationManager: NotificationManager
 
     override fun onReceive(context: Context, intent: Intent) {
-        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
-        notificationManager.cancel(notificationId)
+        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, -1)
+        if (notificationId != -1) {
+            notificationManager.cancel(notificationId)
+        }
     }
 }
