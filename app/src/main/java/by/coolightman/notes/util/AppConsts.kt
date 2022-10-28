@@ -27,4 +27,5 @@ const val NOTIFICATION_CHANNEL_DESCRIPTION = "Manage notifications for applicati
 const val NOTIFICATION_ID_EXTRA = "notificationIdExtra"
 const val TASK_ID_EXTRA = "taskIdExtra"
 const val NOTIFICATION_TEXT_EXTRA = "notificationTextExtra"
-const val NOTIFICATION_TIME_EXTRA = "notificationTime"
+const val NOTIFICATION_TIME_EXTRA = "notificationTimeExtra"
+const val NOTIFICATION_REPEAT_TYPE_EXTRA = "notificationRepeatTypeExtra"

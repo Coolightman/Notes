@@ -7,5 +7,5 @@ import javax.inject.Inject
 class CreateNoteUseCase @Inject constructor(
     private val repository: NoteRepository
 ) {
-    suspend operator fun invoke(note: Note) = repository.insert(note)
+    suspend operator fun invoke(note: Note) = repository.create(note)
 }

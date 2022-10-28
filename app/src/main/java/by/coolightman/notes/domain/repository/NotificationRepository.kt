@@ -1,8 +1,16 @@
 package by.coolightman.notes.domain.repository
 
+import by.coolightman.notes.domain.model.Notification
+
 interface NotificationRepository {
 
-    fun createNotification(id: Int, text: String, time: Long)
+    suspend fun create(notification: Notification)
 
-    fun removeNotification(id: Int)
+    suspend fun update(notification: Notification)
+
+    suspend fun updateList(list: List<Notification>)
+
+    suspend fun delete(id: Int)
+
+    suspend fun deleteAllByTask(taskId: Long)
 }

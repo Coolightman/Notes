@@ -13,6 +13,9 @@ interface NotificationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(notification: NotificationDb): Int
 
+    @Query("SELECT * FROM notifications WHERE task_id = :taskId")
+    suspend fun getAllByTask(taskId: Long): List<NotificationDb>
+
     @Update
     suspend fun update(notification: NotificationDb)
 

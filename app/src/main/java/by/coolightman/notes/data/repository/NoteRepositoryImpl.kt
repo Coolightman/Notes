@@ -15,7 +15,7 @@ class NoteRepositoryImpl @Inject constructor(
     private val noteDao: NoteDao
 ) : NoteRepository {
 
-    override suspend fun insert(note: Note) {
+    override suspend fun create(note: Note) {
         noteDao.insert(note.toNoteDb())
     }
 
