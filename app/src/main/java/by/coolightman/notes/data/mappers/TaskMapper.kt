@@ -33,3 +33,8 @@ fun Task.toTaskDb(): TaskDb = TaskDb(
     isCollapsable = isCollapsable,
     isCollapsed = isCollapsed
 )
+
+fun Task.toTaskWithNotificationsDb(): TaskWithNotificationsDb = TaskWithNotificationsDb(
+    taskDb = this.toTaskDb(),
+    notificationsDb = notifications.map { it.toNotificationDb() }
+)
