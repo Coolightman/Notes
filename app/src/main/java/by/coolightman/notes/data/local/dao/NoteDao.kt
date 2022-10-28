@@ -2,7 +2,7 @@ package by.coolightman.notes.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Update
 import by.coolightman.notes.data.local.dbModel.NoteDb
@@ -28,7 +28,7 @@ interface NoteDao {
 
     @Query(
         "SELECT * FROM notes JOIN notesFts ON notes.id == notesFts.rowid " +
-            "WHERE notesFts MATCH :keyword AND is_in_trash = 0 ORDER by created_at DESC"
+                "WHERE notesFts MATCH :keyword AND is_in_trash = 0 ORDER by created_at DESC"
     )
     fun searchNote(keyword: String): Flow<List<NoteDb>>
 

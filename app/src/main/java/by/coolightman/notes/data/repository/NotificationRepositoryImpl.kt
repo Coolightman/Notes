@@ -22,7 +22,7 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override suspend fun create(notification: Notification): Int {
         createNotification(notification)
-        return notificationDao.insert(notification.toNotificationDb())
+        return notificationDao.insert(notification.toNotificationDb()).toInt()
     }
 
     override suspend fun getNotification(id: Int): Notification =

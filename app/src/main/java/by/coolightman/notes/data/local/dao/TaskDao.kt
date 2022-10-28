@@ -11,12 +11,15 @@ interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: TaskDb): Long
 
+    @Transaction
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getTask(taskId: Long): TaskWithNotificationsDb
 
+    @Transaction
     @Query("SELECT * FROM tasks")
     fun getAll(): Flow<List<TaskWithNotificationsDb>>
 
+    @Transaction
     @Query(
         "SELECT * FROM tasks JOIN tasksFts ON tasks.id == tasksFts.rowid " +
                 "WHERE tasksFts MATCH :keyword ORDER by created_at DESC"

@@ -114,7 +114,7 @@ fun TasksItem(
                                 else MaterialTheme.colors.onSurface.copy(0.8f),
                             )
                         }
-                        if (task.isHasNotification && !isShowNotificationDate) {
+                        if (task.notifications.isNotEmpty() && !isShowNotificationDate) {
                             Icon(
                                 imageVector = Icons.Default.Notifications,
                                 contentDescription = "notifications",
@@ -172,10 +172,12 @@ fun TasksItem(
                 }
             }
         }
-        TaskNotificationDate(
-            isHasNotification = task.isHasNotification && isShowNotificationDate,
-            notificationTime = task.notificationTime.timeInMillis
-        )
+        if (task.notifications.isNotEmpty()){
+            TaskNotificationDate(
+                isHasNotification = task.notifications.isNotEmpty() && isShowNotificationDate,
+                notificationTime = task.notifications[0].time.timeInMillis
+            )
+        }
     }
 }
 
@@ -195,8 +197,7 @@ private fun NotesItemPreview() {
         isSelected = false,
         isCollapsable = false,
         isCollapsed = false,
-        isHasNotification = true,
-        notificationTime = Calendar.getInstance(Locale.getDefault())
+        notifications = emptyList()
     )
     TasksItem(
         task = task,

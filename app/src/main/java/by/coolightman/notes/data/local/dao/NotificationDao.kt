@@ -11,7 +11,7 @@ import by.coolightman.notes.data.local.dbModel.NotificationDb
 interface NotificationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(notification: NotificationDb): Int
+    suspend fun insert(notification: NotificationDb): Long
 
     @Query("SELECT * FROM notifications WHERE id = :id")
     suspend fun get(id: Int): NotificationDb
