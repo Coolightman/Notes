@@ -5,13 +5,7 @@ import by.coolightman.notes.domain.repository.TaskRepository
 import javax.inject.Inject
 
 class CreateTaskUseCase @Inject constructor(
-    private val repository: TaskRepository,
-    private val createNotificationUseCase: CreateNotificationUseCase
+    private val repository: TaskRepository
 ) {
-    suspend operator fun invoke(task: Task) {
-        val taskId = repository.insert(task)
-        if (task.isHasNotification) {
-            createNotificationUseCase(taskId, task.text, task.notificationTime)
-        }
-    }
+    suspend operator fun invoke(task: Task) = repository.insert(task)
 }

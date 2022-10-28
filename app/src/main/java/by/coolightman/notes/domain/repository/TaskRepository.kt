@@ -18,6 +18,4 @@ interface TaskRepository {
     suspend fun updateList(list: List<Task>)
 
     suspend fun delete(taskId: Long)
-
-    suspend fun deleteAllInactive()
 }

@@ -37,8 +37,4 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun delete(taskId: Long) {
         taskDao.delete(taskId)
     }
-
-    override suspend fun deleteAllInactive() {
-        taskDao.deleteAllInactive()
-    }
 }
