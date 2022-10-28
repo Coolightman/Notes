@@ -16,7 +16,6 @@ fun TaskWithNotificationsDb.toTask(): Task = Task(
     isSelected = taskDb.isSelected,
     isCollapsable = taskDb.isCollapsable,
     isCollapsed = taskDb.isCollapsed,
-    isHasNotification = notificationsDb.isNotEmpty(),
     notifications = notificationsDb.map { it.toNotification() }
 )
 
@@ -32,9 +31,4 @@ fun Task.toTaskDb(): TaskDb = TaskDb(
     isSelected = isSelected,
     isCollapsable = isCollapsable,
     isCollapsed = isCollapsed
-)
-
-fun Task.toTaskWithNotificationsDb(): TaskWithNotificationsDb = TaskWithNotificationsDb(
-    taskDb = this.toTaskDb(),
-    notificationsDb = notifications.map { it.toNotificationDb() }
 )

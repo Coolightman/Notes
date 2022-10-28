@@ -1,7 +1,6 @@
 package by.coolightman.notes.ui.screens.editTaskScreen
 
-import java.util.Calendar
-import java.util.Locale
+import by.coolightman.notes.domain.model.Notification
 
 data class EditTaskUiState(
     val text: String = "",
@@ -11,5 +10,5 @@ data class EditTaskUiState(
     val isImportant: Boolean = false,
     val isHasNotification: Boolean = false,
     val isShowNotificationDate: Boolean = false,
-    val notificationTime: Calendar = Calendar.getInstance(Locale.getDefault())
+    val notifications: List<Notification> = emptyList()
 )

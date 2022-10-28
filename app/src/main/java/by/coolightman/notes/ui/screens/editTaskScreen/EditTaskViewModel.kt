@@ -3,9 +3,13 @@ package by.coolightman.notes.ui.screens.editTaskScreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import by.coolightman.notes.domain.model.Notification
+import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
+import by.coolightman.notes.domain.usecase.notifications.CreateNotificationUseCase
+import by.coolightman.notes.domain.usecase.notifications.DeleteAllNotificationsByTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.CreateTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
@@ -34,7 +38,9 @@ class EditTaskViewModel @Inject constructor(
     private val createTaskUseCase: CreateTaskUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
-    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
+    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
+    private val createNotificationUseCase: CreateNotificationUseCase,
+    private val deleteAllNotificationsByTaskUseCase: DeleteAllNotificationsByTaskUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EditTaskUiState())
@@ -83,8 +89,8 @@ class EditTaskViewModel @Inject constructor(
                         isImportant = it.isImportant,
                         createdAt = it.createdAt.toFormattedFullDate(),
                         editedAt = it.editedAt.toFormattedFullDate(),
-                        isHasNotification = it.isHasNotification,
-                        notificationTime = it.notificationTime
+                        isHasNotification = it.notifications.isNotEmpty(),
+                        notifications = it.notifications.sortedBy { it.time }
                     )
                 }
             }
@@ -112,10 +118,12 @@ class EditTaskViewModel @Inject constructor(
                     isSelected = false,
                     isCollapsable = isCollapsable(numberOfLines),
                     isCollapsed = true,
-                    isHasNotification = isHasNotification,
-                    notificationTime = notificationTime.roundTimeToMinute()
+                    notifications = emptyList()
                 )
-                createTaskUseCase(createdTask)
+                val taskId = createTaskUseCase(createdTask)
+                if (isHasNotification) {
+                   createNotification(taskId, notificationTime)
+                }
             } else {
                 task?.let {
                     val updatedTask = it.copy(
@@ -128,13 +136,25 @@ class EditTaskViewModel @Inject constructor(
                         isCollapsed =
                         if (!isCollapsable(numberOfLines)) false
                         else it.isCollapsed,
-                        isHasNotification = isHasNotification,
-                        notificationTime = notificationTime.roundTimeToMinute()
+                        notifications = emptyList()
                     )
                     updateTaskUseCase(updatedTask)
+                    if (it.notifications.isNotEmpty() && !isHasNotification){
+                        deleteAllNotificationsByTaskUseCase(it.id)
+                    }
                 }
             }
         }
+    }
+
+    private suspend fun createNotification(taskId: Long, time: Calendar){
+        createNotificationUseCase(
+            Notification(
+                taskId = taskId,
+                time = time.roundTimeToMinute(),
+                repeatType = RepeatType.NO
+            )
+        )
     }
 
     private fun isCollapsable(numberOfLines: Int) = numberOfLines > 1

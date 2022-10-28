@@ -1,4 +1,4 @@
-package by.coolightman.notes.domain.usecase.tasks
+package by.coolightman.notes.domain.usecase.notifications
 
 import by.coolightman.notes.domain.model.Notification
 import by.coolightman.notes.domain.repository.NotificationRepository

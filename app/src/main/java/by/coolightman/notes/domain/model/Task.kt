@@ -12,6 +12,5 @@ data class Task(
     val isSelected: Boolean,
     val isCollapsable: Boolean,
     val isCollapsed: Boolean,
-    val isHasNotification: Boolean,
     val notifications: List<Notification>
 )

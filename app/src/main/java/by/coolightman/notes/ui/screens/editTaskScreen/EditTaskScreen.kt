@@ -93,8 +93,8 @@ fun EditTaskScreen(
         )
     }
 
-    var calendar by remember(uiState.notificationTime) {
-        mutableStateOf(uiState.notificationTime)
+    var calendar by remember {
+        mutableStateOf(Calendar.getInstance(Locale.getDefault()))
     }
     var openTimePicker by remember {
         mutableStateOf(false)

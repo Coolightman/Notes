@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import by.coolightman.notes.domain.repository.NotificationRepository
-import by.coolightman.notes.domain.usecase.tasks.CreateNotificationUseCase
+import by.coolightman.notes.domain.usecase.notifications.CreateNotificationUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
