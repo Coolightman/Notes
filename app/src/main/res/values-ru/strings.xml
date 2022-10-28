@@ -12,7 +12,7 @@
     <string name="title_placeholder">Название..</string>
     <string name="text_placeholder">Текст..</string>
     <string name="important_task">Важная задача</string>
-    <string name="add_notification">Уведомление</string>
+    <string name="add_notification">Добавить уведомление</string>
     <string name="task_deleted">Задача удалена</string>
     <string name="note_deleted">Заметка удалена</string>
     <string name="cancel">ОТМЕНА</string>

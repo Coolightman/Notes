@@ -2,12 +2,12 @@ package by.coolightman.notes.ui.screens.editTaskScreen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,6 +26,8 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -54,13 +56,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
+import by.coolightman.notes.ui.components.AddNotificationButton
 import by.coolightman.notes.ui.components.AppAlertDialog
 import by.coolightman.notes.ui.components.AppTopAppBar
 import by.coolightman.notes.ui.components.CustomTextField
 import by.coolightman.notes.ui.components.DatePicker
 import by.coolightman.notes.ui.components.DateText
 import by.coolightman.notes.ui.components.DoneButton
-import by.coolightman.notes.ui.components.NotificationAddCard
 import by.coolightman.notes.ui.components.NotificationDateTimeText
 import by.coolightman.notes.ui.components.SelectColorBar
 import by.coolightman.notes.ui.components.SwitchCard
@@ -172,16 +174,52 @@ fun EditTaskScreen(
         sheetShape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
         sheetBackgroundColor = MaterialTheme.colors.background,
         sheetContent = {
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
-                    .padding(12.dp)
+                    .padding(top = 12.dp)
             ) {
-                NotificationDateTimeText(
-                    notificationDate = calendar.timeInMillis,
-                    onClickTime = { openTimePicker = true },
-                    onClickDate = { openDatePicker = true }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.TopCenter)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp)
+                    ) {
+                        Spacer(modifier = Modifier.weight(1f))
+                        NotificationDateTimeText(
+                            notificationDate = calendar.timeInMillis,
+                            onClickTime = { openTimePicker = true },
+                            onClickDate = { openDatePicker = true }
+                        )
+                        TextButton(
+                            onClick = { },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_round_repeat_24),
+                                contentDescription = "repeat"
+                            )
+                            Text(text = "-")
+                        }
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp)
+                    )
+                }
+                DoneButton(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    onClick = {
+                        scope.launch { bottomSheetState.hide() }
+                    }
                 )
             }
         }
@@ -315,8 +353,7 @@ fun EditTaskScreen(
                         onCheckedChange = { isImportant = it }
                     )
 
-                    NotificationAddCard(
-                        label = stringResource(R.string.add_notification),
+                    AddNotificationButton(
                         onClickAdd = {
                             scope.launch {
                                 focusManager.clearFocus()
