@@ -12,27 +12,22 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
-import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.RemindType
 import by.coolightman.notes.domain.model.RepeatType
-import by.coolightman.notes.ui.theme.NotesTheme
+import by.coolightman.notes.ui.screens.editTaskScreen.EditTaskViewModel
 import by.coolightman.notes.util.getLocalRoundedCalendarInstance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -42,7 +37,7 @@ import kotlinx.coroutines.launch
 fun AddNotificationContent(
     scope: CoroutineScope,
     bottomSheetState: ModalBottomSheetState,
-//    viewModel: EditTaskViewModel
+    viewModel: EditTaskViewModel
 ) {
 
     var calendar by remember {
@@ -160,27 +155,10 @@ fun AddNotificationContent(
         ) {
             DoneNotificationButton {
                 scope.launch {
+                    viewModel.addNotification(calendar, repeatType, remindTypes)
                     bottomSheetState.hide()
                 }
             }
         }
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    val scope = rememberCoroutineScope()
-    val scaffoldState = rememberScaffoldState()
-    val modalBottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        skipHalfExpanded = true
-    )
-    NotesTheme {
-        AddNotificationContent(
-            scope = scope,
-            bottomSheetState = modalBottomSheetState
-        )
     }
 }

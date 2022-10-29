@@ -148,8 +148,8 @@ fun EditTaskScreen(
         sheetContent = {
             AddNotificationContent(
                 scope = scope,
-                bottomSheetState = bottomSheetState
-//               viewModel = viewModel
+                bottomSheetState = bottomSheetState,
+                viewModel = viewModel
             )
         }
     ) {

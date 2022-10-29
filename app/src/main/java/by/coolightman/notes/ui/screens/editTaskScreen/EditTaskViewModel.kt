@@ -3,7 +3,6 @@ package by.coolightman.notes.ui.screens.editTaskScreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.coolightman.notes.domain.model.Notification
 import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
@@ -18,7 +17,6 @@ import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.IS_SHOW_TASK_NOTIFICATION_DATE
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
-import by.coolightman.notes.util.roundTimeToMinute
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -144,15 +142,15 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
-    fun createNotification(taskId: Long, time: Calendar){
+    fun addNotification(time: Calendar, repeatType: RepeatType, remindTypes: List<Boolean>){
         viewModelScope.launch {
-            createNotificationUseCase(
-                Notification(
-                    taskId = taskId,
-                    time = time,
-                    repeatType = RepeatType.NO
-                )
-            )
+//            createNotificationUseCase(
+//                Notification(
+//                    taskId = taskId,
+//                    time = time,
+//                    repeatType = RepeatType.NO
+//                )
+//            )
         }
     }
 
