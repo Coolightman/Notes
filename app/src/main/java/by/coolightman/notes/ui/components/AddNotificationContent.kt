@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
+import by.coolightman.notes.domain.model.RemindType
 import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.ui.theme.NotesTheme
 import by.coolightman.notes.util.getLocalRoundedCalendarInstance
@@ -80,6 +81,10 @@ fun AddNotificationContent(
         )
     }
 
+    var remindTypes by remember {
+        mutableStateOf(RemindType.values().map { false })
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -90,12 +95,42 @@ fun AddNotificationContent(
             onClickTime = { openTimePicker = true },
             onClickDate = { openDatePicker = true }
         )
+        SettingsRow(
+            title = stringResource(R.string.remind_in_advance),
+            modifier = Modifier.padding(top = 12.dp)
+        ) {
+            RemindAdvanceChip(
+                remindTypes = remindTypes,
+                chipRemindType = RemindType.FIVE_MIN,
+                onClick = { remindTypes = it }
+            )
+            RemindAdvanceChip(
+                remindTypes = remindTypes,
+                chipRemindType = RemindType.TEN_MIN,
+                onClick = { remindTypes = it }
+            )
+            RemindAdvanceChip(
+                remindTypes = remindTypes,
+                chipRemindType = RemindType.FIFTEEN_MIN,
+                onClick = { remindTypes = it }
+            )
+            RemindAdvanceChip(
+                remindTypes = remindTypes,
+                chipRemindType = RemindType.TWENTY_MIN,
+                onClick = { remindTypes = it }
+            )
+            RemindAdvanceChip(
+                remindTypes = remindTypes,
+                chipRemindType = RemindType.THIRTY_MIN,
+                onClick = { remindTypes = it }
+            )
+        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
         ) {
-            DoneButton {
+            DoneNotificationButton {
                 scope.launch {
                     bottomSheetState.hide()
                 }

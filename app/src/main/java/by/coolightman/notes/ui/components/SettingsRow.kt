@@ -18,11 +18,12 @@ import by.coolightman.notes.util.isDarkMode
 
 @Composable
 fun SettingsRow(
+    modifier: Modifier = Modifier,
     title: String,
     content: @Composable RowScope.() -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(4.dp, 1.dp, 4.dp, 0.dp)
     ) {

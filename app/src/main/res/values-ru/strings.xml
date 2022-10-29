@@ -70,4 +70,11 @@
     <string name="repeat_type_week">Еженедельно</string>
     <string name="repeat_type_month">Ежемесячно</string>
     <string name="repeat_type_year">Ежегодно</string>
+    <string name="remind_in_advance">Напомнить заранее, мин</string>
+    <string name="minutes_cuted">мин.</string>
+    <string name="repeat_type_no_short">-</string>
+    <string name="repeat_type_day_short">Д</string>
+    <string name="repeat_type_week_short">Н</string>
+    <string name="repeat_type_month_short">М</string>
+    <string name="repeat_type_year_short">Г</string>
 </resources>
