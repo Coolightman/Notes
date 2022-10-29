@@ -3,12 +3,17 @@ package by.coolightman.notes.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -19,9 +24,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.RemindType
 import by.coolightman.notes.domain.model.RepeatType
@@ -35,7 +42,6 @@ import kotlinx.coroutines.launch
 fun AddNotificationContent(
     scope: CoroutineScope,
     bottomSheetState: ModalBottomSheetState,
-    scaffoldState: ScaffoldState,
 //    viewModel: EditTaskViewModel
 ) {
 
@@ -72,6 +78,7 @@ fun AddNotificationContent(
     }
     if (openRepeatTypeDialog) {
         NotificationsRepeatDialog(
+            selectedType = repeatType,
             confirmButtonText = stringResource(R.string.okay),
             onCancel = { openRepeatTypeDialog = false },
             onConfirm = {
@@ -90,11 +97,32 @@ fun AddNotificationContent(
             .fillMaxWidth()
             .padding(top = 12.dp)
     ) {
-        NotificationDateTimeText(
-            notificationDate = calendar.timeInMillis,
-            onClickTime = { openTimePicker = true },
-            onClickDate = { openDatePicker = true }
-        )
+        Row(modifier = Modifier.padding(horizontal = 12.dp)) {
+            Spacer(modifier = Modifier.weight(1f))
+            NotificationDateTimeText(
+                notificationDate = calendar.timeInMillis,
+                onClickTime = { openTimePicker = true },
+                onClickDate = { openDatePicker = true }
+            )
+            IconButton(
+                modifier = Modifier.weight(1f),
+                onClick = { openRepeatTypeDialog = true }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_round_repeat_24),
+                    tint = if (repeatType != RepeatType.NO) MaterialTheme.colors.primary
+                    else MaterialTheme.colors.onBackground,
+                    contentDescription = "repeat type"
+                )
+                if (repeatType != RepeatType.NO) {
+                    Text(
+                        text = stringResource(repeatType.shortText),
+                        fontSize = 12.sp,
+                        modifier = Modifier.offset(x = 18.dp, y = (-2).dp)
+                    )
+                }
+            }
+        }
         SettingsRow(
             title = stringResource(R.string.remind_in_advance),
             modifier = Modifier.padding(top = 12.dp)
@@ -152,8 +180,7 @@ private fun Preview() {
     NotesTheme {
         AddNotificationContent(
             scope = scope,
-            bottomSheetState = modalBottomSheetState,
-            scaffoldState = scaffoldState
+            bottomSheetState = modalBottomSheetState
         )
     }
 }

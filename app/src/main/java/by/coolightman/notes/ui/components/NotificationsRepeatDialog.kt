@@ -30,13 +30,14 @@ import by.coolightman.notes.util.isDarkMode
 @Composable
 fun NotificationsRepeatDialog(
     modifier: Modifier = Modifier,
+    selectedType: RepeatType,
     confirmButtonText: String,
     confirmButtonColor: Color = MaterialTheme.colors.primary,
     onConfirm: (Int) -> Unit,
     onCancel: () -> Unit
 ) {
     var selected by remember {
-        mutableStateOf(RepeatType.NO.ordinal)
+        mutableStateOf(selectedType.ordinal)
     }
     val repeatTypes by remember {
         mutableStateOf(RepeatType.values())

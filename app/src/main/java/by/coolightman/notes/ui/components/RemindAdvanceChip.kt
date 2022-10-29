@@ -1,9 +1,12 @@
 package by.coolightman.notes.ui.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.domain.model.RemindType
 import by.coolightman.notes.ui.theme.InactiveBackground
@@ -20,7 +23,7 @@ fun RemindAdvanceChip(
         onClick = {
             val list = mutableListOf<Boolean>()
             remindTypes.forEachIndexed { index, b ->
-                if (index == chipRemindType.ordinal){
+                if (index == chipRemindType.ordinal) {
                     list.add(!b)
                 } else list.add(b)
             }
@@ -28,7 +31,9 @@ fun RemindAdvanceChip(
         },
         content = {
             Text(
-                text = chipRemindType.minutes.toString()
+                text = chipRemindType.minutes.toString(),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
             )
         },
         colors = ChipDefaults.filterChipColors(
@@ -37,6 +42,8 @@ fun RemindAdvanceChip(
             selectedContentColor = MaterialTheme.colors.onSurface,
             backgroundColor = InactiveBackground.copy(0.3f)
         ),
-        modifier = Modifier.height(30.dp)
+        modifier = Modifier
+            .height(30.dp)
+            .width(50.dp)
     )
 }
