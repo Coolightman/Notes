@@ -64,4 +64,9 @@
     <string name="notes_view_mode">Notes view mode</string>
     <string name="okay">OK</string>
     <string name="remind_in_10_minutes">REMIND IN 10 MINUTES</string>
+    <string name="repeat_type_no">No repeat</string>
+    <string name="repeat_type_day">Daily</string>
+    <string name="repeat_type_week">Weekly</string>
+    <string name="repeat_type_month">Monthly</string>
+    <string name="repeat_type_year">Annually</string>
 </resources>

@@ -19,8 +19,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import by.coolightman.notes.R
+import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.ui.theme.NotesTheme
 import by.coolightman.notes.util.getLocalRoundedCalendarInstance
 import kotlinx.coroutines.CoroutineScope
@@ -59,6 +62,24 @@ fun AddNotificationContent(
             selectedTime = { calendar = it }
         )
     }
+
+    var repeatType by remember {
+        mutableStateOf(RepeatType.NO)
+    }
+    var openRepeatTypeDialog by remember {
+        mutableStateOf(false)
+    }
+    if (openRepeatTypeDialog) {
+        NotificationsRepeatDialog(
+            confirmButtonText = stringResource(R.string.okay),
+            onCancel = { openRepeatTypeDialog = false },
+            onConfirm = {
+                repeatType = RepeatType.values()[it]
+                openRepeatTypeDialog = false
+            }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,7 +96,9 @@ fun AddNotificationContent(
             modifier = Modifier.fillMaxWidth()
         ) {
             DoneButton {
-                scope.launch { bottomSheetState.hide() }
+                scope.launch {
+                    bottomSheetState.hide()
+                }
             }
         }
     }
@@ -91,7 +114,7 @@ private fun Preview() {
         initialValue = ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true
     )
-    NotesTheme() {
+    NotesTheme {
         AddNotificationContent(
             scope = scope,
             bottomSheetState = modalBottomSheetState,

@@ -65,4 +65,9 @@
     <string name="okay">ОК</string>
     <string name="remind_in_10_minutes">НАПОМНИТЬ ЧЕРЕЗ 10 МИН</string>
     <string name="show_notification_date">Показывать даты уведомлений</string>
+    <string name="repeat_type_no">Без повтора</string>
+    <string name="repeat_type_day">Ежедневно</string>
+    <string name="repeat_type_week">Еженедельно</string>
+    <string name="repeat_type_month">Ежемесячно</string>
+    <string name="repeat_type_year">Ежегодно</string>
 </resources>

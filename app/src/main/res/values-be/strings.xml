@@ -65,4 +65,9 @@
     <string name="notes_view_mode">Размяшчэнне нататак</string>
     <string name="okay">ОК</string>
     <string name="remind_in_10_minutes">НАГАДАЦЬ ПРАЗ 10 ХВ</string>
+    <string name="repeat_type_day">Штодня</string>
+    <string name="repeat_type_week">Штотыдзень</string>
+    <string name="repeat_type_month">Штомесяц</string>
+    <string name="repeat_type_year">Штогод</string>
+    <string name="repeat_type_no">Без паўтору</string>
 </resources>
