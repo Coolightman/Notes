@@ -2,7 +2,6 @@ package by.coolightman.notes.ui.screens.editTaskScreen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,8 +25,6 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -57,17 +54,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.AddNotificationButton
+import by.coolightman.notes.ui.components.AddNotificationContent
 import by.coolightman.notes.ui.components.AppAlertDialog
 import by.coolightman.notes.ui.components.AppTopAppBar
 import by.coolightman.notes.ui.components.CustomTextField
-import by.coolightman.notes.ui.components.DatePicker
 import by.coolightman.notes.ui.components.DateText
 import by.coolightman.notes.ui.components.DoneButton
-import by.coolightman.notes.ui.components.NotificationDateTimeText
 import by.coolightman.notes.ui.components.SelectColorBar
 import by.coolightman.notes.ui.components.SwitchCard
 import by.coolightman.notes.ui.components.TaskNotificationDate
-import by.coolightman.notes.ui.components.TimePicker
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.ImportantAction
 import by.coolightman.notes.ui.theme.ImportantTask
@@ -136,30 +131,7 @@ fun EditTaskScreen(
         )
     }
 
-    var calendar by remember {
-        mutableStateOf(Calendar.getInstance(Locale.getDefault()))
-    }
-    var openTimePicker by remember {
-        mutableStateOf(false)
-    }
-    if (openTimePicker) {
-        TimePicker(
-            calendar = calendar,
-            onCancel = { openTimePicker = false },
-            selectedTime = { calendar = it }
-        )
-    }
 
-    var openDatePicker by remember {
-        mutableStateOf(false)
-    }
-    if (openDatePicker) {
-        DatePicker(
-            calendar = calendar,
-            onCancel = { openDatePicker = false },
-            selectedTime = { calendar = it }
-        )
-    }
 
     BackHandler(
         enabled = bottomSheetState.isVisible
@@ -174,54 +146,12 @@ fun EditTaskScreen(
         sheetShape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
         sheetBackgroundColor = MaterialTheme.colors.background,
         sheetContent = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp)
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.TopCenter)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp)
-                    ) {
-                        Spacer(modifier = Modifier.weight(1f))
-                        NotificationDateTimeText(
-                            notificationDate = calendar.timeInMillis,
-                            onClickTime = { openTimePicker = true },
-                            onClickDate = { openDatePicker = true }
-                        )
-                        TextButton(
-                            onClick = { },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_round_repeat_24),
-                                contentDescription = "repeat"
-                            )
-                            Text(text = "-")
-                        }
-                    }
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(64.dp)
-                    )
-                }
-                DoneButton(
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                    onClick = {
-                        scope.launch { bottomSheetState.hide() }
-                    }
-                )
-            }
+            AddNotificationContent(
+                scope = scope,
+                bottomSheetState = bottomSheetState,
+                scaffoldState = scaffoldState,
+//               viewModel = viewModel
+            )
         }
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -318,7 +248,7 @@ fun EditTaskScreen(
                     }
                     TaskNotificationDate(
                         isHasNotification = isHasNotification && uiState.isShowNotificationDate,
-                        notificationTime = calendar.timeInMillis,
+                        notifications = uiState.notifications,
                         modifier = Modifier.padding(end = 12.dp)
                     )
 
@@ -369,19 +299,10 @@ fun EditTaskScreen(
                     )
                 }
 
-                DoneButton(
-                    modifier = Modifier.align(Alignment.BottomEnd)
-                ) {
+                DoneButton(modifier = Modifier.align(Alignment.BottomEnd)) {
                     when {
                         text.trim().isEmpty() -> {
                             showSnack(scope, scaffoldState, context.getString(R.string.empty_task))
-                        }
-                        isHasNotification && !isValidDate(calendar) -> {
-                            showSnack(
-                                scope,
-                                scaffoldState,
-                                context.getString(R.string.wrong_notification_time)
-                            )
                         }
                         else -> {
                             viewModel.saveTask(
@@ -390,7 +311,6 @@ fun EditTaskScreen(
                                 isImportant,
                                 numberOfLines,
                                 isHasNotification,
-                                calendar
                             )
                             goBack(scope, focusManager, navController)
                         }

@@ -22,13 +22,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import by.coolightman.notes.domain.model.Notification
 import by.coolightman.notes.util.toFormattedFullDate
 
 @Composable
 fun TaskNotificationDate(
     modifier: Modifier = Modifier,
     isHasNotification: Boolean,
-    notificationTime: Long
+    notifications: List<Notification>
 ) {
     AnimatedVisibility(
         visible = isHasNotification,
@@ -43,21 +44,23 @@ fun TaskNotificationDate(
             Row(
                 verticalAlignment = Alignment.Top
             ) {
-                Icon(
-                    imageVector = Icons.Default.Notifications,
-                    contentDescription = "notifications",
-                    tint = MaterialTheme.colors.onSurface.copy(0.5f),
-                    modifier = Modifier.padding(1.dp).size(12.dp)
-                )
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = notificationTime.toFormattedFullDate(),
-                    style = MaterialTheme.typography.caption.copy(
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Light
-                    ),
-                    color = MaterialTheme.colors.onSurface.copy(0.5f)
-                )
+                if (isHasNotification) {
+                    Icon(
+                        imageVector = Icons.Default.Notifications,
+                        contentDescription = "notifications",
+                        tint = MaterialTheme.colors.onSurface.copy(0.5f),
+                        modifier = Modifier.padding(1.dp).size(12.dp)
+                    )
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = notifications[0].time.timeInMillis.toFormattedFullDate(),
+                        style = MaterialTheme.typography.caption.copy(
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Light
+                        ),
+                        color = MaterialTheme.colors.onSurface.copy(0.5f)
+                    )
+                }
             }
             Spacer(modifier = Modifier.width(24.dp))
         }

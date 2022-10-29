@@ -102,8 +102,7 @@ class EditTaskViewModel @Inject constructor(
         colorIndex: Int,
         isImportant: Boolean,
         numberOfLines: Int,
-        isHasNotification: Boolean,
-        notificationTime: Calendar
+        isHasNotification: Boolean
     ) {
         viewModelScope.launch {
             if (task == null) {
@@ -121,9 +120,7 @@ class EditTaskViewModel @Inject constructor(
                     notifications = emptyList()
                 )
                 val taskId = createTaskUseCase(createdTask)
-                if (isHasNotification) {
-                   createNotification(taskId, notificationTime)
-                }
+
             } else {
                 task?.let {
                     val updatedTask = it.copy(
@@ -147,14 +144,16 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
-    private suspend fun createNotification(taskId: Long, time: Calendar){
-        createNotificationUseCase(
-            Notification(
-                taskId = taskId,
-                time = time.roundTimeToMinute(),
-                repeatType = RepeatType.NO
+    fun createNotification(taskId: Long, time: Calendar){
+        viewModelScope.launch {
+            createNotificationUseCase(
+                Notification(
+                    taskId = taskId,
+                    time = time,
+                    repeatType = RepeatType.NO
+                )
             )
-        )
+        }
     }
 
     private fun isCollapsable(numberOfLines: Int) = numberOfLines > 1

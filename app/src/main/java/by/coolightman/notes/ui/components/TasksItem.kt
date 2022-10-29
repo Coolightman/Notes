@@ -175,7 +175,7 @@ fun TasksItem(
         if (task.notifications.isNotEmpty()){
             TaskNotificationDate(
                 isHasNotification = task.notifications.isNotEmpty() && isShowNotificationDate,
-                notificationTime = task.notifications[0].time.timeInMillis
+                notifications = task.notifications
             )
         }
     }
