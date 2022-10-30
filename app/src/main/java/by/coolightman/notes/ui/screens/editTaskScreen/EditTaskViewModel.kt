@@ -3,12 +3,15 @@ package by.coolightman.notes.ui.screens.editTaskScreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import by.coolightman.notes.domain.model.Notification
+import by.coolightman.notes.domain.model.RemindType
 import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.domain.model.Task
-import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
-import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.notifications.CreateNotificationUseCase
 import by.coolightman.notes.domain.usecase.notifications.DeleteAllNotificationsByTaskUseCase
+import by.coolightman.notes.domain.usecase.notifications.DeleteNotificationUseCase
+import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
+import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.tasks.CreateTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.DeleteTaskUseCase
 import by.coolightman.notes.domain.usecase.tasks.GetTaskUseCase
@@ -38,7 +41,8 @@ class EditTaskViewModel @Inject constructor(
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
     private val createNotificationUseCase: CreateNotificationUseCase,
-    private val deleteAllNotificationsByTaskUseCase: DeleteAllNotificationsByTaskUseCase
+    private val deleteAllNotificationsByTaskUseCase: DeleteAllNotificationsByTaskUseCase,
+    private val deleteNotificationUseCase: DeleteNotificationUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EditTaskUiState())
@@ -99,8 +103,7 @@ class EditTaskViewModel @Inject constructor(
         text: String,
         colorIndex: Int,
         isImportant: Boolean,
-        numberOfLines: Int,
-        isHasNotification: Boolean
+        numberOfLines: Int
     ) {
         viewModelScope.launch {
             if (task == null) {
@@ -118,6 +121,7 @@ class EditTaskViewModel @Inject constructor(
                     notifications = emptyList()
                 )
                 val taskId = createTaskUseCase(createdTask)
+                createNotificationsPull(uiState.value.notifications, taskId)
 
             } else {
                 task?.let {
@@ -134,23 +138,78 @@ class EditTaskViewModel @Inject constructor(
                         notifications = emptyList()
                     )
                     updateTaskUseCase(updatedTask)
-                    if (it.notifications.isNotEmpty() && !isHasNotification){
-                        deleteAllNotificationsByTaskUseCase(it.id)
-                    }
+                    updateNotificationsPull(uiState.value.notifications, it.id)
                 }
             }
         }
     }
 
-    fun addNotification(time: Calendar, repeatType: RepeatType, remindTypes: List<Boolean>){
-        viewModelScope.launch {
-//            createNotificationUseCase(
-//                Notification(
-//                    taskId = taskId,
-//                    time = time,
-//                    repeatType = RepeatType.NO
-//                )
-//            )
+    private fun createNotificationsPull(notifications: List<Notification>, taskId: Long) {
+        notifications.map { it.copy(taskId = taskId) }.forEach {
+            viewModelScope.launch {
+                createNotificationUseCase(it)
+            }
+        }
+    }
+
+    private fun updateNotificationsPull(notifications: List<Notification>, taskId: Long) {
+        notifications.filter { it.id == 0 }.map { it.copy(taskId = taskId) }.forEach {
+            viewModelScope.launch {
+                createNotificationUseCase(it)
+            }
+        }
+    }
+
+    fun addNotification(time: Calendar, repeatType: RepeatType, remindTypes: List<Boolean>) {
+        val mainNotification = Notification(
+            taskId = 0L,
+            time = time,
+            repeatType = repeatType
+        )
+        val extraNotifications = convertToNotifications(remindTypes, time)
+        addToCurrentList(mainNotification, extraNotifications)
+    }
+
+    private fun addToCurrentList(
+        mainNotification: Notification,
+        extraNotifications: List<Notification>
+    ) {
+        val currentList = uiState.value.notifications.toMutableList()
+        currentList.add(mainNotification)
+        if (extraNotifications.isNotEmpty()) {
+            extraNotifications.forEach { currentList.add(it) }
+        }
+        _uiState.update { currentState ->
+            currentState.copy(
+                notifications = currentList.sortedBy { it.time }
+            )
+        }
+    }
+
+    private fun convertToNotifications(
+        remindTypes: List<Boolean>,
+        time: Calendar
+    ): List<Notification> {
+        val extraNotifications = mutableListOf<Notification>()
+        remindTypes.forEachIndexed { index, state ->
+            if (state) {
+                val updatedTime = updatedTime(index, time)
+                extraNotifications.add(
+                    Notification(
+                        taskId = 0L,
+                        time = updatedTime,
+                        repeatType = RepeatType.NO
+                    )
+                )
+            }
+        }
+        return extraNotifications
+    }
+
+    private fun updatedTime(index: Int, time: Calendar): Calendar {
+        val period = RemindType.values()[index].minutes
+        return time.apply {
+            set(Calendar.MINUTE, time.get(Calendar.MINUTE) - period)
         }
     }
 
@@ -160,7 +219,32 @@ class EditTaskViewModel @Inject constructor(
         viewModelScope.launch {
             task?.let {
                 deleteTaskUseCase(it.id)
+                deleteAllNotificationsByTaskUseCase(it.id)
             }
+        }
+    }
+
+    fun deleteNotification(id: Int, time: Calendar) {
+        val currentList = uiState.value.notifications.toMutableList()
+        if (id != 0) {
+            deleteFromPull(id)
+            _uiState.update { currentState ->
+                currentState.copy(
+                    notifications = currentList.filter { it.id != id }
+                )
+            }
+        } else {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    notifications = currentList.filter { it.time.timeInMillis == time.timeInMillis }
+                )
+            }
+        }
+    }
+
+    private fun deleteFromPull(id: Int) {
+        viewModelScope.launch {
+            deleteNotificationUseCase(id)
         }
     }
 }
