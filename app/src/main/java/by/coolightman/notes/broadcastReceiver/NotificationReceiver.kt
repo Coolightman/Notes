@@ -132,7 +132,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun updateByRepeatType(notification: Notification): Notification {
-        val now = Calendar.getInstance()
+        val now = notification.time
         val updatedTime = when (notification.repeatType) {
             RepeatType.DAY -> now.apply {
                 add(Calendar.DAY_OF_MONTH, 1)

@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -54,9 +56,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
+import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.ui.components.AddNotificationButton
 import by.coolightman.notes.ui.components.AddNotificationContent
 import by.coolightman.notes.ui.components.AppAlertDialog
@@ -302,24 +306,39 @@ fun EditTaskScreen(
                         key = { it.time.timeInMillis }
                     ) { notification ->
                         Card(
+                            shape = CircleShape,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(36.dp)
+                                .padding(horizontal = 24.dp, vertical = 3.dp)
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text(
-                                    text = notification.time.timeInMillis.toFormattedFullDate()
+                                    text = notification.time.timeInMillis.toFormattedFullDate(),
+                                    modifier = Modifier.padding(horizontal = 8.dp)
                                 )
+                                if (notification.repeatType != RepeatType.NO) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.ic_round_repeat_24),
+                                        contentDescription = "repeat type"
+                                    )
+                                    Text(
+                                        text = stringResource(notification.repeatType.shortText),
+                                        fontSize = 12.sp,
+                                        modifier = Modifier.offset(x = 18.dp, y = (-2).dp)
+                                    )
+                                }
                                 IconButton(
                                     onClick = { viewModel.deleteNotification(notification) }
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Close,
-                                        contentDescription = "delete notification"
+                                        contentDescription = "delete notification",
+                                        modifier = Modifier.size(18.dp)
                                     )
                                 }
                             }
