@@ -237,7 +237,7 @@ class EditTaskViewModel @Inject constructor(
             _uiState.update { currentState ->
                 currentState.copy(
                     notifications = currentList
-                        .filter { it.time.timeInMillis == notification.time.timeInMillis }
+                        .filter { it.time.timeInMillis != notification.time.timeInMillis }
                 )
             }
         }
