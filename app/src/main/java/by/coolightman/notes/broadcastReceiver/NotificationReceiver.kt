@@ -135,16 +135,16 @@ class NotificationReceiver : BroadcastReceiver() {
         val now = Calendar.getInstance()
         val updatedTime = when (notification.repeatType) {
             RepeatType.DAY -> now.apply {
-                set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH) + 1)
+                add(Calendar.DAY_OF_MONTH, 1)
             }
             RepeatType.WEEK -> now.apply {
-                set(Calendar.WEEK_OF_YEAR, now.get(Calendar.WEEK_OF_YEAR) + 1)
+                add(Calendar.WEEK_OF_YEAR, 1)
             }
             RepeatType.MONTH -> now.apply {
-                set(Calendar.MONTH, now.get(Calendar.MONTH) + 1)
+                add(Calendar.MONTH, 1)
             }
             RepeatType.YEAR -> now.apply {
-                set(Calendar.YEAR, now.get(Calendar.YEAR) + 1)
+                add(Calendar.YEAR, 1)
             }
             else -> throw RuntimeException("Wrong RepeatType!")
         }

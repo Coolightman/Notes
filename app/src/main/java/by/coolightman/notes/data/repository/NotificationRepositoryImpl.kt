@@ -20,9 +20,10 @@ class NotificationRepositoryImpl @Inject constructor(
     private val notificationDao: NotificationDao
 ) : NotificationRepository {
 
-    override suspend fun create(notification: Notification) {
+    override suspend fun create(notification: Notification): Int {
         val id = notificationDao.insert(notification.toNotificationDb()).toInt()
         createNotification(notification.copy(id = id))
+        return id
     }
 
     override suspend fun getNotification(id: Int): Notification =

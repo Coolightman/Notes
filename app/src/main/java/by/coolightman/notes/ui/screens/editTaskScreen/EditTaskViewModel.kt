@@ -20,8 +20,10 @@ import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.IS_SHOW_TASK_NOTIFICATION_DATE
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
+import by.coolightman.notes.util.convertToCalendar
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -120,8 +122,8 @@ class EditTaskViewModel @Inject constructor(
                     isCollapsed = true,
                     notifications = emptyList()
                 )
-                val taskId = createTaskUseCase(createdTask)
-                createNotificationsPull(uiState.value.notifications, taskId)
+                val taskId = async { createTaskUseCase(createdTask) }
+                createNotificationsPull(uiState.value.notifications, taskId.await())
 
             } else {
                 task?.let {
@@ -166,7 +168,7 @@ class EditTaskViewModel @Inject constructor(
             time = time,
             repeatType = repeatType
         )
-        val extraNotifications = convertToNotifications(remindTypes, time)
+        val extraNotifications = convertToNotifications(time, repeatType, remindTypes)
         addToCurrentList(mainNotification, extraNotifications)
     }
 
@@ -187,8 +189,9 @@ class EditTaskViewModel @Inject constructor(
     }
 
     private fun convertToNotifications(
-        remindTypes: List<Boolean>,
-        time: Calendar
+        time: Calendar,
+        repeatType: RepeatType,
+        remindTypes: List<Boolean>
     ): List<Notification> {
         val extraNotifications = mutableListOf<Notification>()
         remindTypes.forEachIndexed { index, state ->
@@ -198,7 +201,7 @@ class EditTaskViewModel @Inject constructor(
                     Notification(
                         taskId = 0L,
                         time = updatedTime,
-                        repeatType = RepeatType.NO
+                        repeatType = repeatType
                     )
                 )
             }
@@ -208,9 +211,8 @@ class EditTaskViewModel @Inject constructor(
 
     private fun updatedTime(index: Int, time: Calendar): Calendar {
         val period = RemindType.values()[index].minutes
-        return time.apply {
-            set(Calendar.MINUTE, time.get(Calendar.MINUTE) - period)
-        }
+        val updated = time.timeInMillis - period * 60 * 1000
+        return updated.convertToCalendar()
     }
 
     private fun isCollapsable(numberOfLines: Int) = numberOfLines > 1
