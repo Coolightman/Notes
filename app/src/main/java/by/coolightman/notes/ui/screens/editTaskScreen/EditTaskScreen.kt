@@ -2,6 +2,7 @@ package by.coolightman.notes.ui.screens.editTaskScreen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,9 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -25,9 +27,11 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -66,11 +70,10 @@ import by.coolightman.notes.ui.components.TaskNotificationDate
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.ImportantAction
 import by.coolightman.notes.ui.theme.ImportantTask
+import by.coolightman.notes.util.toFormattedFullDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.Locale
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -84,13 +87,13 @@ fun EditTaskScreen(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val scrollState = rememberScrollState()
     val itemColors = remember { ItemColor.values() }
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true
     )
+    val listState = rememberLazyListState()
 
     var text by remember(uiState.text) {
         mutableStateOf(uiState.text)
@@ -175,127 +178,160 @@ fun EditTaskScreen(
             })
 
             Box(modifier = Modifier.fillMaxSize()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollState)
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Card(
-                        shape = RoundedCornerShape(24.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .defaultMinSize(minHeight = 48.dp)
-                            .padding(12.dp, 12.dp, 12.dp, 0.dp)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Color(itemColors[selectedColor].color).copy(0.4f))
-                        ) {
-                            Box {
-                                IconButton(onClick = { }) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.ic_outline_circle_24),
-                                        contentDescription = "active task",
-                                        tint = if (isImportant) ImportantTask
-                                        else MaterialTheme.colors.onSurface.copy(0.8f),
-                                    )
-                                }
-                                if (isHasNotification && !uiState.isShowNotificationDate) {
-                                    Icon(
-                                        imageVector = Icons.Default.Notifications,
-                                        contentDescription = "notifications",
-                                        tint = MaterialTheme.colors.onSurface.copy(0.5f),
+                    item {
+                        Column {
+                            Card(
+                                shape = RoundedCornerShape(24.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .defaultMinSize(minHeight = 48.dp)
+                                    .padding(12.dp, 12.dp, 12.dp, 0.dp)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(Color(itemColors[selectedColor].color).copy(0.4f))
+                                ) {
+                                    Box {
+                                        IconButton(onClick = { }) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.ic_outline_circle_24),
+                                                contentDescription = "active task",
+                                                tint = if (isImportant) ImportantTask
+                                                else MaterialTheme.colors.onSurface.copy(0.8f),
+                                            )
+                                        }
+                                        if (isHasNotification && !uiState.isShowNotificationDate) {
+                                            Icon(
+                                                imageVector = Icons.Default.Notifications,
+                                                contentDescription = "notifications",
+                                                tint = MaterialTheme.colors.onSurface.copy(0.5f),
+                                                modifier = Modifier
+                                                    .align(Alignment.TopEnd)
+                                                    .padding(4.dp)
+                                                    .size(12.dp)
+                                            )
+                                        }
+                                    }
+
+                                    CustomTextField(
+                                        text = text,
+                                        placeholder = stringResource(R.string.text_placeholder),
+                                        onValueChange = { text = it },
+                                        keyboardController = keyboardController,
+                                        onTextLayout = { textLayoutResult ->
+                                            numberOfLines =
+                                                derivedStateOf { textLayoutResult.lineCount }.value
+                                        },
                                         modifier = Modifier
-                                            .align(Alignment.TopEnd)
-                                            .padding(4.dp)
-                                            .size(12.dp)
+                                            .weight(1f)
+                                            .padding(vertical = 4.dp)
                                     )
+
+                                    if (numberOfLines > 1) {
+                                        IconButton(
+                                            onClick = { },
+                                            modifier = Modifier.align(Alignment.Bottom)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.ArrowDropDown,
+                                                contentDescription = "drop down",
+                                                tint = MaterialTheme.colors.onSurface.copy(0.5f),
+                                                modifier = Modifier.rotate(180f)
+                                            )
+                                        }
+                                    } else {
+                                        Spacer(modifier = Modifier.width(48.dp))
+                                    }
                                 }
                             }
-
-                            CustomTextField(
-                                text = text,
-                                placeholder = stringResource(R.string.text_placeholder),
-                                onValueChange = { text = it },
-                                keyboardController = keyboardController,
-                                onTextLayout = { textLayoutResult ->
-                                    numberOfLines =
-                                        derivedStateOf { textLayoutResult.lineCount }.value
-                                },
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .padding(vertical = 4.dp)
+                            TaskNotificationDate(
+                                isHasNotification = isHasNotification && uiState.isShowNotificationDate,
+                                notifications = uiState.notifications,
+                                modifier = Modifier.padding(end = 12.dp)
                             )
 
-                            if (numberOfLines > 1) {
+                            if (createdAt.isNotEmpty()) {
+                                DateText(
+                                    text = stringResource(R.string.created) + " " + createdAt,
+                                    modifier = Modifier
+                                        .padding(horizontal = 28.dp)
+                                        .fillMaxWidth()
+                                )
+                            }
+
+                            if (editedAt.isNotEmpty()) {
+                                DateText(
+                                    text = stringResource(R.string.edited) + " " + editedAt,
+                                    modifier = Modifier
+                                        .padding(horizontal = 28.dp)
+                                        .fillMaxWidth()
+                                )
+                            }
+
+                            SelectColorBar(
+                                selected = selectedColor,
+                                onSelect = { selectedColor = it },
+                                modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
+                                alpha = 0.5f
+                            )
+
+                            SwitchCard(
+                                label = stringResource(R.string.important_task),
+                                checked = isImportant,
+                                onCheckedChange = { isImportant = it }
+                            )
+
+                            AddNotificationButton(
+                                onClickAdd = {
+                                    scope.launch {
+                                        focusManager.clearFocus()
+                                        bottomSheetState.show()
+                                    }
+                                }
+                            )
+                        }
+                    }
+                    items(
+                        items = uiState.notifications,
+                        key = { it.time.timeInMillis }
+                    ) { notification ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(36.dp)
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                Text(
+                                    text = notification.time.timeInMillis.toFormattedFullDate()
+                                )
                                 IconButton(
-                                    onClick = { }, modifier = Modifier.align(Alignment.Bottom)
+                                    onClick = { viewModel.deleteNotification(notification) }
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Default.ArrowDropDown,
-                                        contentDescription = "drop down",
-                                        tint = MaterialTheme.colors.onSurface.copy(0.5f),
-                                        modifier = Modifier.rotate(180f)
+                                        imageVector = Icons.Default.Close,
+                                        contentDescription = "delete notification"
                                     )
                                 }
-                            } else {
-                                Spacer(modifier = Modifier.width(48.dp))
                             }
                         }
                     }
-                    TaskNotificationDate(
-                        isHasNotification = isHasNotification && uiState.isShowNotificationDate,
-                        notifications = uiState.notifications,
-                        modifier = Modifier.padding(end = 12.dp)
-                    )
-
-                    if (createdAt.isNotEmpty()) {
-                        DateText(
-                            text = stringResource(R.string.created) + " " + createdAt,
+                    item {
+                        Spacer(
                             modifier = Modifier
-                                .padding(horizontal = 28.dp)
                                 .fillMaxWidth()
+                                .height(64.dp)
                         )
                     }
-
-                    if (editedAt.isNotEmpty()) {
-                        DateText(
-                            text = stringResource(R.string.edited) + " " + editedAt,
-                            modifier = Modifier
-                                .padding(horizontal = 28.dp)
-                                .fillMaxWidth()
-                        )
-                    }
-
-                    SelectColorBar(
-                        selected = selectedColor,
-                        onSelect = { selectedColor = it },
-                        modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
-                        alpha = 0.5f
-                    )
-
-                    SwitchCard(
-                        label = stringResource(R.string.important_task),
-                        checked = isImportant,
-                        onCheckedChange = { isImportant = it }
-                    )
-
-                    AddNotificationButton(
-                        onClickAdd = {
-                            scope.launch {
-                                focusManager.clearFocus()
-                                bottomSheetState.show()
-                            }
-                        }
-                    )
-
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(64.dp)
-                    )
                 }
 
                 DoneButton(modifier = Modifier.align(Alignment.BottomEnd)) {
@@ -308,8 +344,7 @@ fun EditTaskScreen(
                                 text.trim(),
                                 selectedColor,
                                 isImportant,
-                                numberOfLines,
-                                isHasNotification,
+                                numberOfLines
                             )
                             goBack(scope, focusManager, navController)
                         }
@@ -318,11 +353,6 @@ fun EditTaskScreen(
             }
         }
     }
-}
-
-fun isValidDate(calendar: Calendar): Boolean {
-    val checkCalendar = Calendar.getInstance(Locale.getDefault())
-    return checkCalendar.timeInMillis < calendar.timeInMillis
 }
 
 private fun showSnack(

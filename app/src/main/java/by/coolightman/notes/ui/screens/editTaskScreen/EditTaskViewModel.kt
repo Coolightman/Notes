@@ -224,19 +224,20 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
-    fun deleteNotification(id: Int, time: Calendar) {
+    fun deleteNotification(notification: Notification) {
         val currentList = uiState.value.notifications.toMutableList()
-        if (id != 0) {
-            deleteFromPull(id)
+        if (notification.id != 0) {
+            deleteFromPull(notification.id)
             _uiState.update { currentState ->
                 currentState.copy(
-                    notifications = currentList.filter { it.id != id }
+                    notifications = currentList.filter { it.id != notification.id }
                 )
             }
         } else {
             _uiState.update { currentState ->
                 currentState.copy(
-                    notifications = currentList.filter { it.time.timeInMillis == time.timeInMillis }
+                    notifications = currentList
+                        .filter { it.time.timeInMillis == notification.time.timeInMillis }
                 )
             }
         }
