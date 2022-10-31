@@ -20,7 +20,6 @@ import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.IS_SHOW_TASK_NOTIFICATION_DATE
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
-import by.coolightman.notes.util.convertToCalendar
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -211,8 +210,10 @@ class EditTaskViewModel @Inject constructor(
 
     private fun updatedTime(index: Int, time: Calendar): Calendar {
         val period = RemindType.values()[index].minutes
-        val updated = time.timeInMillis - period * 60 * 1000
-        return updated.convertToCalendar()
+        val updated = time.apply {
+            add(Calendar.MINUTE, -period)
+        }
+        return updated
     }
 
     private fun isCollapsable(numberOfLines: Int) = numberOfLines > 1

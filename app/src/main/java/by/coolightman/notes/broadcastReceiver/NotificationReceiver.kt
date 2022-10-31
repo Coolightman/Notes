@@ -132,18 +132,18 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun updateByRepeatType(notification: Notification): Notification {
-        val now = notification.time
+        val time = notification.time
         val updatedTime = when (notification.repeatType) {
-            RepeatType.DAY -> now.apply {
+            RepeatType.DAY -> time.apply {
                 add(Calendar.DAY_OF_MONTH, 1)
             }
-            RepeatType.WEEK -> now.apply {
+            RepeatType.WEEK -> time.apply {
                 add(Calendar.WEEK_OF_YEAR, 1)
             }
-            RepeatType.MONTH -> now.apply {
+            RepeatType.MONTH -> time.apply {
                 add(Calendar.MONTH, 1)
             }
-            RepeatType.YEAR -> now.apply {
+            RepeatType.YEAR -> time.apply {
                 add(Calendar.YEAR, 1)
             }
             else -> throw RuntimeException("Wrong RepeatType!")
