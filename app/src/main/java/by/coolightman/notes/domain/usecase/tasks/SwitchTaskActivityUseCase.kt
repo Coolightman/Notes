@@ -20,9 +20,7 @@ class SwitchTaskActivityUseCase @Inject constructor(
 
     private suspend fun updateNotifications(task: Task) {
         if (!task.isActive) {
-            task.notifications.forEach {
-                notificationRepository.delete(it.id)
-            }
+            notificationRepository.deleteAllByTask(task.id)
         }
     }
 }

@@ -8,7 +8,6 @@ import by.coolightman.notes.domain.model.RemindType
 import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.usecase.notifications.CreateNotificationUseCase
-import by.coolightman.notes.domain.usecase.notifications.DeleteAllNotificationsByTaskUseCase
 import by.coolightman.notes.domain.usecase.notifications.DeleteNotificationUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
@@ -42,7 +41,6 @@ class EditTaskViewModel @Inject constructor(
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
     private val createNotificationUseCase: CreateNotificationUseCase,
-    private val deleteAllNotificationsByTaskUseCase: DeleteAllNotificationsByTaskUseCase,
     private val deleteNotificationUseCase: DeleteNotificationUseCase
 ) : ViewModel() {
 
@@ -222,7 +220,6 @@ class EditTaskViewModel @Inject constructor(
         viewModelScope.launch {
             task?.let {
                 deleteTaskUseCase(it.id)
-                deleteAllNotificationsByTaskUseCase(it.id)
             }
         }
     }
