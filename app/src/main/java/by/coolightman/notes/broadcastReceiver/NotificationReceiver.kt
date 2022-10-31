@@ -77,12 +77,12 @@ class NotificationReceiver : BroadcastReceiver() {
             PendingIntent.getActivity(context, 0, launchAppIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val okBtIntent = Intent(context, OkBtNotificationReceiver::class.java).apply {
-            putExtra(NOTIFICATION_ID_EXTRA, notification.id)
+            putExtra(TASK_ID_EXTRA, notification.taskId)
         }
         val okBtPendingIntent =
             PendingIntent.getBroadcast(
                 context,
-                notification.id,
+                notification.taskId.toInt(),
                 okBtIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
@@ -118,7 +118,7 @@ class NotificationReceiver : BroadcastReceiver() {
             .setAutoCancel(true)
             .build()
 
-        notificationManager.notify(notification.id, showingNotification)
+        notificationManager.notify(notification.taskId.toInt(), showingNotification)
     }
 
     private suspend fun updateNotificationsDb(notification: Notification) {

@@ -32,11 +32,9 @@ class LaterBtNotificationReceiver : BroadcastReceiver() {
     lateinit var alarmManager: AlarmManager
 
     override fun onReceive(context: Context, intent: Intent) {
-        val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, -1)
         val taskId = intent.getLongExtra(TASK_ID_EXTRA, -1L)
-        if (notificationId != -1 && taskId != -1L) {
-
-            notificationManager.cancel(notificationId)
+        if (taskId != -1L) {
+            notificationManager.cancel(taskId.toInt())
 
             CoroutineScope(Dispatchers.Main).launch {
                 val timePlus10Min = System.currentTimeMillis() + 10 * 60 * 1000
