@@ -186,8 +186,9 @@ class EditTaskViewModel @Inject constructor(
 
         if (extraNotifications.isNotEmpty()) {
             extraNotifications.forEach {
-                if (isNotHasSameTime(uiId, it.time.timeInMillis))
-                currentList.add(it)
+                if (isNotHasSameTime(uiId, it.time.timeInMillis)){
+                    currentList.add(it)
+                }
             }
         }
         _uiState.update { currentState ->
