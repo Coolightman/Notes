@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import by.coolightman.notes.domain.usecase.notifications.ReassignNotificationsUseCase
-import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
+import by.coolightman.notes.domain.usecase.preferences.PutBooleanPreferenceUseCase
 import by.coolightman.notes.util.SHOW_UPDATE_DIALOG_EXTRA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +20,7 @@ class UpdateAppOrRebootDeviceReceiver : BroadcastReceiver() {
     lateinit var reassignNotificationsUseCase: ReassignNotificationsUseCase
 
     @Inject
-    lateinit var putBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
+    lateinit var putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase
 
     override fun onReceive(context: Context, intent: Intent) {
         Log.d("NotesTAG", "ReassignNotificationsReceiver")
