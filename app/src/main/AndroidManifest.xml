@@ -40,7 +40,7 @@
         <receiver
             android:name=".broadcastReceiver.LaterBtNotificationReceiver"
             android:enabled="true" />
-        <receiver android:name=".broadcastReceiver.ReassignNotificationsReceiver"
+        <receiver android:name=".broadcastReceiver.UpdateAppOrRebootDeviceReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

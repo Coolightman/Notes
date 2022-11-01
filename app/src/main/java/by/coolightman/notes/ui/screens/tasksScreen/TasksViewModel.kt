@@ -6,6 +6,7 @@ import by.coolightman.notes.domain.model.SortBy
 import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetStringPreferenceUseCase
+import by.coolightman.notes.domain.usecase.preferences.PutBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutStringPreferenceUseCase
 import by.coolightman.notes.domain.usecase.tasks.*
@@ -33,7 +34,8 @@ class TasksViewModel @Inject constructor(
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val putStringPreferenceUseCase: PutStringPreferenceUseCase,
     private val getStringPreferenceUseCase: GetStringPreferenceUseCase,
-    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase
+    private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
+    private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TasksUiState())
@@ -55,6 +57,7 @@ class TasksViewModel @Inject constructor(
     init {
         getTasks()
         getIsShowTaskNotificationDate()
+        getIsShowUpdateDialog()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -86,6 +89,20 @@ class TasksViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun getIsShowUpdateDialog() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(SHOW_UPDATE_DIALOG_EXTRA, false).collectLatest {
+                _uiState.update { currentState ->
+                    currentState.copy(isShowUpdateAppDialog = it)
+                }
+            }
+        }
+    }
+
+    fun notShowMoreUpdateDialog() {
+        viewModelScope.launch { putBooleanPreferenceUseCase(SHOW_UPDATE_DIALOG_EXTRA, false) }
     }
 
     fun setSortBy(sortBy: SortBy) {

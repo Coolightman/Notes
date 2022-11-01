@@ -94,6 +94,16 @@ fun NotesScreen(
         isSelectionMode = false
     }
 
+    var openUpdateAppDialog by remember(uiState.isShowUpdateAppDialog) {
+        mutableStateOf(uiState.isShowUpdateAppDialog)
+    }
+    if (openUpdateAppDialog) {
+        UpdateAppDialog {
+            openUpdateAppDialog = false
+            viewModel.notShowMoreUpdateDialog()
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

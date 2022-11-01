@@ -27,7 +27,8 @@ class NotesViewModel @Inject constructor(
     private val resetNotesSelectionsUseCase: ResetNotesSelectionsUseCase,
     private val selectAllNotesUseCase: SelectAllNotesUseCase,
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
-    private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase
+    private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase,
+    private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NotesUiState())
@@ -51,6 +52,7 @@ class NotesViewModel @Inject constructor(
         getIsShowDatePref()
         getNotesViewMode()
         getIsColoredBackground()
+        getIsShowUpdateDialog()
     }
 
     private fun getIsShowDatePref() {
@@ -61,6 +63,20 @@ class NotesViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun getIsShowUpdateDialog() {
+        viewModelScope.launch {
+            getBooleanPreferenceUseCase(SHOW_UPDATE_DIALOG_EXTRA, false).collectLatest {
+                _uiState.update { currentState ->
+                    currentState.copy(isShowUpdateAppDialog = it)
+                }
+            }
+        }
+    }
+
+    fun notShowMoreUpdateDialog() {
+        viewModelScope.launch { putBooleanPreferenceUseCase(SHOW_UPDATE_DIALOG_EXTRA, false) }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

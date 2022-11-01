@@ -11,5 +11,6 @@ data class TasksUiState(
     val isListHasCollapsable: Boolean = false,
     val sortByIndex: Int = 0,
     val isShowNotificationDate: Boolean = false,
+    val isShowUpdateAppDialog: Boolean = false,
     val currentFilterSelection: List<Boolean> = ItemColor.values().map { false }
 )
