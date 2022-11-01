@@ -32,7 +32,7 @@ fun ColorFilterButton(
             .size(48.dp)
             .clip(CircleShape)
             .background(Color(itemColor.color).copy(filterAlpha))
-            .clickable { onClick(itemColor.ordinal) }
+            .clickable(onClickLabel = "color") { onClick(itemColor.ordinal) }
     ) {
         if (isSelected) {
             Icon(

@@ -45,7 +45,7 @@ fun SelectColorBar(
                     .size(48.dp)
                     .clip(CircleShape)
                     .background(Color(itemColor.color).copy(alpha))
-                    .clickable { onSelect(index) }
+                    .clickable(onClickLabel = "color") { onSelect(index) }
             ) {
                 if (index == selected) {
                     Icon(
