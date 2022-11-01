@@ -16,13 +16,20 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Notification
+import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.util.toFormattedFullDate
 
 @Composable
@@ -45,6 +52,27 @@ fun TaskNotificationDate(
                 verticalAlignment = Alignment.Top
             ) {
                 if (isHasNotification) {
+                    val firstNotification by remember(notifications){
+                        mutableStateOf(notifications[0])
+                    }
+                    if (firstNotification.repeatType != RepeatType.NO) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_round_repeat_24),
+                            contentDescription = "repeat type",
+                            tint = MaterialTheme.colors.onSurface.copy(0.5f),
+                            modifier = Modifier.padding(1.dp).size(12.dp)
+                        )
+                        Spacer(modifier = Modifier.width(1.dp))
+                        Text(
+                            text = stringResource(firstNotification.repeatType.shortText),
+                            style = MaterialTheme.typography.caption.copy(
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Light
+                            ),
+                            color = MaterialTheme.colors.onSurface.copy(0.5f)
+                        )
+                        Spacer(modifier = Modifier.width(2.dp))
+                    }
                     Icon(
                         imageVector = Icons.Default.Notifications,
                         contentDescription = "notifications",
@@ -53,7 +81,7 @@ fun TaskNotificationDate(
                     )
                     Text(
                         textAlign = TextAlign.Center,
-                        text = notifications[0].time.timeInMillis.toFormattedFullDate(),
+                        text = firstNotification.time.timeInMillis.toFormattedFullDate(),
                         style = MaterialTheme.typography.caption.copy(
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Light

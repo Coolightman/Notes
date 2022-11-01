@@ -19,6 +19,7 @@ import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.util.ARG_TASK_ID
 import by.coolightman.notes.util.IS_SHOW_TASK_NOTIFICATION_DATE
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
+import by.coolightman.notes.util.convertToCalendar
 import by.coolightman.notes.util.toFormattedFullDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -122,6 +123,7 @@ class EditTaskViewModel @Inject constructor(
                 val taskId = async { createTaskUseCase(createdTask) }
                 createNotificationsPull(uiState.value.notifications, taskId.await())
 
+
             } else {
                 task?.let {
                     val updatedTask = it.copy(
@@ -152,9 +154,12 @@ class EditTaskViewModel @Inject constructor(
     }
 
     private fun updateNotificationsPull(notifications: List<Notification>, taskId: Long) {
-        notifications.filter { it.id == 0 }.map { it.copy(taskId = taskId) }.forEach {
+        notifications.forEach {
             viewModelScope.launch {
-                createNotificationUseCase(it)
+                if (it.id == 0) {
+                    val updated = it.copy(taskId = taskId)
+                    createNotificationUseCase(updated)
+                }
             }
         }
     }
@@ -208,10 +213,8 @@ class EditTaskViewModel @Inject constructor(
 
     private fun updatedTime(index: Int, time: Calendar): Calendar {
         val period = RemindType.values()[index].minutes
-        val updated = time.apply {
-            add(Calendar.MINUTE, -period)
-        }
-        return updated
+        val updated = time.timeInMillis - period * 60 * 1000
+        return updated.convertToCalendar()
     }
 
     private fun isCollapsable(numberOfLines: Int) = numberOfLines > 1

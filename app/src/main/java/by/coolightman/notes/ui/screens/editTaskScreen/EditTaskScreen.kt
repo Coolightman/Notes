@@ -2,7 +2,6 @@ package by.coolightman.notes.ui.screens.editTaskScreen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,14 +10,12 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -29,11 +26,9 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -56,11 +51,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.domain.model.RepeatType
 import by.coolightman.notes.ui.components.AddNotificationButton
 import by.coolightman.notes.ui.components.AddNotificationContent
 import by.coolightman.notes.ui.components.AppAlertDialog
@@ -68,13 +61,13 @@ import by.coolightman.notes.ui.components.AppTopAppBar
 import by.coolightman.notes.ui.components.CustomTextField
 import by.coolightman.notes.ui.components.DateText
 import by.coolightman.notes.ui.components.DoneButton
+import by.coolightman.notes.ui.components.NotificationItem
 import by.coolightman.notes.ui.components.SelectColorBar
 import by.coolightman.notes.ui.components.SwitchCard
 import by.coolightman.notes.ui.components.TaskNotificationDate
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.theme.ImportantAction
 import by.coolightman.notes.ui.theme.ImportantTask
-import by.coolightman.notes.util.toFormattedFullDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -114,8 +107,8 @@ fun EditTaskScreen(
     var isImportant by remember(uiState.isImportant) {
         mutableStateOf(uiState.isImportant)
     }
-    val isHasNotification by remember(uiState.isHasNotification) {
-        mutableStateOf(uiState.isHasNotification)
+    val isHasNotification by remember(uiState.notifications) {
+        mutableStateOf(uiState.notifications.isNotEmpty())
     }
     var numberOfLines by remember {
         mutableStateOf(1)
@@ -137,8 +130,6 @@ fun EditTaskScreen(
             onCancel = { openDeleteDialog = false }
         )
     }
-
-
 
     BackHandler(
         enabled = bottomSheetState.isVisible
@@ -305,44 +296,10 @@ fun EditTaskScreen(
                         items = uiState.notifications,
                         key = { it.time.timeInMillis }
                     ) { notification ->
-                        Card(
-                            shape = CircleShape,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(36.dp)
-                                .padding(horizontal = 24.dp, vertical = 3.dp)
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = notification.time.timeInMillis.toFormattedFullDate(),
-                                    modifier = Modifier.padding(horizontal = 8.dp)
-                                )
-                                if (notification.repeatType != RepeatType.NO) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.ic_round_repeat_24),
-                                        contentDescription = "repeat type"
-                                    )
-                                    Text(
-                                        text = stringResource(notification.repeatType.shortText),
-                                        fontSize = 12.sp,
-                                        modifier = Modifier.offset(x = 18.dp, y = (-2).dp)
-                                    )
-                                }
-                                IconButton(
-                                    onClick = { viewModel.deleteNotification(notification) }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Close,
-                                        contentDescription = "delete notification",
-                                        modifier = Modifier.size(18.dp)
-                                    )
-                                }
-                            }
-                        }
+                        NotificationItem(
+                            notification = notification,
+                            onDelete = { viewModel.deleteNotification(it) }
+                        )
                     }
                     item {
                         Spacer(
