@@ -3,16 +3,14 @@ package by.coolightman.notes.domain.usecase.tasks
 import by.coolightman.notes.domain.model.Task
 import by.coolightman.notes.domain.repository.NotificationRepository
 import by.coolightman.notes.domain.repository.TaskRepository
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-class DeleteSelectedTasksUseCase @Inject constructor(
+class DeleteTasksUseCase @Inject constructor(
     private val repository: TaskRepository,
     private val notificationRepository: NotificationRepository
 ) {
-    suspend operator fun invoke() {
-        val inactiveList = repository.getAll().first().filter { it.isSelected }
-        inactiveList.forEach {
+    suspend operator fun invoke(list: List<Task>) {
+        list.forEach {
             deleteNotifications(it)
             repository.delete(it.id)
         }

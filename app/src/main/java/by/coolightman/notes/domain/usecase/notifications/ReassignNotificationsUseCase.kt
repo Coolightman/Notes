@@ -6,7 +6,7 @@ import javax.inject.Inject
 class ReassignNotificationsUseCase @Inject constructor(
     private val repository: NotificationRepository
 ) {
-    suspend operator fun invoke(){
+    suspend operator fun invoke() {
         val list = repository.getAll()
         repository.updateList(list)
     }

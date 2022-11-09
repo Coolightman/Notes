@@ -23,10 +23,7 @@ class TasksViewModel @Inject constructor(
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val deleteInactiveTasksUseCase: DeleteInactiveTasksUseCase,
     private val switchTaskActivityUseCase: SwitchTaskActivityUseCase,
-    private val deleteSelectedTasksUseCase: DeleteSelectedTasksUseCase,
-    private val resetTasksSelectionsUseCase: ResetTasksSelectionsUseCase,
-    private val switchIsSelectedTaskUseCase: SwitchIsSelectedTaskUseCase,
-    private val selectAllTasksUseCase: SelectAllTasksUseCase,
+    private val deleteTasksUseCase: DeleteTasksUseCase,
     private val switchTaskCollapseUseCase: SwitchTaskCollapseUseCase,
     private val expandAllTasksUseCase: ExpandAllTasksUseCase,
     private val collapseAllTasksUseCase: CollapseAllTasksUseCase,
@@ -71,7 +68,6 @@ class TasksViewModel @Inject constructor(
                         list = it,
                         activeTasksCount = it.filter { task -> task.isActive }.size,
                         inactiveTasksCount = it.filter { task -> !task.isActive }.size,
-                        selectedCount = it.filter { task -> task.isSelected }.size,
                         isListHasCollapsable = it.any { task -> task.isCollapsable },
                         sortByIndex = sortBy.first().ordinal,
                         currentFilterSelection = filterSelection.first()
@@ -121,34 +117,58 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun deleteSelectedTasks() {
-        viewModelScope.launch {
-            deleteSelectedTasksUseCase()
-        }
-    }
-
     fun switchTaskActivity(taskId: Long) {
         viewModelScope.launch {
             switchTaskActivityUseCase(taskId)
         }
     }
 
-    fun switchIsSelectedNote(taskId: Long) {
+    fun deleteSelectedTasks() {
         viewModelScope.launch {
-            switchIsSelectedTaskUseCase(taskId)
+            val selected = uiState.value.list.filter { it.isSelected }
+            deleteTasksUseCase(selected)
         }
     }
 
-    fun resetSelections(taskId: Long) {
-        viewModelScope.launch {
-            resetTasksSelectionsUseCase()
-            switchIsSelectedTaskUseCase(taskId)
+    fun switchIsSelected(taskId: Long) {
+        val updatedTasks = uiState.value.list
+            .map {
+                if (it.id == taskId) it.copy(isSelected = !it.isSelected)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(list = updatedTasks)
+        }
+    }
+
+    fun resetSelections() {
+        val updatedTasks = uiState.value.list
+            .map { it.copy(isSelected = false) }
+
+        _uiState.update { currentState ->
+            currentState.copy(list = updatedTasks)
+        }
+    }
+
+    fun setCurrentIsSelected(taskId: Long) {
+        val updatedTasks = uiState.value.list
+            .map {
+                if (it.id == taskId) it.copy(isSelected = true)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(list = updatedTasks)
         }
     }
 
     fun selectAllTasks() {
-        viewModelScope.launch {
-            selectAllTasksUseCase()
+        val updatedTasks = uiState.value.list
+            .map { it.copy(isSelected = true) }
+
+        _uiState.update { currentState ->
+            currentState.copy(list = updatedTasks)
         }
     }
 

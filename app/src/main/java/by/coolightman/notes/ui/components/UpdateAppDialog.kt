@@ -74,7 +74,7 @@ fun UpdateAppDialog(
 @Preview
 @Composable
 private fun Preview() {
-    UpdateAppDialog() {
+    UpdateAppDialog {
 
     }
 }

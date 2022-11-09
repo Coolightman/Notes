@@ -52,7 +52,7 @@ fun TaskNotificationDate(
                 verticalAlignment = Alignment.Top
             ) {
                 if (isHasNotification) {
-                    val firstNotification by remember(notifications){
+                    val firstNotification by remember(notifications) {
                         mutableStateOf(notifications[0])
                     }
                     if (firstNotification.repeatType != RepeatType.NO) {
@@ -60,7 +60,9 @@ fun TaskNotificationDate(
                             painter = painterResource(R.drawable.ic_round_repeat_24),
                             contentDescription = "repeat type",
                             tint = MaterialTheme.colors.onSurface.copy(0.5f),
-                            modifier = Modifier.padding(1.dp).size(12.dp)
+                            modifier = Modifier
+                                .padding(1.dp)
+                                .size(12.dp)
                         )
                         Spacer(modifier = Modifier.width(1.dp))
                         Text(
@@ -77,7 +79,9 @@ fun TaskNotificationDate(
                         imageVector = Icons.Default.Notifications,
                         contentDescription = "notifications",
                         tint = MaterialTheme.colors.onSurface.copy(0.5f),
-                        modifier = Modifier.padding(1.dp).size(12.dp)
+                        modifier = Modifier
+                            .padding(1.dp)
+                            .size(12.dp)
                     )
                     Text(
                         textAlign = TextAlign.Center,

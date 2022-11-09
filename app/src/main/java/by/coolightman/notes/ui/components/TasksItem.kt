@@ -172,7 +172,7 @@ fun TasksItem(
                 }
             }
         }
-        if (task.notifications.isNotEmpty()){
+        if (task.notifications.isNotEmpty()) {
             TaskNotificationDate(
                 isHasNotification = isShowNotificationDate,
                 notifications = task.notifications.sortedBy { it.time.timeInMillis }

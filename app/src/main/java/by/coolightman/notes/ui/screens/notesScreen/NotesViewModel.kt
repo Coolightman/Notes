@@ -18,7 +18,7 @@ import javax.inject.Inject
 class NotesViewModel @Inject constructor(
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
     private val getAllNotesUseCase: GetAllNotesUseCase,
-    private val putSelectedNotesInTrashUseCase: PutSelectedNotesInTrashUseCase,
+    private val putNotesInTrashUseCase: PutNotesInTrashUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val putStringPreferenceUseCase: PutStringPreferenceUseCase,
@@ -131,7 +131,7 @@ class NotesViewModel @Inject constructor(
     fun putSelectedInTrash() {
         viewModelScope.launch {
             val selected = uiState.value.list.filter { it.isSelected }
-            putSelectedNotesInTrashUseCase(selected)
+            putNotesInTrashUseCase(selected)
         }
     }
 

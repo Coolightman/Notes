@@ -4,7 +4,7 @@ import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.domain.repository.NoteRepository
 import javax.inject.Inject
 
-class PutSelectedNotesInTrashUseCase @Inject constructor(
+class PutNotesInTrashUseCase @Inject constructor(
     private val repository: NoteRepository
 ) {
     suspend operator fun invoke(list: List<Note>) {

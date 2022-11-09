@@ -7,7 +7,6 @@ data class TasksUiState(
     val list: List<Task> = emptyList(),
     val activeTasksCount: Int = 0,
     val inactiveTasksCount: Int = 0,
-    val selectedCount: Int = 0,
     val isListHasCollapsable: Boolean = false,
     val sortByIndex: Int = 0,
     val isShowNotificationDate: Boolean = false,

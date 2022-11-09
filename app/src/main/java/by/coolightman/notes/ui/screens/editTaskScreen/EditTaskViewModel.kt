@@ -180,13 +180,13 @@ class EditTaskViewModel @Inject constructor(
     ) {
         val currentList = uiState.value.notifications.toMutableList()
         val uiId = currentList.map { it.time.timeInMillis }
-        if (isNotHasSameTime(uiId, mainNotification.time.timeInMillis)){
+        if (isNotHasSameTime(uiId, mainNotification.time.timeInMillis)) {
             currentList.add(mainNotification)
         }
 
         if (extraNotifications.isNotEmpty()) {
             extraNotifications.forEach {
-                if (isNotHasSameTime(uiId, it.time.timeInMillis)){
+                if (isNotHasSameTime(uiId, it.time.timeInMillis)) {
                     currentList.add(it)
                 }
             }

@@ -81,7 +81,7 @@ fun NotesScreen(
     var selectedCounter by remember {
         mutableStateOf(0)
     }
-    LaunchedEffect(uiState.list){
+    LaunchedEffect(uiState.list) {
         selectedCounter = uiState.list.filter { it.isSelected }.size
     }
     var isSelectionMode by remember {
