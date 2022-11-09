@@ -30,7 +30,7 @@ class UpdateAppOrRebootDeviceReceiver : BroadcastReceiver() {
             }
             Intent.ACTION_MY_PACKAGE_REPLACED -> {
                 reassignNotifications()
-                showUpdateDialog()
+//                showUpdateDialog()
             }
         }
     }
