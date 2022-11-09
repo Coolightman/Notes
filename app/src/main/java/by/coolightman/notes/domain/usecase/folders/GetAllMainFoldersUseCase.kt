@@ -10,8 +10,6 @@ class GetAllMainFoldersUseCase @Inject constructor(
     operator fun invoke() =
         folderRepository.getAll()
             .map {
-                it.filter { folder ->
-                    folder.externalFolderId == 0L
-                }
+                it.filter { folder -> folder.externalFolderId == 0L && !folder.isInTrash }
             }
 }

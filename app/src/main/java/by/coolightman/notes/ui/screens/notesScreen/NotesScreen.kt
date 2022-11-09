@@ -112,8 +112,10 @@ fun NotesScreen(
     var selectedCounter by remember {
         mutableStateOf(0)
     }
-    LaunchedEffect(uiState.list) {
-        selectedCounter = uiState.list.filter { it.isSelected }.size
+    LaunchedEffect(uiState.list, uiState.folders) {
+        val notesSelected = uiState.list.filter { it.isSelected }.size
+        val foldersSelected = uiState.folders.filter { it.isSelected }.size
+        selectedCounter = notesSelected + foldersSelected
     }
     var isSelectionMode by remember {
         mutableStateOf(false)
@@ -284,7 +286,7 @@ fun NotesScreen(
                 onCloseClick = { isSelectionMode = false },
                 selectedCount = selectedCounter,
                 actions = {
-                    IconButton(onClick = { viewModel.selectAllNotes() }) {
+                    IconButton(onClick = { viewModel.selectAllItems() }) {
                         Icon(
                             painter = painterResource(R.drawable.ic_select_all_24),
                             contentDescription = "select all",
@@ -336,9 +338,15 @@ fun NotesScreen(
                         items(items = uiState.folders, key = { "${it.id} ${it.title}" }) { folder ->
                             FolderItem(
                                 folder = folder,
+                                isSelectionMode = isSelectionMode,
                                 onClick = { },
-                                onLongPress = { },
-                                onCheckedChange = { },
+                                onLongPress = {
+                                    scope.launch {
+                                        viewModel.setCurrentFolderIsSelected(folder.id)
+                                        isSelectionMode = true
+                                    }
+                                },
+                                onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) },
                                 modifier = Modifier.animateItemPlacement()
                             )
                         }
@@ -355,7 +363,6 @@ fun NotesScreen(
                                 onLongPress = {
                                     scope.launch {
                                         viewModel.setCurrentIsSelected(note.id)
-                                        delay(50)
                                         isSelectionMode = true
                                     }
                                 },
@@ -381,9 +388,15 @@ fun NotesScreen(
                         items(items = uiState.folders, key = { "${it.id} ${it.title}" }) { folder ->
                             FolderItem(
                                 folder = folder,
+                                isSelectionMode = isSelectionMode,
                                 onClick = { },
-                                onLongPress = { },
-                                onCheckedChange = { }
+                                onLongPress = {
+                                    scope.launch {
+                                        viewModel.setCurrentFolderIsSelected(folder.id)
+                                        isSelectionMode = true
+                                    }
+                                },
+                                onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) }
                             )
                         }
                         items(items = uiState.list, key = { it.id }) { note ->
@@ -399,7 +412,6 @@ fun NotesScreen(
                                 onLongPress = {
                                     scope.launch {
                                         viewModel.setCurrentIsSelected(note.id)
-                                        delay(50)
                                         isSelectionMode = true
                                     }
                                 },

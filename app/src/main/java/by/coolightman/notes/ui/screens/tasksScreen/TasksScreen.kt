@@ -343,7 +343,6 @@ fun TasksScreen(
                         onLongPress = {
                             scope.launch {
                                 viewModel.setCurrentIsSelected(task.id)
-                                delay(50)
                                 isSelectionMode = true
                             }
                         },

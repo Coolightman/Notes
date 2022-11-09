@@ -163,12 +163,30 @@ class NotesViewModel @Inject constructor(
         }
     }
 
+    fun switchFolderIsSelected(folderId: Long) {
+        val updatedFolders = uiState.value.folders
+            .map {
+                if (it.id == folderId) it.copy(isSelected = !it.isSelected)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(folders = updatedFolders)
+        }
+    }
+
     fun resetSelections() {
         val updatedNotes = uiState.value.list
             .map { it.copy(isSelected = false) }
 
+        val updatedFolders = uiState.value.folders
+            .map { it.copy(isSelected = false) }
+
         _uiState.update { currentState ->
-            currentState.copy(list = updatedNotes)
+            currentState.copy(
+                list = updatedNotes,
+                folders = updatedFolders
+            )
         }
     }
 
@@ -184,12 +202,30 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun selectAllNotes() {
+    fun setCurrentFolderIsSelected(folderId: Long) {
+        val updatedFolders = uiState.value.folders
+            .map {
+                if (it.id == folderId) it.copy(isSelected = true)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(folders = updatedFolders)
+        }
+    }
+
+    fun selectAllItems() {
         val updatedNotes = uiState.value.list
             .map { it.copy(isSelected = true) }
 
+        val updatedFolders = uiState.value.folders
+            .map { it.copy(isSelected = true) }
+
         _uiState.update { currentState ->
-            currentState.copy(list = updatedNotes)
+            currentState.copy(
+                list = updatedNotes,
+                folders = updatedFolders
+            )
         }
     }
 
