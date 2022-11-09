@@ -2,6 +2,7 @@ package by.coolightman.notes.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -48,8 +49,6 @@ fun NotesItem(
     isSelectionMode: Boolean = false,
     isShowNoteDate: Boolean = true,
     isColoredBackground: Boolean = true,
-    isCollapsed: Boolean = false,
-    isCollapsable: Boolean = false,
     onCollapseClick: () -> Unit
 ) {
     var itemHeight by remember {
@@ -60,12 +59,16 @@ fun NotesItem(
     }
     val density = LocalDensity.current
     val rotateState by animateFloatAsState(
-        targetValue = if (isCollapsed) 0f else 180f,
+        targetValue = if (note.isCollapsed) 0f else 180f,
         animationSpec = tween(500)
     )
+    val elevationState by animateDpAsState(
+        targetValue = if (note.isSelected) 6.dp else 2.dp
+    )
+
     Card(
         shape = RoundedCornerShape(12.dp),
-        elevation = 2.dp,
+        elevation = elevationState,
         modifier = modifier
             .fillMaxWidth()
             .onGloballyPositioned { coordinates ->
@@ -131,12 +134,12 @@ fun NotesItem(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .defaultMinSize(
-                                    minHeight = if (isShowNoteDate || isCollapsable) 54.dp
+                                    minHeight = if (isShowNoteDate || note.isCollapsable) 54.dp
                                     else 62.dp
                                 )
                                 .padding(
                                     12.dp, 8.dp, 12.dp,
-                                    bottom = if (isShowNoteDate || isCollapsable) 0.dp
+                                    bottom = if (isShowNoteDate || note.isCollapsable) 0.dp
                                     else 8.dp
                                 )
                                 .animateContentSize()
@@ -144,7 +147,7 @@ fun NotesItem(
                             Text(
                                 text = note.text,
                                 style = MaterialTheme.typography.body1.copy(fontSize = 18.sp),
-                                maxLines = if (isCollapsed) 2 else Integer.MAX_VALUE,
+                                maxLines = if (note.isCollapsed) 2 else Integer.MAX_VALUE,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -152,9 +155,9 @@ fun NotesItem(
                             )
                         }
 
-                        if (isShowNoteDate || isCollapsable) {
+                        if (isShowNoteDate || note.isCollapsable) {
                             Row(modifier = Modifier.fillMaxWidth()) {
-                                if (isCollapsable) {
+                                if (note.isCollapsable) {
                                     Box(
                                         modifier = Modifier
                                             .weight(1f)
@@ -178,7 +181,7 @@ fun NotesItem(
                                     DateText(
                                         text = dateText,
                                         modifier =
-                                        if (isCollapsable) Modifier.align(Alignment.Bottom)
+                                        if (note.isCollapsable) Modifier.align(Alignment.Bottom)
                                         else Modifier
                                             .weight(1f)
                                             .align(Alignment.Bottom)

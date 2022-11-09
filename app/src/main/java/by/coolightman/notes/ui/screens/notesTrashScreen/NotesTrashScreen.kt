@@ -193,8 +193,7 @@ fun NotesTrashScreen(
                             onClick = {},
                             onLongPress = {},
                             onCheckedChange = {},
-                            onCollapseClick = {},
-                            isCollapsed = note.isCollapsable
+                            onCollapseClick = { viewModel.switchCollapse(note.id) }
                         )
                     }
                 }

@@ -10,6 +10,7 @@ import by.coolightman.notes.domain.usecase.notes.GetNoteUseCase
 import by.coolightman.notes.domain.usecase.notes.GetNotesTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.RestoreAllNotesTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.RestoreNoteUseCase
+import by.coolightman.notes.domain.usecase.notes.SwitchNoteCollapseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +27,8 @@ class NotesTrashViewModel @Inject constructor(
     private val deleteAllNotesTrashUseCase: DeleteAllNotesTrashUseCase,
     private val restoreAllNotesTrashUseCase: RestoreAllNotesTrashUseCase,
     private val getNoteUseCase: GetNoteUseCase,
-    private val createNoteUseCase: CreateNoteUseCase
+    private val createNoteUseCase: CreateNoteUseCase,
+    private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NotesTrashUiState())
@@ -60,6 +62,12 @@ class NotesTrashViewModel @Inject constructor(
             deletedNoteCash?.let {
                 createNoteUseCase(it)
             }
+        }
+    }
+
+    fun switchCollapse(noteId: Long) {
+        viewModelScope.launch {
+            switchNoteCollapseUseCase(noteId)
         }
     }
 

@@ -290,8 +290,6 @@ fun NotesScreen(
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
                                 isColoredBackground = uiState.isColoredBackground,
-                                isCollapsed = note.isCollapsed,
-                                isCollapsable = note.isCollapsable,
                                 onCollapseClick = { viewModel.switchCollapse(note.id) },
                                 modifier = Modifier.animateItemPlacement()
                             )
@@ -328,8 +326,6 @@ fun NotesScreen(
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
                                 isColoredBackground = uiState.isColoredBackground,
-                                isCollapsed = note.isCollapsed,
-                                isCollapsable = note.isCollapsable,
                                 onCollapseClick = { viewModel.switchCollapse(note.id) }
                             )
                         }
