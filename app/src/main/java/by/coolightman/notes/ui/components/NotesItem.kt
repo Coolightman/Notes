@@ -63,7 +63,7 @@ fun NotesItem(
         animationSpec = tween(500)
     )
     val elevationState by animateDpAsState(
-        targetValue = if (note.isSelected) 6.dp else 2.dp
+        targetValue = if (note.isSelected) 8.dp else 2.dp
     )
 
     Card(
