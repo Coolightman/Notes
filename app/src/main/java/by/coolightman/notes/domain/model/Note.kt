@@ -13,5 +13,6 @@ data class Note(
     val isSelected: Boolean,
     val isCollapsable: Boolean,
     val isCollapsed: Boolean,
-    val isPinned: Boolean
+    val isPinned: Boolean,
+    val folderId: Long = 0
 )

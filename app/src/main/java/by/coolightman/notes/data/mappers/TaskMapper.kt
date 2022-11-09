@@ -28,7 +28,6 @@ fun Task.toTaskDb(): TaskDb = TaskDb(
     editedAt = editedAt,
     isEdited = isEdited,
     isActive = isActive,
-    isSelected = false,
     isCollapsable = isCollapsable,
     isCollapsed = isCollapsed
 )

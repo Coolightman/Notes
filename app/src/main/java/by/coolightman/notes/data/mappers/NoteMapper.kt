@@ -29,8 +29,8 @@ fun Note.toNoteDb(): NoteDb = NoteDb(
     isShowDate = isShowDate,
     isEdited = isEdited,
     isInTrash = isInTrash,
-    isSelected = false,
     isCollapsable = isCollapsable,
     isCollapsed = isCollapsed,
-    isPinned = isPinned
+    isPinned = isPinned,
+    folderId = folderId
 )
