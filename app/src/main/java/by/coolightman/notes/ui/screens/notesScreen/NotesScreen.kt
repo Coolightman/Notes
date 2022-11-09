@@ -3,7 +3,13 @@ package by.coolightman.notes.ui.screens.notesScreen
 import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -11,14 +17,29 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -28,7 +49,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import by.coolightman.notes.R
-import by.coolightman.notes.ui.components.*
+import by.coolightman.notes.ui.components.AppTitleText
+import by.coolightman.notes.ui.components.AppTopAppBar
+import by.coolightman.notes.ui.components.BadgedIcon
+import by.coolightman.notes.ui.components.CountRow
+import by.coolightman.notes.ui.components.CreateFolderDialog
+import by.coolightman.notes.ui.components.EmptyContentSplash
+import by.coolightman.notes.ui.components.NotesItem
+import by.coolightman.notes.ui.components.SelectionTopAppBar
+import by.coolightman.notes.ui.components.SortFilterPanel
+import by.coolightman.notes.ui.components.UpdateAppDialog
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.util.dropDownItemColor
@@ -37,7 +67,7 @@ import by.coolightman.notes.util.showSnack
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun NotesScreen(
     navController: NavController,
@@ -112,6 +142,16 @@ fun NotesScreen(
         }
     }
 
+    var isShowCreateFolderDialog by remember {
+        mutableStateOf(false)
+    }
+    if (isShowCreateFolderDialog) {
+        CreateFolderDialog(
+            onConfirm = { isShowCreateFolderDialog = false },
+            onCancel = { isShowCreateFolderDialog = false }
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -178,6 +218,26 @@ fun NotesScreen(
 
                             Text(
                                 text = stringResource(R.string.trash),
+                                color = dropDownItemColor()
+                            )
+                        }
+
+                        DropdownMenuItem(
+                            onClick = {
+                                isDropMenuExpanded = false
+                                isShowCreateFolderDialog = true
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_new_folder_24),
+                                contentDescription = "new folder",
+                                tint = dropDownItemColor()
+                            )
+
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Text(
+                                text = stringResource(R.string.create_folder),
                                 color = dropDownItemColor()
                             )
                         }

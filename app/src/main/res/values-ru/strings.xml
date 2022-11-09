@@ -78,4 +78,8 @@
     <string name="repeat_type_month_short">М</string>
     <string name="repeat_type_year_short">Г</string>
     <string name="update_app_dialog_text">Добавлены новые возможности уведомлений. Пожалуйста переназначьте свои уведомления</string>
+    <string name="create_folder">Создать папку</string>
+    <string name="new_folder">Новая папка</string>
+    <string name="create">СОЗДАТЬ</string>
+    <string name="empty_title">Пустое название</string>
 </resources>
