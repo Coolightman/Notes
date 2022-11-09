@@ -9,6 +9,7 @@ import by.coolightman.notes.data.local.dao.FolderDao
 import by.coolightman.notes.data.local.dao.NoteDao
 import by.coolightman.notes.data.local.dao.NotificationDao
 import by.coolightman.notes.data.local.dao.TaskDao
+import by.coolightman.notes.data.local.dbModel.FolderDb
 import by.coolightman.notes.data.local.dbModel.NoteDb
 import by.coolightman.notes.data.local.dbModel.NoteFtsDb
 import by.coolightman.notes.data.local.dbModel.NotificationDb
@@ -16,17 +17,19 @@ import by.coolightman.notes.data.local.dbModel.TaskDb
 import by.coolightman.notes.data.local.dbModel.TaskFtsDb
 
 @Database(
-    version = 3,
+    version = 4,
     entities = [
         NoteDb::class,
         TaskDb::class,
         NotificationDb::class,
         NoteFtsDb::class,
-        TaskFtsDb::class
+        TaskFtsDb::class,
+        FolderDb::class
     ],
     autoMigrations = [
         AutoMigration(from = 1, to = 2, spec = AppDatabase.MyAutoMigrationTo2::class),
-        AutoMigration(from = 2, to = 3, spec = AppDatabase.MyAutoMigrationTo3::class)
+        AutoMigration(from = 2, to = 3, spec = AppDatabase.MyAutoMigrationTo3::class),
+        AutoMigration(from = 3, to = 4)
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
