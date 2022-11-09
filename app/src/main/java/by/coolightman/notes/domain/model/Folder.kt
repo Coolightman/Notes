@@ -6,5 +6,6 @@ data class Folder(
     val createdAt: Long,
     val isInTrash: Boolean,
     val isPinned: Boolean,
+    val isSelected: Boolean,
     val externalFolderId: Long = 0
 )

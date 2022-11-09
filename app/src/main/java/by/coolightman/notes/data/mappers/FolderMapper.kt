@@ -9,7 +9,8 @@ fun FolderDb.toFolder(): Folder = Folder(
     createdAt = createdAt,
     isInTrash = isInTrash,
     isPinned = isPinned,
-    externalFolderId = externalFolderId
+    externalFolderId = externalFolderId,
+    isSelected = false
 )
 
 fun Folder.toFolderDb(): FolderDb = FolderDb(

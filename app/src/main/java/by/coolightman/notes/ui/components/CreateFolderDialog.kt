@@ -37,7 +37,7 @@ import by.coolightman.notes.util.isDarkMode
 @Composable
 fun CreateFolderDialog(
     modifier: Modifier = Modifier,
-    onConfirm: (String) -> Unit,
+    onCreate: (String) -> Unit,
     onCancel: () -> Unit,
 ) {
 
@@ -132,7 +132,7 @@ fun CreateFolderDialog(
                             if (folderTitle.isEmpty()) {
                                 isErrorVisible = true
                             } else {
-                                onConfirm(folderTitle.trim())
+                                onCreate(folderTitle.trim())
                             }
                         },
                         modifier = Modifier.weight(1f)

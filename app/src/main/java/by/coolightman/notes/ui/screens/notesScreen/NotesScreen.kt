@@ -55,6 +55,7 @@ import by.coolightman.notes.ui.components.BadgedIcon
 import by.coolightman.notes.ui.components.CountRow
 import by.coolightman.notes.ui.components.CreateFolderDialog
 import by.coolightman.notes.ui.components.EmptyContentSplash
+import by.coolightman.notes.ui.components.FolderItem
 import by.coolightman.notes.ui.components.NotesItem
 import by.coolightman.notes.ui.components.SelectionTopAppBar
 import by.coolightman.notes.ui.components.SortFilterPanel
@@ -147,7 +148,10 @@ fun NotesScreen(
     }
     if (isShowCreateFolderDialog) {
         CreateFolderDialog(
-            onConfirm = { isShowCreateFolderDialog = false },
+            onCreate = {
+                isShowCreateFolderDialog = false
+                viewModel.createFolder(it)
+            },
             onCancel = { isShowCreateFolderDialog = false }
         )
     }
@@ -329,6 +333,15 @@ fun NotesScreen(
                         verticalArrangement = Arrangement.spacedBy(6.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        items(items = uiState.folders, key = { "${it.id} ${it.title}" }) { folder ->
+                            FolderItem(
+                                folder = folder,
+                                onClick = { },
+                                onLongPress = { },
+                                onCheckedChange = { },
+                                modifier = Modifier.animateItemPlacement()
+                            )
+                        }
                         items(items = uiState.list, key = { it.id }) { note ->
                             NotesItem(
                                 note = note,
@@ -365,6 +378,14 @@ fun NotesScreen(
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        items(items = uiState.folders, key = { "${it.id} ${it.title}" }) { folder ->
+                            FolderItem(
+                                folder = folder,
+                                onClick = { },
+                                onLongPress = { },
+                                onCheckedChange = { }
+                            )
+                        }
                         items(items = uiState.list, key = { it.id }) { note ->
                             NotesItem(
                                 note = note,
