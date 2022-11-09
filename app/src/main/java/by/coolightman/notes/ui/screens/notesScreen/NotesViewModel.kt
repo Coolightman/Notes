@@ -23,9 +23,6 @@ class NotesViewModel @Inject constructor(
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val putStringPreferenceUseCase: PutStringPreferenceUseCase,
     private val getStringPreferenceUseCase: GetStringPreferenceUseCase,
-    private val switchIsSelectedNoteUseCase: SwitchIsSelectedNoteUseCase,
-    private val resetNotesSelectionsUseCase: ResetNotesSelectionsUseCase,
-    private val selectAllNotesUseCase: SelectAllNotesUseCase,
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
     private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase,
     private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase
@@ -90,7 +87,6 @@ class NotesViewModel @Inject constructor(
                         list = it,
                         sortByIndex = sortBy.first().ordinal,
                         notesCount = it.size,
-                        selectedCount = it.filter { note -> note.isSelected }.size,
                         currentFilterSelection = filterSelection.first()
                     )
                 }
@@ -132,28 +128,52 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun putSelectedNotesInTrash() {
+    fun putSelectedInTrash() {
         viewModelScope.launch {
-            putSelectedNotesInTrashUseCase()
+            val selected = uiState.value.list.filter { it.isSelected }
+            putSelectedNotesInTrashUseCase(selected)
         }
     }
 
-    fun switchIsSelectedNote(noteId: Long) {
-        viewModelScope.launch {
-            switchIsSelectedNoteUseCase(noteId)
+    fun switchIsSelected(noteId: Long) {
+        val updatedNotes = uiState.value.list
+            .map {
+                if (it.id == noteId) it.copy(isSelected = !it.isSelected)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(list = updatedNotes)
         }
     }
 
-    fun resetSelections(noteId: Long) {
-        viewModelScope.launch {
-            resetNotesSelectionsUseCase()
-            switchIsSelectedNoteUseCase(noteId)
+    fun resetSelections() {
+        val updatedNotes = uiState.value.list
+            .map { it.copy(isSelected = false) }
+
+        _uiState.update { currentState ->
+            currentState.copy(list = updatedNotes)
+        }
+    }
+
+    fun setCurrentIsSelected(noteId: Long) {
+        val updatedNotes = uiState.value.list
+            .map {
+                if (it.id == noteId) it.copy(isSelected = true)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(list = updatedNotes)
         }
     }
 
     fun selectAllNotes() {
-        viewModelScope.launch {
-            selectAllNotesUseCase()
+        val updatedNotes = uiState.value.list
+            .map { it.copy(isSelected = true) }
+
+        _uiState.update { currentState ->
+            currentState.copy(list = updatedNotes)
         }
     }
 

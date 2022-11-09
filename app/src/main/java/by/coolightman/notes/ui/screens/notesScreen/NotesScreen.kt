@@ -78,6 +78,12 @@ fun NotesScreen(
         mutableStateOf(false)
     }
 
+    var selectedCounter by remember {
+        mutableStateOf(0)
+    }
+    LaunchedEffect(uiState.list){
+        selectedCounter = uiState.list.filter { it.isSelected }.size
+    }
     var isSelectionMode by remember {
         mutableStateOf(false)
     }
@@ -85,6 +91,8 @@ fun NotesScreen(
         if (isSelectionMode) {
             view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
             isShowSortPanel = false
+        } else {
+            viewModel.resetSelections()
         }
     }
     if (isSelectionMode) {
@@ -210,7 +218,7 @@ fun NotesScreen(
         } else {
             SelectionTopAppBar(
                 onCloseClick = { isSelectionMode = false },
-                selectedCount = uiState.selectedCount,
+                selectedCount = selectedCounter,
                 actions = {
                     IconButton(onClick = { viewModel.selectAllNotes() }) {
                         Icon(
@@ -221,8 +229,8 @@ fun NotesScreen(
                     }
                     IconButton(
                         onClick = {
-                            if (uiState.selectedCount > 0) {
-                                viewModel.putSelectedNotesInTrash()
+                            if (selectedCounter > 0) {
+                                viewModel.putSelectedInTrash()
                                 showSnack(
                                     scope,
                                     scaffoldState,
@@ -273,12 +281,12 @@ fun NotesScreen(
                                 },
                                 onLongPress = {
                                     scope.launch {
-                                        viewModel.resetSelections(note.id)
+                                        viewModel.setCurrentIsSelected(note.id)
                                         delay(50)
                                         isSelectionMode = true
                                     }
                                 },
-                                onCheckedChange = { viewModel.switchIsSelectedNote(note.id) },
+                                onCheckedChange = { viewModel.switchIsSelected(note.id) },
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
                                 isColoredBackground = uiState.isColoredBackground,
@@ -311,12 +319,12 @@ fun NotesScreen(
                                 },
                                 onLongPress = {
                                     scope.launch {
-                                        viewModel.resetSelections(note.id)
+                                        viewModel.setCurrentIsSelected(note.id)
                                         delay(50)
                                         isSelectionMode = true
                                     }
                                 },
-                                onCheckedChange = { viewModel.switchIsSelectedNote(note.id) },
+                                onCheckedChange = { viewModel.switchIsSelected(note.id) },
                                 isSelectionMode = isSelectionMode,
                                 isShowNoteDate = uiState.isShowNoteDate,
                                 isColoredBackground = uiState.isColoredBackground,
