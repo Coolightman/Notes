@@ -1,9 +1,11 @@
 package by.coolightman.notes.di
 
+import by.coolightman.notes.data.repository.FolderRepositoryImpl
 import by.coolightman.notes.data.repository.NoteRepositoryImpl
 import by.coolightman.notes.data.repository.NotificationRepositoryImpl
 import by.coolightman.notes.data.repository.PreferencesRepositoryImpl
 import by.coolightman.notes.data.repository.TaskRepositoryImpl
+import by.coolightman.notes.domain.repository.FolderRepository
 import by.coolightman.notes.domain.repository.NoteRepository
 import by.coolightman.notes.domain.repository.NotificationRepository
 import by.coolightman.notes.domain.repository.PreferencesRepository
@@ -33,4 +35,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun provideNotificationRepository(impl: NotificationRepositoryImpl): NotificationRepository
+
+    @Binds
+    @Singleton
+    fun provideFolderRepository(impl: FolderRepositoryImpl): FolderRepository
 }
