@@ -349,8 +349,6 @@ fun TasksScreen(
                         },
                         onCheckedChange = { viewModel.switchIsSelected(task.id) },
                         isSelectionMode = isSelectionMode,
-                        isCollapsable = task.isCollapsable,
-                        isCollapsed = task.isCollapsed,
                         onCollapseClick = { viewModel.switchCollapse(task.id) },
                         isShowNotificationDate = uiState.isShowNotificationDate,
                         modifier = Modifier.animateItemPlacement()
