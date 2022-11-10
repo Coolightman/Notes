@@ -7,11 +7,13 @@ interface FolderRepository {
 
     suspend fun insert(folder: Folder)
 
-    suspend fun get(folderId: Long): Folder
+    fun get(folderId: Long): Flow<Folder>
 
     suspend fun getMayNull(folderId: Long): Folder?
 
-    fun getAllActive(): Flow<List<Folder>>
+    fun getAllMainActive(): Flow<List<Folder>>
+
+    fun getAllActiveByExternalFolder(extFolderId: Long): Flow<List<Folder>>
 
     fun getAllTrash(): Flow<List<Folder>>
 

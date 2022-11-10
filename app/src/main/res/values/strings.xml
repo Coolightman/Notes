@@ -41,6 +41,7 @@
     <string name="delete_inactive">Delete inactive</string>
     <string name="settings">Settings</string>
     <string name="create_folder">Create folder</string>
+    <string name="edit_folder">Edit folder</string>
     <string name="list_mode">List</string>
     <string name="grid_mode">Grid</string>
     <string name="trash">Trash</string>

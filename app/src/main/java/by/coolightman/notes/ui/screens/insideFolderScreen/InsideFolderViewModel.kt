@@ -1,9 +1,11 @@
-package by.coolightman.notes.ui.screens.notesScreen
+package by.coolightman.notes.ui.screens.insideFolderScreen
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
-import by.coolightman.notes.domain.usecase.folders.GetAllMainFoldersUseCase
+import by.coolightman.notes.domain.usecase.folders.GetAllFoldersByExternalFolderUseCase
+import by.coolightman.notes.domain.usecase.folders.GetFolderUseCase
 import by.coolightman.notes.domain.usecase.folders.GetFoldersTrashCountUseCase
 import by.coolightman.notes.domain.usecase.folders.PutFoldersInTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.*
@@ -18,10 +20,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesViewModel @Inject constructor(
+class InsideFolderViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
     private val getFoldersTrashCountUseCase: GetFoldersTrashCountUseCase,
-    private val getAllMainNotesUseCase: GetAllMainNotesUseCase,
+    private val getAllNotesByFolderUseCase: GetAllNotesByFolderUseCase,
     private val putNotesInTrashUseCase: PutNotesInTrashUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
@@ -29,13 +32,13 @@ class NotesViewModel @Inject constructor(
     private val getStringPreferenceUseCase: GetStringPreferenceUseCase,
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
     private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase,
-    private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase,
-    private val getAllMainFoldersUseCase: GetAllMainFoldersUseCase,
-    private val putFoldersInTrashUseCase: PutFoldersInTrashUseCase
+    private val putFoldersInTrashUseCase: PutFoldersInTrashUseCase,
+    private val getAllFoldersByExternalFolderUseCase: GetAllFoldersByExternalFolderUseCase,
+    private val getFolderUseCase: GetFolderUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(NotesUiState())
-    val uiState: StateFlow<NotesUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(InsideFolderUiState())
+    val uiState: StateFlow<InsideFolderUiState> = _uiState.asStateFlow()
 
     private val sortBy: Flow<SortBy> = getIntPreferenceUseCase(
         SORT_NOTES_BY_KEY,
@@ -50,18 +53,34 @@ class NotesViewModel @Inject constructor(
         sortBy.combine(filterSelection) { sort, filter -> Pair(sort, filter) }
 
     init {
-        getNotes()
-        getFolders()
-        getTrashCount()
-        getIsShowDatePref()
-        getNotesViewMode()
-        getIsColoredBackground()
-        getIsShowUpdateDialog()
+        val folderId = savedStateHandle.get<Long>(ARG_FOLDER_ID) ?: 0L
+        if (folderId != 0L) {
+            getCurrentFolder(folderId)
+            getNotes(folderId)
+            getFolders(folderId)
+            getTrashCount()
+            getIsShowDatePref()
+            getNotesViewMode()
+            getIsColoredBackground()
+        }
     }
 
-    private fun getFolders() {
+    private fun getCurrentFolder(folderId: Long) {
         viewModelScope.launch {
-            getAllMainFoldersUseCase().collectLatest {
+            getFolderUseCase(folderId).collectLatest {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        currentFolderId = it.id,
+                        currentFolderTitle = it.title
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getFolders(folderId: Long) {
+        viewModelScope.launch {
+            getAllFoldersByExternalFolderUseCase(folderId).collectLatest {
                 _uiState.update { currentState ->
                     currentState.copy(folders = it)
                 }
@@ -79,25 +98,11 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    private fun getIsShowUpdateDialog() {
-        viewModelScope.launch {
-            getBooleanPreferenceUseCase(SHOW_UPDATE_DIALOG_EXTRA, false).collectLatest {
-                _uiState.update { currentState ->
-                    currentState.copy(isShowUpdateAppDialog = it)
-                }
-            }
-        }
-    }
-
-    fun notShowMoreUpdateDialog() {
-        viewModelScope.launch { putBooleanPreferenceUseCase(SHOW_UPDATE_DIALOG_EXTRA, false) }
-    }
-
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun getNotes() {
+    private fun getNotes(folderId: Long) {
         viewModelScope.launch {
             sortFilter.flatMapLatest { sortFilter ->
-                getAllMainNotesUseCase(sortFilter.first, sortFilter.second)
+                getAllNotesByFolderUseCase(sortFilter.first, sortFilter.second, folderId)
             }.collectLatest {
                 _uiState.update { currentState ->
                     currentState.copy(

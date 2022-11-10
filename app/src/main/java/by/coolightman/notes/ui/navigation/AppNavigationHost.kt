@@ -11,6 +11,7 @@ import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.screens.editFolderScreen.EditFolderScreen
 import by.coolightman.notes.ui.screens.editNoteScreen.EditNoteScreen
 import by.coolightman.notes.ui.screens.editTaskScreen.EditTaskScreen
+import by.coolightman.notes.ui.screens.insideFolderScreen.InsideFolderScreen
 import by.coolightman.notes.ui.screens.notesScreen.NotesScreen
 import by.coolightman.notes.ui.screens.notesTrashScreen.NotesTrashScreen
 import by.coolightman.notes.ui.screens.searchNoteScreen.SearchNoteScreen
@@ -18,6 +19,7 @@ import by.coolightman.notes.ui.screens.searchTaskScreen.SearchTaskScreen
 import by.coolightman.notes.ui.screens.settingsScreen.SettingsScreen
 import by.coolightman.notes.ui.screens.splashScreen.SplashScreen
 import by.coolightman.notes.ui.screens.tasksScreen.TasksScreen
+import by.coolightman.notes.util.ARG_EXTERNAL_FOLDER_ID
 import by.coolightman.notes.util.ARG_FOLDER_ID
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.ARG_TASK_ID
@@ -177,9 +179,12 @@ fun AppNavigationHost(
         }
 
         composable(
-            route = NavRoutes.EditFolder.route + "/{$ARG_FOLDER_ID}",
+            route = NavRoutes.EditFolder.route + "/{$ARG_FOLDER_ID}" + "/{$ARG_EXTERNAL_FOLDER_ID}",
             arguments = listOf(
                 navArgument(ARG_FOLDER_ID) {
+                    type = NavType.LongType
+                },
+                navArgument(ARG_EXTERNAL_FOLDER_ID) {
                     type = NavType.LongType
                 }
             ),
@@ -189,6 +194,21 @@ fun AppNavigationHost(
             EditFolderScreen(
                 navController = navController,
                 scaffoldState = scaffoldState
+            )
+        }
+
+        composable(
+            route = NavRoutes.InsideFolder.route + "/{$ARG_FOLDER_ID}",
+            arguments = listOf(
+                navArgument(ARG_FOLDER_ID) {
+                    type = NavType.LongType
+                }
+            ),
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
+        ) {
+            InsideFolderScreen(
+                navController = navController,
             )
         }
     }

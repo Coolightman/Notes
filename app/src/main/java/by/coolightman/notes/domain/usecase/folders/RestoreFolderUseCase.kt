@@ -1,13 +1,14 @@
 package by.coolightman.notes.domain.usecase.folders
 
 import by.coolightman.notes.domain.repository.FolderRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class RestoreFolderUseCase @Inject constructor(
     private val repository: FolderRepository
 ) {
     suspend operator fun invoke(folderId: Long) {
-        val folder = repository.get(folderId)
+        val folder = repository.get(folderId).first()
         if (folder.externalFolderId == 0L || isFolderExist(folder.externalFolderId)) {
             val restoredFolder = folder.copy(isInTrash = false)
             repository.update(restoredFolder)

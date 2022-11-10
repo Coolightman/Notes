@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetAllNotesUseCase @Inject constructor(
+class GetAllNotesByFolderUseCase @Inject constructor(
     private val repository: NoteRepository
 ) {
-    operator fun invoke(sortBy: SortBy, filterBy: List<Boolean>): Flow<List<Note>> {
-        val notesFlow = repository.getAllMainActive()
+    operator fun invoke(sortBy: SortBy, filterBy: List<Boolean>, folderId: Long): Flow<List<Note>> {
+        val notesFlow = repository.getAllActiveByFolder(folderId)
         val filteredFlow = filterList(notesFlow, filterBy)
         return sortList(filteredFlow, sortBy)
     }

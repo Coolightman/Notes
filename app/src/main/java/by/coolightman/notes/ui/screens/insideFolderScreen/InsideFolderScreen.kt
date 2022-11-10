@@ -1,4 +1,4 @@
-package by.coolightman.notes.ui.screens.notesScreen
+package by.coolightman.notes.ui.screens.insideFolderScreen
 
 import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
@@ -23,9 +23,9 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -40,7 +40,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -57,25 +56,20 @@ import by.coolightman.notes.ui.components.FolderItem
 import by.coolightman.notes.ui.components.NotesItem
 import by.coolightman.notes.ui.components.SelectionTopAppBar
 import by.coolightman.notes.ui.components.SortFilterPanel
-import by.coolightman.notes.ui.components.UpdateAppDialog
 import by.coolightman.notes.ui.model.NavRoutes
 import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.util.dropDownItemColor
 import by.coolightman.notes.util.isScrollingUp
-import by.coolightman.notes.util.showSnack
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NotesScreen(
+fun InsideFolderScreen(
     navController: NavController,
-    scaffoldState: ScaffoldState,
-    viewModel: NotesViewModel = hiltViewModel(),
-    isVisibleFAB: (Boolean) -> Unit
+    viewModel: InsideFolderViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val context = LocalContext.current
     val view = LocalView.current
 
     val listState = rememberLazyListState()
@@ -99,9 +93,6 @@ fun NotesScreen(
     }
 
     val fabVisibility = listState.isScrollingUp() || gridState.isScrollingUp()
-    LaunchedEffect(fabVisibility) {
-        isVisibleFAB(fabVisibility)
-    }
 
     var isDropMenuExpanded by remember {
         mutableStateOf(false)
@@ -133,16 +124,6 @@ fun NotesScreen(
         isSelectionMode = false
     }
 
-    var openUpdateAppDialog by remember(uiState.isShowUpdateAppDialog) {
-        mutableStateOf(uiState.isShowUpdateAppDialog)
-    }
-    if (openUpdateAppDialog) {
-        UpdateAppDialog {
-            openUpdateAppDialog = false
-            viewModel.notShowMoreUpdateDialog()
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -150,7 +131,16 @@ fun NotesScreen(
     ) {
         if (!isSelectionMode) {
             AppTopAppBar(
-                title = { AppTitleText(text = stringResource(R.string.notes_title)) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "back",
+                            tint = MaterialTheme.colors.onSecondary
+                        )
+                    }
+                },
+                title = { AppTitleText(text = uiState.currentFolderTitle) },
                 actions = {
                     if (uiState.notes.isNotEmpty()) {
                         IconButton(
@@ -193,7 +183,12 @@ fun NotesScreen(
                         DropdownMenuItem(
                             onClick = {
                                 isDropMenuExpanded = false
-                                navController.navigate(NavRoutes.EditFolder.withArgs("0", "0")) {
+                                navController.navigate(
+                                    NavRoutes.EditFolder.withArgs(
+                                        "0",
+                                        uiState.currentFolderId.toString()
+                                    )
+                                ) {
                                     launchSingleTop = true
                                 }
                             }
@@ -208,6 +203,33 @@ fun NotesScreen(
 
                             Text(
                                 text = stringResource(R.string.create_folder),
+                                color = dropDownItemColor()
+                            )
+                        }
+
+                        DropdownMenuItem(
+                            onClick = {
+                                isDropMenuExpanded = false
+                                navController.navigate(
+                                    NavRoutes.EditFolder.withArgs(
+                                        uiState.currentFolderId.toString(),
+                                        "0"
+                                    )
+                                ) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_baseline_edit_24),
+                                contentDescription = "edit folder",
+                                tint = dropDownItemColor()
+                            )
+
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Text(
+                                text = stringResource(R.string.edit_folder),
                                 color = dropDownItemColor()
                             )
                         }
@@ -295,11 +317,6 @@ fun NotesScreen(
                         onClick = {
                             if (selectedCounter > 0) {
                                 viewModel.putSelectedInTrash()
-                                showSnack(
-                                    scope,
-                                    scaffoldState,
-                                    context.getString(R.string.notes_sent_to_trash)
-                                )
                                 isSelectionMode = false
                             }
                         }

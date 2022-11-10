@@ -84,4 +84,5 @@
     <string name="empty_title">Пустое название</string>
     <string name="sent_folder_to_trash_dialog">Отправить эту папку в корзину?</string>
     <string name="total_folders">папки:</string>
+    <string name="edit_folder">Редакт. папку</string>
 </resources>
