@@ -17,7 +17,7 @@ import by.coolightman.notes.data.local.dbModel.TaskDb
 import by.coolightman.notes.data.local.dbModel.TaskFtsDb
 
 @Database(
-    version = 4,
+    version = 5,
     entities = [
         NoteDb::class,
         TaskDb::class,
@@ -29,7 +29,8 @@ import by.coolightman.notes.data.local.dbModel.TaskFtsDb
     autoMigrations = [
         AutoMigration(from = 1, to = 2, spec = AppDatabase.MyAutoMigrationTo2::class),
         AutoMigration(from = 2, to = 3, spec = AppDatabase.MyAutoMigrationTo3::class),
-        AutoMigration(from = 3, to = 4)
+        AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 4, to = 5)
     ]
 )
 abstract class AppDatabase : RoomDatabase() {

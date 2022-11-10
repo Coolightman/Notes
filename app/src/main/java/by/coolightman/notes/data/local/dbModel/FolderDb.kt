@@ -9,6 +9,7 @@ data class FolderDb(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val title: String,
+    @ColumnInfo(name = "color_index", defaultValue = "0") val colorIndex: Int,
     @ColumnInfo(name = "created_at") val createdAt: Long,
     @ColumnInfo(name = "is_in_trash") val isInTrash: Boolean,
     @ColumnInfo(name = "is_pinned") val isPinned: Boolean,

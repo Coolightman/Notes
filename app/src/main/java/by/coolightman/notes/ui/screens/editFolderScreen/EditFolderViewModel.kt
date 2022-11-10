@@ -64,7 +64,7 @@ class EditFolderViewModel @Inject constructor(
                     currentState.copy(
                         title = it.title,
                         createdAt = it.createdAt.toFormattedFullDate(),
-//                        colorIndex = it.colorIndex,
+                        colorIndex = it.colorIndex,
                         isPinned = it.isPinned
                     )
                 }
@@ -81,7 +81,7 @@ class EditFolderViewModel @Inject constructor(
             folder?.let {
                 val updatedFolder = it.copy(
                     title = title,
-//                    colorIndex = colorIndex,
+                    colorIndex = colorIndex,
                     isPinned = isPinned
                 )
                 updateFolderUseCase(updatedFolder)
@@ -90,7 +90,7 @@ class EditFolderViewModel @Inject constructor(
 
             val createdFolder = Folder(
                 title = title,
-//                colorIndex = colorIndex,
+                colorIndex = colorIndex,
                 createdAt = System.currentTimeMillis(),
                 isInTrash = false,
                 isSelected = false,

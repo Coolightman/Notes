@@ -1,8 +1,8 @@
 package by.coolightman.notes.ui.components
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
@@ -14,13 +14,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.coolightman.notes.R
 import by.coolightman.notes.domain.model.Folder
+import by.coolightman.notes.ui.model.ItemColor
+import by.coolightman.notes.ui.theme.YellowFolder
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -50,6 +52,7 @@ fun FolderItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
+                    .background(Color(ItemColor.values()[folder.colorIndex].color).copy(0.2f))
                     .combinedClickable(
                         onClick = { onClick() },
                         onLongClick = { onLongPress() }
@@ -58,6 +61,7 @@ fun FolderItem(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_folder_24),
                     contentDescription = "folder",
+                    tint = getTint(itemColors = ItemColor.values(), selectedColor = folder.colorIndex),
                     modifier = Modifier
                         .padding(start = 12.dp)
                         .size(32.dp)
@@ -72,7 +76,7 @@ fun FolderItem(
                         .padding(horizontal = 12.dp)
                 )
             }
-            if (folder.isPinned){
+            if (folder.isPinned) {
                 Icon(
                     painter = painterResource(R.drawable.ic_pin_24),
                     contentDescription = "pin",
@@ -102,23 +106,14 @@ fun FolderItem(
     }
 }
 
-@Preview(
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_YES
-)
 @Composable
-private fun NotesItemPreview() {
-    val folder = Folder(
-        title = "First folder",
-        createdAt = 0L,
-        isInTrash = false,
-        isSelected = false,
-        isPinned = false
-    )
-    FolderItem(
-        folder = folder,
-        onClick = {},
-        onLongPress = {},
-        onCheckedChange = {}
-    )
+private fun getTint(
+    itemColors: Array<ItemColor>,
+    selectedColor: Int
+): Color {
+    return if (selectedColor!=1){
+        Color(itemColors[selectedColor].color).copy(0.8f)
+    } else{
+        YellowFolder
+    }
 }

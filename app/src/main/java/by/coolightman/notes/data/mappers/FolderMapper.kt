@@ -6,6 +6,7 @@ import by.coolightman.notes.domain.model.Folder
 fun FolderDb.toFolder(): Folder = Folder(
     id = id,
     title = title,
+    colorIndex = colorIndex,
     createdAt = createdAt,
     isInTrash = isInTrash,
     isPinned = isPinned,
@@ -16,6 +17,7 @@ fun FolderDb.toFolder(): Folder = Folder(
 fun Folder.toFolderDb(): FolderDb = FolderDb(
     id = id,
     title = title,
+    colorIndex = colorIndex,
     createdAt = createdAt,
     isInTrash = isInTrash,
     isPinned = isPinned,

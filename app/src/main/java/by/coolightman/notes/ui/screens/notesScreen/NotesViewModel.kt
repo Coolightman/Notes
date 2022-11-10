@@ -2,9 +2,7 @@ package by.coolightman.notes.ui.screens.notesScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.coolightman.notes.domain.model.Folder
 import by.coolightman.notes.domain.model.SortBy
-import by.coolightman.notes.domain.usecase.folders.CreateFolderUseCase
 import by.coolightman.notes.domain.usecase.folders.GetAllMainFoldersUseCase
 import by.coolightman.notes.domain.usecase.notes.*
 import by.coolightman.notes.domain.usecase.preferences.*
@@ -29,7 +27,6 @@ class NotesViewModel @Inject constructor(
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
     private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase,
     private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase,
-    private val createFolderUseCase: CreateFolderUseCase,
     private val getAllMainFoldersUseCase: GetAllMainFoldersUseCase
 ) : ViewModel() {
 
@@ -238,20 +235,6 @@ class NotesViewModel @Inject constructor(
     fun switchCollapse(noteId: Long) {
         viewModelScope.launch {
             switchNoteCollapseUseCase(noteId)
-        }
-    }
-
-    fun createFolder(title: String) {
-        viewModelScope.launch {
-            createFolderUseCase(
-                Folder(
-                    title = title,
-                    createdAt = System.currentTimeMillis(),
-                    isInTrash = false,
-                    isPinned = false,
-                    isSelected = false
-                )
-            )
         }
     }
 }
