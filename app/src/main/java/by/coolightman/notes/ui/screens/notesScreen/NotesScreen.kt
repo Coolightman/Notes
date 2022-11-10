@@ -39,7 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -53,7 +52,6 @@ import by.coolightman.notes.ui.components.AppTitleText
 import by.coolightman.notes.ui.components.AppTopAppBar
 import by.coolightman.notes.ui.components.BadgedIcon
 import by.coolightman.notes.ui.components.CountRow
-import by.coolightman.notes.ui.components.CreateFolderDialog
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.FolderItem
 import by.coolightman.notes.ui.components.NotesItem
@@ -68,7 +66,7 @@ import by.coolightman.notes.util.showSnack
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NotesScreen(
     navController: NavController,
@@ -145,19 +143,6 @@ fun NotesScreen(
         }
     }
 
-    var isShowCreateFolderDialog by remember {
-        mutableStateOf(false)
-    }
-    if (isShowCreateFolderDialog) {
-        CreateFolderDialog(
-            onCreate = {
-                isShowCreateFolderDialog = false
-                viewModel.createFolder(it)
-            },
-            onCancel = { isShowCreateFolderDialog = false }
-        )
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -207,6 +192,28 @@ fun NotesScreen(
                     ) {
                         DropdownMenuItem(
                             onClick = {
+                                isDropMenuExpanded = false
+                                navController.navigate(NavRoutes.EditFolder.withArgs("0")) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_new_folder_24),
+                                contentDescription = "new folder",
+                                tint = dropDownItemColor()
+                            )
+
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Text(
+                                text = stringResource(R.string.create_folder),
+                                color = dropDownItemColor()
+                            )
+                        }
+
+                        DropdownMenuItem(
+                            onClick = {
                                 navController.navigate(NavRoutes.NotesTrash.route) {
                                     launchSingleTop = true
                                 }
@@ -224,26 +231,6 @@ fun NotesScreen(
 
                             Text(
                                 text = stringResource(R.string.trash),
-                                color = dropDownItemColor()
-                            )
-                        }
-
-                        DropdownMenuItem(
-                            onClick = {
-                                isDropMenuExpanded = false
-                                isShowCreateFolderDialog = true
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_new_folder_24),
-                                contentDescription = "new folder",
-                                tint = dropDownItemColor()
-                            )
-
-                            Spacer(modifier = Modifier.width(16.dp))
-
-                            Text(
-                                text = stringResource(R.string.create_folder),
                                 color = dropDownItemColor()
                             )
                         }
@@ -339,7 +326,13 @@ fun NotesScreen(
                             FolderItem(
                                 folder = folder,
                                 isSelectionMode = isSelectionMode,
-                                onClick = { },
+                                onClick = {
+                                    navController.navigate(
+                                        NavRoutes.EditFolder.withArgs("${folder.id}")
+                                    ) {
+                                        launchSingleTop = true
+                                    }
+                                },
                                 onLongPress = {
                                     scope.launch {
                                         viewModel.setCurrentFolderIsSelected(folder.id)
@@ -389,7 +382,13 @@ fun NotesScreen(
                             FolderItem(
                                 folder = folder,
                                 isSelectionMode = isSelectionMode,
-                                onClick = { },
+                                onClick = {
+                                    navController.navigate(
+                                        NavRoutes.EditFolder.withArgs("${folder.id}")
+                                    ) {
+                                        launchSingleTop = true
+                                    }
+                                },
                                 onLongPress = {
                                     scope.launch {
                                         viewModel.setCurrentFolderIsSelected(folder.id)

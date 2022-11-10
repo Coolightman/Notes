@@ -24,6 +24,7 @@
     <string name="restore_all_notes_dialog">Restore all notes?</string>
     <string name="delete_all_notes_dialog">Delete all from trash?</string>
     <string name="sent_note_to_trash_dialog">Send note to trash?</string>
+    <string name="sent_folder_to_trash_dialog">Send folder to trash?</string>
     <string name="delete_task_dialog">Delete a task?</string>
     <string name="delete_inactive_tasks_dialog">Delete all inactive tasks?</string>
     <string name="delete_these_tasks_dialog">Delete selected tasks?</string>

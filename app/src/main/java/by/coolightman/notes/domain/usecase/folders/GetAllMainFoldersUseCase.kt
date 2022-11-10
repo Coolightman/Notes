@@ -11,5 +11,6 @@ class GetAllMainFoldersUseCase @Inject constructor(
         folderRepository.getAll()
             .map {
                 it.filter { folder -> folder.externalFolderId == 0L && !folder.isInTrash }
+                    .sortedByDescending { folder -> folder.isPinned }
             }
 }

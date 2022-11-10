@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -57,7 +58,9 @@ fun FolderItem(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_folder_24),
                     contentDescription = "folder",
-                    modifier = Modifier.padding(start = 12.dp)
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .size(32.dp)
                 )
                 Text(
                     text = folder.title,
@@ -66,7 +69,18 @@ fun FolderItem(
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp)
+                        .padding(horizontal = 12.dp)
+                )
+            }
+            if (folder.isPinned){
+                Icon(
+                    painter = painterResource(R.drawable.ic_pin_24),
+                    contentDescription = "pin",
+                    tint = MaterialTheme.colors.onSurface.copy(0.5f),
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(4.dp)
+                        .size(12.dp)
                 )
             }
             if (isSelectionMode) {

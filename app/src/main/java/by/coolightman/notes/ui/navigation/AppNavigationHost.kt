@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import by.coolightman.notes.ui.model.NavRoutes
+import by.coolightman.notes.ui.screens.editFolderScreen.EditFolderScreen
 import by.coolightman.notes.ui.screens.editNoteScreen.EditNoteScreen
 import by.coolightman.notes.ui.screens.editTaskScreen.EditTaskScreen
 import by.coolightman.notes.ui.screens.notesScreen.NotesScreen
@@ -17,6 +18,7 @@ import by.coolightman.notes.ui.screens.searchTaskScreen.SearchTaskScreen
 import by.coolightman.notes.ui.screens.settingsScreen.SettingsScreen
 import by.coolightman.notes.ui.screens.splashScreen.SplashScreen
 import by.coolightman.notes.ui.screens.tasksScreen.TasksScreen
+import by.coolightman.notes.util.ARG_FOLDER_ID
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.ARG_TASK_ID
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -171,6 +173,22 @@ fun AppNavigationHost(
         ) {
             SettingsScreen(
                 navController = navController
+            )
+        }
+
+        composable(
+            route = NavRoutes.EditFolder.route + "/{$ARG_FOLDER_ID}",
+            arguments = listOf(
+                navArgument(ARG_FOLDER_ID) {
+                    type = NavType.LongType
+                }
+            ),
+            enterTransition = { fadeIn(tween()) },
+            exitTransition = { fadeOut(tween(EXIT_DURATION)) }
+        ) {
+            EditFolderScreen(
+                navController = navController,
+                scaffoldState = scaffoldState
             )
         }
     }
