@@ -40,7 +40,7 @@ fun FolderItem(
     )
 
     Card(
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(4.dp),
         elevation = elevationState,
         modifier = modifier
             .fillMaxWidth()
