@@ -21,6 +21,7 @@ import by.coolightman.notes.ui.screens.splashScreen.SplashScreen
 import by.coolightman.notes.ui.screens.tasksScreen.TasksScreen
 import by.coolightman.notes.util.ARG_EXTERNAL_FOLDER_ID
 import by.coolightman.notes.util.ARG_FOLDER_ID
+import by.coolightman.notes.util.ARG_INTO_FOLDER_ID
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.ARG_TASK_ID
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -198,9 +199,9 @@ fun AppNavigationHost(
         }
 
         composable(
-            route = NavRoutes.InsideFolder.route + "/{$ARG_FOLDER_ID}",
+            route = NavRoutes.InsideFolder.route + "/{$ARG_INTO_FOLDER_ID}",
             arguments = listOf(
-                navArgument(ARG_FOLDER_ID) {
+                navArgument(ARG_INTO_FOLDER_ID) {
                     type = NavType.LongType
                 }
             ),

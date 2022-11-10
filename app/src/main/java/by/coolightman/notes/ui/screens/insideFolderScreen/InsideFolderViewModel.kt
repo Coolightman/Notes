@@ -53,7 +53,7 @@ class InsideFolderViewModel @Inject constructor(
         sortBy.combine(filterSelection) { sort, filter -> Pair(sort, filter) }
 
     init {
-        val folderId = savedStateHandle.get<Long>(ARG_FOLDER_ID) ?: 0L
+        val folderId = savedStateHandle.get<Long>(ARG_INTO_FOLDER_ID) ?: 0L
         if (folderId != 0L) {
             getCurrentFolder(folderId)
             getNotes(folderId)
