@@ -110,8 +110,8 @@ fun NotesScreen(
     var selectedCounter by remember {
         mutableStateOf(0)
     }
-    LaunchedEffect(uiState.list, uiState.folders) {
-        val notesSelected = uiState.list.filter { it.isSelected }.size
+    LaunchedEffect(uiState.notes, uiState.folders) {
+        val notesSelected = uiState.notes.filter { it.isSelected }.size
         val foldersSelected = uiState.folders.filter { it.isSelected }.size
         selectedCounter = notesSelected + foldersSelected
     }
@@ -129,7 +129,7 @@ fun NotesScreen(
     if (isSelectionMode) {
         BackHandler { isSelectionMode = false }
     }
-    LaunchedEffect(uiState.list.isEmpty()) {
+    LaunchedEffect(uiState.notes.isEmpty()) {
         isSelectionMode = false
     }
 
@@ -152,7 +152,7 @@ fun NotesScreen(
             AppTopAppBar(
                 title = { AppTitleText(text = stringResource(R.string.notes_title)) },
                 actions = {
-                    if (uiState.list.isNotEmpty()) {
+                    if (uiState.notes.isNotEmpty()) {
                         IconButton(
                             onClick = {
                                 navController.navigate(NavRoutes.SearchNote.route) {
@@ -257,11 +257,22 @@ fun NotesScreen(
                             )
                         }
 
-                        if (uiState.notesCount != 0) {
+                        if (uiState.folders.isNotEmpty() || uiState.notes.isNotEmpty()) {
                             Divider()
+                        }
+
+                        if (uiState.folders.isNotEmpty()) {
                             CountRow(
-                                label = stringResource(R.string.total_count),
-                                value = uiState.notesCount,
+                                label = stringResource(R.string.total_folders),
+                                value = uiState.folders.size,
+                                color = dropDownItemColor()
+                            )
+                        }
+
+                        if (uiState.notes.isNotEmpty()) {
+                            CountRow(
+                                label = stringResource(R.string.total_notes),
+                                value = uiState.notes.size,
                                 color = dropDownItemColor()
                             )
                         }
@@ -311,7 +322,7 @@ fun NotesScreen(
             onFilterSelection = { viewModel.setFilterSelection(it) }
         )
 
-        if (uiState.list.isEmpty()) {
+        if (uiState.notes.isEmpty()) {
             EmptyContentSplash(iconId = R.drawable.ic_note_24, textId = R.string.no_notes)
         } else {
             when (uiState.currentNotesViewMode) {
@@ -343,7 +354,7 @@ fun NotesScreen(
                                 modifier = Modifier.animateItemPlacement()
                             )
                         }
-                        items(items = uiState.list, key = { it.id }) { note ->
+                        items(items = uiState.notes, key = { it.id }) { note ->
                             NotesItem(
                                 note = note,
                                 onClick = {
@@ -398,7 +409,7 @@ fun NotesScreen(
                                 onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) }
                             )
                         }
-                        items(items = uiState.list, key = { it.id }) { note ->
+                        items(items = uiState.notes, key = { it.id }) { note ->
                             NotesItem(
                                 note = note,
                                 onClick = {

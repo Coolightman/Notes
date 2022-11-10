@@ -101,9 +101,8 @@ class NotesViewModel @Inject constructor(
             }.collectLatest {
                 _uiState.update { currentState ->
                     currentState.copy(
-                        list = it,
+                        notes = it,
                         sortByIndex = sortBy.first().ordinal,
-                        notesCount = it.size,
                         currentFilterSelection = filterSelection.first()
                     )
                 }
@@ -152,7 +151,7 @@ class NotesViewModel @Inject constructor(
 
     fun putSelectedInTrash() {
         viewModelScope.launch {
-            val selectedNotes = uiState.value.list.filter { it.isSelected }
+            val selectedNotes = uiState.value.notes.filter { it.isSelected }
             val selectedFolders = uiState.value.folders.filter { it.isSelected }
             putNotesInTrashUseCase(selectedNotes)
             putFoldersInTrashUseCase(selectedFolders)
@@ -160,14 +159,14 @@ class NotesViewModel @Inject constructor(
     }
 
     fun switchIsSelected(noteId: Long) {
-        val updatedNotes = uiState.value.list
+        val updatedNotes = uiState.value.notes
             .map {
                 if (it.id == noteId) it.copy(isSelected = !it.isSelected)
                 else it
             }
 
         _uiState.update { currentState ->
-            currentState.copy(list = updatedNotes)
+            currentState.copy(notes = updatedNotes)
         }
     }
 
@@ -184,7 +183,7 @@ class NotesViewModel @Inject constructor(
     }
 
     fun resetSelections() {
-        val updatedNotes = uiState.value.list
+        val updatedNotes = uiState.value.notes
             .map { it.copy(isSelected = false) }
 
         val updatedFolders = uiState.value.folders
@@ -192,21 +191,21 @@ class NotesViewModel @Inject constructor(
 
         _uiState.update { currentState ->
             currentState.copy(
-                list = updatedNotes,
+                notes = updatedNotes,
                 folders = updatedFolders
             )
         }
     }
 
     fun setCurrentIsSelected(noteId: Long) {
-        val updatedNotes = uiState.value.list
+        val updatedNotes = uiState.value.notes
             .map {
                 if (it.id == noteId) it.copy(isSelected = true)
                 else it
             }
 
         _uiState.update { currentState ->
-            currentState.copy(list = updatedNotes)
+            currentState.copy(notes = updatedNotes)
         }
     }
 
@@ -223,7 +222,7 @@ class NotesViewModel @Inject constructor(
     }
 
     fun selectAllItems() {
-        val updatedNotes = uiState.value.list
+        val updatedNotes = uiState.value.notes
             .map { it.copy(isSelected = true) }
 
         val updatedFolders = uiState.value.folders
@@ -231,7 +230,7 @@ class NotesViewModel @Inject constructor(
 
         _uiState.update { currentState ->
             currentState.copy(
-                list = updatedNotes,
+                notes = updatedNotes,
                 folders = updatedFolders
             )
         }
