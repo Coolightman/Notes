@@ -8,9 +8,9 @@ class GetAllMainFoldersUseCase @Inject constructor(
     private val folderRepository: FolderRepository
 ) {
     operator fun invoke() =
-        folderRepository.getAll()
+        folderRepository.getAllActive()
             .map {
-                it.filter { folder -> folder.externalFolderId == 0L && !folder.isInTrash }
+                it.filter { folder -> folder.externalFolderId == 0L}
                     .sortedByDescending { folder -> folder.isPinned }
             }
 }

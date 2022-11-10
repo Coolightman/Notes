@@ -322,7 +322,7 @@ fun NotesScreen(
             onFilterSelection = { viewModel.setFilterSelection(it) }
         )
 
-        if (uiState.notes.isEmpty()) {
+        if (uiState.notes.isEmpty() && uiState.folders.isEmpty()) {
             EmptyContentSplash(iconId = R.drawable.ic_note_24, textId = R.string.no_notes)
         } else {
             when (uiState.currentNotesViewMode) {
@@ -333,7 +333,7 @@ fun NotesScreen(
                         verticalArrangement = Arrangement.spacedBy(6.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(items = uiState.folders, key = { "${it.id} ${it.title}" }) { folder ->
+                        items(items = uiState.folders, key = { "${it.id}${it.title}" }) { folder ->
                             FolderItem(
                                 folder = folder,
                                 isSelectionMode = isSelectionMode,
@@ -389,7 +389,7 @@ fun NotesScreen(
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(items = uiState.folders, key = { "${it.id} ${it.title}" }) { folder ->
+                        items(items = uiState.folders, key = { "${it.id}${it.title}" }) { folder ->
                             FolderItem(
                                 folder = folder,
                                 isSelectionMode = isSelectionMode,

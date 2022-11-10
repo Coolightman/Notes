@@ -26,6 +26,9 @@ class NoteRepositoryImpl @Inject constructor(
         noteDao.getAllActive()
             .map { list -> list.map { it.toNote() } }
 
+    override suspend fun getAll(): List<Note> =
+        noteDao.getAll().map { it.toNote() }
+
     override fun getTrash(): Flow<List<Note>> =
         noteDao.getTrash()
             .map { list -> list.map { it.toNote() } }

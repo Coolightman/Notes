@@ -13,6 +13,8 @@ interface NoteRepository {
 
     fun getTrash(): Flow<List<Note>>
 
+    suspend fun getAll(): List<Note>
+
     fun getTrashCount(): Flow<Int>
 
     fun searchNote(key: String): Flow<List<Note>>

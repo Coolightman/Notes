@@ -19,7 +19,7 @@
     <string name="undo">ОТМЕНА</string>
     <string name="restore">ОК</string>
     <string name="send">ОТПРАВИТЬ</string>
-    <string name="restore_all_notes_dialog">Восстановить все заметки?</string>
+    <string name="restore_all_notes_dialog">Восстановить все из корзины?</string>
     <string name="delete_all_notes_dialog">Удалить все из корзины?</string>
     <string name="sent_note_to_trash_dialog">Отправить эту заметку в корзину?</string>
     <string name="delete_task_dialog">Удалить эту задачу?</string>
@@ -34,7 +34,7 @@
     <string name="empty_note">Заметка пуста</string>
     <string name="empty_task">Задача пуста</string>
     <string name="wrong_notification_time">Используйте будущее время для уведомления</string>
-    <string name="notes_sent_to_trash">Заметки отправлены в корзину</string>
+    <string name="notes_sent_to_trash">Отправлено в корзину</string>
     <string name="delete_inactive">Удалить неакт.</string>
     <string name="settings">Настройки</string>
     <string name="list_mode">Список</string>

@@ -17,8 +17,14 @@ interface FolderDao {
     @Query("SELECT * FROM folders WHERE id = :folderId")
     suspend fun getFolder(folderId: Long): FolderDb
 
+    @Query("SELECT * FROM folders where is_in_trash = 0")
+    fun getAllActive(): Flow<List<FolderDb>>
+
+    @Query("SELECT * FROM folders where is_in_trash = 1")
+    fun getAllTrash(): Flow<List<FolderDb>>
+
     @Query("SELECT * FROM folders")
-    fun getAll(): Flow<List<FolderDb>>
+    suspend fun getAll(): List<FolderDb>
 
     @Query("SELECT COUNT(id) FROM folders WHERE is_in_trash = 1")
     fun getTrashCount(): Flow<Int>
