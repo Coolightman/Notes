@@ -34,4 +34,7 @@ class FolderRepositoryImpl @Inject constructor(
     override suspend fun delete(folderId: Long) {
         folderDao.delete(folderId)
     }
+
+    override fun getTrashCount(): Flow<Int> = folderDao.getTrashCount()
+
 }

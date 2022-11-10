@@ -20,6 +20,9 @@ interface FolderDao {
     @Query("SELECT * FROM folders")
     fun getAll(): Flow<List<FolderDb>>
 
+    @Query("SELECT COUNT(id) FROM folders WHERE is_in_trash = 1")
+    fun getTrashCount(): Flow<Int>
+
     @Update
     suspend fun update(folder: FolderDb)
 

@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
 import by.coolightman.notes.domain.usecase.folders.GetAllMainFoldersUseCase
+import by.coolightman.notes.domain.usecase.folders.GetFoldersTrashCountUseCase
+import by.coolightman.notes.domain.usecase.folders.PutFoldersInTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.*
 import by.coolightman.notes.domain.usecase.preferences.*
 import by.coolightman.notes.ui.model.ItemColor
@@ -18,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
+    private val getFoldersTrashCountUseCase: GetFoldersTrashCountUseCase,
     private val getAllNotesUseCase: GetAllNotesUseCase,
     private val putNotesInTrashUseCase: PutNotesInTrashUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
@@ -27,7 +30,8 @@ class NotesViewModel @Inject constructor(
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
     private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase,
     private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase,
-    private val getAllMainFoldersUseCase: GetAllMainFoldersUseCase
+    private val getAllMainFoldersUseCase: GetAllMainFoldersUseCase,
+    private val putFoldersInTrashUseCase: PutFoldersInTrashUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NotesUiState())
@@ -113,7 +117,12 @@ class NotesViewModel @Inject constructor(
 
     private fun getTrashCount() {
         viewModelScope.launch {
-            getNotesTrashCountUseCase().collect {
+            val notesTrashCountFlow = getNotesTrashCountUseCase()
+            val foldersTrashCountFlow = getFoldersTrashCountUseCase()
+
+            combine(notesTrashCountFlow, foldersTrashCountFlow) { el1, el2 ->
+                el1 + el2
+            }.collectLatest {
                 _uiState.update { currentState ->
                     currentState.copy(trashCount = it)
                 }
@@ -143,8 +152,10 @@ class NotesViewModel @Inject constructor(
 
     fun putSelectedInTrash() {
         viewModelScope.launch {
-            val selected = uiState.value.list.filter { it.isSelected }
-            putNotesInTrashUseCase(selected)
+            val selectedNotes = uiState.value.list.filter { it.isSelected }
+            val selectedFolders = uiState.value.folders.filter { it.isSelected }
+            putNotesInTrashUseCase(selectedNotes)
+            putFoldersInTrashUseCase(selectedFolders)
         }
     }
 

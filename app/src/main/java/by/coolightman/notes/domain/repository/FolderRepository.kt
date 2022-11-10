@@ -16,4 +16,6 @@ interface FolderRepository {
     suspend fun updateList(list: List<Folder>)
 
     suspend fun delete(folderId: Long)
+
+    fun getTrashCount(): Flow<Int>
 }
