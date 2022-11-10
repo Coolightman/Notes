@@ -11,7 +11,7 @@ class GetAllNotesUseCase @Inject constructor(
     private val repository: NoteRepository
 ) {
     operator fun invoke(sortBy: SortBy, filterBy: List<Boolean>): Flow<List<Note>> {
-        val notesFlow = repository.getAllActive()
+        val notesFlow = repository.getAllMainActive()
         val filteredFlow = filterList(notesFlow, filterBy)
         return sortList(filteredFlow, sortBy)
     }

@@ -22,8 +22,12 @@ class NoteRepositoryImpl @Inject constructor(
     override suspend fun getNote(noteId: Long) =
         noteDao.getNote(noteId).toNote()
 
-    override fun getAllActive(): Flow<List<Note>> =
-        noteDao.getAllActive()
+    override fun getAllMainActive(): Flow<List<Note>> =
+        noteDao.getAllMainActive()
+            .map { list -> list.map { it.toNote() } }
+
+    override fun getAllActiveByFolder(folderId: Long): Flow<List<Note>> =
+        noteDao.getAllActiveByFolder(folderId)
             .map { list -> list.map { it.toNote() } }
 
     override suspend fun getAll(): List<Note> =
