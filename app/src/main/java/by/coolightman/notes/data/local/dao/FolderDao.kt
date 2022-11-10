@@ -17,6 +17,9 @@ interface FolderDao {
     @Query("SELECT * FROM folders WHERE id = :folderId")
     suspend fun getFolder(folderId: Long): FolderDb
 
+    @Query("SELECT * FROM folders WHERE id = :folderId")
+    suspend fun getFolderMayNull(folderId: Long): FolderDb?
+
     @Query("SELECT * FROM folders where is_in_trash = 0")
     fun getAllActive(): Flow<List<FolderDb>>
 

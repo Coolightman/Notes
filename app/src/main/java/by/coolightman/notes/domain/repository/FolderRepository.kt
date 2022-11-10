@@ -9,6 +9,8 @@ interface FolderRepository {
 
     suspend fun get(folderId: Long): Folder
 
+    suspend fun getMayNull(folderId: Long): Folder?
+
     fun getAllActive(): Flow<List<Folder>>
 
     fun getAllTrash(): Flow<List<Folder>>

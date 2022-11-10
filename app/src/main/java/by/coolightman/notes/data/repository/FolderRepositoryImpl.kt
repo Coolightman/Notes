@@ -17,8 +17,14 @@ class FolderRepositoryImpl @Inject constructor(
         folderDao.insert(folder.toFolderDb())
     }
 
-    override suspend fun get(folderId: Long): Folder =
+    override suspend fun get(folderId: Long): Folder=
         folderDao.getFolder(folderId).toFolder()
+
+    override suspend fun getMayNull(folderId: Long): Folder? {
+        folderDao.getFolderMayNull(folderId)?.let {
+            return it.toFolder()
+        } ?: return null
+    }
 
     override fun getAllActive(): Flow<List<Folder>> =
         folderDao.getAllActive().map { list -> list.map { it.toFolder() } }
