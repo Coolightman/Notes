@@ -357,7 +357,7 @@ fun NotesScreen(
                                 note = note,
                                 onClick = {
                                     navController.navigate(
-                                        NavRoutes.EditNote.withArgs(note.id.toString())
+                                        NavRoutes.EditNote.withArgs(note.id.toString(), "0")
                                     ) {
                                         launchSingleTop = true
                                     }
@@ -410,7 +410,7 @@ fun NotesScreen(
                                 note = note,
                                 onClick = {
                                     navController.navigate(
-                                        NavRoutes.EditNote.withArgs(note.id.toString())
+                                        NavRoutes.EditNote.withArgs(note.id.toString(), "0")
                                     ) {
                                         launchSingleTop = true
                                     }

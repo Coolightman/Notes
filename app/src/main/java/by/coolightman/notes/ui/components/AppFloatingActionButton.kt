@@ -43,7 +43,9 @@ fun AppFloatingActionButton(
                 FAB(
                     isVisible = isVisible,
                     onClick = {
-                        navController.navigate(NavRoutes.EditNote.withArgs("0")) {
+                        navController.navigate(
+                            NavRoutes.EditNote.withArgs("0", "0")
+                        ) {
                             launchSingleTop = true
                         }
                     }

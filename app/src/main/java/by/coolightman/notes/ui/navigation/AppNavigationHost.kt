@@ -80,9 +80,12 @@ fun AppNavigationHost(
         }
 
         composable(
-            route = NavRoutes.EditNote.route + "/{$ARG_NOTE_ID}",
+            route = NavRoutes.EditNote.route + "/{$ARG_NOTE_ID}"+ "/{$ARG_FOLDER_ID}",
             arguments = listOf(
                 navArgument(ARG_NOTE_ID) {
+                    type = NavType.LongType
+                },
+                navArgument(ARG_FOLDER_ID) {
                     type = NavType.LongType
                 }
             ),
