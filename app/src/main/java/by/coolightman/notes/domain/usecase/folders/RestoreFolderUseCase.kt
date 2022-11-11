@@ -9,7 +9,7 @@ class RestoreFolderUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(folderId: Long) {
         val folder = repository.get(folderId).first()
-        if (folder.externalFolderId == 0L || isFolderExist(folder.externalFolderId)) {
+        if (folder.externalFolderId == 0L || isExternalFolderActive(folder.externalFolderId)) {
             val restoredFolder = folder.copy(isInTrash = false)
             repository.update(restoredFolder)
         } else {
@@ -21,7 +21,9 @@ class RestoreFolderUseCase @Inject constructor(
         }
     }
 
-    private suspend fun isFolderExist(folderId: Long): Boolean {
-        return repository.getMayNull(folderId) == null
+    private suspend fun isExternalFolderActive(folderId: Long): Boolean {
+        repository.getMayNull(folderId)?.let {
+            return !it.isInTrash
+        } ?: return false
     }
 }

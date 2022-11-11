@@ -10,7 +10,7 @@ class RestoreNoteUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(noteId: Long) {
         val note = repository.getNote(noteId)
-        if (note.folderId == 0L || isFolderExist(note.folderId)) {
+        if (note.folderId == 0L || isFolderActive(note.folderId)) {
             val restoredNote = note.copy(isInTrash = false)
             repository.update(restoredNote)
         } else {
@@ -22,7 +22,9 @@ class RestoreNoteUseCase @Inject constructor(
         }
     }
 
-    private suspend fun isFolderExist(folderId: Long): Boolean {
-        return folderRepository.getMayNull(folderId) == null
+    private suspend fun isFolderActive(folderId: Long): Boolean {
+        folderRepository.getMayNull(folderId)?.let {
+            return !it.isInTrash
+        } ?: return false
     }
 }
