@@ -134,6 +134,7 @@ fun InsideFolderScreen(
             onClickFolder = {
                 viewModel.moveSelectedToFolder(it)
                 isShowMoveDialog = false
+                isSelectionMode = false
             },
             onCancel = { isShowMoveDialog = false }
         )

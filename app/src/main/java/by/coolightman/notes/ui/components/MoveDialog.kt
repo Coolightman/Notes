@@ -71,8 +71,8 @@ fun MoveDialog(
                 ) {
                     LazyColumn(
                         state = listState,
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(1.dp),
+                        contentPadding = PaddingValues(horizontal = 12.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         if (!isMainScreen) {

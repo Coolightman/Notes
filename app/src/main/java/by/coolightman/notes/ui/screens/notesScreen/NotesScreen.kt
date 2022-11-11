@@ -152,6 +152,7 @@ fun NotesScreen(
             onClickFolder = {
                 viewModel.moveSelectedToFolder(it)
                 isShowMoveDialog = false
+                isSelectionMode = false
             },
             isMainScreen = true,
             onCancel = { isShowMoveDialog = false }
