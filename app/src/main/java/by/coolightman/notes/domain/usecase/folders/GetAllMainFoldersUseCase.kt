@@ -9,5 +9,9 @@ class GetAllMainFoldersUseCase @Inject constructor(
 ) {
     operator fun invoke() =
         folderRepository.getAllMainActive()
-            .map { it.sortedByDescending { folder -> folder.isPinned } }
+            .map { list ->
+                list
+                    .sortedBy { it.title }
+                    .sortedByDescending { it.isPinned }
+            }
 }

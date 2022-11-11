@@ -9,5 +9,9 @@ class GetAllFoldersByExternalFolderUseCase @Inject constructor(
 ) {
     operator fun invoke(extFolderId: Long) =
         folderRepository.getAllActiveByExternalFolder(extFolderId)
-            .map { it.sortedByDescending { folder -> folder.isPinned } }
+            .map { list ->
+                list
+                    .sortedBy { it.title }
+                    .sortedByDescending { it.isPinned }
+            }
 }
