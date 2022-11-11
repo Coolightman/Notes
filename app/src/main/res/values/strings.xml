@@ -86,4 +86,5 @@
     <string name="update_app_dialog_text">- added feature to create folders for notes</string>
     <string name="update">Update</string>
     <string name="move_to">Move to</string>
+    <string name="main_screen">Main screen</string>
 </resources>

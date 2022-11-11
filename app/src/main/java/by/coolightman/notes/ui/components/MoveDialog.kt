@@ -78,7 +78,7 @@ fun MoveDialog(
                         if (!isMainScreen) {
                             item {
                                 FolderCard(
-                                    title = "Main screen",
+                                    title = stringResource(R.string.main_screen),
                                     folderId = 0L,
                                     icon = painterResource(id = R.drawable.ic_note_24),
                                     onClick = { onClickFolder(it) }
