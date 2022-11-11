@@ -13,10 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -59,7 +55,6 @@ import by.coolightman.notes.ui.components.SelectionTopAppBar
 import by.coolightman.notes.ui.components.SortFilterPanel
 import by.coolightman.notes.ui.components.UpdateAppDialog
 import by.coolightman.notes.ui.model.NavRoutes
-import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.util.dropDownItemColor
 import by.coolightman.notes.util.isScrollingUp
 import by.coolightman.notes.util.showSnack
@@ -79,7 +74,6 @@ fun NotesScreen(
     val view = LocalView.current
 
     val listState = rememberLazyListState()
-    val gridState = rememberLazyStaggeredGridState()
     val scope = rememberCoroutineScope()
 
     var isShowSortPanel by remember {
@@ -325,112 +319,57 @@ fun NotesScreen(
         if (uiState.notes.isEmpty() && uiState.folders.isEmpty()) {
             EmptyContentSplash(iconId = R.drawable.ic_note_24, textId = R.string.no_notes)
         } else {
-            when (uiState.currentNotesViewMode) {
-                NotesViewMode.LIST -> {
-                    LazyColumn(
-                        state = listState,
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(items = uiState.folders, key = { "${it.id}${it.title}" }) { folder ->
-                            FolderItem(
-                                folder = folder,
-                                isSelectionMode = isSelectionMode,
-                                onClick = {
-                                    navController.navigate(
-                                        NavRoutes.InsideFolder.withArgs(folder.id.toString())
-                                    )
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.setCurrentFolderIsSelected(folder.id)
-                                        isSelectionMode = true
-                                    }
-                                },
-                                onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) },
-                                modifier = Modifier.animateItemPlacement()
+            LazyColumn(
+                state = listState,
+                contentPadding = PaddingValues(12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(items = uiState.folders, key = { "${it.id}${it.title}" }) { folder ->
+                    FolderItem(
+                        folder = folder,
+                        isSelectionMode = isSelectionMode,
+                        onClick = {
+                            navController.navigate(
+                                NavRoutes.InsideFolder.withArgs(folder.id.toString())
                             )
-                        }
-                        items(items = uiState.notes, key = { it.id }) { note ->
-                            NotesItem(
-                                note = note,
-                                onClick = {
-                                    navController.navigate(
-                                        NavRoutes.EditNote.withArgs(note.id.toString(), "0")
-                                    ) {
-                                        launchSingleTop = true
-                                    }
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.setCurrentIsSelected(note.id)
-                                        isSelectionMode = true
-                                    }
-                                },
-                                onCheckedChange = { viewModel.switchIsSelected(note.id) },
-                                isSelectionMode = isSelectionMode,
-                                isShowNoteDate = uiState.isShowNoteDate,
-                                isColoredBackground = uiState.isColoredBackground,
-                                onCollapseClick = { viewModel.switchCollapse(note.id) },
-                                modifier = Modifier.animateItemPlacement()
-                            )
-                        }
-                    }
+                        },
+                        onLongPress = {
+                            scope.launch {
+                                viewModel.setCurrentFolderIsSelected(folder.id)
+                                isSelectionMode = true
+                            }
+                        },
+                        onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) },
+                        modifier = Modifier.animateItemPlacement()
+                    )
                 }
-                NotesViewMode.GRID -> {
-                    LazyVerticalStaggeredGrid(
-                        state = gridState,
-                        columns = StaggeredGridCells.Fixed(2),
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(items = uiState.folders, key = { "${it.id}${it.title}" }) { folder ->
-                            FolderItem(
-                                folder = folder,
-                                isSelectionMode = isSelectionMode,
-                                onClick = {
-                                    navController.navigate(
-                                        NavRoutes.InsideFolder.withArgs(folder.id.toString())
-                                    )
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.setCurrentFolderIsSelected(folder.id)
-                                        isSelectionMode = true
-                                    }
-                                },
-                                onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) }
-                            )
-                        }
-                        items(items = uiState.notes, key = { it.id }) { note ->
-                            NotesItem(
-                                note = note,
-                                onClick = {
-                                    navController.navigate(
-                                        NavRoutes.EditNote.withArgs(note.id.toString(), "0")
-                                    ) {
-                                        launchSingleTop = true
-                                    }
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.setCurrentIsSelected(note.id)
-                                        isSelectionMode = true
-                                    }
-                                },
-                                onCheckedChange = { viewModel.switchIsSelected(note.id) },
-                                isSelectionMode = isSelectionMode,
-                                isShowNoteDate = uiState.isShowNoteDate,
-                                isColoredBackground = uiState.isColoredBackground,
-                                onCollapseClick = { viewModel.switchCollapse(note.id) }
-                            )
-                        }
-                    }
+                items(items = uiState.notes, key = { it.id }) { note ->
+                    NotesItem(
+                        note = note,
+                        onClick = {
+                            navController.navigate(
+                                NavRoutes.EditNote.withArgs(note.id.toString(), "0")
+                            ) {
+                                launchSingleTop = true
+                            }
+                        },
+                        onLongPress = {
+                            scope.launch {
+                                viewModel.setCurrentIsSelected(note.id)
+                                isSelectionMode = true
+                            }
+                        },
+                        onCheckedChange = { viewModel.switchIsSelected(note.id) },
+                        isSelectionMode = isSelectionMode,
+                        isShowNoteDate = uiState.isShowNoteDate,
+                        isColoredBackground = uiState.isColoredBackground,
+                        onCollapseClick = { viewModel.switchCollapse(note.id) },
+                        modifier = Modifier.animateItemPlacement()
+                    )
                 }
             }
         }
     }
 }
+

@@ -10,14 +10,12 @@ import by.coolightman.notes.domain.usecase.preferences.PutIntPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.PutStringPreferenceUseCase
 import by.coolightman.notes.ui.model.ItemColor
 import by.coolightman.notes.ui.model.NavRoutes
-import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.ui.model.ThemeMode
 import by.coolightman.notes.util.IS_NOTES_COLORED_BACK
 import by.coolightman.notes.util.IS_SHOW_NOTE_DATE
 import by.coolightman.notes.util.IS_SHOW_TASK_NOTIFICATION_DATE
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
 import by.coolightman.notes.util.NEW_TASK_COLOR_KEY
-import by.coolightman.notes.util.NOTES_VIEW_MODE
 import by.coolightman.notes.util.START_DESTINATION_KEY
 import by.coolightman.notes.util.THEME_MODE_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,7 +51,6 @@ class SettingsViewModel @Inject constructor(
         getNewTaskColor()
         getIsShowNotesDate()
         getIsNotesColoredBackground()
-        getNotesViewMode()
         getIsShowTaskNotificationDate()
     }
 
@@ -129,16 +126,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun getNotesViewMode() {
-        viewModelScope.launch {
-            getIntPreferenceUseCase(NOTES_VIEW_MODE, NotesViewMode.LIST.ordinal).collectLatest {
-                _uiState.update { currentState ->
-                    currentState.copy(currentNotesViewMode = NotesViewMode.values()[it])
-                }
-            }
-        }
-    }
-
     fun setStartDestination(route: String) {
         viewModelScope.launch {
             putStringPreferenceUseCase(START_DESTINATION_KEY, route)
@@ -178,12 +165,6 @@ class SettingsViewModel @Inject constructor(
     fun setIsNotesColoredBackground(value: Boolean) {
         viewModelScope.launch {
             putBooleanPreferenceUseCase(IS_NOTES_COLORED_BACK, value)
-        }
-    }
-
-    fun setNotesViewMode(value: NotesViewMode) {
-        viewModelScope.launch {
-            putIntPreferenceUseCase(NOTES_VIEW_MODE, value.ordinal)
         }
     }
 }

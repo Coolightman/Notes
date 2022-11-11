@@ -24,14 +24,12 @@ import androidx.navigation.NavHostController
 import by.coolightman.notes.R
 import by.coolightman.notes.ui.components.AppTitleText
 import by.coolightman.notes.ui.components.AppTopAppBar
-import by.coolightman.notes.ui.components.NotesViewModeChip
 import by.coolightman.notes.ui.components.SelectColorBar
 import by.coolightman.notes.ui.components.SettingsRow
 import by.coolightman.notes.ui.components.StartDestinationChip
 import by.coolightman.notes.ui.components.SwitchCard
 import by.coolightman.notes.ui.components.ThemeModeChip
 import by.coolightman.notes.ui.model.NavRoutes
-import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.ui.model.ThemeMode
 
 @Composable
@@ -121,24 +119,6 @@ fun SettingsScreen(
                 SelectColorBar(
                     selected = uiState.newNoteColorIndex,
                     onSelect = { viewModel.setNewNoteColor(it) }
-                )
-            }
-
-            SettingsRow(title = stringResource(R.string.notes_view_mode)) {
-                NotesViewModeChip(
-                    icon = painterResource(R.drawable.ic_list_mode_24),
-                    currentViewMode = uiState.currentNotesViewMode,
-                    chipViewMode = NotesViewMode.LIST,
-                    title = stringResource(R.string.list_mode),
-                    onClick = { viewModel.setNotesViewMode(it) }
-                )
-
-                NotesViewModeChip(
-                    icon = painterResource(R.drawable.ic_grid_mode_24),
-                    currentViewMode = uiState.currentNotesViewMode,
-                    chipViewMode = NotesViewMode.GRID,
-                    title = stringResource(R.string.grid_mode),
-                    onClick = { viewModel.setNotesViewMode(it) }
                 )
             }
 

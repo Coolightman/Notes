@@ -3,7 +3,6 @@ package by.coolightman.notes.ui.screens.insideFolderScreen
 import by.coolightman.notes.domain.model.Folder
 import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.ui.model.ItemColor
-import by.coolightman.notes.ui.model.NotesViewMode
 
 data class InsideFolderUiState(
     val currentFolderTitle: String = "",
@@ -14,6 +13,5 @@ data class InsideFolderUiState(
     val sortByIndex: Int = 0,
     val isShowNoteDate: Boolean = false,
     val isColoredBackground: Boolean = false,
-    val currentFilterSelection: List<Boolean> = ItemColor.values().map { false },
-    val currentNotesViewMode: NotesViewMode = NotesViewMode.LIST
+    val currentFilterSelection: List<Boolean> = ItemColor.values().map { false }
 )

@@ -17,7 +17,6 @@ const val NEW_FOLDER_COLOR_KEY = "NewFolderColorKey"
 const val IS_SHOW_NOTE_DATE = "isShowNoteDate"
 const val IS_SHOW_TASK_NOTIFICATION_DATE = "isShowTaskNotificationDate"
 const val IS_NOTES_COLORED_BACK = "isNotesColoredBackground"
-const val NOTES_VIEW_MODE = "notesViewMode"
 
 const val SORT_NOTES_BY_KEY = "SortNotesByKey"
 const val SORT_TASKS_BY_KEY = "SortTasksByKey"

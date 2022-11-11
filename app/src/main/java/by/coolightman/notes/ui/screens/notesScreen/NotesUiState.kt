@@ -3,7 +3,6 @@ package by.coolightman.notes.ui.screens.notesScreen
 import by.coolightman.notes.domain.model.Folder
 import by.coolightman.notes.domain.model.Note
 import by.coolightman.notes.ui.model.ItemColor
-import by.coolightman.notes.ui.model.NotesViewMode
 
 data class NotesUiState(
     val notes: List<Note> = emptyList(),
@@ -14,5 +13,4 @@ data class NotesUiState(
     val isColoredBackground: Boolean = false,
     val isShowUpdateAppDialog: Boolean = false,
     val currentFilterSelection: List<Boolean> = ItemColor.values().map { false },
-    val currentNotesViewMode: NotesViewMode = NotesViewMode.LIST
 )

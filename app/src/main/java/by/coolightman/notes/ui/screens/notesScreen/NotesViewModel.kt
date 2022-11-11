@@ -9,7 +9,6 @@ import by.coolightman.notes.domain.usecase.folders.PutFoldersInTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.*
 import by.coolightman.notes.domain.usecase.preferences.*
 import by.coolightman.notes.ui.model.ItemColor
-import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -54,7 +53,6 @@ class NotesViewModel @Inject constructor(
         getFolders()
         getTrashCount()
         getIsShowDatePref()
-        getNotesViewMode()
         getIsColoredBackground()
         getIsShowUpdateDialog()
     }
@@ -124,16 +122,6 @@ class NotesViewModel @Inject constructor(
             }.collectLatest {
                 _uiState.update { currentState ->
                     currentState.copy(trashCount = it)
-                }
-            }
-        }
-    }
-
-    private fun getNotesViewMode() {
-        viewModelScope.launch {
-            getIntPreferenceUseCase(NOTES_VIEW_MODE, NotesViewMode.LIST.ordinal).collectLatest {
-                _uiState.update { currentState ->
-                    currentState.copy(currentNotesViewMode = NotesViewMode.values()[it])
                 }
             }
         }
