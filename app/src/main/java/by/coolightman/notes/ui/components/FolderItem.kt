@@ -83,7 +83,7 @@ fun FolderItem(
                     tint = MaterialTheme.colors.onSurface.copy(0.5f),
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(4.dp)
+                        .padding(2.dp)
                         .size(12.dp)
                 )
             }
