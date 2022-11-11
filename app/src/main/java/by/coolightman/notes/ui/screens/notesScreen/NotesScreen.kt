@@ -50,6 +50,7 @@ import by.coolightman.notes.ui.components.BadgedIcon
 import by.coolightman.notes.ui.components.CountRow
 import by.coolightman.notes.ui.components.EmptyContentSplash
 import by.coolightman.notes.ui.components.FolderItem
+import by.coolightman.notes.ui.components.MoveDialog
 import by.coolightman.notes.ui.components.NotesItem
 import by.coolightman.notes.ui.components.SelectionTopAppBar
 import by.coolightman.notes.ui.components.SortFilterPanel
@@ -104,11 +105,16 @@ fun NotesScreen(
     var selectedCounter by remember {
         mutableStateOf(0)
     }
+    var selectedFolders by remember {
+        mutableStateOf(0)
+    }
     LaunchedEffect(uiState.notes, uiState.folders) {
         val notesSelected = uiState.notes.filter { it.isSelected }.size
         val foldersSelected = uiState.folders.filter { it.isSelected }.size
         selectedCounter = notesSelected + foldersSelected
+        selectedFolders = foldersSelected
     }
+
     var isSelectionMode by remember {
         mutableStateOf(false)
     }
@@ -135,6 +141,21 @@ fun NotesScreen(
             openUpdateAppDialog = false
             viewModel.notShowMoreUpdateDialog()
         }
+    }
+
+    var isShowMoveDialog by remember {
+        mutableStateOf(false)
+    }
+    if (isShowMoveDialog) {
+        MoveDialog(
+            destinations = uiState.foldersToMove,
+            onClickFolder = {
+                viewModel.moveSelectedToFolder(it)
+                isShowMoveDialog = false
+            },
+            isMainScreen = true,
+            onCancel = { isShowMoveDialog = false }
+        )
     }
 
     Column(
@@ -282,6 +303,20 @@ fun NotesScreen(
                         Icon(
                             painter = painterResource(R.drawable.ic_select_all_24),
                             contentDescription = "select all",
+                            tint = MaterialTheme.colors.onSecondary
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            if (selectedCounter > 0 && selectedFolders == 0) {
+                                viewModel.getAllFoldersToMove()
+                                isShowMoveDialog = true
+                            }
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_move_files_24),
+                            contentDescription = "move selected",
                             tint = MaterialTheme.colors.onSecondary
                         )
                     }

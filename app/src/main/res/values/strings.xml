@@ -84,4 +84,5 @@
     <string name="remind_in_advance">Remind in advance, min.</string>
     <string name="minutes_cuted">min.</string>
     <string name="update_app_dialog_text">Added new notification features. Please reschedule your notifications</string>
+    <string name="move_to">Move to</string>
 </resources>

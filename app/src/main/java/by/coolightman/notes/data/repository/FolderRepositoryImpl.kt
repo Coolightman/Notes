@@ -29,6 +29,9 @@ class FolderRepositoryImpl @Inject constructor(
     override fun getAllMainActive(): Flow<List<Folder>> =
         folderDao.getAllMainActive().map { list -> list.map { it.toFolder() } }
 
+    override fun getAllActive(): Flow<List<Folder>>  =
+        folderDao.getAllActive().map { list -> list.map { it.toFolder() } }
+
     override fun getAllActiveByExternalFolder(extFolderId: Long): Flow<List<Folder>> =
         folderDao.getAllActiveByExternalFolder(extFolderId).map { list -> list.map { it.toFolder() } }
 

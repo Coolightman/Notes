@@ -3,6 +3,7 @@ package by.coolightman.notes.ui.screens.notesScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
+import by.coolightman.notes.domain.usecase.folders.GetAllActiveFoldersUseCase
 import by.coolightman.notes.domain.usecase.folders.GetAllMainFoldersUseCase
 import by.coolightman.notes.domain.usecase.folders.GetFoldersTrashCountUseCase
 import by.coolightman.notes.domain.usecase.folders.PutFoldersInTrashUseCase
@@ -30,7 +31,9 @@ class NotesViewModel @Inject constructor(
     private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase,
     private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase,
     private val getAllMainFoldersUseCase: GetAllMainFoldersUseCase,
-    private val putFoldersInTrashUseCase: PutFoldersInTrashUseCase
+    private val putFoldersInTrashUseCase: PutFoldersInTrashUseCase,
+    private val getAllActiveFoldersUseCase: GetAllActiveFoldersUseCase,
+    private val updateNoteUseCase: UpdateNoteUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NotesUiState())
@@ -233,6 +236,25 @@ class NotesViewModel @Inject constructor(
     fun switchCollapse(noteId: Long) {
         viewModelScope.launch {
             switchNoteCollapseUseCase(noteId)
+        }
+    }
+
+    fun getAllFoldersToMove() {
+        viewModelScope.launch {
+            getAllActiveFoldersUseCase().collectLatest {
+                _uiState.update { currentState ->
+                    currentState.copy(foldersToMove = it)
+                }
+            }
+        }
+    }
+
+    fun moveSelectedToFolder(folderId: Long) {
+        viewModelScope.launch {
+            uiState.value.notes
+                .filter { it.isSelected }
+                .map { it.copy(folderId = folderId) }
+                .forEach { updateNoteUseCase(it) }
         }
     }
 }

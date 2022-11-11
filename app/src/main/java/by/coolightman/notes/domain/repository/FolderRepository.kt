@@ -13,6 +13,8 @@ interface FolderRepository {
 
     fun getAllMainActive(): Flow<List<Folder>>
 
+    fun getAllActive(): Flow<List<Folder>>
+
     fun getAllActiveByExternalFolder(extFolderId: Long): Flow<List<Folder>>
 
     fun getAllTrash(): Flow<List<Folder>>

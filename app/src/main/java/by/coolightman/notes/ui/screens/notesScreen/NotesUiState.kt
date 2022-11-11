@@ -7,6 +7,7 @@ import by.coolightman.notes.ui.model.ItemColor
 data class NotesUiState(
     val notes: List<Note> = emptyList(),
     val folders: List<Folder> = emptyList(),
+    val foldersToMove: List<Folder> = emptyList(),
     val trashCount: Int = 0,
     val sortByIndex: Int = 0,
     val isShowNoteDate: Boolean = false,
