@@ -15,13 +15,12 @@ class DeleteFolderUseCase @Inject constructor(
     }
 
     private suspend fun deleteFolder(folderId: Long) {
-        getInnerNotesUseCase(folderId).forEach {
+        getInnerNotesUseCase(folderId).filter { !it.isInTrash }.forEach {
             deleteNoteUseCase(it.id)
         }
-        getInnerFoldersUseCase(folderId).forEach {
+        getInnerFoldersUseCase(folderId).filter { !it.isInTrash }.forEach {
             deleteFolder(it.id)
         }
         folderRepository.delete(folderId)
     }
-
 }
