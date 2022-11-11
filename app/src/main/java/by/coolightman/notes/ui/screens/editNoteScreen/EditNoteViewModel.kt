@@ -111,7 +111,8 @@ class EditNoteViewModel @Inject constructor(
                     isCollapsed =
                     if (!isCollapsable) false
                     else it.isCollapsed,
-                    isPinned = isPinned
+                    isPinned = isPinned,
+                    folderId = it.folderId
                 )
                 updateNoteUseCase(updatedNote)
                 return@launch

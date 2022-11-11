@@ -98,7 +98,7 @@ fun NotesScreen(
         }
     }
 
-    val fabVisibility = listState.isScrollingUp() || gridState.isScrollingUp()
+    val fabVisibility = listState.isScrollingUp()
     LaunchedEffect(fabVisibility) {
         isVisibleFAB(fabVisibility)
     }

@@ -4,6 +4,7 @@ import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +29,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
@@ -52,6 +53,7 @@ import by.coolightman.notes.ui.components.AppTopAppBar
 import by.coolightman.notes.ui.components.BadgedIcon
 import by.coolightman.notes.ui.components.CountRow
 import by.coolightman.notes.ui.components.EmptyContentSplash
+import by.coolightman.notes.ui.components.FAB
 import by.coolightman.notes.ui.components.FolderItem
 import by.coolightman.notes.ui.components.NotesItem
 import by.coolightman.notes.ui.components.SelectionTopAppBar
@@ -92,7 +94,7 @@ fun InsideFolderScreen(
         }
     }
 
-    val fabVisibility = listState.isScrollingUp() || gridState.isScrollingUp()
+    val fabVisibility = listState.isScrollingUp()
 
     var isDropMenuExpanded by remember {
         mutableStateOf(false)
@@ -124,92 +126,26 @@ fun InsideFolderScreen(
         isSelectionMode = false
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 56.dp)
-    ) {
-        if (!isSelectionMode) {
-            AppTopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "back",
-                            tint = MaterialTheme.colors.onSecondary
-                        )
-                    }
-                },
-                title = { AppTitleText(text = uiState.currentFolderTitle) },
-                actions = {
-                    if (uiState.notes.isNotEmpty()) {
-                        IconButton(
-                            onClick = {
-                                navController.navigate(NavRoutes.SearchNote.route) {
-                                    launchSingleTop = true
-                                }
-                            }
-                        ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            if (!isSelectionMode) {
+                AppTopAppBar(
+                    navigationIcon = {
+                        IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "search",
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "back",
                                 tint = MaterialTheme.colors.onSecondary
                             )
                         }
-                    }
-
-                    IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_baseline_sort_24),
-                            contentDescription = "sort",
-                            tint = if (isShowSortPanel) MaterialTheme.colors.primary
-                            else MaterialTheme.colors.onSecondary
-                        )
-                    }
-
-                    IconButton(onClick = { isDropMenuExpanded = true }) {
-                        Icon(
-                            Icons.Default.MoreVert,
-                            contentDescription = "more",
-                            tint = if (isDropMenuExpanded) MaterialTheme.colors.primary
-                            else MaterialTheme.colors.onSecondary
-                        )
-                    }
-
-                    DropdownMenu(
-                        expanded = isDropMenuExpanded,
-                        onDismissRequest = { isDropMenuExpanded = false }
-                    ) {
-                        DropdownMenuItem(
+                    },
+                    title = { AppTitleText(text = uiState.currentFolderTitle) },
+                    actions = {
+                        IconButton(
                             onClick = {
-                                isDropMenuExpanded = false
-                                navController.navigate(
-                                    NavRoutes.EditFolder.withArgs(
-                                        "0",
-                                        uiState.currentFolderId.toString()
-                                    )
-                                ) {
-                                    launchSingleTop = true
-                                }
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_new_folder_24),
-                                contentDescription = "new folder",
-                                tint = dropDownItemColor()
-                            )
-
-                            Spacer(modifier = Modifier.width(16.dp))
-
-                            Text(
-                                text = stringResource(R.string.create_folder),
-                                color = dropDownItemColor()
-                            )
-                        }
-
-                        DropdownMenuItem(
-                            onClick = {
-                                isDropMenuExpanded = false
                                 navController.navigate(
                                     NavRoutes.EditFolder.withArgs(
                                         uiState.currentFolderId.toString(),
@@ -223,231 +159,297 @@ fun InsideFolderScreen(
                             Icon(
                                 painter = painterResource(R.drawable.ic_baseline_edit_24),
                                 contentDescription = "edit folder",
-                                tint = dropDownItemColor()
-                            )
-
-                            Spacer(modifier = Modifier.width(16.dp))
-
-                            Text(
-                                text = stringResource(R.string.edit_folder),
-                                color = dropDownItemColor()
+                                tint = MaterialTheme.colors.onSecondary
                             )
                         }
 
-                        DropdownMenuItem(
-                            onClick = {
-                                navController.navigate(NavRoutes.NotesTrash.route) {
-                                    launchSingleTop = true
-                                }
-                                isDropMenuExpanded = false
-                            }
+                        IconButton(onClick = { isShowSortPanel = !isShowSortPanel }) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_baseline_sort_24),
+                                contentDescription = "sort",
+                                tint = if (isShowSortPanel) MaterialTheme.colors.primary
+                                else MaterialTheme.colors.onSecondary
+                            )
+                        }
+
+                        IconButton(onClick = { isDropMenuExpanded = true }) {
+                            Icon(
+                                Icons.Default.MoreVert,
+                                contentDescription = "more",
+                                tint = if (isDropMenuExpanded) MaterialTheme.colors.primary
+                                else MaterialTheme.colors.onSecondary
+                            )
+                        }
+
+                        DropdownMenu(
+                            expanded = isDropMenuExpanded,
+                            onDismissRequest = { isDropMenuExpanded = false }
                         ) {
-                            BadgedIcon(
-                                icon = painterResource(R.drawable.ic_delete_full_24),
-                                iconEmptyBadge = painterResource(R.drawable.ic_delete_empty_24),
-                                badgeValue = uiState.trashCount,
-                                color = dropDownItemColor()
-                            )
+                            DropdownMenuItem(
+                                onClick = {
+                                    isDropMenuExpanded = false
+                                    navController.navigate(
+                                        NavRoutes.EditFolder.withArgs(
+                                            "0",
+                                            uiState.currentFolderId.toString()
+                                        )
+                                    ) {
+                                        launchSingleTop = true
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_new_folder_24),
+                                    contentDescription = "new folder",
+                                    tint = dropDownItemColor()
+                                )
 
-                            Spacer(modifier = Modifier.width(4.dp))
+                                Spacer(modifier = Modifier.width(16.dp))
 
-                            Text(
-                                text = stringResource(R.string.trash),
-                                color = dropDownItemColor()
+                                Text(
+                                    text = stringResource(R.string.create_folder),
+                                    color = dropDownItemColor()
+                                )
+                            }
+
+                            DropdownMenuItem(
+                                onClick = {
+                                    navController.navigate(NavRoutes.NotesTrash.route) {
+                                        launchSingleTop = true
+                                    }
+                                    isDropMenuExpanded = false
+                                }
+                            ) {
+                                BadgedIcon(
+                                    icon = painterResource(R.drawable.ic_delete_full_24),
+                                    iconEmptyBadge = painterResource(R.drawable.ic_delete_empty_24),
+                                    badgeValue = uiState.trashCount,
+                                    color = dropDownItemColor()
+                                )
+
+                                Spacer(modifier = Modifier.width(4.dp))
+
+                                Text(
+                                    text = stringResource(R.string.trash),
+                                    color = dropDownItemColor()
+                                )
+                            }
+
+                            DropdownMenuItem(
+                                onClick = {
+                                    navController.navigate(NavRoutes.Settings.route) {
+                                        launchSingleTop = true
+                                    }
+                                    isDropMenuExpanded = false
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Settings,
+                                    contentDescription = "settings",
+                                    tint = dropDownItemColor()
+                                )
+
+                                Spacer(modifier = Modifier.width(16.dp))
+
+                                Text(
+                                    text = stringResource(R.string.settings),
+                                    color = dropDownItemColor()
+                                )
+                            }
+
+                            if (uiState.folders.isNotEmpty() || uiState.notes.isNotEmpty()) {
+                                Divider()
+                            }
+
+                            if (uiState.folders.isNotEmpty()) {
+                                CountRow(
+                                    label = stringResource(R.string.total_folders),
+                                    value = uiState.folders.size,
+                                    color = dropDownItemColor()
+                                )
+                            }
+
+                            if (uiState.notes.isNotEmpty()) {
+                                CountRow(
+                                    label = stringResource(R.string.total_notes),
+                                    value = uiState.notes.size,
+                                    color = dropDownItemColor()
+                                )
+                            }
+                        }
+                    }
+                )
+            } else {
+                SelectionTopAppBar(
+                    onCloseClick = { isSelectionMode = false },
+                    selectedCount = selectedCounter,
+                    actions = {
+                        IconButton(onClick = { viewModel.selectAllItems() }) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_select_all_24),
+                                contentDescription = "select all",
+                                tint = MaterialTheme.colors.onSecondary
                             )
                         }
-
-                        DropdownMenuItem(
+                        IconButton(
                             onClick = {
-                                navController.navigate(NavRoutes.Settings.route) {
-                                    launchSingleTop = true
+                                if (selectedCounter > 0) {
+                                    viewModel.putSelectedInTrash()
+                                    isSelectionMode = false
                                 }
-                                isDropMenuExpanded = false
                             }
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = "settings",
-                                tint = dropDownItemColor()
-                            )
-
-                            Spacer(modifier = Modifier.width(16.dp))
-
-                            Text(
-                                text = stringResource(R.string.settings),
-                                color = dropDownItemColor()
-                            )
-                        }
-
-                        if (uiState.folders.isNotEmpty() || uiState.notes.isNotEmpty()) {
-                            Divider()
-                        }
-
-                        if (uiState.folders.isNotEmpty()) {
-                            CountRow(
-                                label = stringResource(R.string.total_folders),
-                                value = uiState.folders.size,
-                                color = dropDownItemColor()
-                            )
-                        }
-
-                        if (uiState.notes.isNotEmpty()) {
-                            CountRow(
-                                label = stringResource(R.string.total_notes),
-                                value = uiState.notes.size,
-                                color = dropDownItemColor()
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "delete",
+                                tint = MaterialTheme.colors.onSecondary
                             )
                         }
                     }
-                }
+                )
+            }
+
+            SortFilterPanel(
+                isVisible = isShowSortPanel,
+                currentSortIndex = uiState.sortByIndex,
+                onSort = { viewModel.setSortBy(it) },
+                currentFilterSelection = uiState.currentFilterSelection,
+                onFilterSelection = { viewModel.setFilterSelection(it) }
             )
-        } else {
-            SelectionTopAppBar(
-                onCloseClick = { isSelectionMode = false },
-                selectedCount = selectedCounter,
-                actions = {
-                    IconButton(onClick = { viewModel.selectAllItems() }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_select_all_24),
-                            contentDescription = "select all",
-                            tint = MaterialTheme.colors.onSecondary
-                        )
-                    }
-                    IconButton(
-                        onClick = {
-                            if (selectedCounter > 0) {
-                                viewModel.putSelectedInTrash()
-                                isSelectionMode = false
+
+            if (uiState.notes.isEmpty() && uiState.folders.isEmpty()) {
+                EmptyContentSplash(iconId = R.drawable.ic_note_24, textId = R.string.no_notes)
+            } else {
+                when (uiState.currentNotesViewMode) {
+                    NotesViewMode.LIST -> {
+                        LazyColumn(
+                            state = listState,
+                            contentPadding = PaddingValues(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp),
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(
+                                items = uiState.folders,
+                                key = { "${it.id}${it.title}" }) { folder ->
+                                FolderItem(
+                                    folder = folder,
+                                    isSelectionMode = isSelectionMode,
+                                    onClick = {
+                                        navController.navigate(
+                                            NavRoutes.InsideFolder.withArgs(folder.id.toString())
+                                        )
+                                    },
+                                    onLongPress = {
+                                        scope.launch {
+                                            viewModel.setCurrentFolderIsSelected(folder.id)
+                                            isSelectionMode = true
+                                        }
+                                    },
+                                    onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) },
+                                    modifier = Modifier.animateItemPlacement()
+                                )
+                            }
+                            items(items = uiState.notes, key = { it.id }) { note ->
+                                NotesItem(
+                                    note = note,
+                                    onClick = {
+                                        navController.navigate(
+                                            NavRoutes.EditNote.withArgs(
+                                                note.id.toString(),
+                                                "0"
+                                            )
+                                        ) {
+                                            launchSingleTop = true
+                                        }
+                                    },
+                                    onLongPress = {
+                                        scope.launch {
+                                            viewModel.setCurrentIsSelected(note.id)
+                                            isSelectionMode = true
+                                        }
+                                    },
+                                    onCheckedChange = { viewModel.switchIsSelected(note.id) },
+                                    isSelectionMode = isSelectionMode,
+                                    isShowNoteDate = uiState.isShowNoteDate,
+                                    isColoredBackground = uiState.isColoredBackground,
+                                    onCollapseClick = { viewModel.switchCollapse(note.id) },
+                                    modifier = Modifier.animateItemPlacement()
+                                )
                             }
                         }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSecondary
-                        )
                     }
-                }
-            )
-        }
-
-        SortFilterPanel(
-            isVisible = isShowSortPanel,
-            currentSortIndex = uiState.sortByIndex,
-            onSort = { viewModel.setSortBy(it) },
-            currentFilterSelection = uiState.currentFilterSelection,
-            onFilterSelection = { viewModel.setFilterSelection(it) }
-        )
-
-        if (uiState.notes.isEmpty() && uiState.folders.isEmpty()) {
-            EmptyContentSplash(iconId = R.drawable.ic_note_24, textId = R.string.no_notes)
-        } else {
-            when (uiState.currentNotesViewMode) {
-                NotesViewMode.LIST -> {
-                    LazyColumn(
-                        state = listState,
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(items = uiState.folders, key = { "${it.id}${it.title}" }) { folder ->
-                            FolderItem(
-                                folder = folder,
-                                isSelectionMode = isSelectionMode,
-                                onClick = {
-                                    navController.navigate(
-                                        NavRoutes.InsideFolder.withArgs(folder.id.toString())
-                                    )
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.setCurrentFolderIsSelected(folder.id)
-                                        isSelectionMode = true
-                                    }
-                                },
-                                onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) },
-                                modifier = Modifier.animateItemPlacement()
-                            )
-                        }
-                        items(items = uiState.notes, key = { it.id }) { note ->
-                            NotesItem(
-                                note = note,
-                                onClick = {
-                                    navController.navigate(
-                                        NavRoutes.EditNote.withArgs(note.id.toString(), "0")
-                                    ) {
-                                        launchSingleTop = true
-                                    }
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.setCurrentIsSelected(note.id)
-                                        isSelectionMode = true
-                                    }
-                                },
-                                onCheckedChange = { viewModel.switchIsSelected(note.id) },
-                                isSelectionMode = isSelectionMode,
-                                isShowNoteDate = uiState.isShowNoteDate,
-                                isColoredBackground = uiState.isColoredBackground,
-                                onCollapseClick = { viewModel.switchCollapse(note.id) },
-                                modifier = Modifier.animateItemPlacement()
-                            )
-                        }
-                    }
-                }
-                NotesViewMode.GRID -> {
-                    LazyVerticalStaggeredGrid(
-                        state = gridState,
-                        columns = StaggeredGridCells.Fixed(2),
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(items = uiState.folders, key = { "${it.id}${it.title}" }) { folder ->
-                            FolderItem(
-                                folder = folder,
-                                isSelectionMode = isSelectionMode,
-                                onClick = {
-                                    navController.navigate(
-                                        NavRoutes.InsideFolder.withArgs(folder.id.toString())
-                                    )
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.setCurrentFolderIsSelected(folder.id)
-                                        isSelectionMode = true
-                                    }
-                                },
-                                onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) }
-                            )
-                        }
-                        items(items = uiState.notes, key = { it.id }) { note ->
-                            NotesItem(
-                                note = note,
-                                onClick = {
-                                    navController.navigate(
-                                        NavRoutes.EditNote.withArgs(note.id.toString(), "0")
-                                    ) {
-                                        launchSingleTop = true
-                                    }
-                                },
-                                onLongPress = {
-                                    scope.launch {
-                                        viewModel.setCurrentIsSelected(note.id)
-                                        isSelectionMode = true
-                                    }
-                                },
-                                onCheckedChange = { viewModel.switchIsSelected(note.id) },
-                                isSelectionMode = isSelectionMode,
-                                isShowNoteDate = uiState.isShowNoteDate,
-                                isColoredBackground = uiState.isColoredBackground,
-                                onCollapseClick = { viewModel.switchCollapse(note.id) }
-                            )
+                    NotesViewMode.GRID -> {
+                        LazyVerticalStaggeredGrid(
+                            state = gridState,
+                            columns = StaggeredGridCells.Fixed(2),
+                            contentPadding = PaddingValues(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(
+                                items = uiState.folders,
+                                key = { "${it.id}${it.title}" }) { folder ->
+                                FolderItem(
+                                    folder = folder,
+                                    isSelectionMode = isSelectionMode,
+                                    onClick = {
+                                        navController.navigate(
+                                            NavRoutes.InsideFolder.withArgs(folder.id.toString())
+                                        )
+                                    },
+                                    onLongPress = {
+                                        scope.launch {
+                                            viewModel.setCurrentFolderIsSelected(folder.id)
+                                            isSelectionMode = true
+                                        }
+                                    },
+                                    onCheckedChange = { viewModel.switchFolderIsSelected(folder.id) }
+                                )
+                            }
+                            items(items = uiState.notes, key = { it.id }) { note ->
+                                NotesItem(
+                                    note = note,
+                                    onClick = {
+                                        navController.navigate(
+                                            NavRoutes.EditNote.withArgs(
+                                                note.id.toString(),
+                                                "0"
+                                            )
+                                        ) {
+                                            launchSingleTop = true
+                                        }
+                                    },
+                                    onLongPress = {
+                                        scope.launch {
+                                            viewModel.setCurrentIsSelected(note.id)
+                                            isSelectionMode = true
+                                        }
+                                    },
+                                    onCheckedChange = { viewModel.switchIsSelected(note.id) },
+                                    isSelectionMode = isSelectionMode,
+                                    isShowNoteDate = uiState.isShowNoteDate,
+                                    isColoredBackground = uiState.isColoredBackground,
+                                    onCollapseClick = { viewModel.switchCollapse(note.id) }
+                                )
+                            }
                         }
                     }
                 }
             }
         }
+        FAB(
+            isVisible = fabVisibility,
+            onClick = {
+                navController.navigate(
+                    NavRoutes.EditNote.withArgs("0", uiState.currentFolderId.toString())
+                ) {
+                    launchSingleTop = true
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        )
     }
 }

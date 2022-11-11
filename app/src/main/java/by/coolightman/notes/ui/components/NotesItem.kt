@@ -241,7 +241,8 @@ private fun NotesItemPreview() {
         isSelected = false,
         isCollapsable = false,
         isCollapsed = false,
-        isPinned = true
+        isPinned = true,
+        folderId = 0L
     )
     NotesItem(
         note = note,

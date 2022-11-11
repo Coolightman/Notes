@@ -8,7 +8,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -93,17 +92,6 @@ fun EditFolderScreen(
                         tint = MaterialTheme.colors.onSecondary
                     )
                 }
-            },
-            actions = {
-                if (createdAt.isNotEmpty()) {
-                    IconButton(onClick = { openDeleteDialog = true }) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "delete",
-                            tint = MaterialTheme.colors.onSecondary
-                        )
-                    }
-                }
             }
         )
 
@@ -121,9 +109,9 @@ fun EditFolderScreen(
                 ) {
                     Box(
                         modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                    ){
+                            .fillMaxWidth()
+                            .height(48.dp)
+                    ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
@@ -149,7 +137,7 @@ fun EditFolderScreen(
                                     .padding(horizontal = 12.dp),
                             )
                         }
-                        if (isPinned){
+                        if (isPinned) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_pin_24),
                                 contentDescription = "pin",
@@ -218,9 +206,9 @@ private fun getTint(
     itemColors: Array<ItemColor>,
     selectedColor: Int
 ): Color {
-    return if (selectedColor!=1){
+    return if (selectedColor != 1) {
         Color(itemColors[selectedColor].color).copy(0.8f)
-    } else{
+    } else {
         YellowFolder
     }
 }

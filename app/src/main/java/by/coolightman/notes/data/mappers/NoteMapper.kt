@@ -16,7 +16,8 @@ fun NoteDb.toNote(): Note = Note(
     isSelected = false,
     isCollapsable = isCollapsable,
     isCollapsed = isCollapsed,
-    isPinned = isPinned
+    isPinned = isPinned,
+    folderId = folderId
 )
 
 fun Note.toNoteDb(): NoteDb = NoteDb(

@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -67,18 +68,20 @@ fun AppFloatingActionButton(
 
 @Composable
 fun FAB(
+    modifier: Modifier = Modifier,
     isVisible: Boolean,
     onClick: () -> Unit
 ) {
     AnimatedVisibility(
         visible = isVisible,
         enter = slideInHorizontally { it * 2 },
-        exit = slideOutHorizontally { it * 2 }
+        exit = slideOutHorizontally { it * 2 },
+        modifier = modifier
     ) {
         FloatingActionButton(
             shape = CircleShape,
             onClick = { onClick() },
-            backgroundColor = MaterialTheme.colors.primary
+            backgroundColor = MaterialTheme.colors.primary,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_add_24),

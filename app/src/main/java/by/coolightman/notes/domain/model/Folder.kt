@@ -8,5 +8,5 @@ data class Folder(
     val isInTrash: Boolean,
     val isPinned: Boolean,
     val isSelected: Boolean,
-    val externalFolderId: Long = 0
+    val externalFolderId: Long
 )
