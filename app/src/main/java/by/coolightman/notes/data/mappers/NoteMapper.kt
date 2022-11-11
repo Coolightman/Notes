@@ -13,10 +13,11 @@ fun NoteDb.toNote(): Note = Note(
     isShowDate = isShowDate,
     isEdited = isEdited,
     isInTrash = isInTrash,
-    isSelected = isSelected,
+    isSelected = false,
     isCollapsable = isCollapsable,
     isCollapsed = isCollapsed,
-    isPinned = isPinned
+    isPinned = isPinned,
+    folderId = folderId
 )
 
 fun Note.toNoteDb(): NoteDb = NoteDb(
@@ -29,8 +30,8 @@ fun Note.toNoteDb(): NoteDb = NoteDb(
     isShowDate = isShowDate,
     isEdited = isEdited,
     isInTrash = isInTrash,
-    isSelected = isSelected,
     isCollapsable = isCollapsable,
     isCollapsed = isCollapsed,
-    isPinned = isPinned
+    isPinned = isPinned,
+    folderId = folderId
 )

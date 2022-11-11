@@ -11,8 +11,8 @@ fun isDarkMode(): Boolean = MaterialTheme.colors.secondary == NightAccent
 @Composable
 fun dropDownItemColor(): Color {
     return if (isDarkMode()) {
-       MaterialTheme.colors.onSurface.copy(0.8f)
-    } else{
+        MaterialTheme.colors.onSurface.copy(0.8f)
+    } else {
         MaterialTheme.colors.onSurface.copy(0.6f)
     }
 }

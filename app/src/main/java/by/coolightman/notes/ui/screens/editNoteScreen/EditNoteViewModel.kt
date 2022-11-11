@@ -11,6 +11,7 @@ import by.coolightman.notes.domain.usecase.notes.UpdateNoteUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetBooleanPreferenceUseCase
 import by.coolightman.notes.domain.usecase.preferences.GetIntPreferenceUseCase
 import by.coolightman.notes.ui.model.ItemColor
+import by.coolightman.notes.util.ARG_FOLDER_ID
 import by.coolightman.notes.util.ARG_NOTE_ID
 import by.coolightman.notes.util.IS_NOTES_COLORED_BACK
 import by.coolightman.notes.util.NEW_NOTE_COLOR_KEY
@@ -39,9 +40,11 @@ class EditNoteViewModel @Inject constructor(
     val uiState: StateFlow<EditNoteUiState> = _uiState.asStateFlow()
 
     private var note: Note? = null
+    private var folderId: Long = 0L
 
     init {
         val noteId = savedStateHandle.get<Long>(ARG_NOTE_ID) ?: 0L
+        folderId = savedStateHandle.get<Long>(ARG_FOLDER_ID) ?: 0L
         if (noteId != 0L) {
             getNote(noteId)
         } else {
@@ -108,7 +111,8 @@ class EditNoteViewModel @Inject constructor(
                     isCollapsed =
                     if (!isCollapsable) false
                     else it.isCollapsed,
-                    isPinned = isPinned
+                    isPinned = isPinned,
+                    folderId = it.folderId
                 )
                 updateNoteUseCase(updatedNote)
                 return@launch
@@ -126,7 +130,8 @@ class EditNoteViewModel @Inject constructor(
                 isSelected = false,
                 isCollapsable = isCollapsable,
                 isCollapsed = false,
-                isPinned = isPinned
+                isPinned = isPinned,
+                folderId = folderId
             )
             createNoteUseCase(createdNote)
         }

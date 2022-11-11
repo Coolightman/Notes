@@ -69,12 +69,20 @@ fun TasksScreen(
         mutableStateOf(false)
     }
 
+    var selectedCounter by remember {
+        mutableStateOf(0)
+    }
+    LaunchedEffect(uiState.list) {
+        selectedCounter = uiState.list.filter { it.isSelected }.size
+    }
     var isSelectionMode by remember {
         mutableStateOf(false)
     }
     LaunchedEffect(isSelectionMode) {
         if (isSelectionMode) {
             view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+        } else {
+            viewModel.resetSelections()
         }
     }
     if (isSelectionMode) {
@@ -272,7 +280,7 @@ fun TasksScreen(
         } else {
             SelectionTopAppBar(
                 onCloseClick = { isSelectionMode = false },
-                selectedCount = uiState.selectedCount,
+                selectedCount = selectedCounter,
                 actions = {
                     IconButton(
                         onClick = { viewModel.selectAllTasks() }
@@ -286,7 +294,7 @@ fun TasksScreen(
 
                     IconButton(
                         onClick = {
-                            if (uiState.selectedCount > 0) {
+                            if (selectedCounter > 0) {
                                 openDeleteSelectedTasksDialog = true
                             }
                         }
@@ -334,15 +342,12 @@ fun TasksScreen(
                         onSwitchActive = { viewModel.switchTaskActivity(task.id) },
                         onLongPress = {
                             scope.launch {
-                                viewModel.resetSelections(task.id)
-                                delay(50)
+                                viewModel.setCurrentIsSelected(task.id)
                                 isSelectionMode = true
                             }
                         },
-                        onCheckedChange = { viewModel.switchIsSelectedNote(task.id) },
+                        onCheckedChange = { viewModel.switchIsSelected(task.id) },
                         isSelectionMode = isSelectionMode,
-                        isCollapsable = task.isCollapsable,
-                        isCollapsed = task.isCollapsed,
                         onCollapseClick = { viewModel.switchCollapse(task.id) },
                         isShowNotificationDate = uiState.isShowNotificationDate,
                         modifier = Modifier.animateItemPlacement()

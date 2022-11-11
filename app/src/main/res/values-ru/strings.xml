@@ -19,7 +19,7 @@
     <string name="undo">ОТМЕНА</string>
     <string name="restore">ОК</string>
     <string name="send">ОТПРАВИТЬ</string>
-    <string name="restore_all_notes_dialog">Восстановить все заметки?</string>
+    <string name="restore_all_notes_dialog">Восстановить все из корзины?</string>
     <string name="delete_all_notes_dialog">Удалить все из корзины?</string>
     <string name="sent_note_to_trash_dialog">Отправить эту заметку в корзину?</string>
     <string name="delete_task_dialog">Удалить эту задачу?</string>
@@ -34,7 +34,7 @@
     <string name="empty_note">Заметка пуста</string>
     <string name="empty_task">Задача пуста</string>
     <string name="wrong_notification_time">Используйте будущее время для уведомления</string>
-    <string name="notes_sent_to_trash">Заметки отправлены в корзину</string>
+    <string name="notes_sent_to_trash">Отправлено в корзину</string>
     <string name="delete_inactive">Удалить неакт.</string>
     <string name="settings">Настройки</string>
     <string name="list_mode">Список</string>
@@ -42,7 +42,7 @@
     <string name="trash">Корзина</string>
     <string name="active_count">активных:</string>
     <string name="inactive_count">неактивных:</string>
-    <string name="total_count">всего:</string>
+    <string name="total_notes">заметки:</string>
     <string name="start_screen">Начальный экран</string>
     <string name="theme">Тема</string>
     <string name="system_theme">Сист.</string>
@@ -77,5 +77,15 @@
     <string name="repeat_type_week_short">Н</string>
     <string name="repeat_type_month_short">М</string>
     <string name="repeat_type_year_short">Г</string>
-    <string name="update_app_dialog_text">Добавлены новые возможности уведомлений. Пожалуйста переназначьте свои уведомления</string>
+    <string name="update_app_dialog_text">- добавлена возможность создавать папки для заметок</string>
+    <string name="create_folder">Создать папку</string>
+    <string name="new_folder">Новая папка</string>
+    <string name="create">СОЗДАТЬ</string>
+    <string name="empty_title">Пустое название</string>
+    <string name="sent_folder_to_trash_dialog">Отправить эту папку в корзину?</string>
+    <string name="total_folders">папки:</string>
+    <string name="edit_folder">Редакт. папку</string>
+    <string name="move_to">Переместить в</string>
+    <string name="update">Обновление</string>
+    <string name="main_screen">Главный экран</string>
 </resources>

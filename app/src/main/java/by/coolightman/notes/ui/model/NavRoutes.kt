@@ -10,6 +10,8 @@ sealed class NavRoutes(val route: String) {
     object EditTask : NavRoutes("edit_task")
     object SearchTask : NavRoutes("search_task")
     object Settings : NavRoutes("settings")
+    object EditFolder : NavRoutes("edit_folder")
+    object InsideFolder : NavRoutes("inside_folder")
 
     fun withArgs(vararg args: String): String {
         return buildString {

@@ -1,6 +1,7 @@
 package by.coolightman.notes.ui.components
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -43,8 +44,6 @@ fun TasksItem(
     onLongPress: () -> Unit,
     onCheckedChange: () -> Unit,
     isSelectionMode: Boolean = false,
-    isCollapsable: Boolean = false,
-    isCollapsed: Boolean = false,
     isShowNotificationDate: Boolean = false,
     onCollapseClick: () -> Unit
 ) {
@@ -72,14 +71,17 @@ fun TasksItem(
     }
     val density = LocalDensity.current
     val rotateState by animateFloatAsState(
-        targetValue = if (isCollapsed) 0f else 180f,
+        targetValue = if (task.isCollapsed) 0f else 180f,
         animationSpec = tween(500)
+    )
+    val elevationState by animateDpAsState(
+        targetValue = if (task.isSelected) 8.dp else 2.dp
     )
 
     Column(modifier = modifier) {
         Card(
             shape = RoundedCornerShape(24.dp),
-            elevation = 2.dp,
+            elevation = elevationState,
             modifier = Modifier
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 48.dp)
@@ -130,7 +132,7 @@ fun TasksItem(
                         text = task.text,
                         style = textStyle,
                         maxLines =
-                        if (isCollapsed) 1
+                        if (task.isCollapsed) 1
                         else Integer.MAX_VALUE,
 
                         overflow = TextOverflow.Ellipsis,
@@ -139,7 +141,7 @@ fun TasksItem(
                             .padding(vertical = 4.dp)
                             .alpha(contentAlfa)
                     )
-                    if (isCollapsable && !isSelectionMode) {
+                    if (task.isCollapsable && !isSelectionMode) {
                         IconButton(
                             onClick = { onCollapseClick() },
                             modifier = Modifier.align(Alignment.Bottom)
@@ -172,7 +174,7 @@ fun TasksItem(
                 }
             }
         }
-        if (task.notifications.isNotEmpty()){
+        if (task.notifications.isNotEmpty()) {
             TaskNotificationDate(
                 isHasNotification = isShowNotificationDate,
                 notifications = task.notifications.sortedBy { it.time.timeInMillis }

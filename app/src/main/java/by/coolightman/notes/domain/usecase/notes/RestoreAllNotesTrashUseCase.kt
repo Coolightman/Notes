@@ -5,15 +5,11 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class RestoreAllNotesTrashUseCase @Inject constructor(
-    private val repository: NoteRepository
+    private val repository: NoteRepository,
+    private val restoreNoteUseCase: RestoreNoteUseCase
 ) {
     suspend operator fun invoke() {
         val trashList = repository.getTrash().first()
-        val restoredList = trashList.map {
-            it.copy(
-                isInTrash = false
-            )
-        }
-        repository.updateList(restoredList)
+        trashList.forEach { restoreNoteUseCase(it.id) }
     }
 }

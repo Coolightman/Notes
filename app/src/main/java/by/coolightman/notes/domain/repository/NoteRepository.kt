@@ -9,9 +9,13 @@ interface NoteRepository {
 
     suspend fun getNote(noteId: Long): Note
 
-    fun getAllActive(): Flow<List<Note>>
+    fun getAllMainActive(): Flow<List<Note>>
+
+    fun getAllActiveByFolder(folderId: Long): Flow<List<Note>>
 
     fun getTrash(): Flow<List<Note>>
+
+    suspend fun getAll(): List<Note>
 
     fun getTrashCount(): Flow<Int>
 

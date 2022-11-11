@@ -134,7 +134,7 @@ fun SearchNoteScreen(
                         note = note,
                         onClick = {
                             navController.navigate(
-                                NavRoutes.EditNote.withArgs(note.id.toString())
+                                NavRoutes.EditNote.withArgs(note.id.toString(),"0")
                             ) {
                                 launchSingleTop = true
                             }
@@ -142,8 +142,6 @@ fun SearchNoteScreen(
                         onLongPress = { },
                         onCheckedChange = { },
                         modifier = Modifier.animateItemPlacement(),
-                        isCollapsed = note.isCollapsed,
-                        isCollapsable = note.isCollapsable,
                         onCollapseClick = { viewModel.switchCollapse(note.id) }
                     )
                 }

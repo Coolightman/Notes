@@ -17,8 +17,14 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE id = :noteId")
     suspend fun getNote(noteId: Long): NoteDb
 
-    @Query("SELECT * FROM notes WHERE is_in_trash = 0 order by created_at desc")
-    fun getAllActive(): Flow<List<NoteDb>>
+    @Query("SELECT * FROM notes WHERE is_in_trash = 0 AND folder_id = 0")
+    fun getAllMainActive(): Flow<List<NoteDb>>
+
+    @Query("SELECT * FROM notes WHERE is_in_trash = 0 AND folder_id = :folderId")
+    fun getAllActiveByFolder(folderId: Long): Flow<List<NoteDb>>
+
+    @Query("SELECT * FROM notes")
+    suspend fun getAll(): List<NoteDb>
 
     @Query("SELECT * FROM notes WHERE is_in_trash = 1")
     fun getTrash(): Flow<List<NoteDb>>
@@ -28,7 +34,7 @@ interface NoteDao {
 
     @Query(
         "SELECT * FROM notes JOIN notesFts ON notes.id == notesFts.rowid " +
-                "WHERE notesFts MATCH :keyword AND is_in_trash = 0 ORDER by created_at DESC"
+                "WHERE notesFts MATCH :keyword AND is_in_trash = 0 ORDER BY created_at DESC"
     )
     fun searchNote(keyword: String): Flow<List<NoteDb>>
 

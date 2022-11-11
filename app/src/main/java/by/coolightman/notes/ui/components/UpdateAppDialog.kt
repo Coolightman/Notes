@@ -33,7 +33,7 @@ fun UpdateAppDialog(
         buttons = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = stringResource(id = R.string.update_app_dialog_text),
+                    text = stringResource(id = R.string.update),
                     color = MaterialTheme.colors.onSurface.copy(0.8f),
                     style = MaterialTheme.typography.subtitle1.copy(
                         fontSize = 18.sp,
@@ -41,6 +41,13 @@ fun UpdateAppDialog(
                     ),
                     lineHeight = 24.sp,
                     textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp, 12.dp, 12.dp, 0.dp)
+                )
+                Text(
+                    text = stringResource(id = R.string.update_app_dialog_text),
+                    color = MaterialTheme.colors.onSurface.copy(0.8f),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp, 12.dp, 12.dp, 0.dp)
@@ -74,7 +81,7 @@ fun UpdateAppDialog(
 @Preview
 @Composable
 private fun Preview() {
-    UpdateAppDialog() {
+    UpdateAppDialog {
 
     }
 }

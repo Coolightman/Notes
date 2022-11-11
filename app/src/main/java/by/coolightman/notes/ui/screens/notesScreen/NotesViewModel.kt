@@ -3,10 +3,13 @@ package by.coolightman.notes.ui.screens.notesScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
+import by.coolightman.notes.domain.usecase.folders.GetAllActiveFoldersUseCase
+import by.coolightman.notes.domain.usecase.folders.GetAllMainFoldersUseCase
+import by.coolightman.notes.domain.usecase.folders.GetFoldersTrashCountUseCase
+import by.coolightman.notes.domain.usecase.folders.PutFoldersInTrashUseCase
 import by.coolightman.notes.domain.usecase.notes.*
 import by.coolightman.notes.domain.usecase.preferences.*
 import by.coolightman.notes.ui.model.ItemColor
-import by.coolightman.notes.ui.model.NotesViewMode
 import by.coolightman.notes.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,18 +20,20 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val getNotesTrashCountUseCase: GetNotesTrashCountUseCase,
-    private val getAllNotesUseCase: GetAllNotesUseCase,
-    private val putSelectedNotesInTrashUseCase: PutSelectedNotesInTrashUseCase,
+    private val getFoldersTrashCountUseCase: GetFoldersTrashCountUseCase,
+    private val getAllMainNotesUseCase: GetAllMainNotesUseCase,
+    private val putNotesInTrashUseCase: PutNotesInTrashUseCase,
     private val putIntPreferenceUseCase: PutIntPreferenceUseCase,
     private val getIntPreferenceUseCase: GetIntPreferenceUseCase,
     private val putStringPreferenceUseCase: PutStringPreferenceUseCase,
     private val getStringPreferenceUseCase: GetStringPreferenceUseCase,
-    private val switchIsSelectedNoteUseCase: SwitchIsSelectedNoteUseCase,
-    private val resetNotesSelectionsUseCase: ResetNotesSelectionsUseCase,
-    private val selectAllNotesUseCase: SelectAllNotesUseCase,
     private val getBooleanPreferenceUseCase: GetBooleanPreferenceUseCase,
     private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase,
-    private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase
+    private val putBooleanPreferenceUseCase: PutBooleanPreferenceUseCase,
+    private val getAllMainFoldersUseCase: GetAllMainFoldersUseCase,
+    private val putFoldersInTrashUseCase: PutFoldersInTrashUseCase,
+    private val getAllActiveFoldersUseCase: GetAllActiveFoldersUseCase,
+    private val updateNoteUseCase: UpdateNoteUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NotesUiState())
@@ -48,11 +53,21 @@ class NotesViewModel @Inject constructor(
 
     init {
         getNotes()
+        getFolders()
         getTrashCount()
         getIsShowDatePref()
-        getNotesViewMode()
         getIsColoredBackground()
         getIsShowUpdateDialog()
+    }
+
+    private fun getFolders() {
+        viewModelScope.launch {
+            getAllMainFoldersUseCase().collectLatest {
+                _uiState.update { currentState ->
+                    currentState.copy(folders = it)
+                }
+            }
+        }
     }
 
     private fun getIsShowDatePref() {
@@ -83,14 +98,12 @@ class NotesViewModel @Inject constructor(
     private fun getNotes() {
         viewModelScope.launch {
             sortFilter.flatMapLatest { sortFilter ->
-                getAllNotesUseCase(sortFilter.first, sortFilter.second)
+                getAllMainNotesUseCase(sortFilter.first, sortFilter.second)
             }.collectLatest {
                 _uiState.update { currentState ->
                     currentState.copy(
-                        list = it,
+                        notes = it,
                         sortByIndex = sortBy.first().ordinal,
-                        notesCount = it.size,
-                        selectedCount = it.filter { note -> note.isSelected }.size,
                         currentFilterSelection = filterSelection.first()
                     )
                 }
@@ -104,19 +117,14 @@ class NotesViewModel @Inject constructor(
 
     private fun getTrashCount() {
         viewModelScope.launch {
-            getNotesTrashCountUseCase().collect {
+            val notesTrashCountFlow = getNotesTrashCountUseCase()
+            val foldersTrashCountFlow = getFoldersTrashCountUseCase()
+
+            combine(notesTrashCountFlow, foldersTrashCountFlow) { el1, el2 ->
+                el1 + el2
+            }.collectLatest {
                 _uiState.update { currentState ->
                     currentState.copy(trashCount = it)
-                }
-            }
-        }
-    }
-
-    private fun getNotesViewMode() {
-        viewModelScope.launch {
-            getIntPreferenceUseCase(NOTES_VIEW_MODE, NotesViewMode.LIST.ordinal).collectLatest {
-                _uiState.update { currentState ->
-                    currentState.copy(currentNotesViewMode = NotesViewMode.values()[it])
                 }
             }
         }
@@ -132,28 +140,90 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun putSelectedNotesInTrash() {
+    fun putSelectedInTrash() {
         viewModelScope.launch {
-            putSelectedNotesInTrashUseCase()
+            val selectedNotes = uiState.value.notes.filter { it.isSelected }
+            val selectedFolders = uiState.value.folders.filter { it.isSelected }
+            putNotesInTrashUseCase(selectedNotes)
+            putFoldersInTrashUseCase(selectedFolders)
         }
     }
 
-    fun switchIsSelectedNote(noteId: Long) {
-        viewModelScope.launch {
-            switchIsSelectedNoteUseCase(noteId)
+    fun switchIsSelected(noteId: Long) {
+        val updatedNotes = uiState.value.notes
+            .map {
+                if (it.id == noteId) it.copy(isSelected = !it.isSelected)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(notes = updatedNotes)
         }
     }
 
-    fun resetSelections(noteId: Long) {
-        viewModelScope.launch {
-            resetNotesSelectionsUseCase()
-            switchIsSelectedNoteUseCase(noteId)
+    fun switchFolderIsSelected(folderId: Long) {
+        val updatedFolders = uiState.value.folders
+            .map {
+                if (it.id == folderId) it.copy(isSelected = !it.isSelected)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(folders = updatedFolders)
         }
     }
 
-    fun selectAllNotes() {
-        viewModelScope.launch {
-            selectAllNotesUseCase()
+    fun resetSelections() {
+        val updatedNotes = uiState.value.notes
+            .map { it.copy(isSelected = false) }
+
+        val updatedFolders = uiState.value.folders
+            .map { it.copy(isSelected = false) }
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                notes = updatedNotes,
+                folders = updatedFolders
+            )
+        }
+    }
+
+    fun setCurrentIsSelected(noteId: Long) {
+        val updatedNotes = uiState.value.notes
+            .map {
+                if (it.id == noteId) it.copy(isSelected = true)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(notes = updatedNotes)
+        }
+    }
+
+    fun setCurrentFolderIsSelected(folderId: Long) {
+        val updatedFolders = uiState.value.folders
+            .map {
+                if (it.id == folderId) it.copy(isSelected = true)
+                else it
+            }
+
+        _uiState.update { currentState ->
+            currentState.copy(folders = updatedFolders)
+        }
+    }
+
+    fun selectAllItems() {
+        val updatedNotes = uiState.value.notes
+            .map { it.copy(isSelected = true) }
+
+        val updatedFolders = uiState.value.folders
+            .map { it.copy(isSelected = true) }
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                notes = updatedNotes,
+                folders = updatedFolders
+            )
         }
     }
 
@@ -166,6 +236,25 @@ class NotesViewModel @Inject constructor(
     fun switchCollapse(noteId: Long) {
         viewModelScope.launch {
             switchNoteCollapseUseCase(noteId)
+        }
+    }
+
+    fun getAllFoldersToMove() {
+        viewModelScope.launch {
+            getAllActiveFoldersUseCase().collectLatest {
+                _uiState.update { currentState ->
+                    currentState.copy(foldersToMove = it)
+                }
+            }
+        }
+    }
+
+    fun moveSelectedToFolder(folderId: Long) {
+        viewModelScope.launch {
+            uiState.value.notes
+                .filter { it.isSelected }
+                .map { it.copy(folderId = folderId) }
+                .forEach { updateNoteUseCase(it) }
         }
     }
 }

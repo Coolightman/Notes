@@ -44,6 +44,7 @@ import by.coolightman.notes.ui.components.AppTitleText
 import by.coolightman.notes.ui.components.AppTopAppBar
 import by.coolightman.notes.ui.components.DeleteRestoreSwipeSub
 import by.coolightman.notes.ui.components.EmptyContentSplash
+import by.coolightman.notes.ui.components.FolderItem
 import by.coolightman.notes.ui.components.NotesItem
 import by.coolightman.notes.ui.theme.Blue200
 import by.coolightman.notes.ui.theme.ImportantAction
@@ -114,7 +115,7 @@ fun NotesTrashScreen(
 
                 IconButton(
                     onClick = {
-                        if (uiState.list.isNotEmpty()) {
+                        if (uiState.notes.isNotEmpty()) {
                             openRestoreAllDialog = true
                         }
                     }
@@ -128,7 +129,7 @@ fun NotesTrashScreen(
 
                 IconButton(
                     onClick = {
-                        if (uiState.list.isNotEmpty()) {
+                        if (uiState.notes.isNotEmpty()) {
                             openDeleteAllDialog = true
                         }
                     }
@@ -142,7 +143,7 @@ fun NotesTrashScreen(
             }
         )
 
-        if (uiState.list.isEmpty()) {
+        if (uiState.notes.isEmpty() && uiState.folders.isEmpty()) {
             EmptyContentSplash(
                 iconId = R.drawable.ic_delete_empty_24,
                 textId = R.string.no_trash
@@ -154,7 +155,49 @@ fun NotesTrashScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(items = uiState.list, key = { it.id }) { note ->
+                items(items = uiState.folders, key = { "${it.id}${it.title}" }) { folder ->
+                    val dismissState = rememberDismissState(
+                        confirmStateChange = {
+                            when (it) {
+                                DismissValue.DismissedToEnd -> {
+                                    scope.launch {
+                                        delay(DISMISS_DELAY)
+                                        viewModel.deleteFolder(folder.id)
+                                    }
+                                    true
+                                }
+                                DismissValue.DismissedToStart -> {
+                                    scope.launch {
+                                        delay(DISMISS_DELAY)
+                                        viewModel.restoreFolder(folder.id)
+                                    }
+                                    true
+                                }
+                                else -> true
+                            }
+                        }
+                    )
+
+                    SwipeToDismiss(
+                        state = dismissState,
+                        directions = setOf(
+                            DismissDirection.StartToEnd,
+                            DismissDirection.EndToStart
+                        ),
+                        dismissThresholds = { FractionalThreshold(FRACTIONAL_THRESHOLD) },
+                        background = { DeleteRestoreSwipeSub(dismissState) },
+                        modifier = Modifier.animateItemPlacement()
+                    ) {
+                        FolderItem(
+                            folder = folder,
+                            onClick = { },
+                            onLongPress = { },
+                            onCheckedChange = { }
+                        )
+                    }
+                }
+
+                items(items = uiState.notes, key = { it.id }) { note ->
                     val dismissState = rememberDismissState(
                         confirmStateChange = {
                             when (it) {
@@ -193,8 +236,7 @@ fun NotesTrashScreen(
                             onClick = {},
                             onLongPress = {},
                             onCheckedChange = {},
-                            onCollapseClick = {},
-                            isCollapsed = note.isCollapsable
+                            onCollapseClick = { viewModel.switchCollapse(note.id) }
                         )
                     }
                 }
