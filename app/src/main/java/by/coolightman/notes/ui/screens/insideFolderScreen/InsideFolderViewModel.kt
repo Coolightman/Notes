@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.coolightman.notes.domain.model.SortBy
+import by.coolightman.notes.domain.usecase.folders.GetAllActiveFoldersUseCase
 import by.coolightman.notes.domain.usecase.folders.GetAllFoldersByExternalFolderUseCase
 import by.coolightman.notes.domain.usecase.folders.GetFolderUseCase
 import by.coolightman.notes.domain.usecase.folders.GetFoldersTrashCountUseCase
@@ -33,7 +34,9 @@ class InsideFolderViewModel @Inject constructor(
     private val switchNoteCollapseUseCase: SwitchNoteCollapseUseCase,
     private val putFoldersInTrashUseCase: PutFoldersInTrashUseCase,
     private val getAllFoldersByExternalFolderUseCase: GetAllFoldersByExternalFolderUseCase,
-    private val getFolderUseCase: GetFolderUseCase
+    private val getFolderUseCase: GetFolderUseCase,
+    private val updateNoteUseCase: UpdateNoteUseCase,
+    private val getAllActiveFoldersUseCase: GetAllActiveFoldersUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(InsideFolderUiState())
@@ -238,6 +241,25 @@ class InsideFolderViewModel @Inject constructor(
     fun switchCollapse(noteId: Long) {
         viewModelScope.launch {
             switchNoteCollapseUseCase(noteId)
+        }
+    }
+
+    fun getAllFoldersToMove() {
+        viewModelScope.launch {
+            getAllActiveFoldersUseCase().collectLatest {
+                _uiState.update { currentState ->
+                    currentState.copy(foldersToMove = it)
+                }
+            }
+        }
+    }
+
+    fun moveSelectedToFolder(folderId: Long) {
+        viewModelScope.launch {
+            uiState.value.notes
+                .filter { it.isSelected }
+                .map { it.copy(folderId = folderId) }
+                .forEach { updateNoteUseCase(it) }
         }
     }
 }

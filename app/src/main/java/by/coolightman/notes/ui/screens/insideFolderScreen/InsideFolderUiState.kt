@@ -9,6 +9,7 @@ data class InsideFolderUiState(
     val currentFolderId: Long = 0L,
     val notes: List<Note> = emptyList(),
     val folders: List<Folder> = emptyList(),
+    val foldersToMove: List<Folder> = emptyList(),
     val trashCount: Int = 0,
     val sortByIndex: Int = 0,
     val isShowNoteDate: Boolean = false,
